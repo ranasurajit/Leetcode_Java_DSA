@@ -9,12 +9,16 @@ class Solution {
             adjList.get(edges[i][1]).add(edges[i][0]);
         }
         boolean[] visited = new boolean[n];
-        // if (!visited[source] && bfsGraph(adjList, visited, source, destination)) {
-        //     return true;
-        // }
-        return dfsGraph(adjList, visited, source, destination);
+        // return dfsGraph(adjList, visited, source, destination);
+        if (!visited[source] && bfsGraph(adjList, visited, source, destination)) {
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * DFS Traversal
+     */ 
     private boolean dfsGraph(ArrayList<ArrayList<Integer>>adjList, boolean[] visited, 
         int source, int destination) {
         // Base condition
@@ -30,6 +34,9 @@ class Solution {
         return false;
     }
 
+    /**
+     * BFS Traversal
+     */ 
     private boolean bfsGraph(ArrayList<ArrayList<Integer>>adjList, boolean[] visited, 
         int source, int destination) {
         visited[source] = true;
