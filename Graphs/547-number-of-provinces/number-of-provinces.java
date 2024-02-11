@@ -8,12 +8,16 @@ class Solution {
                 provinces++;
                 // Using BFS
                 // bfsGraph(isConnected, visited, n, i);
+                // Using DFS
                 dfsGraph(isConnected, visited, n, i);
             }
         }
         return provinces;
     }
 
+    /**
+     *  Using DFS
+     */
     private void dfsGraph(int[][] isConnected, boolean[] visited, int n, int current) {
         visited[current] = true;
         for (int i = 0; i < n; i++) {
@@ -24,18 +28,21 @@ class Solution {
         }
     }
 
-    // private void bfsGraph(int[][] isConnected, boolean[] visited, int n, int current) {
-    //     Queue<Integer> queue = new LinkedList<Integer>();
-    //     queue.offer(current);
-    //     visited[current] = true;
-    //     while (!queue.isEmpty()) {
-    //         Integer node = queue.poll();
-    //         for (int i = 0; i < n; i++) {
-    //             if (isConnected[node][i] == 1 && !visited[i]) {
-    //                 visited[i] = true;
-    //                 queue.offer(i);
-    //             }
-    //         }
-    //     }
-    // }
+    /**
+     *  Using BFS
+     */
+    private void bfsGraph(int[][] isConnected, boolean[] visited, int n, int current) {
+        Queue<Integer> queue = new LinkedList<Integer>();
+        queue.offer(current);
+        visited[current] = true;
+        while (!queue.isEmpty()) {
+            Integer node = queue.poll();
+            for (int i = 0; i < n; i++) {
+                if (isConnected[node][i] == 1 && !visited[i]) {
+                    visited[i] = true;
+                    queue.offer(i);
+                }
+            }
+        }
+    }
 }
