@@ -9,8 +9,23 @@ class Solution {
             adjList.get(edges[i][1]).add(edges[i][0]);
         }
         boolean[] visited = new boolean[n];
-        if (!visited[source] && bfsGraph(adjList, visited, source, destination)) {
+        // if (!visited[source] && bfsGraph(adjList, visited, source, destination)) {
+        //     return true;
+        // }
+        return dfsGraph(adjList, visited, source, destination);
+    }
+
+    private boolean dfsGraph(ArrayList<ArrayList<Integer>>adjList, boolean[] visited, 
+        int source, int destination) {
+        // Base condition
+        if (source == destination) {
             return true;
+        }
+        visited[source] = true;
+        for (Integer it: adjList.get(source)) {
+            if (!visited[it] && dfsGraph(adjList, visited, it, destination)) {
+                return true;
+            }
         }
         return false;
     }
