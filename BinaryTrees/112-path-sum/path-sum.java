@@ -15,9 +15,27 @@
  */
 class Solution {
     public boolean hasPathSum(TreeNode root, int targetSum) {
-        return bfsTree(root, targetSum);
+        // return bfsTree(root, targetSum);
+        return dfsTree(root, targetSum);
     }
 
+    /**
+     * DFS Solution
+     */
+    private boolean dfsTree(TreeNode root, int targetSum) {
+        if (root == null) {
+            return false;
+        }
+        targetSum -= root.val;
+        if (isLeafNode(root)) {
+            return targetSum == 0;
+        }
+        return dfsTree(root.left, targetSum) || dfsTree(root.right, targetSum);
+    }
+
+    /**
+     * BFS Solution
+     */
     private boolean bfsTree(TreeNode root, int targetSum) {
         if (root == null) {
             return false;
