@@ -22,6 +22,10 @@ class Solution {
         bTPreOrderTraversal(root, path);
         return path;
     }
+
+    /**
+     * Pre-Order Traversal (Node - Left - Right - NLR)
+     */
     private void bTPreOrderTraversal(TreeNode node, List<Integer> path) {
         if (node == null) {
             return;
