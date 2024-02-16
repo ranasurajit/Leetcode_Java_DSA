@@ -18,20 +18,11 @@ class Solution {
         if (root == null) {
             return new TreeNode(val);
         }
-        if (val < root.val) {
-            if (root.left == null) {
-                root.left = new TreeNode(val);
-                return root;
-            } else {
-                insertIntoBST(root.left, val);
-            }
+        TreeNode node = root;
+        if (val < node.val) {
+            node.left = insertIntoBST(root.left, val);
         } else {
-            if (root.right == null) {
-                root.right = new TreeNode(val);
-                return root;
-            } else {
-                insertIntoBST(root.right, val);
-            }
+            node.right = insertIntoBST(root.right, val);
         }
         return root;
     }
