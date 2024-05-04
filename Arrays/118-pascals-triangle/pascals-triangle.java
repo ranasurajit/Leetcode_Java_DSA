@@ -7,7 +7,9 @@ class Solution {
                 if (j == 0 || j == i - 1) {
                     pascalList.get(i - 1).add(1);
                 } else {
-                    int sum = pascalList.get(i - 2).get(j - 1) + pascalList.get(i - 2).get(j);
+                    int prevRowLeft = pascalList.get(i - 2).get(j - 1);
+                    int prevRowRight = pascalList.get(i - 2).get(j);
+                    int sum = prevRowLeft + prevRowRight;
                     pascalList.get(i - 1).add(sum);
                 }
             }
