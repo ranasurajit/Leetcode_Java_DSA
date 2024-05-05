@@ -8,6 +8,9 @@ class Solution {
         } else {
             int count = supStrLen - subStrLen;
             for (int i = 0; i <= count; i++) {
+                if (haystack.charAt(i) != needle.charAt(0)) {
+                    continue;
+                }
                 String current = haystack.substring(i, i + subStrLen);
                 if (needle.equals(current)) {
                     return i;
