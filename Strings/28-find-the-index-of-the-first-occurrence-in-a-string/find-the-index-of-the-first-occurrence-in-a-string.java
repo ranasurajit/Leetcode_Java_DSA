@@ -11,8 +11,14 @@ class Solution {
                 if (haystack.charAt(i) != needle.charAt(0)) {
                     continue;
                 }
-                String current = haystack.substring(i, i + subStrLen);
-                if (needle.equals(current)) {
+                // String current = haystack.charAt(i) + "";
+                String current = "";
+                for (int j = i; j < subStrLen + i; j++) {
+                    if (haystack.charAt(j) == needle.charAt(j - i)) {
+                        current += haystack.charAt(j);
+                    }
+                }
+                if (current.length() == subStrLen) {
                     return i;
                 }
             }
