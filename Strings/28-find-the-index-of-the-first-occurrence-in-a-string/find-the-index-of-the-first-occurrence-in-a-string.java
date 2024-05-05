@@ -2,6 +2,9 @@ class Solution {
     public int strStr(String haystack, String needle) {
         int supStrLen = haystack.length();
         int subStrLen = needle.length();
+        if (supStrLen < subStrLen) {
+            return -1;
+        }
         for (int i = 0; i < supStrLen; i++) {
             if (haystack.charAt(i) == needle.charAt(0)) {
                 int start = i;
