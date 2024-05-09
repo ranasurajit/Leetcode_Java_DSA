@@ -16,30 +16,44 @@
 class Solution {
     public List<List<Integer>> levelOrderBottom(TreeNode root) {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
-        if (root == null) {
+        if(root == null) {
             return result;
         }
-        Queue<TreeNode> queue = new LinkedList<TreeNode>();
-        Stack<List<Integer>> st = new Stack<List<Integer>>();
-        queue.offer(root);
-        while (!queue.isEmpty()) {
-            List<Integer> list = new ArrayList<Integer>();
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                TreeNode node = queue.poll();
-                list.add(node.val);
-                if (node.left != null) {
-                    queue.offer(node.left);
-                }
-                if (node.right != null) {
-                    queue.offer(node.right);
-                }
+        TreeMap<Integer, ArrayList<Integer>> tMap = new TreeMap<Integer, ArrayList<Integer>>();
+        Queue<Pair> queue = new LinkedList<Pair>();
+        queue.offer(new Pair(0, root));
+
+        while(!queue.isEmpty()) {
+            Pair current = queue.poll();
+            int level = current.level;
+            TreeNode currentNode = current.node;
+            if (!tMap.containsKey(level)) {
+                tMap.put(level, new ArrayList<Integer>());
             }
-            st.push(new ArrayList<Integer>(list));
+            tMap.get(level).add(currentNode.val);
+
+            if (currentNode.left != null) {
+                queue.offer(new Pair(level - 1, currentNode.left));
+            }
+            if (currentNode.right != null) {
+                queue.offer(new Pair(level - 1, currentNode.right));
+            }
         }
-        while (!st.isEmpty()) {
-            result.add(st.pop());
+
+        for (Map.Entry<Integer, ArrayList<Integer>> entry : tMap.entrySet()) {
+            result.add(entry.getValue());
         }
+
         return result;
+    }
+
+    class Pair {
+        int level;
+        TreeNode node;
+
+        public Pair(int level, TreeNode node) {
+            this.level = level;
+            this.node = node;
+        }
     }
 }
