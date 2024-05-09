@@ -3,22 +3,28 @@ class Solution {
         if (strs.length == 0) {
             return "";
         }
-        if (strs.length == 1) {
-            return strs[0];
-        }
-        Arrays.sort(strs);
-        String str1 = strs[0];
-        String str2 = strs[strs.length - 1];
-        String result = "";
-        int p = 0, q = 0;
-        while (p < str1.length() && q < str2.length()) {
-            if (str1.charAt(p) != str2.charAt(q)) {
+        int prefixLength = 0;
+        while (true) {
+            if (prefixLength < strs[0].length()) {
+                char ch = strs[0].charAt(prefixLength);
+                boolean isValid = true;
+                for (int i = 1; i < strs.length; i++) {
+                    if (prefixLength < strs[i].length() && strs[i].charAt(prefixLength) == ch) {
+                        isValid = true;
+                    } else {
+                        isValid = false;
+                        break;
+                    }
+                }
+                if (isValid) {
+                    prefixLength++;
+                } else {
+                    break;
+                }
+            } else {
                 break;
             }
-            result += str1.charAt(p);
-            p++;
-            q++;
         }
-        return result;
+        return strs[0].substring(0, prefixLength);
     }
 }
