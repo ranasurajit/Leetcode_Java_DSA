@@ -10,36 +10,33 @@
  */
 class Solution {
     public ListNode doubleIt(ListNode head) {
-        if (head == null) {
-            return null;
-        }
-        ListNode reverseHead = reverseLL(head);
-        ListNode current = reverseHead;
+        ListNode revList = reverseLL(head);
+        ListNode current = revList;
         int carry = 0;
         while (current != null) {
-            int temp = 2 * current.val;
-            current.val = carry + temp % 10;
+            int temp = carry + (current.val * 2);
+            current.val = temp % 10;
             carry = temp / 10;
             current = current.next;
         }
-        ListNode doubleNumLL = reverseLL(reverseHead);
+        ListNode result = null;
         if (carry > 0) {
-            ListNode doubleCarryNumLL = new ListNode(carry);
-            doubleCarryNumLL.next = doubleNumLL;
-            return doubleCarryNumLL;
+            result = new ListNode(carry);
+            result.next = reverseLL(revList);
         } else {
-            return doubleNumLL;
+            result = reverseLL(revList);
         }
+        return result;
     }
 
-    private ListNode reverseLL(ListNode head) {
+    private ListNode reverseLL(ListNode node) {
         ListNode prev = null;
-        ListNode current = head;
+        ListNode current = node;
         while (current != null) {
-            ListNode nextNode = current.next;
+            ListNode temp = current.next;
             current.next = prev;
             prev = current;
-            current = nextNode;
+            current = temp;
         }
         return prev;
     }
