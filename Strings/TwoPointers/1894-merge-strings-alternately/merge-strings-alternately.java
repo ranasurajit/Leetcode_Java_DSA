@@ -6,8 +6,7 @@ class Solution {
         int wLen2 = word2.length();
         String output = "";
         while (p < wLen1 && q < wLen2) {
-            output += word1.charAt(p);
-            output += word2.charAt(q);
+            output = output + word1.charAt(p) + word2.charAt(q);
             p++;
             q++;
         }
