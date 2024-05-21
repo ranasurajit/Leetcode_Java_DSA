@@ -14,30 +14,37 @@
  * }
  */
 class Solution {
-    // DFS Solution
+    // BFS Solution
     public int maxLevelSum(TreeNode root) {
-        List<Integer> sumLevels = new ArrayList<Integer>();
-        dfsTree(root, 0, sumLevels);
-        int max = Integer.MIN_VALUE;
-        int index = 0;
-        for (int i = 0; i < sumLevels.size(); i++) {
-            if (max < sumLevels.get(i)) {
-                max = sumLevels.get(i);
-                index = i;
+        if (root == null) {
+            return 0;
+        }
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);
+        // initial level at root = 1
+        int currentLevel = 1;
+        int maxSumLevel = 0;
+        int maxSum = Integer.MIN_VALUE;
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            int currentSum = 0;
+            for (int i = 0; i < size; i++) {
+                TreeNode current = queue.poll();
+                currentSum += current.val;
+                if (current.left != null) {
+                    queue.offer(current.left);
+                }
+                if (current.right != null) {
+                    queue.offer(current.right);
+                }
             }
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
+                maxSumLevel = currentLevel;
+            }
+            // Increase level for next queue elements / level
+            currentLevel++;
         }
-        return index + 1;
-    }
-
-    private void dfsTree(TreeNode node, int level, List<Integer> sumLevels) {
-        if (node == null) {
-            return;
-        }
-        if (sumLevels.size() == level) {
-            sumLevels.add(0);
-        }
-        sumLevels.set(level, sumLevels.get(level) + node.val);
-        dfsTree(node.left, level + 1, sumLevels);
-        dfsTree(node.right, level + 1, sumLevels);
+        return maxSumLevel;
     }
 }
