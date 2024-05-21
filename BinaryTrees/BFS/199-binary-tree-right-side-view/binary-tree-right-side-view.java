@@ -14,6 +14,7 @@
  * }
  */
 class Solution {
+    // BFS Solution
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> view = new ArrayList<Integer>();
         if (root == null) {
