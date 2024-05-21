@@ -14,46 +14,30 @@
  * }
  */
 class Solution {
+    // DFS Solution
     public int maxLevelSum(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        Queue<Pair> queue = new LinkedList<Pair>();
-        queue.offer(new Pair(root, 0));
-        Map<Integer, Integer> hm = new HashMap<Integer, Integer>();
-        while (!queue.isEmpty()) {
-            Pair current = queue.poll();
-            TreeNode currentNode = current.node;
-            int level = current.level;
-            if (!hm.containsKey(level)) {
-                hm.put(level, 0);
-            }
-            hm.put(level, hm.get(level) + currentNode.val);
-            if (currentNode.left != null) {
-                queue.offer(new Pair(currentNode.left, level + 1));
-            }
-            if (currentNode.right != null) {
-                queue.offer(new Pair(currentNode.right, level + 1));
-            }
-        }
+        List<Integer> sumLevels = new ArrayList<Integer>();
+        dfsTree(root, 0, sumLevels);
         int max = Integer.MIN_VALUE;
         int index = 0;
-        for (Map.Entry<Integer, Integer> entry : hm.entrySet()) {
-            if (max < entry.getValue()) {
-                max = entry.getValue();
-                index = entry.getKey();
+        for (int i = 0; i < sumLevels.size(); i++) {
+            if (max < sumLevels.get(i)) {
+                max = sumLevels.get(i);
+                index = i;
             }
         }
         return index + 1;
     }
 
-    class Pair {
-        TreeNode node;
-        int level;
-
-        public Pair(TreeNode node, int level) {
-            this.node = node;
-            this.level = level;
+    private void dfsTree(TreeNode node, int level, List<Integer> sumLevels) {
+        if (node == null) {
+            return;
         }
+        if (sumLevels.size() == level) {
+            sumLevels.add(0);
+        }
+        sumLevels.set(level, sumLevels.get(level) + node.val);
+        dfsTree(node.left, level + 1, sumLevels);
+        dfsTree(node.right, level + 1, sumLevels);
     }
 }
