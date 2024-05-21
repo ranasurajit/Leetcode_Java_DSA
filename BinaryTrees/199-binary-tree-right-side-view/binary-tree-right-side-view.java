@@ -15,38 +15,40 @@
  */
 class Solution {
     public List<Integer> rightSideView(TreeNode root) {
-        List<Integer> result = new ArrayList<Integer>();
-        Map<Integer, Integer> map = new HashMap<Integer, Integer>();
+        List<Integer> view = new ArrayList<Integer>();
         if (root == null) {
-            return result;
+            return view;
         }
         Queue<Pair> queue = new LinkedList<Pair>();
-        queue.offer(new Pair(0, root));
+        queue.offer(new Pair(root, 0));
+        Map<Integer, Integer> hm = new HashMap<Integer, Integer>();
         while (!queue.isEmpty()) {
             Pair current = queue.poll();
+            TreeNode currentNode = current.node;
             int level = current.level;
-            TreeNode node = current.node;
-            map.put(level, node.val);
-            if (node.left != null) {
-                queue.offer(new Pair(level + 1, node.left));
+            if (!hm.containsKey(level)) {
+                hm.put(level, currentNode.val);
             }
-            if (node.right != null) {
-                queue.offer(new Pair(level + 1, node.right));
+            if (currentNode.right != null) {
+                queue.offer(new Pair(currentNode.right, level + 1));
+            }
+            if (currentNode.left != null) {
+                queue.offer(new Pair(currentNode.left, level + 1));
             }
         }
-        for (Map.Entry<Integer, Integer> entry : map.entrySet()) {
-            result.add(entry.getValue());
+        for (Map.Entry<Integer, Integer> entry : hm.entrySet()) {
+            view.add(entry.getValue());
         }
-        return result;
+        return view;
     }
 
     class Pair {
-        int level;
         TreeNode node;
+        int level;
 
-        public Pair(int level, TreeNode node) {
-            this.level = level;
+        public Pair(TreeNode node, int level) {
             this.node = node;
+            this.level = level;
         }
     }
 }
