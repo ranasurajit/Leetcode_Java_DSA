@@ -18,7 +18,6 @@ class Solution {
             int row = currentPair.row;
             int col = currentPair.col;
             int distance = currentPair.distance;
-            System.out.println("Current: " + distance);
             int directions = 4;
             int[] deltaRow = { -1, 0, 1, 0 };
             int[] deltaCol = { 0, 1, 0, -1 };
