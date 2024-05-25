@@ -23,8 +23,6 @@ class Solution {
         Queue<Integer> q2 = new LinkedList<Integer>();
         dfsTree(root1, q1);
         dfsTree(root2, q2);
-        System.out.println(q1);
-        System.out.println(q2);
         if (q1.size() != q2.size()) {
             return false;
         }
