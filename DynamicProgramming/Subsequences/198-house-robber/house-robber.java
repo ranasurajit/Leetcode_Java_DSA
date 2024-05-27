@@ -4,23 +4,23 @@ class Solution {
         // return getMaxRobbed(nums.length - 1, nums);
 
         int n = nums.length;
-        int[] dp = new int[n];
-        Arrays.fill(dp, -1);
+        // int[] dp = new int[n];
+        // Arrays.fill(dp, -1);
 
         // With memoization
         // return getMaxRobbedMemoization(n - 1, nums, dp);
 
         // With tabulation
-        return getMaxRobbedTabulation(nums, dp);
+        // return getMaxRobbedTabulation(nums, dp);
 
         // With space optimization
-        // return getMaxRobbedSpaceOptimization(n - 1, int[] nums);
+        return getMaxRobbedSpaceOptimization(nums);
     }
 
     /**
         With Space Optimization
      */
-    private int getMaxRobbedSpaceOptimization(int index, int[] nums) {
+    private int getMaxRobbedSpaceOptimization(int[] nums) {
         int prev2 = 0;
         int prev = nums[0];
         int n = nums.length;
