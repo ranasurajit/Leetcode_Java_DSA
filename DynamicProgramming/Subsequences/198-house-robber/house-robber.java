@@ -10,6 +10,9 @@ class Solution {
         return getMaxRobbedMemoization(n - 1, nums, dp);
     }
 
+    /**
+        With Memoization
+     */
     private int getMaxRobbedMemoization(int index, int[] nums, int[] dp) {
         if (index == 0) {
             return nums[index];
