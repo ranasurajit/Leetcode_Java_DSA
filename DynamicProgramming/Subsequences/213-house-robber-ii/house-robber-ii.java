@@ -26,8 +26,36 @@ class Solution {
         //     maxSumRobbedMemoization(n - 2, nums2, dp2));
 
         // With tabulation
-        return Math.max(maxSumRobbedTabulation(nums1, dp1), 
-            maxSumRobbedTabulation(nums2, dp2));
+        // return Math.max(maxSumRobbedTabulation(nums1, dp1), 
+        //     maxSumRobbedTabulation(nums2, dp2));
+
+        // With space optimization
+        return Math.max(maxSumRobbedSpaceOptimization(nums1), maxSumRobbedSpaceOptimization(nums2));
+    }
+
+    /**
+        With Space Optimization - TC: O(N), SC: O(1)
+     */
+    private int maxSumRobbedSpaceOptimization(int[] nums) {
+        int n = nums.length;
+        int prev2 = 0;
+        int prev = nums[0];
+        for (int i = 0; i < n; i++) {
+            // pick
+            int pick = nums[i];
+            if (i > 1) {
+                pick += prev2;
+            }
+            // not pick
+            int notpick = 0;
+            if (i > 0) {
+                notpick += prev;
+            }
+            int current = Math.max(pick, notpick);
+            prev2 = prev;
+            prev = current;
+        }
+        return prev;
     }
 
     /**
