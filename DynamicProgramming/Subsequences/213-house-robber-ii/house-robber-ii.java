@@ -20,12 +20,40 @@ class Solution {
         int[] dp2 = new int[n - 1];
         Arrays.fill(dp1, -1);
         Arrays.fill(dp2, -1);
-        return Math.max(maxSumRobbedMemoization(n - 2, nums1, dp1), 
-            maxSumRobbedMemoization(n - 2, nums2, dp2));
+        
+        // With memoization
+        // return Math.max(maxSumRobbedMemoization(n - 2, nums1, dp1), 
+        //     maxSumRobbedMemoization(n - 2, nums2, dp2));
+
+        // With tabulation
+        return Math.max(maxSumRobbedTabulation(nums1, dp1), 
+            maxSumRobbedTabulation(nums2, dp2));
     }
 
     /**
-        With Memoization - TC: O(2^N), SC: O(2^N)
+        With Tabulation - TC: O(N), SC: O(N)
+     */
+    private int maxSumRobbedTabulation(int[] nums, int[] dp) {
+        int n = nums.length;
+        dp[0] = nums[0];
+        for (int i = 0; i < n; i++) {
+            // pick
+            int pick = nums[i];
+            if (i > 1) {
+                pick += dp[i - 2];
+            }
+            // not pick
+            int notpick = 0;
+            if (i > 0) {
+                notpick += dp[i - 1];
+            }
+            dp[i] = Math.max(pick, notpick);
+        }
+        return dp[n - 1];
+    }
+
+    /**
+        With Memoization - TC: O(N), SC: O(2N)
      */
     private int maxSumRobbedMemoization(int index, int[] nums, int[] dp) {
         if (index == 0) {
