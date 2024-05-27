@@ -3,11 +3,33 @@ class Solution {
         // With recursion
         // return getMaxRobbed(nums.length - 1, nums);
 
-        // With memoization
         int n = nums.length;
         int[] dp = new int[n];
         Arrays.fill(dp, -1);
-        return getMaxRobbedMemoization(n - 1, nums, dp);
+        // With memoization
+        // return getMaxRobbedMemoization(n - 1, nums, dp);
+        // With tabulation
+        return getMaxRobbedTabulation(n - 1, nums, dp);
+    }
+
+    /**
+        With Tabulation
+     */
+    private int getMaxRobbedTabulation(int index, int[] nums, int[] dp) {
+        dp[0] = nums[0];
+        int n = nums.length;
+        for (int i = 0; i < n; i++) {
+            int pick = nums[i];
+            if (i > 1) {
+                pick += dp[i - 2];
+            }
+            int notpick = 0;
+            if (i > 0) {
+                notpick = dp[i - 1];
+            }
+            dp[i] = Math.max(pick, notpick);
+        }
+        return dp[n - 1];
     }
 
     /**
