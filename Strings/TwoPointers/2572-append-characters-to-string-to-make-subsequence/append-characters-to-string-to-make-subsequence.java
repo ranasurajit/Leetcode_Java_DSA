@@ -4,7 +4,6 @@ class Solution {
         int q = 0;
         int plen = s.length();
         int tlen = t.length();
-        int count = 0;
         while (p < plen && q < tlen) {
             if (s.charAt(p) == t.charAt(q)) {
                 p++;
@@ -13,9 +12,7 @@ class Solution {
                 p++;
             }
         }
-        if (q == tlen) {
-            return count;
-        } else if (q < tlen) {
+        if (q < tlen) {
             return tlen - q;
         }
         return 0;
