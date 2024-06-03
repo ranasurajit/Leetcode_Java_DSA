@@ -12,14 +12,12 @@ class Solution {
             } else {
                 p++;
             }
-            if (q == tlen) {
-                return count;
-            }
         }
-        while (q < tlen) {
-            q++;
-            count++;
+        if (q == tlen) {
+            return count;
+        } else if (q < tlen) {
+            return tlen - q;
         }
-        return count;
+        return 0;
     }
 }
