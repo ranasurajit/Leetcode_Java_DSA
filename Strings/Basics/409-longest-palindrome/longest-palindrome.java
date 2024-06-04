@@ -2,13 +2,13 @@ class Solution {
     public int longestPalindrome(String s) {
         int length = 0;
         Set<Character> hs = new HashSet<Character>();
-        for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            if (hs.contains(ch)) {
+        char[] chars = s.toCharArray();
+        for (int i = 0; i < chars.length; i++) {
+            if (hs.contains(chars[i])) {
                 length += 2;
-                hs.remove(ch);
+                hs.remove(chars[i]);
             } else {
-                hs.add(ch);
+                hs.add(chars[i]);
             }
         }
         return hs.size() > 0 ? length + 1 : length;
