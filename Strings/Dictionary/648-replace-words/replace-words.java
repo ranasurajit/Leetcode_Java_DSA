@@ -1,30 +1,21 @@
 class Solution {
     public String replaceWords(List<String> dictionary, String sentence) {
-        Set<String> hs = new HashSet<String>();
-        for (String s : dictionary) {
-            hs.add(s);
-        }
+        Set<String> hs = new HashSet<String>(dictionary);
         String[] words = sentence.split(" ");
         StringBuilder rebuild = new StringBuilder();
-        for (int p = 0; p < words.length; p++) {
-            StringBuilder sb = new StringBuilder();
-            boolean match = false;
-            for (int i = 0; i < words[p].length(); i++) {
-                sb.append(words[p].charAt(i));
-                String current = sb.toString();
-                if (hs.contains(current)) {
-                    rebuild.append(current);
-                    match = true;
-                    break;
-                }
-            }
-            if (!match) {
-                rebuild.append(words[p]);
-            }
-            if (p < words.length - 1) {
-                rebuild.append(" ");
+        for (String word : words) {
+            rebuild.append(findRoot(word, hs)).append(" ");
+        }
+        return rebuild.toString().trim();
+    }
+
+    private String findRoot(String word, Set<String> hs) {
+        for (int i = 1; i < word.length(); i++) {
+            String segment = word.substring(0, i);
+            if (hs.contains(segment)) {
+                return segment;
             }
         }
-        return rebuild.toString();
+        return word;
     }
 }
