@@ -1,27 +1,27 @@
 class Solution {
-    public int searchInsert(int[] nums, int target) {
-        int n = nums.length;
-        int low = 0;
-        int high = n - 1;
 
-        if (target < nums[0]) {
-            return 0;
+    public int searchInsert(int[] nums, int target) {
+        int low = 0;
+        int high = nums.length - 1;
+        if (nums[low] > target) {
+            return low;
         }
-        if (target > nums[high]) {
-            return n;
+        if (nums[high] < target) {
+            return high + 1;
         }
-        int index = n - 1;
         while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (target == nums[mid]) {
+            int mid = low + ((high - low) / 2);
+            if (nums[mid] == target) {
                 return mid;
-            } else if (target < nums[mid]) {
-                high = mid - 1;
-                index = Math.min(index, mid);
-            } else {
+            } else if (nums[mid] < target) {
                 low = mid + 1;
+            } else {
+                high = mid - 1;
+                if (nums[high] < target) {
+                    return high + 1;
+                }
             }
         }
-        return index;
+        return -1;
     }
 }
