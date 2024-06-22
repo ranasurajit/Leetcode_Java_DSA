@@ -16,7 +16,6 @@ class Solution {
             }
             prefix = (double) (prefix * nums[i]);
             suffix = (double) (suffix * nums[n - i - 1]);
-            System.out.println(prefix + " -> " + suffix);
             max = (double) Math.max(max, Math.max(prefix, suffix));
         }
         return (int) max;
