@@ -8,7 +8,7 @@ class Solution {
         int countOdds = 0;
         for (int i = 0; i < n; i++) {
             // if num is odd then returns 1 else 0
-            countOdds += nums[i] % 2;
+            countOdds += (nums[i] & 1);
             // checks if (countOdds - k) exists in HashMap and returns the count
             subArraysCount += hm.getOrDefault(countOdds - k, 0);
             hm.put(countOdds, hm.getOrDefault(countOdds, 0) + 1);
