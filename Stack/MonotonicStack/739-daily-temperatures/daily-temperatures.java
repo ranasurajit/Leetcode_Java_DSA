@@ -5,8 +5,8 @@ class Solution {
         Stack<Integer> monoStack = new Stack<Integer>();
         for (int i = 0; i < n; i++) {
             while (!monoStack.isEmpty() && temperatures[i] > temperatures[monoStack.peek()]) {
-                result[monoStack.peek()] = i - monoStack.peek();
-                monoStack.pop();
+                int popped = monoStack.pop();
+                result[popped] = i - popped;
             }
             monoStack.add(i);
         }
