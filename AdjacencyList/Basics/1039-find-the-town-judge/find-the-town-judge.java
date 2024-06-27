@@ -1,21 +1,21 @@
 class Solution {
     public int findJudge(int n, int[][] trust) {
-        ArrayList<Integer>[] adj = new ArrayList[n + 1];
-        for (int i = 0; i <= n; i++) {
-            adj[i] = new ArrayList<Integer>();
-        }
+        // Calculate the people directing to judge by forming indegrees array
+        int[] indegrees = new int[n + 1];
         for (int i = 0; i < trust.length; i++) {
-            adj[trust[i][1]].add(trust[i][0]);
+            indegrees[trust[i][1]]++;
         }
-        System.out.println(Arrays.toString(adj));
         int judge = -1;
+        // if a person is judge then number of indegrees would be number of people (n) - 1
         for (int i = 1; i <= n; i++) {
-            if (adj[i].size() == n - 1) {
+            if (indegrees[i] == n - 1) {
                 judge = i;
+                break;
             }
         }
-        for (int i = 1; i <= n; i++) {
-            if (adj[i].contains(judge)) {
+        // checking if the judge is someone who also trusts someone then return -1
+        for (int i = 0; i < trust.length; i++) {
+            if (trust[i][0] == judge) {
                 return -1;
             }
         }
