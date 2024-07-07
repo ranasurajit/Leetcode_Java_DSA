@@ -15,21 +15,6 @@
  */
 class Solution {
     public boolean checkTree(TreeNode root) {
-        if (root == null) {
-            return true;
-        }
-        return root.val == dfsTree(root);
-    }
-
-    private int dfsTree(TreeNode root) {
-        if (root == null) {
-            return 0;
-        }
-        if (root.left == null && root.right == null) {
-            return root.val;
-        }
-        int left = dfsTree(root.left);
-        int right = dfsTree(root.right);
-        return left + right;
+        return root.val == root.left.val + root.right.val;
     }
 }
