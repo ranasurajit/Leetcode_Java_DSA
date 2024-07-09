@@ -1,13 +1,20 @@
 class Solution {
     public int findKthLargest(int[] nums, int k) {
-        int result = 0;
-        PriorityQueue<Integer> pq = new PriorityQueue<Integer>((p, q) ->  (q - p));
-        for (int i = 0; i < nums.length; i++) {
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
+        for (int i = 0; i < k; i++) {
             pq.add(nums[i]);
         }
-        for (int i = 0; i < k; i++) {
-            result = pq.poll();
+        for (int i = k; i < nums.length; i++) {
+            /*
+             * add in the priority queue if nums[i] > peek value 
+             * to ensure l elements are the largest in PriorityQueue
+             */
+            if (nums[i] > pq.peek()) {
+                pq.remove();
+                pq.add(nums[i]);
+            }
         }
-        return result;
+        // the peek/removed value will be the kth largest element
+        return pq.remove();
     }
 }
