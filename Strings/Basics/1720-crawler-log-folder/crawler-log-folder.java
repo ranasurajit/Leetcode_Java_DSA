@@ -6,10 +6,10 @@ class Solution {
         int steps = 0;
         for (String s : logs) {
             if (s.equals("../")) {
-                steps = steps > 0 ? steps - 1 : 0;
-            } else if (s.equals("./")) {
-                continue;
-            } else {
+                if (steps > 0) {
+                    steps--;
+                }
+            } else if (!s.equals("./")) {
                 steps++;
             }
         }
