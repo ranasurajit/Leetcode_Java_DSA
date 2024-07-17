@@ -14,37 +14,36 @@
  * }
  */
 class Solution {
-    // BFS Solution
     public int maxLevelSum(TreeNode root) {
         if (root == null) {
             return 0;
         }
         Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        int[] maxSum = { Integer.MIN_VALUE, Integer.MIN_VALUE };
+        int[] currentSum = { 0, 0 };
         queue.offer(root);
-        // initial level at root = 1
-        int currentLevel = 1;
-        int maxSumLevel = 0;
-        int maxSum = Integer.MIN_VALUE;
+        int level = 1;
         while (!queue.isEmpty()) {
             int size = queue.size();
-            int currentSum = 0;
+            int sum = 0;
             for (int i = 0; i < size; i++) {
                 TreeNode current = queue.poll();
-                currentSum += current.val;
+                sum += current.val;
                 if (current.left != null) {
                     queue.offer(current.left);
                 }
                 if (current.right != null) {
                     queue.offer(current.right);
                 }
+                currentSum[0] = sum;
+                currentSum[1] = level;
             }
-            if (currentSum > maxSum) {
-                maxSum = currentSum;
-                maxSumLevel = currentLevel;
+            if (currentSum[0] > maxSum[0]) {
+                maxSum[0] = currentSum[0];
+                maxSum[1] = currentSum[1];
             }
-            // Increase level for next queue elements / level
-            currentLevel++;
+            level++;
         }
-        return maxSumLevel;
+        return maxSum[1];
     }
 }
