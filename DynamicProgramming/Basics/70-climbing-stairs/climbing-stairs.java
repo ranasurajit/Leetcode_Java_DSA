@@ -13,7 +13,7 @@ class Solution {
 
     private int helper(int n, int[] dp) {
         if (n == 0) {
-            return 1;
+            return 0;
         }
         if (n == 1 || n == 2) {
             return n;
