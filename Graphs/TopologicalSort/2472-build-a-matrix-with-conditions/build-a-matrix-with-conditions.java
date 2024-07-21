@@ -2,8 +2,6 @@ class Solution {
     public int[][] buildMatrix(int k, int[][] rowConditions, int[][] colConditions) {
         ArrayList<Integer> sortedRow = topoSort(rowConditions, k);
         ArrayList<Integer> sortedCol = topoSort(colConditions, k);
-        System.out.println(sortedRow);
-        System.out.println(sortedCol);
         int[][] matrix = new int[k][k];
         if (sortedRow.size() == 0 || sortedCol.size() == 0) {
             return new int[][]{};
