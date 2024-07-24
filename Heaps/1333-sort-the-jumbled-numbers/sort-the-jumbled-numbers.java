@@ -10,7 +10,6 @@ class Solution {
         });
         for (int i = 0; i < n; i++) {
             Pair currentPair = getMappedNumber(nums[i], i, mapping);
-            System.out.println(currentPair.num + "-" + currentPair.index + "-" + currentPair.mappedNum);
             pq.offer(currentPair);
         }
         int[] sorted = new int[n];
