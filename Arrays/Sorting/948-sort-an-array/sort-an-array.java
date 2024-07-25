@@ -1,26 +1,25 @@
 class Solution {
     public int[] sortArray(int[] nums) {
-        int n = nums.length;
-        mergeSort(nums, 0, n - 1);
+        mergeSort(nums, 0, nums.length - 1);
         return nums;
     }
 
-    private void mergeSort(int[] nums, int start, int end) {
-        if (start < end) {
-            int mid = start + ((end - start) / 2);
-            mergeSort(nums, start, mid);
-            mergeSort(nums, mid + 1, end);
-            mergeSortedArrays(nums, start, mid, end);
+    private void mergeSort(int[] nums, int low, int high) {
+        if (low < high) {
+            int mid = low + (high - low) / 2;
+            mergeSort(nums, low, mid);
+            mergeSort(nums, mid + 1, high);
+            mergeSortedList(nums, low, mid, high);
         }
     }
 
-    private void mergeSortedArrays(int[] nums, int start, int mid, int end) {
-        int i = start;
+    private void mergeSortedList(int[] nums, int low, int mid, int high) {
+        int i = low;
         int j = mid + 1;
-        int k = start;
+        int k = low;
         int[] sorted = new int[nums.length];
-        while (i <= mid && j <= end) {
-            if (nums[i] <= nums[j]) {
+        while (i <= mid && j <= high) {
+            if (nums[i] < nums[j]) {
                 sorted[k] = nums[i];
                 i++;
             } else {
@@ -29,17 +28,17 @@ class Solution {
             }
             k++;
         }
-        if (j > end) {
+        if (j > high) {
             while (i <= mid) {
                 sorted[k++] = nums[i++];
             }
         }
         if (i > mid) {
-            while (j <= end) {
+            while (j <= high) {
                 sorted[k++] = nums[j++];
             }
         }
-        for (int p = start; p <= end; p++) {
+        for (int p = low; p <= high; p++) {
             nums[p] = sorted[p];
         }
     }
