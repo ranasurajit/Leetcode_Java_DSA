@@ -11,10 +11,6 @@ class Solution {
         while (!pq.isEmpty()) {
             Pair current = pq.poll();
             int u = current.node;
-            if (min2Time[n] != Integer.MAX_VALUE && u == n) {
-                // this means nth node is visited twice so it is 2nd minimum value
-                return min2Time[n];
-            }
             int curTime = current.time;
             int offset = curTime / change;
             // Check if signal is red, if yes add time - offset to current Time
@@ -26,6 +22,7 @@ class Solution {
                     minTime[v] = edgeTime + timePassed;
                     pq.offer(new Pair(v, edgeTime + timePassed));
                 } else if (min2Time[v] > edgeTime + timePassed && minTime[v] != edgeTime + timePassed) {
+                    // This step is to ensure that 2nd min value is strictly larger than 1st min value
                     min2Time[v] = edgeTime + timePassed;
                     pq.offer(new Pair(v, edgeTime + timePassed));
                 }
