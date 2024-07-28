@@ -11,6 +11,10 @@ class Solution {
         while (!pq.isEmpty()) {
             Pair current = pq.poll();
             int u = current.node;
+            if (min2Time[n] != Integer.MAX_VALUE && u == n) {
+                // This means nth node is visited twice so it is 2nd minimum value
+                return min2Time[n];
+            }
             int curTime = current.time;
             int offset = curTime / change;
             // Check if signal is red, if yes add time - offset to current Time
