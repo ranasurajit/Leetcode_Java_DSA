@@ -2,28 +2,22 @@ class Solution {
     public String[] findRelativeRanks(int[] score) {
         int n = score.length;
         String[] result = new String[n];
+        String[] medals = { "Gold Medal", "Silver Medal", "Bronze Medal" };
         PriorityQueue<Pair> pq = new PriorityQueue<Pair>((Pair p, Pair q) -> q.score - p.score);
         for (int i = 0; i < n; i++) {
             pq.offer(new Pair(score[i], i));
         }
-        int rankIndex = 1;
+        int rankIndex = 0;
         while (!pq.isEmpty()) {
             Pair current = pq.poll();
-            result[current.index] = getRank(rankIndex++);
+            if (rankIndex < medals.length) {
+                result[current.index] = medals[rankIndex];
+            } else {
+                result[current.index] = String.valueOf(rankIndex + 1);
+            }
+            rankIndex++;
         }
         return result;
-    }
-
-    private String getRank(int rankIndex) {
-        if (rankIndex == 1) {
-            return "Gold Medal";
-        } else if (rankIndex == 2) {
-            return "Silver Medal";
-        } else if (rankIndex == 3) {
-            return "Bronze Medal";
-        } else {
-            return String.valueOf(rankIndex);
-        }
     }
 
     class Pair {
