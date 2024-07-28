@@ -12,6 +12,9 @@ class Solution {
                 pq.offer(high - low);
             }
         }
-        return pq.isEmpty() ? 0 : pq.poll();
+        if (pq.size() == 1) {
+            return pq.poll();
+        }
+        return 0;
     }
 }
