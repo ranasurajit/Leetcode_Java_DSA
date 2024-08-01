@@ -1,9 +1,11 @@
 class NumArray {
 
+    private int[] nums;
     private int[] prefix;
 
     public NumArray(int[] nums) {
         int n = nums.length;
+        this.nums = nums;
         this.prefix = new int[n];
         this.prefix[0] = nums[0];
         for (int i = 1; i < n; i++) {
