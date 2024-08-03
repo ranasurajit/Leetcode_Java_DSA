@@ -1,7 +1,7 @@
 class Solution {
     public boolean canBeEqual(int[] target, int[] arr) {
-        // return canBeEqualByHashing(target, arr);
-        return canBeEqualBySorting(target, arr);
+        return canBeEqualByHashing(target, arr);
+        // return canBeEqualBySorting(target, arr);
     }
 
     /**
