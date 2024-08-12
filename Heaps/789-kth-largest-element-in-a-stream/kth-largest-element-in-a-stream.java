@@ -1,29 +1,28 @@
 class KthLargest {
 
-    // Kth Largest asked so create Min Heap PriorityQueue
-    private PriorityQueue<Integer> pq = new PriorityQueue<Integer>();
-    private int k;
+    PriorityQueue<Integer> pq;
+    int k;
+    int kthElement;
 
     public KthLargest(int k, int[] nums) {
+        // we will maintain only k elements in the p\PriorityQueue
+        this.pq = new PriorityQueue<Integer>();
         this.k = k;
         for (int it : nums) {
-            pq.add(it);
-        }
-        while (pq.size() > k) {
-            pq.remove();
+            pq.offer(it);
         }
     }
     
     public int add(int val) {
-        if (this.pq.size() < this.k) {
-            pq.add(val);
-        } else {
-            if (val > pq.peek()) {
-                pq.remove();
-                pq.add(val);
+        if (this.pq.size() < k || val > this.pq.peek()) {
+            // add the val to the Priority Queue
+            this.pq.offer(val);
+            // remove extra elements from PriorityQueue if greater than k
+            while (this.pq.size() > k) {
+                this.pq.poll();
             }
         }
-        return pq.peek();
+        return this.pq.peek();
     }
 }
 
