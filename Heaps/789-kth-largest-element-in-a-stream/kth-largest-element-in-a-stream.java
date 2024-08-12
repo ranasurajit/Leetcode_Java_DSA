@@ -11,6 +11,9 @@ class KthLargest {
         for (int it : nums) {
             pq.offer(it);
         }
+        while (this.pq.size() > k) {
+            this.pq.poll();
+        }
     }
     
     public int add(int val) {
@@ -18,7 +21,7 @@ class KthLargest {
             // add the val to the Priority Queue
             this.pq.offer(val);
             // remove extra elements from PriorityQueue if greater than k
-            while (this.pq.size() > k) {
+            if (this.pq.size() > k) {
                 this.pq.poll();
             }
         }
