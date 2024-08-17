@@ -5,20 +5,18 @@ class Solution {
         int high = n - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            if (nums[mid] == target) {
+            if (target == nums[mid]) {
                 return mid;
             } else if (nums[mid] >= nums[low]) {
                 // left part is sorted
-                if (target >= nums[low] && target <= nums[mid]) {
-                    // if target lies in the sorted range
+                if (target >= nums[low] && target < nums[mid]) {
                     high = mid - 1;
                 } else {
                     low = mid + 1;
                 }
-            } else if (nums[mid] < nums[high]) {
+            } else if (nums[mid] <= nums[high]) {
                 // right part is sorted
-                if (target >= nums[mid] && target <= nums[high]) {
-                    // if target lies in the sorted range
+                if (target > nums[mid] && target <= nums[high]) {
                     low = mid + 1;
                 } else {
                     high = mid - 1;
