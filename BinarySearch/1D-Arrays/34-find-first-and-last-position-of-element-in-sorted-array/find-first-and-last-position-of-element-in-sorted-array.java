@@ -4,7 +4,6 @@ class Solution {
     }
 
     public int searchLeft(int[] nums, int k) {
-        int n = nums.length;
         int low = 0;
         int high = nums.length - 1;
         int minIndex = Integer.MAX_VALUE;
@@ -24,7 +23,6 @@ class Solution {
     }
     
     public int searchRight(int[] nums, int k) {
-        int n = nums.length;
         int low = 0;
         int high = nums.length - 1;
         int maxIndex = Integer.MIN_VALUE;
