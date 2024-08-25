@@ -20,12 +20,13 @@ class Solution {
         return path;
     }
 
-    private void dfsTree(TreeNode node, List<Integer> path) {
-        if (node == null) {
+    
+    private void dfsTree(TreeNode root, List<Integer> path) {
+        if (root == null) {
             return;
         }
-        dfsTree(node.left, path);
-        dfsTree(node.right, path);
-        path.add(node.val);
+        dfsTree(root.left, path);
+        dfsTree(root.right, path);
+        path.add(root.val);
     }
 }
