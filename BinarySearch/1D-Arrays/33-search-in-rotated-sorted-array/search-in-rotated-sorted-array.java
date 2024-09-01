@@ -5,7 +5,7 @@ class Solution {
         int high = n - 1;
         while (low <= high) {
             int mid = low + (high - low) / 2;
-            if (target == nums[mid]) {
+            if (nums[mid] == target) {
                 return mid;
             } else if (nums[mid] >= nums[low]) {
                 // left part is sorted
@@ -14,7 +14,7 @@ class Solution {
                 } else {
                     low = mid + 1;
                 }
-            } else if (nums[mid] <= nums[high]) {
+            } else {
                 // right part is sorted
                 if (target > nums[mid] && target <= nums[high]) {
                     low = mid + 1;
