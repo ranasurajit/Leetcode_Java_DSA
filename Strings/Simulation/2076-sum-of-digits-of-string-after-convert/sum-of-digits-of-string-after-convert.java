@@ -8,10 +8,8 @@ class Solution {
         int n = s.length();
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < n; i++) { // TC: O(N)
-            int index = (int) (s.charAt(i) - 'a') + 1;
-            sb.append(String.valueOf(index));
+            sb.append((s.charAt(i) - 'a') + 1);
         }
-        int result = 0;
         for (int i = 0; i < k; i++) { // TC: O(k x N)
             sb = transform(sb);
         }
@@ -21,8 +19,7 @@ class Solution {
     private StringBuilder transform(StringBuilder s) {
         long result = 0L;
         for (int i = 0; i < s.length(); i++) { // TC: O(N)
-            long value = s.charAt(i) - '0';
-            result += value;
+            result += s.charAt(i) - '0';
         }
         return new StringBuilder(String.valueOf(result));
     }
