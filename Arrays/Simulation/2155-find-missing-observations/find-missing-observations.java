@@ -1,6 +1,6 @@
 class Solution {
     public int[] missingRolls(int[] rolls, int mean, int n) {
-        int[] missing = new int[n];
+        int[] missing = new int[]{};
         int m = rolls.length;
         long sum = 0L;
         for (int it : rolls) {
@@ -8,8 +8,9 @@ class Solution {
         }
         long missingSum = mean * (m + n) - sum;
         if (missingSum < n || missingSum > n * 6) {
-            return new int[]{};
+            return missing;
         }
+        missing = new int[n];
         int count = missing.length;
         int index = 0;
         while (missingSum != 0) {
