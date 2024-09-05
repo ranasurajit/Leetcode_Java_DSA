@@ -3,8 +3,8 @@ class Solution {
         int[] missing = new int[n];
         int m = rolls.length;
         long sum = 0L;
-        for (int i = 0; i < m; i++) {
-            sum += rolls[i];
+        for (int it : rolls) {
+            sum += it;
         }
         long missingSum = mean * (m + n) - sum;
         if (missingSum < n || missingSum > n * 6) {
