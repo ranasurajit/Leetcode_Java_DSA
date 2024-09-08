@@ -10,7 +10,7 @@
  */
 class Solution {
     /**
-     * TC: O(N + k x N) ~ O(k x N)
+     * TC: O(N + k x N) ~ O(N) as 1 <= k <= 50
      * SC: O(1)
      */
     public ListNode[] splitListToParts(ListNode head, int k) {
