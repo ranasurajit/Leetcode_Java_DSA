@@ -22,41 +22,40 @@ class Solution {
             return matrix;
         }
         int direction = 0;
-        ListNode current = head;
         int top = 0;
         int bottom = m - 1;
         int left = 0;
         int right = n - 1;
-        while (current != null) { // TC: O (Min(M x N, K)) where K = length of LinkedList
+        while (head != null) { // TC: O (Min(M x N, K)) where K = length of LinkedList
             if (direction == 0) {
                 for (int i = left; i <= right; i++) {
-                    if (current != null) {
-                        matrix[top][i] = current.val;
-                        current = current.next;
+                    if (head != null) {
+                        matrix[top][i] = head.val;
+                        head = head.next;
                     }
                 }
                 top++;
-            } else if (direction == 1 && current != null) {
+            } else if (direction == 1 && head != null) {
                 for (int i = top; i <= bottom; i++) {
-                    if (current != null) {
-                        matrix[i][right] = current.val;
-                        current = current.next;
+                    if (head != null) {
+                        matrix[i][right] = head.val;
+                        head = head.next;
                     }
                 }
                 right--;
-            } else if (direction == 2 && current != null) {
+            } else if (direction == 2) {
                 for (int i = right; i >= left; i--) {
-                    if (current != null) {
-                        matrix[bottom][i] = current.val;
-                        current = current.next;
+                    if (head != null) {
+                        matrix[bottom][i] = head.val;
+                        head = head.next;
                     }
                 }
                 bottom--;
-            } else if (direction == 3 && current != null) {
+            } else if (direction == 3) {
                 for (int i = bottom; i >= top; i--) {
-                    if (current != null) {
-                        matrix[i][left] = current.val;
-                        current = current.next;
+                    if (head != null) {
+                        matrix[i][left] = head.val;
+                        head = head.next;
                     }
                 }
                 left++;
