@@ -1,23 +1,35 @@
 class Solution {
+    /**
+     * TC: O(log(N))
+     * SC: O(1)
+     */
     public int arrangeCoins(int n) {
         if (n == 1) {
             return 1;
         }
-        long low = 1;
-        long high = n;
-        long complete = Long.MIN_VALUE;
+        long low = 1L;
+        long high = (long) n;
+        long completed = Long.MIN_VALUE;
+        // TC: O(log(N))
         while (low <= high) {
             long mid = low + (high - low) / 2;
-            long coins = (mid * (mid + 1)) / 2;
-            if (coins == n) {
+            long calc = calculate(mid);
+            if (calc == n) {
                 return (int) mid;
-            } else if (coins < n) {
-                low = mid + 1;
-                complete = Math.max(complete, mid);
-            } else {
+            } else if (calc > n) {
                 high = mid - 1;
+            } else {
+                low = mid + 1;
+                completed = Math.max(completed, mid);
             }
         }
-        return (int) complete;
+        return (int) completed;
+    }
+
+    /**
+     * TC: O(1)
+     */
+    private long calculate(long k) {
+        return (k * (k + 1)) / 2;
     }
 }
