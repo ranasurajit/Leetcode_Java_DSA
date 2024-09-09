@@ -18,14 +18,7 @@ class Solution {
         for (int[] matRow : matrix) { // TC: O (M x N)
             Arrays.fill(matRow, -1);
         }
-        if (head == null) {
-            return matrix;
-        }
-        int direction = 0;
-        int top = 0;
-        int bottom = m - 1;
-        int left = 0;
-        int right = n - 1;
+        int direction = 0, top = 0, bottom = m - 1, left = 0, right = n - 1;
         while (head != null) { // TC: O (Min(M x N, K)) where K = length of LinkedList
             if (direction == 0) {
                 for (int i = left; i <= right && head != null; i++) {
