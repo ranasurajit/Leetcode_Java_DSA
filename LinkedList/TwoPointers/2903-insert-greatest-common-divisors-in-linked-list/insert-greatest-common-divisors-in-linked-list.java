@@ -31,18 +31,9 @@ class Solution {
     }
 
     private int getGCD(int a, int b) {
-        if (a == 0) {
-            return b;
-        }
         if (b == 0) {
             return a;
         }
-        if (a == b) {
-            return a;
-        } else if (a > b) {
-            return getGCD(a % b, b);
-        } else {
-            return getGCD(b % a, a);
-        }
+        return getGCD(b, a % b);
     }
 }
