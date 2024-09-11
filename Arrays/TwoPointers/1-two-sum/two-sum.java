@@ -1,7 +1,26 @@
 class Solution {
     public int[] twoSum(int[] nums, int target) {
         // return twoSumBruteForce(nums, target);
-        return twoSumBetter(nums, target);
+        // return twoSumBetter(nums, target);
+        return twoSumOptimal(nums, target);
+    }
+
+    /**
+     * Optimal Approach (Using HashMap)
+     * TC: O(N)
+     * SC: O(N)
+     */
+    private int[] twoSumOptimal(int[] nums, int target) {
+        int n = nums.length;
+        Map<Integer, Integer> hm = new HashMap<Integer, Integer>(); // SC: O(N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            int diff = target - nums[i];
+            if (hm.containsKey(diff)) {
+                return new int[]{ hm.get(diff), i };
+            }
+            hm.put(nums[i], i);
+        }
+        return new int[]{ -1, -1 };
     }
 
     /**
