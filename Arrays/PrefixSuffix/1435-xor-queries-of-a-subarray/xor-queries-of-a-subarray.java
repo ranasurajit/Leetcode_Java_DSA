@@ -11,12 +11,11 @@ class Solution {
         }
         int[] result = new int[m];
         for (int i = 0; i < m; i++) { // TC: O(M)
-            int[] q = queries[i];
-            if (q[0] > 0) {
+            if (queries[i][0] > 0) {
                 // using the property of XOR which cancels the XOR of same numbers
-                result[i] = arr[q[1]] ^ arr[q[0] - 1];
+                result[i] = arr[queries[i][1]] ^ arr[queries[i][0] - 1];
             } else {
-                result[i] = arr[q[1]];
+                result[i] = arr[queries[i][1]];
             }
         }
         return result;
