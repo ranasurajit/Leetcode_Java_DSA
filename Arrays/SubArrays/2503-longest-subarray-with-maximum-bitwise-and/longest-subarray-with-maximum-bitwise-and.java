@@ -4,7 +4,7 @@ class Solution {
      * SC: O(1)
      */
     public int longestSubarray(int[] nums) {
-        int max = Integer.MIN_VALUE;
+        int max = nums[0];
         int streak = 0;
         int result = 0;
         /**
@@ -23,7 +23,9 @@ class Solution {
             } else {
                 streak = 0;
             }
-            result = Math.max(result, streak);
+            if (result < streak) {
+                result = streak;
+            }
         }
         return result;
     }
