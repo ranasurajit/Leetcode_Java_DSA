@@ -23,9 +23,7 @@ class Solution {
             } else {
                 streak = 0;
             }
-            if (result < streak) {
-                result = streak;
-            }
+            result = Math.max(result, streak);
         }
         return result;
     }
