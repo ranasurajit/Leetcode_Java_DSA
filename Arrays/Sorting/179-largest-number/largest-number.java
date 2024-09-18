@@ -1,7 +1,7 @@
 class Solution {
     /**
-     * TC: O(2N + Nlog(N)) ~ O(Nlog(N))
-     * SC: O(N)
+     * TC: O(2N + K x Nlog(N)) ~ O(K x Nlog(N))
+     * SC: O(3N) ~ O(N)
      */
     public String largestNumber(int[] nums) {
         int n = nums.length;
@@ -14,13 +14,13 @@ class Solution {
             public int compare(String a, String b) {
                 String first = a + b;
                 String second = b + a;
-                return second.compareTo(first);
+                return second.compareTo(first); // TC: O(K), SC: O(N) where K = length of Strings in comparison
             }
         });
         if (convertedNums[0].equals("0")) {
             return "0";
         }
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(); // SC: O(N)
         for (int i = 0; i < n; i++) { // TC: O(N)
             sb.append(convertedNums[i]);
         }
