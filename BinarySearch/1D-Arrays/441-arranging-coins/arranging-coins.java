@@ -10,13 +10,12 @@ class Solution {
         long low = 1L;
         long high = (long) n;
         long completed = Long.MIN_VALUE;
-        // TC: O(log(N))
         while (low <= high) {
             long mid = low + (high - low) / 2;
-            long calc = calculate(mid);
-            if (calc == n) {
+            long coins = coinsNeeded(mid);
+            if (n == coins) {
                 return (int) mid;
-            } else if (calc > n) {
+            } else if (n < coins) {
                 high = mid - 1;
             } else {
                 low = mid + 1;
@@ -28,8 +27,9 @@ class Solution {
 
     /**
      * TC: O(1)
+     * SC: O(1)
      */
-    private long calculate(long k) {
-        return (k * (k + 1)) / 2;
+    private long coinsNeeded(long n) {
+        return (n * (n + 1)) / 2;
     }
 }
