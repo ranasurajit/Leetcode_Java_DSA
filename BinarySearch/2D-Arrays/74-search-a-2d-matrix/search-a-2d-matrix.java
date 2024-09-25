@@ -1,4 +1,8 @@
 class Solution {
+    /**
+     * TC: O(log(M x N))
+     * SC: O(1)
+     */
     public boolean searchMatrix(int[][] matrix, int target) {
         int m = matrix.length;
         int n = matrix[0].length;
@@ -10,10 +14,10 @@ class Solution {
             int col = mid % n;
             if (matrix[row][col] == target) {
                 return true;
-            } else if (matrix[row][col] < target) {
-                low = mid + 1;
-            } else {
+            } else if (matrix[row][col] > target) {
                 high = mid - 1;
+            } else {
+                low = mid + 1;
             }
         }
         return false;
