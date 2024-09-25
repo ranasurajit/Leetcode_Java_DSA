@@ -1,10 +1,14 @@
+/**
+ * TC: O(N)
+ * SC: O(N)
+ */
 class Trie {
     TrieNode root;
 
     public Trie() {
         root = new TrieNode();
     }
-    
+
     public void insert(String word) {
         TrieNode crawler = root;
         for (char ch : word.toCharArray()) {
@@ -16,7 +20,7 @@ class Trie {
         }
         crawler.isEnd = true;
     }
-    
+
     public boolean search(String word) {
         TrieNode crawler = root;
         for (char ch : word.toCharArray()) {
@@ -28,7 +32,7 @@ class Trie {
         }
         return crawler.isEnd;
     }
-    
+
     public boolean startsWith(String prefix) {
         TrieNode crawler = root;
         int i;
@@ -47,12 +51,11 @@ class TrieNode {
     boolean isEnd;
     TrieNode[] children;
 
-    public TrieNode () {
+    public TrieNode() {
         this.isEnd = false;
         this.children = new TrieNode[26];
     }
 }
-
 /**
  * Your Trie object will be instantiated and called as such:
  * Trie obj = new Trie();
