@@ -1,53 +1,34 @@
-/**
-* TC: O(N)
-* SC: O(N)
-*/
 class CustomStack {
-
-    Stack<Integer> st; // SC: O(N)
+    int[] st;
     int size;
+    int count;
 
     public CustomStack(int maxSize) {
-        st = new Stack<Integer>();
+        st = new int[maxSize];
         size = maxSize;
+        count = 0;
     }
     
-    /**
-     * TC: O(1)
-     */
     public void push(int x) {
-        if (st.size() < size) {
-            st.push(x);
+        if (count < size) {
+            st[count++] = x;
         }
     }
     
-    /**
-     * TC: O(1)
-     */
     public int pop() {
-        if (st.isEmpty()) {
+        System.out.println(Arrays.toString(st) + "-" + count);
+        if (count == 0) {
             return -1;
         }
-        return st.pop();
+        int popped = st[count - 1];
+        st[count - 1] = 0;
+        count--;
+        return popped;
     }
     
-    /**
-     * TC: O(N)
-     * SC: O(N)
-     */
     public void increment(int k, int val) {
-        Stack<Integer> temp = new Stack<Integer>();
-        while (!st.isEmpty()) {
-            temp.push(st.pop());
-        }
-        int count = 0;
-        while (!temp.isEmpty()) {
-            if (count < k) {
-                st.push(temp.pop() + val);
-            } else {
-                st.push(temp.pop());
-            }
-            count++;
+        for (int i = 0; i < Math.min(k, size); i++) {
+            st[i] += val;
         }
     }
 }
