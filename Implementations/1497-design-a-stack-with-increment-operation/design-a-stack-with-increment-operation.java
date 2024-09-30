@@ -16,7 +16,6 @@ class CustomStack {
     }
     
     public int pop() {
-        System.out.println(Arrays.toString(st) + "-" + count);
         if (count == 0) {
             return -1;
         }
