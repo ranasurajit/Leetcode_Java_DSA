@@ -1,13 +1,13 @@
 class Solution {
     /**
      * TC: O(N)
-     * SC: O(N)
+     * SC: O(K)
      */
     public boolean canArrange(int[] arr, int k) {
         int n = arr.length;
         // intuition is sum of remainder pairs from above should sum up to k
-        int[] map = new int[k];
-        for (int i = 0; i < n; i++) {
+        int[] map = new int[k]; // SC: O(K)
+        for (int i = 0; i < n; i++) { // TC: O(N)
             // handling negative numbers
             int rem = (arr[i] % k + k) % k; // store all the remainders in place
             map[rem]++;
@@ -19,7 +19,7 @@ class Solution {
         if (map[0] % 2 != 0) {
             return false;
         }
-        for (int i = 1; i <= k / 2; i++) {
+        for (int i = 1; i <= k / 2; i++) { // TC: O(K/2)
             if (map[i] != map[k - i]) {
                 return false;
             }
