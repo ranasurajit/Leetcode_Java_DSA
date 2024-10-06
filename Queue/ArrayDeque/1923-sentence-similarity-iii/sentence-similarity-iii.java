@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Using Deque Approach
+     * Using ArrayDeque Approach
      *
      * TC: O(M + N)
      * SC: O(M + N)
@@ -11,8 +11,8 @@ class Solution {
             return areSentencesSimilar(sentence2, sentence1);
         }
 
-        Deque<String> deq1 = new LinkedList<String>(Arrays.asList(sentence1.split(" "))); // SC: O(M)
-        Deque<String> deq2 = new LinkedList<String>(Arrays.asList(sentence2.split(" "))); // SC: O(M)
+        ArrayDeque<String> deq1 = new ArrayDeque<String>(Arrays.asList(sentence1.split(" "))); // SC: O(M)
+        ArrayDeque<String> deq2 = new ArrayDeque<String>(Arrays.asList(sentence2.split(" "))); // SC: O(M)
 
         // checking and removing from both deques (if matches) from front
         while (!deq1.isEmpty() && !deq2.isEmpty() && deq2.peekFirst().equals(deq1.peekFirst())) {
