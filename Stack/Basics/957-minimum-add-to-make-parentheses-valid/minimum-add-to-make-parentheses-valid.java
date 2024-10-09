@@ -23,12 +23,13 @@ class Solution {
     // }
 
     /**
+     * Using Stack
      * TC: O(N)
-     * SC: O(1)
+     * SC: O(N)
      */
     public int minAddToMakeValid(String s) {
         int n = s.length();
-        Stack<Character> st = new Stack<Character>();
+        Stack<Character> st = new Stack<Character>(); // SC: O(N)
         for (int i = 0; i < n; i++) { // TC: O(N)
             char ch = s.charAt(i);
             if (!st.isEmpty() && ch == ')' && st.peek() == '(') {
