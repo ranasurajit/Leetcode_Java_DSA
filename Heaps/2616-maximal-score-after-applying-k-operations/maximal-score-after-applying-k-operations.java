@@ -7,7 +7,7 @@ class Solution {
     public long maxKelements(int[] nums, int k) {
         int n = nums.length;
         // storing in max-heap TC: O(Nlog(N)), SC: O(N)
-        PriorityQueue<Integer> pq = new PriorityQueue<Integer>(Comparator.reverseOrder()); 
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>((p, q) -> q - p); 
         for (int it : nums) { // TC: O(N)
             pq.offer(it);
         }
