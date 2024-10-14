@@ -12,12 +12,10 @@ class Solution {
             pq.offer(it);
         }
         long score = 0L;
-        while (!pq.isEmpty() && k > 0) { // TC: O(K)
+        while (k-- > 0) { // TC: O(K)
             int top = pq.poll(); // TC: O(log(N))
             score += top;
-            int deno = (int) Math.ceil(top / 3.0);
-            pq.offer(deno); // TC: O(log(N))
-            k--;
+            pq.offer((int) Math.ceil(top / 3.0)); // TC: O(log(N))
         }
         return score;
     }
