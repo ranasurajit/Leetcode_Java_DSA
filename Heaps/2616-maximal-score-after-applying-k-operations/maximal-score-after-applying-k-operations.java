@@ -1,12 +1,10 @@
 class Solution {
     /**
+     * Using PriorityQueue
      * TC: O(Nlog(N) + Klog(N))
      * SC: O(N)
      */
     public long maxKelements(int[] nums, int k) {
-        if (k == 0) {
-            return 0L;
-        }
         int n = nums.length;
         // storing in max-heap TC: O(Nlog(N)), SC: O(N)
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(Collections.reverseOrder()); 
