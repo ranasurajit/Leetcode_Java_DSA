@@ -1,4 +1,8 @@
 class Solution {
+    /**
+     * TC: O(a + b + c)
+     * SC: O(1)
+     */
     public String longestDiverseString(int a, int b, int c) {
         StringBuilder happy = new StringBuilder();
         PriorityQueue<Pair> pq = new PriorityQueue<Pair>((Pair p, Pair q) -> q.freq - p.freq);
