@@ -1,4 +1,8 @@
 class Solution {
+    /**
+     * TC: O(N x ormax)
+     * SC: O(N x ormax)
+     */
     public int countMaxOrSubsets(int[] nums) {
         int n = nums.length;
         HashMap<Integer, Integer> hm = new HashMap<Integer, Integer>();
@@ -6,18 +10,14 @@ class Solution {
         for (int i = 0; i < n; i++) { // TC: O(N)
             ormax = (ormax | nums[i]);
         }
-        int[][] dp = new int[n + 1][ormax + 1];
-        for (int[] dp1D : dp) {
+        int[][] dp = new int[n + 1][ormax + 1]; // SC: O(N x ormax)
+        for (int[] dp1D : dp) { // TC: O(N x ormax)
             Arrays.fill(dp1D, -1);
         }
-        int count = solve(0, nums, 0, ormax, dp);
+        int count = solve(0, nums, 0, ormax, dp); // TC: O(N x ormax), SC: O(N x ormax)
         return count;
     }
 
-    /**
-     * TC: O(2 ^ N)
-     * SC: O(N)
-     */
     private int solve(int index, int[] nums, int cor, int max, int[][] dp) {
         // Base case
         if (index == nums.length) {
