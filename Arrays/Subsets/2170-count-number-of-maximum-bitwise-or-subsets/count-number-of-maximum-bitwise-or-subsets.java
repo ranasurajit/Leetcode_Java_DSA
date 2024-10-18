@@ -6,25 +6,34 @@ class Solution {
         for (int i = 0; i < n; i++) { // TC: O(N)
             ormax = (ormax | nums[i]);
         }
-        int[] count = { 0 };
-        solve(0, nums, 0, ormax, count);
-        return count[0];
+        int[][] dp = new int[n + 1][ormax + 1];
+        for (int[] dp1D : dp) {
+            Arrays.fill(dp1D, -1);
+        }
+        int count = solve(0, nums, 0, ormax, dp);
+        return count;
     }
 
     /**
      * TC: O(2 ^ N)
      * SC: O(N)
      */
-    private void solve(int index, int[] nums, int current, int max, int[] count) {
+    private int solve(int index, int[] nums, int cor, int max, int[][] dp) {
+        // Base case
         if (index == nums.length) {
-            if (current == max) {
-                count[0]++;
+            if (cor == max) {
+                return 1;
             }
-            return;
+            return 0;
+        }
+        if (dp[index][cor] != -1) {
+            return dp[index][cor];
         }
         // take
-        solve(index + 1, nums, (current | nums[index]), max, count);
+        int take = solve(index + 1, nums, (cor | nums[index]), max, dp);
         // not take
-        solve(index + 1, nums, current, max, count);
+        int nottake = solve(index + 1, nums, cor, max, dp);
+        dp[index][cor] = take + nottake;
+        return dp[index][cor];
     }
 }
