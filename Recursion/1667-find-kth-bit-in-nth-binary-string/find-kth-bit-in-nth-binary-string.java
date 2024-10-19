@@ -1,4 +1,8 @@
 class Solution {
+    /**
+     * TC: O(2N) ~ O(N)
+     * SC: O(N)
+     */
     public char findKthBit(int n, int k) {
         // it is understood that the length of the binary string would be 2^n - 1
         int length = (int) Math.pow(2, n) - 1;
