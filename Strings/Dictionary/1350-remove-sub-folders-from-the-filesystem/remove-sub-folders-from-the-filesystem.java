@@ -6,7 +6,7 @@ class Solution {
     public List<String> removeSubfolders(String[] folder) {
         List<String> folderResult = new ArrayList<String>();
         HashSet<String> hs = new HashSet<String>(); // SC: O(N)
-        Arrays.sort(folder); // TC: O(N x log(N))
+        Arrays.sort(folder, (String a, String b) -> a.length() - b.length()); // TC: O(N x log(N))
         for (String s : folder) { // TC: O(N)
             String current = s;
             boolean isPresent = false;
