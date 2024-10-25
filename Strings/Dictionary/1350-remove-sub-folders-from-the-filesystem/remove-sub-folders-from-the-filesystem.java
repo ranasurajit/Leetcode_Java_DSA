@@ -1,9 +1,28 @@
 class Solution {
     /**
+     * TC: O(N x log(N) + N) ~ O(N x log(N))
+     * SC: O(1)
+     */
+    public List<String> removeSubfolders(String[] folder) {
+        Arrays.sort(folder); // TC: O(N x log(N))
+        List<String> folderResult = new ArrayList<String>();
+        folderResult.add(folder[0]);
+        for (int i = 1; i < folder.length; i++) { // TC: O(N)
+            String current = folder[i];
+            String last = folderResult.get(folderResult.size() - 1);
+            last += "/";
+            if (!current.startsWith(last)) {
+                folderResult.add(current);
+            }
+        }
+        return folderResult;
+    }
+
+    /**
      * TC: O(K x N + N x log(N) + N) ~ O(K x N)
      * SC: O(N)
      */
-    public List<String> removeSubfolders(String[] folder) {
+    public List<String> removeSubfoldersApproach(String[] folder) {
         List<String> folderResult = new ArrayList<String>();
         HashSet<String> hs = new HashSet<String>(); // SC: O(N)
         Arrays.sort(folder, (String a, String b) -> a.length() - b.length()); // TC: O(N x log(N))
