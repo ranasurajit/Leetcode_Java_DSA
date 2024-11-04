@@ -4,30 +4,21 @@ class Solution {
      * SC: O(1)
      */
     public String compressedString(String word) {
+        int n = word.length();
         StringBuilder sb = new StringBuilder();
-        char lastChar = '1';
-        int lastCount = 0;
-        for (int i = 0; i < word.length(); i++) {        // TC: O(N)
+        char lastChar = word.charAt(0);
+        int lastCount = 1;
+        for (int i = 1; i < n; i++) {        // TC: O(N)
             char c = word.charAt(i);
-            if (lastChar != c) {
-                while (lastCount > 9) {
-                    sb.append("9" + lastChar);
-                    lastCount -= 9;
-                }
-                if (lastCount > 0) {
-                    sb.append(lastCount + "" + lastChar);
-                }
-                lastCount = 1;
-                lastChar = c;
-            } else {
+            if (c == lastChar && lastCount < 9) {
                 lastCount++;
+            } else {
+                sb.append(lastCount).append(lastChar);
+                lastChar = c;
+                lastCount = 1;
             }
         }
-        while (lastCount > 9) {
-            sb.append("9" + lastChar);
-            lastCount -= 9;
-        }
-        sb.append(lastCount + "" + lastChar);
+        sb.append(lastCount).append(lastChar);
         return sb.toString();
     }
 }
