@@ -1,7 +1,7 @@
 class Solution {
     /**
      * TC: O(N x N + 2 x N) ~ O(N x N)
-     * // SC: O(2 x N x N)  ~ O(N x N)
+     * SC: O(2 x N x N)     ~ O(N x N)
      */
     public int countSubstrings(String s) {
         int n = s.length();
