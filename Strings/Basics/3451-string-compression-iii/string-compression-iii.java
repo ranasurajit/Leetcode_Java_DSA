@@ -9,12 +9,11 @@ class Solution {
         char lastChar = word.charAt(0);
         int lastCount = 1;
         for (int i = 1; i < n; i++) {        // TC: O(N)
-            char c = word.charAt(i);
-            if (c == lastChar && lastCount < 9) {
+            if (word.charAt(i) == lastChar && lastCount < 9) {
                 lastCount++;
             } else {
                 sb.append(lastCount).append(lastChar);
-                lastChar = c;
+                lastChar = word.charAt(i);
                 lastCount = 1;
             }
         }
