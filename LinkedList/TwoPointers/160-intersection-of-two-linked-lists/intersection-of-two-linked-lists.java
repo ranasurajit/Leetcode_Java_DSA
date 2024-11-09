@@ -10,22 +10,32 @@
  * }
  */
 public class Solution {
+    /**
+     * TC: O(2 x M + 2 x N) ~ O(M + N)
+     * SC: O(1)
+     */
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        ListNode t1 = headA;
-        ListNode t2 = headB;
-        while (t1 != t2) {
-            t1 = t1.next;
-            t2 = t2.next;
-            if (t1 == t2) {
-                return t1;
+        if (headA == null) {
+            return null;
+        } 
+        if (headA == headB) {
+            return headA;
+        }
+        ListNode currA = headA;
+        ListNode currB = headB;
+        while (currA != currB) {
+            currA = currA.next;
+            currB = currB.next;
+            if (currA == currB) {
+                return currA;
             }
-            if (t1 == null) {
-                t1 = headB;
+            if (currA == null) {
+                currA = headB;
             }
-            if (t2 == null) {
-                t2 = headA;
+            if (currB == null) {
+                currB = headA;
             }
         }
-        return t1;
+        return currA;
     }
 }
