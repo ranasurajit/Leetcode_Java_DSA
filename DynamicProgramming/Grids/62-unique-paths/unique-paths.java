@@ -6,7 +6,42 @@ class Solution {
         //     Arrays.fill(dp1D, -1);
         // }
         // return uniquePathsMemoization(m - 1, n - 1, dp);
-        return uniquePathsTabulation(m, n);
+        // return uniquePathsTabulation(m, n);
+        return uniquePathsSpaceOptimization(m, n);
+    }
+
+    /**
+     * Using Space Optimization
+     * 
+     * TC: O(M x N)
+     * SC: O(2N) ~ O(N)
+     * 
+     * @param m
+     * @param n
+     * @return
+     */
+    public static int uniquePathsSpaceOptimization(int m, int n) {
+        int[] prev = new int[n]; // SC: O(N)
+        for (int i = 0; i < m; i++) { // TC: O(M)
+            int[] current = new int[n]; // SC: O(N)
+            for (int j = 0; j < n; j++) { // TC: O(N)
+                if (i == 0 && j == 0) {
+                    current[j] = 1;
+                } else {
+                    int left = 0;
+                    int up = 0;
+                    if (i > 0) {
+                        up = prev[j];
+                    }
+                    if (j > 0) {
+                        left = current[j - 1];
+                    }
+                    current[j] = up + left;
+                }
+            }
+            prev = current;
+        }
+        return prev[n - 1];
     }
 
     /**
