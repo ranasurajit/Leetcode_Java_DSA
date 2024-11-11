@@ -1,52 +1,58 @@
 class Solution {
-    /**
-     * Bottom-Up approach
-     * TC: O(M x N)
-     * SC: O(M x N) 
-     */
     public int uniquePaths(int m, int n) {
-        int[][] dp = new int[m][n]; // SC: O(M x N)
-        dp[0][0] = 1;
-        for (int[] row : dp) { // TC: O(M x N)
-            Arrays.fill(row, 1);
+        // return uniquePathsRecursion(m - 1, n - 1);
+        int[][] dp = new int[m][n];
+        for (int[] dp1D : dp) {
+            Arrays.fill(dp1D, -1);
         }
-        for (int i = 1; i < m; i++) { // TC: O(M)
-            for (int j = 1; j < n; j++) { // TC: O(N)
-                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
-            }
-        }
-        return dp[m -1][n - 1];
+        return uniquePathsMemoization(m - 1, n - 1, dp);
     }
 
     /**
-     * Top-Down approach
+     * Using Memoization
+     * 
      * TC: O(M x N)
-     * SC: O(M x N) + O(M x N) ~ O(M x N)
+     * SC: O((M - 1) + (N - 1) + (M x N))
+     * 
+     * @param m
+     * @param n
+     * @return
      */
-    public int uniquePathsRecursive(int m, int n) {
-        int[][] dp = new int[m][n]; // SC: O(M x N)
-        for (int[] row : dp) { // TC: O(M x N)
-            Arrays.fill(row, -1);
-        }
-        return solveRecursively(dp, m - 1, n - 1); // TC and SC: O(M x N) 
-    }
-
-    private int solveRecursively(int[][] dp, int m, int n) {
-        if (m < 0 || n < 0) {
-            return 0;
-        }
+    public static int uniquePathsMemoization(int m, int n, int[][] dp) {
         if (m == 0 && n == 0) {
-            return 1;
+            return 1; // reached destination
+        }
+        if (m < 0 || n < 0) {
+            return 0; // reached out of bounds of grid so returned 0
         }
         if (dp[m][n] != -1) {
             return dp[m][n];
         }
-        /*
-         * to reach grid[m - 1][n - 1] we need to count unique paths 
-         * from grid[m - 1][n-2] + grid[m - 2][n - 1]
-         */
-        int x = solveRecursively(dp, m, n - 1);
-        int y = solveRecursively(dp, m - 1, n);
-        return dp[m][n] = x + y;
+        int upPaths = uniquePathsMemoization(m - 1, n, dp);
+        int leftPaths = uniquePathsMemoization(m, n - 1, dp);
+        dp[m][n] = upPaths + leftPaths;
+        return dp[m][n];
+    }
+
+    /**
+     * Using Recursion
+     * 
+     * TC: O(2 ^ (M x N))
+     * SC: O((M - 1) + (N - 1))
+     * 
+     * @param m
+     * @param n
+     * @return
+     */
+    private static int uniquePathsRecursion(int m, int n) {
+        if (m == 0 && n == 0) {
+            return 1; // reached destination
+        }
+        if (m < 0 || n < 0) {
+            return 0; // reached out of bounds of grid so returned 0
+        }
+        int upPaths = uniquePathsRecursion(m - 1, n);
+        int leftPaths = uniquePathsRecursion(m, n - 1);
+        return upPaths + leftPaths;
     }
 }
