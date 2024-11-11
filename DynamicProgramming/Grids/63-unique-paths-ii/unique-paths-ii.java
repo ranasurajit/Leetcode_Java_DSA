@@ -3,11 +3,51 @@ class Solution {
         int m = obstacleGrid.length;
         int n = obstacleGrid[0].length;
         //  return solveRecursion(m - 1, n - 1, obstacleGrid);
-        int[][] dp = new int[m][n];
-        for (int[] dp1D : dp) {
-            Arrays.fill(dp1D, -1);
+        // int[][] dp = new int[m][n];
+        // for (int[] dp1D : dp) {
+        //     Arrays.fill(dp1D, -1);
+        // }
+        // return solveMemoization(m - 1, n - 1, obstacleGrid, dp);
+        return uniquePathsWithObstaclesSpaceOptimization(obstacleGrid);
+    }
+
+    /**
+     * Using Space Optimization
+     * 
+     * TC: O(M x N)
+     * SC: O(2N) ~ O(N)
+     * 
+     * @param obstacleGrid
+     * @return
+     */
+    public static int uniquePathsWithObstaclesSpaceOptimization(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        int[] prev = new int[n]; // SC: O(N)
+        for (int i = 0; i < m; i++) { // TC: O(M)
+            int[] current = new int[n]; // SC: O(N)
+            for (int j = 0; j < n; j++) { // TC: O(N)
+                if (i >= 0 && j >= 0 && obstacleGrid[i][j] == 1) {
+                    current[j] = 0;
+                    continue;
+                }
+                if (i == 0 && j == 0) {
+                    current[j] = 1;
+                    continue;
+                }
+                int up = 0;
+                int left = 0;
+                if (i > 0) {
+                    up = prev[j];
+                }
+                if (j > 0) {
+                    left = current[j - 1];
+                }
+                current[j] = up + left;
+            }
+            prev = current;
         }
-        return solveMemoization(m - 1, n - 1, obstacleGrid, dp);
+        return prev[n - 1];
     }
 
     /**
