@@ -7,13 +7,41 @@ class Solution {
         //     Arrays.fill(dp1D, -1);
         // }
         // return solveMemoization(0, 0, triangle, dp);
-        return minimumTotalTabulation(triangle);
+        // return minimumTotalTabulation(triangle);
+        return minimumTotalSpaceOptimization(triangle);
+    }
+
+    /**
+     * Using Space Optimization
+     * 
+     * TC: O(N x N + N) ~ O(N x N)
+     * SC: O(2N) ~ O(N)
+     * 
+     * @param triangle
+     * @return
+     */
+    public static int minimumTotalSpaceOptimization(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        int[] front = new int[n]; // SC: O(N)
+        int[] current = new int[n]; // SC: O(N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            front[i] = triangle.get(n - 1).get(i);
+        }
+        for (int i = n - 2; i >= 0; i--) { // TC: O(N)
+            for (int j = i; j >= 0; j--) { // TC: O(N)
+                int down = triangle.get(i).get(j) + front[j];
+                int diag = triangle.get(i).get(j) + front[j + 1];
+                current[j] = Math.min(down, diag);
+            }
+            front = current.clone();
+        }
+        return front[0];
     }
 
     /**
      * Using Tabulation
      * 
-     * TC: O(N x N)
+     * TC: O(N x N + N) ~ O(N x N)
      * SC: O(N x N)
      * 
      * @param triangle
