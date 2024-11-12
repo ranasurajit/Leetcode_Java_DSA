@@ -4,11 +4,52 @@ class Solution {
         int n = grid[0].length;
         // return solveRecursion(m - 1, n - 1, grid);
 
+        // int[][] dp = new int[m][n];
+        // for (int[] dp1D : dp) {
+        //     Arrays.fill(dp1D, -1);
+        // }
+        // return solveMemoization(m - 1, n - 1, grid, dp);
+        return minPathSumTabulation(grid);
+    }
+
+    /**
+     * Using Tabulation
+     * 
+     * TC: O(M x N)
+     * SC: O(M x N)
+     * 
+     * @param m
+     * @param n
+     * @param grid
+     * @return
+     */
+    public static int minPathSumTabulation(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
         int[][] dp = new int[m][n];
-        for (int[] dp1D : dp) {
-            Arrays.fill(dp1D, -1);
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == 0 && j == 0) {
+                    dp[i][j] = grid[i][j];
+                    continue;
+                } else {
+                    int up = grid[i][j];
+                    if (i > 0) {
+                        up += dp[i - 1][j];
+                    } else {
+                        up += (int) 1e9;
+                    }
+                    int left = grid[i][j];
+                    if (j > 0) {
+                        left += dp[i][j - 1];
+                    } else {
+                        left += (int) 1e9;
+                    }
+                    dp[i][j] = Math.min(up, left);
+                }
+            }
         }
-        return solveMemoization(m - 1, n - 1, grid, dp);
+        return dp[m - 1][n - 1];
     }
 
     /**
