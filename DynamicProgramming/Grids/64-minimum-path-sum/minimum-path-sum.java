@@ -31,7 +31,6 @@ class Solution {
             for (int j = 0; j < n; j++) {
                 if (i == 0 && j == 0) {
                     dp[i][j] = grid[i][j];
-                    continue;
                 } else {
                     int up = grid[i][j];
                     if (i > 0) {
