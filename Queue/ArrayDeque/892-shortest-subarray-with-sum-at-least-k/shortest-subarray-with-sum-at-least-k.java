@@ -1,10 +1,14 @@
 class Solution {
+    /**
+     * TC: O(N)
+     * SC: O(N)
+     */
     public int shortestSubarray(int[] nums, int k) {
         int n = nums.length;
         ArrayDeque<Pair> deque = new ArrayDeque<Pair>(); // SC: O(N)
         long currentSum = 0L;
         int minLength = Integer.MAX_VALUE;
-        for (int i= 0; i < n; i++) { // TC: O(N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
             currentSum += nums[i];
             if (currentSum >= k) {
                 minLength = Math.min(minLength, i + 1);
