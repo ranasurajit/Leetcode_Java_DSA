@@ -1,5 +1,42 @@
 class Solution {
     /**
+     * Using Space Optimization
+     * 
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(2 + 2) ~ O(1)
+     * 
+     * @param prices
+     * @return
+     */
+    public int maxProfit(int[] prices) {
+        /*
+         * buy param is 1 to buy and 0 to sell, so in index = 0,
+         * we can only buy so buy = 1
+         */
+        int n = prices.length;
+        int[] prev = new int[2]; // SC: O(2)
+        int[] curr = new int[2]; // SC: O(2)
+        prev[0] = prev[1] = 0; // Base case
+        for (int idx = n - 1; idx >= 0; idx--) { // TC: O(N)
+            for (int buy = 0; buy < 2; buy++) { // TC: O(2)
+                int profit = 0;
+                if (buy == 1) {
+                    // Max(if I decide to buy or not buy on day at index i)
+                    profit = Math.max(-1 * prices[idx] + prev[0],
+                            0 + prev[1]);
+                } else {
+                    // Max(if I decide to sell or not sell on day at index i)
+                    profit = Math.max(prices[idx] + prev[1],
+                            0 + prev[0]);
+                }
+                curr[buy] = profit;
+            }
+            prev = curr;
+        }
+        return prev[1];
+    }
+
+    /**
      * Using Tabulation
      * 
      * TC: O(2 x N) ~ O(N)
@@ -8,7 +45,7 @@ class Solution {
      * @param prices
      * @return
      */
-    public int maxProfit(int[] prices) {
+    public int maxProfitUsingTabulation(int[] prices) {
         /*
          * buy param is 1 to buy and 0 to sell, so in index = 0,
          * we can only buy so buy = 1
