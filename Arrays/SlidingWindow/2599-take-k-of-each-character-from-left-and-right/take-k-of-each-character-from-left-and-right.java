@@ -1,5 +1,9 @@
 class Solution {
     /**
+     * Minimum number of minutes/operations/characters to remove from start and end is 
+     * asked. To tackle we can find the maximum window size from middle such that 
+     * count of characters is valid
+     *
      * TC: O(2 x N) ~ O(N)
      * SC: O(1)
      */
