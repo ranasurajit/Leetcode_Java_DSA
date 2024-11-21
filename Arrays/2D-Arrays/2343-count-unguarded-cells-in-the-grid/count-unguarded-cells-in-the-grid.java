@@ -52,7 +52,7 @@ class Solution {
             return;
         }
         if (grid[row][col] == 2 || grid[row][col] == 3) {
-            // grid cell has wall so cannot go further
+            // grid cell has guard/wall so cannot go further
             return;
         }
         grid[row][col] = 1;
