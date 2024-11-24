@@ -1,42 +1,95 @@
 class Solution {
+    /**
+     * Optimal Approach - Binary Search
+     * 
+     * TC: O(N + N x log(Max(bloomDay) - Min(bloomDay))) 
+     *   ~ O(N x log(Max(bloomDay) - Min(bloomDay)))
+     * SC: O(1)
+     * 
+     * @param bloomDay
+     * @param m
+     * @param k
+     * @return
+     */
     public int minDays(int[] bloomDay, int m, int k) {
         int n = bloomDay.length;
         long total = (long) m * (long) k;
-        if (n < total) {
+        if (total > n) {
             return -1;
         }
-        int minVal = Integer.MAX_VALUE;
-        int maxVal = Integer.MIN_VALUE;
-        for (int i = 0; i < n; i++) {
-            minVal = Math.min(minVal, bloomDay[i]);
-            maxVal = Math.max(maxVal, bloomDay[i]);
+        int low = Integer.MAX_VALUE;
+        int high = Integer.MIN_VALUE;
+        for (int day : bloomDay) { // TC: O(N)
+            low = Math.min(low, day);
+            high = Math.max(high, day);
         }
-        int low = minVal;
-        int high = maxVal;
-        while (low <= high) {
-            int mid = low + ((high - low) / 2);
-            if (canBouquetsFormed(bloomDay, mid, m, k)) {
+        int minVal = high;
+        while (low <= high) { // TC: O(log(Max(bloomDay) - Min(bloomDay)))
+            int mid = low + (high - low) / 2;
+            int numBouquets = numBouquetsFormed(bloomDay, mid, k); // TC: O(N)
+            if (numBouquets >= m) {
+                minVal = Math.min(minVal, mid);
                 high = mid - 1;
             } else {
                 low = mid + 1;
             }
         }
-        return low;
+        return minVal;
     }
 
-    private boolean canBouquetsFormed(int[] bloomDay, int day, int m, int k) {
-        int count = 0;
-        int bouquets = 0;
+    /**
+     * Brute-Force Approach
+     * 
+     * TC: O(N + N ^ 2) ~ O(N ^ 2)
+     * SC: O(1)
+     * 
+     * @param bloomDay
+     * @param m
+     * @param k
+     * @return
+     */
+    public int minDaysBruteForce(int[] bloomDay, int m, int k) {
         int n = bloomDay.length;
-        for (int i = 0; i < n; i++) {
-            if (bloomDay[i] <= day) {
+        long total = (long) m * (long) k;
+        if (total > n) {
+            return -1;
+        }
+        int low = Integer.MAX_VALUE;
+        int high = Integer.MIN_VALUE;
+        for (int day : bloomDay) { // TC: O(N)
+            low = Math.min(low, day);
+            high = Math.max(high, day);
+        }
+        int minVal = high;
+        for (int i = high; i >= low; i--) { // TC: O(N)
+            if (numBouquetsFormed(bloomDay, i, k) >= m) { // TC: O(N)
+                minVal = Math.min(minVal, i);
+            }
+        }
+        return minVal;
+    }
+
+    /**
+     * TC: O(N)
+     * SC: O(1)
+     * 
+     * @param bloomDay
+     * @param minDay
+     * @param k
+     * @return
+     */
+    private int numBouquetsFormed(int[] bloomDay, int minDay, int k) {
+        int count = 0;
+        int numBouquets = 0;
+        for (int day : bloomDay) { // TC: O(N)
+            if (day <= minDay) {
                 count++;
             } else {
-                bouquets += count / k;
+                numBouquets += count / k;
                 count = 0;
             }
         }
-        bouquets += count / k;
-        return bouquets >= m;
+        numBouquets += count / k;
+        return numBouquets;
     }
 }
