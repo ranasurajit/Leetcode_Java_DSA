@@ -1,8 +1,8 @@
 class Solution {
     /**
-     * Using Optimal Approach
+     * Using Optimal Approach (Binary Search)
      *
-     * TC: O(N + K x N)
+     * TC: O(N + N x log(K)) ~ O(N x log(K))
      * SC: O(1)
      */
     public int shipWithinDays(int[] weights, int days) {
@@ -13,10 +13,9 @@ class Solution {
             low = Math.max(low, weights[i]);
             high += weights[i];
         }
-        while (low <= high) {
+        while (low <= high) { // TC: O(log(K)), where K = (high - low)
             int mid = low + (high - low) / 2;
-            int daysNeeded = daysNeededForCapacity(weights, n, mid);
-            if (daysNeeded > days) { // TC: O(N)
+            if (daysNeededForCapacity(weights, n, mid) > days) { // TC: O(N)
                 low = mid + 1;
             } else {
                 high = mid - 1;
