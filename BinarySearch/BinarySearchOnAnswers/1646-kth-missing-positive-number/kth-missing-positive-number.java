@@ -1,11 +1,33 @@
 class Solution {
     /**
-     * Using Shifting
+     * Optimal Approach - Using Binary Search
+     *
+     * TC: TC: O(log(N))
+     * SC: O(1)
+     */
+    public int findKthPositive(int[] arr, int k) {
+        int n = arr.length;
+        int low = 0;
+        int high = n - 1;
+        while (low <= high) { // TC: O(log(N))
+            int mid = low + (high - low) / 2;
+            int missing = arr[mid] - (mid + 1);
+            if (missing < k) {
+                low = mid + 1;
+            } else {
+                high = mid - 1;
+            }
+        }
+        return low + k;
+    }
+
+    /**
+     * Brute-Force Approach - Using Shifting
      *
      * TC: O(N)
      * SC: O(1)
      */
-    public int findKthPositive(int[] arr, int k) {
+    public int findKthPositiveUsingShifting(int[] arr, int k) {
         int n = arr.length;
         for (int i = 0; i < n; i++) { // TC: O(N)
             if (arr[i] <= k) {
