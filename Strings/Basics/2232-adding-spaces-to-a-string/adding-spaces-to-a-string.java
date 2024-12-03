@@ -1,21 +1,17 @@
 class Solution {
+    /**
+     * Brute-Force Approach
+     *
+     * TC: O(M x N)
+     * SC: O(N)
+     */
     public String addSpaces(String s, int[] spaces) {
-        int m = s.length();
-        int n = spaces.length;
-        int start = 0;
-        Queue<String> queue = new LinkedList<String>();
-        for (int i = 0; i < n; i++) {
-            int end = spaces[i];
-            queue.offer(s.substring(start, end));
-            start = end;
+        StringBuilder sb = new StringBuilder(s); // SC: O(N)
+        int spaceCount = 0;
+        for (int space : spaces) { // TC: O(M)
+            sb.insert(spaceCount + space, " "); // TC: O(N)
+            spaceCount++;
         }
-        queue.offer(s.substring(start, m));
-        StringBuilder sb = new StringBuilder();
-        while (!queue.isEmpty()) {
-            sb.append(queue.poll());
-            sb.append(" ");
-        }
-        sb.setLength(sb.length() - 1);
         return sb.toString();
     }
 }
