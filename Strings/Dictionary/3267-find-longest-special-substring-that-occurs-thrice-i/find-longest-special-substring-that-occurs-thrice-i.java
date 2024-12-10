@@ -1,5 +1,7 @@
 class Solution {
     /**
+     * Brute-Force Approach
+     *
      * TC: O(N ^ 3)
      * SC: O(N ^ 2)
      */
