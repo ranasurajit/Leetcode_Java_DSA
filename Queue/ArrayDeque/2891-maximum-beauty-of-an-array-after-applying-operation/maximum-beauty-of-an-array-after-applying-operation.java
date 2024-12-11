@@ -1,6 +1,9 @@
 class Solution {
     /**
+     * Intervals Approach
+     *
      * TC: O(N x log(N))
+     * SC: O(N)
      */
     public int maximumBeauty(int[] nums, int k) {
         int n = nums.length;
