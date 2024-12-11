@@ -7,21 +7,18 @@ class Solution {
      */
     public int maximumBeauty(int[] nums, int k) {
         int n = nums.length;
-        PriorityQueue<int[]> intervals = 
-            new PriorityQueue<int[]>((int[] p, int[] q) -> {
-            return p[0] - q[0];
-        });                                                          // SC: O(N)
-        for (int i = 0; i < n; i++) {                                // TC: O(N)
-            intervals.offer(new int[] { nums[i] - k, nums[i] + k }); // TC: O(log(N))
+        List<int[]> intervals = new ArrayList<int[]>();            // SC: O(N)
+        for (int i = 0; i < n; i++) {                              // TC: O(N)
+            intervals.add(new int[] { nums[i] - k, nums[i] + k });
         }
-        ArrayDeque<Integer> deque = new ArrayDeque<Integer>();       // SC: O(N)
+        intervals.sort((a, b) -> a[0] - b[0]);                     // TC: O(N x log(N))
+        ArrayDeque<Integer> deque = new ArrayDeque<Integer>();     // SC: O(N)
         int beautyCount = 0;
-        while (!intervals.isEmpty()) {                               // TC: O(N)
-            int[] current = intervals.poll();
-            while (!deque.isEmpty() && deque.peekFirst() < current[0]) {
+        for (int[] interval : intervals) {                           // TC: O(N)
+            while (!deque.isEmpty() && deque.peekFirst() < interval[0]) {
                 deque.pollFirst();
             }
-            deque.offerLast(current[1]);
+            deque.offerLast(interval[1]);
             beautyCount = Math.max(beautyCount, deque.size());
         }
         return beautyCount;
