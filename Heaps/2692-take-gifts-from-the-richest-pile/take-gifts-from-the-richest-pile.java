@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * TC: O(2 x N + K) ~ O(N + K)
+     * TC: O(N + N x log(N) + K) ~ O(N x log(N))
      * SC: O(N)
      */
     public long pickGifts(int[] gifts, int k) {
@@ -8,7 +8,7 @@ class Solution {
         // Max-heap SC: O(N)
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>((p, q) -> q - p);
         for (int i = 0; i < n; i++) { // TC: O(N)
-            pq.offer(gifts[i]);
+            pq.offer(gifts[i]);       // TC: O(log(N))
         }
         int count = 0;
         while (count < k) {           // TC: O(K)
