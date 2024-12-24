@@ -31,14 +31,10 @@ class Solution {
         int j = 0; // pointer for end of sliding window
         ArrayDeque<Integer> deque = new ArrayDeque<Integer>(); // O(N)
         while (j < n) { // TC: O(N)
-            if (deque.isEmpty()) {
-                deque.addLast(j);
-            } else {
-                while (!deque.isEmpty() && nums[deque.peekLast()] < nums[j]) {
-                    deque.pollLast();
-                }
-                deque.addLast(j);
+            while (!deque.isEmpty() && nums[deque.peekLast()] < nums[j]) {
+                deque.pollLast();
             }
+            deque.addLast(j);
             if (j - i + 1 < k) {
                 j++;
             } else if (j - i + 1 == k) {
