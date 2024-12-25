@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * TC: O(N + K)
+     * TC: O(N)
      * SC: O(N)
      */
     public int lengthOfLongestSubstring(String s) {
@@ -11,7 +11,7 @@ class Solution {
         int maxLength = Integer.MIN_VALUE;
         while (j < n) { // TC: O(N)
             unique.put(s.charAt(j), unique.getOrDefault(s.charAt(j), 0) + 1);
-            while (!isWindowValid(unique)) { // TC: O(K)
+            while (unique.size() != j - i + 1) {
                 // remove the character frequency from index i
                 unique.put(s.charAt(i), unique.getOrDefault(s.charAt(i), 0) - 1);
                 if (unique.get(s.charAt(i)) == 0) {
@@ -20,24 +20,11 @@ class Solution {
                 }
                 i++;
             }
-            if (isWindowValid(unique)) {
+            if (unique.size() == j - i + 1) {
                 maxLength = Math.max(maxLength, j - i + 1);
             }
             j++;
         }
         return maxLength == Integer.MIN_VALUE ? 0 : maxLength;
-    }
-
-    /**
-     * TC: O(N)
-     * SC: O(1)
-     */
-    private boolean isWindowValid(Map<Character, Integer> unique) {
-        for (Character key : unique.keySet()) {
-            if (unique.get(key) != 1) {
-                return false;
-            }
-        }
-        return true;
     }
 }
