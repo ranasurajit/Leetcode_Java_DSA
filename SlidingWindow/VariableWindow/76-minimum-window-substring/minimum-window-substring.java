@@ -1,4 +1,30 @@
 class Solution {
+    /**
+     * Took two pointers i and j = 0
+     * 
+     * Window size: (j - i + 1)
+     * 
+     * Used HashMap to store the frequency of characters in String t
+     * Used a count variable to count the number of distinct characters needed
+     * Used a start variable to capture the start index of minimum window Substring
+     * Used a minLength variable to capture the length of minimum window Substring
+     * 
+     * when HashMap had s.charAt(j), we decremented the frequency from HashMap and
+     * decremented count if frequency = 0
+     * 
+     * till count = 0, we started comparing the minLength with current window size
+     * and captured it along with starting index 'start'
+     * and also shrinked the size to minimize it by removing the calculations
+     * contributed by s.charAt(i) and then incremented i
+     * 
+     * 
+     * TC: O(M + N)
+     * SC: O(N)
+     *
+     * @param s
+     * @param t
+     * @return
+     */
     public String minWindow(String s, String t) {
         int m = s.length();
         int n = t.length();
