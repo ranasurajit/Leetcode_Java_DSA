@@ -1,7 +1,20 @@
 class Solution {
     /**
+     * Took two pointers i and j = 0
+     * 
+     * Window size: (j - i + 1)
+     * 
+     * when HashMap size < Window size, j++
+     * when HashMap size = Window size,
+     * compare and store the maximum window size (result), j++
+     * till HashMap size > Window size, then start removing elements from index 'i'
+     * and update its count/remove key from HashMap, j++
+     * 
      * TC: O(N)
      * SC: O(N)
+     *
+     * @param s
+     * @return
      */
     public int lengthOfLongestSubstring(String s) {
         int n = s.length();
