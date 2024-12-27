@@ -1,9 +1,40 @@
 class Solution {
     /**
-     * TC: O(V x V + V x E) ~ O(V x (V + E))
+     * TC: O(2 x (V + E)) ~ O(V + E)
      * SC: O(2 x V) ~ O(V)
      */
     public int findCircleNum(int[][] isConnected) {
+        int m = isConnected.length;
+        int n = isConnected[0].length;
+        boolean[] visited = new boolean[m]; // SC: O(V)
+        int provinces = 0;
+        for (int i = 0; i < m; i++) {       // TC: O(V)
+            if (!visited[i]) {
+                dfs(i, visited, isConnected, n); // TC: O(V + 2 x E), SC: O(V)
+                provinces++;
+            }
+        }
+        return provinces;
+    }
+
+    /**
+     * TC: O(V + 2E)
+     * SC: O(V)
+     */
+    private void dfs(int u, boolean[] visited, int[][] isConnected, int n) {
+        visited[u] = true;
+        for (int v = 0; v < n; v++) { // TC: O(N)
+            if (v != u && isConnected[u][v] == 1 && !visited[v]) {
+                dfs(v, visited, isConnected, n);
+            }
+        }
+    }
+
+    /**
+     * TC: O(V x V + V x E) ~ O(V x (V + E))
+     * SC: O(2 x V) ~ O(V)
+     */
+    public int findCircleNumAdjList(int[][] isConnected) {
         int n = isConnected.length;
         // TC: O(V ^ 2), SC: O(V)
         Map<Integer, ArrayList<Integer>> adj = createGraph(isConnected, n);
