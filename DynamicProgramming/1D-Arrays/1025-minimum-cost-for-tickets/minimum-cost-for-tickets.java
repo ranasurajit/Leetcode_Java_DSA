@@ -1,11 +1,37 @@
 class Solution {
     /**
+     * Using Tabulation Approach
+     *
+     * TC: O(N)
+     * SC: O(Max(days))
+     */
+    public int mincostTickets(int[] days, int[] costs) {
+        Set<Integer> daySet = new HashSet<Integer>();
+        for (int day : days) {
+            daySet.add(day);
+        }
+        int lastDay = days[days.length - 1] + 30;
+        int[] dp = new int[lastDay + 1];
+        for (int current = days[days.length - 1]; current >= 0; current--) {
+            if (!daySet.contains(current)) {
+                dp[current] = dp[current + 1];
+                continue;
+            }
+            int daily = costs[0] + dp[current + 1];
+            int weekly = costs[1] + dp[current + 7];
+            int monthly = costs[2] + dp[current + 30];
+            dp[current] = Math.min(daily, Math.min(weekly, monthly));
+        }
+        return dp[days[0]];
+    }
+
+    /**
      * Using Memoization Approach
      *
      * TC: O(N)
      * SC: O(Max(days) + N)
      */
-    public int mincostTickets(int[] days, int[] costs) {
+    public int mincostTicketsMemoization(int[] days, int[] costs) {
         Set<Integer> daySet = new HashSet<Integer>();
         for (int day : days) {
             daySet.add(day);
