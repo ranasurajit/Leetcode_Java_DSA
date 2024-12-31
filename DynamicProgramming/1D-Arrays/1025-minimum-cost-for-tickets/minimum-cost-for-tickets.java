@@ -62,8 +62,8 @@ class Solution {
     /**
      * Using Recursion Approach
      *
-     * TC: O(3 ^ 365)
-     * SC: O(3 ^ 365)
+     * TC: O(3 ^ N)
+     * SC: O(3 ^ N)
      */
     public int mincostTicketsRecursion(int[] days, int[] costs) {
         Set<Integer> daySet = new HashSet<Integer>();
