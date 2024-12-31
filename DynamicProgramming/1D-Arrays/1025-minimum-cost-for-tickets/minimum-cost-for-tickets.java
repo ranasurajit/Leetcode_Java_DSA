@@ -2,7 +2,7 @@ class Solution {
     /**
      * Using Tabulation Approach
      *
-     * TC: O(N)
+     * TC: O(Max(days))
      * SC: O(Max(days))
      */
     public int mincostTickets(int[] days, int[] costs) {
@@ -28,7 +28,7 @@ class Solution {
     /**
      * Using Memoization Approach
      *
-     * TC: O(N)
+     * TC: O(Max(days))
      * SC: O(Max(days) + N)
      */
     public int mincostTicketsMemoization(int[] days, int[] costs) {
