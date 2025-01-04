@@ -14,42 +14,34 @@
  * }
  */
 class Solution {
-    // BFS Solution
+    /**
+     * Using BFS algorithm
+     *
+     * TC: O(N)
+     * SC: O(N)
+     */
     public List<Integer> rightSideView(TreeNode root) {
         List<Integer> view = new ArrayList<Integer>();
         if (root == null) {
             return view;
         }
-        Queue<Pair> queue = new LinkedList<Pair>();
-        queue.offer(new Pair(root, 0));
-        Map<Integer, Integer> hm = new HashMap<Integer, Integer>();
+        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        queue.offer(root);
         while (!queue.isEmpty()) {
-            Pair current = queue.poll();
-            TreeNode currentNode = current.node;
-            int level = current.level;
-            if (!hm.containsKey(level)) {
-                hm.put(level, currentNode.val);
+            int size = queue.size();
+            TreeNode node = null;
+            while (size > 0) {
+                node = queue.poll();
+                if (node.left != null) {
+                    queue.offer(node.left);
+                }
+                if (node.right != null) {
+                    queue.offer(node.right);
+                }
+                size--;
             }
-            if (currentNode.right != null) {
-                queue.offer(new Pair(currentNode.right, level + 1));
-            }
-            if (currentNode.left != null) {
-                queue.offer(new Pair(currentNode.left, level + 1));
-            }
-        }
-        for (Map.Entry<Integer, Integer> entry : hm.entrySet()) {
-            view.add(entry.getValue());
+            view.add(node.val);
         }
         return view;
-    }
-
-    class Pair {
-        TreeNode node;
-        int level;
-
-        public Pair(TreeNode node, int level) {
-            this.node = node;
-            this.level = level;
-        }
     }
 }
