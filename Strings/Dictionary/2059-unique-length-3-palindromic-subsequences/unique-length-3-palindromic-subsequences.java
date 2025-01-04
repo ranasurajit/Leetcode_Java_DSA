@@ -34,6 +34,42 @@ class Solution {
         return count;
     }
 
+    public int countPalindromicSubsequenceMemoization(String s) {
+        int n = s.length();
+        Set<String> subSeq = new HashSet<String>();
+        Map<String, Boolean> dp = new HashMap<String, Boolean>();
+        solveMemoization(0, s, n, "", subSeq, dp);
+        return subSeq.size();
+    }
+
+    /**
+     * Using Memoization
+     * 
+     * TC: O(N ^ 2)
+     * SC: O(N ^ 2)
+     */
+    private void solveMemoization(int index, String s, int n, 
+        String current, Set<String> subSeq, Map<String, Boolean> dp) {
+        // creating a key to store if visited already
+        String key = index + ":" + current;
+        if (dp.containsKey(key)) {
+            return;
+        }
+        dp.put(key, true);
+        // base case
+        if (index == n) {
+            if (current.length() == 3 && current.charAt(0) == current.charAt(2)) {
+                subSeq.add(current);
+            }
+            return;
+        }
+        // include current index from String 's'
+        solveMemoization(index + 1, s, n, 
+            current + String.valueOf(s.charAt(index)), subSeq, dp);
+        // don't include current index from String 's'
+        solveMemoization(index + 1, s, n, current, subSeq, dp);
+    }
+
     public int countPalindromicSubsequenceRecursion(String s) {
         int n = s.length();
         Set<String> subSeq = new HashSet<String>();
