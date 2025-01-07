@@ -7,17 +7,12 @@
  * }
  */
 class Solution {
-    /**
-     * TC: O(N)
-     * SC: O(1)
-     */
     public void deleteNode(ListNode node) {
         ListNode prev = null;
-        ListNode current = node;
-        while (current != null && current.next != null) {
-            current.val = current.next.val;
-            prev = current;
-            current = current.next;
+        while (node != null && node.next != null) {
+            node.val = node.next.val;
+            prev = node;
+            node = node.next;
         }
         prev.next = null;
     }
