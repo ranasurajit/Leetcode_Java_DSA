@@ -7,9 +7,13 @@
  * }
  */
 class Solution {
+    /**
+     * TC: O(N)
+     * SC: O(1)
+     */
     public void deleteNode(ListNode node) {
         ListNode prev = null;
-        while (node != null && node.next != null) {
+        while (node != null && node.next != null) { // TC: O(N)
             node.val = node.next.val;
             prev = node;
             node = node.next;
