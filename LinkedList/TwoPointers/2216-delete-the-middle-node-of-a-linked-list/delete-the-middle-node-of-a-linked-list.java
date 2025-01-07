@@ -12,7 +12,7 @@ class Solution {
     /**
      * Using Fast and Slow Pointers approach
      *
-     * TC: O(2 x N) ~ O(N)
+     * TC: O(N / 2) ~ O(N)
      * SC: O(1)
      */
     public ListNode deleteMiddle(ListNode head) {
@@ -21,21 +21,13 @@ class Solution {
         }
         ListNode slow = head;
         ListNode fast = head;
-        while (fast != null && fast.next != null) { // TC: O(N)
+        ListNode prev = null;
+        while (fast != null && fast.next != null) { // TC: O(N / 2)
+            prev = slow;
             slow = slow.next;
             fast = fast.next.next;
         }
-        // mid of the linked-list is at slow pointer
-        ListNode prev = null;
-        ListNode current = head;
-        while (current != null) {                   // TC: O(N)
-            if (prev != null && prev.next == slow) {
-                // if the prev.next pointer is at middle node of LinkedList
-                prev.next = prev.next.next;
-            }
-            prev = current;
-            current = current.next;
-        }
+        prev.next = prev.next.next;
         return head;
     }
 }
