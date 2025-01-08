@@ -1,17 +1,21 @@
 class Solution {
     /**
-     * TC: O(K x N + M)
-     * SC: O(N)
+     * TC: O(N x L + M x L)
+     * SC: O(N x L + M x L)
+     * where 
+     * N = number of words in dictionary
+     * L = average length of words
+     * M = number of words in sentence
      */
     public String replaceWords(List<String> dictionary, String sentence) {
         Trie trie = new Trie();
-        for (String rootWords : dictionary) { // TC: O(K)
-            trie.insert(rootWords);           // TC: O(N)
+        for (String rootWords : dictionary) {     // TC: O(N)
+            trie.insert(rootWords);               // TC: O(L)
         }
         String[] words = sentence.split(" ");
         StringBuilder sb = new StringBuilder();
-        for (String word : words) {           // TC: O(M)
-            sb.append(trie.getReplacement(word));
+        for (String word : words) {               // TC: O(M)
+            sb.append(trie.getReplacement(word)); // TC: O(L)
             sb.append(" ");
         }
         sb.setLength(sb.length() - 1);
@@ -72,12 +76,11 @@ class Solution {
                 }
                 crawler = crawler.children[idx];
                 if (crawler.isEndOfWord) {
-                    count++;
-                    break;
+                    return word.substring(0, count + 1);
                 }
                 count++;
             }
-            return word.substring(0, count);
+            return word;
         }
     }
 }
