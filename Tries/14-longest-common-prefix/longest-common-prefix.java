@@ -63,9 +63,8 @@ class Solution {
         public int searchCommon(String word) {
             TrieNode crawler = root;
             int n = word.length();
-            int i = 0;
             int count = 0;
-            for (i = 0; i < n; i++) { // TC: O(N)
+            for (int i = 0; i < n; i++) { // TC: O(N)
                 int idx = word.charAt(i) - 'a';
                 if (crawler.children[idx] == null) {
                     return count;
