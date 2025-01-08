@@ -10,13 +10,11 @@ class Solution {
         }
         Trie trie = new Trie();
         trie.insert(strs[0]); // TC: O(N), SC: O(N)
-        int maxlength = Integer.MIN_VALUE;
-        List<Integer> list = new ArrayList<Integer>();
+        int minLength = Integer.MAX_VALUE;
         for (int i = 1; i < n; i++) { // TC: O(N)
-            list.add(trie.searchCommon(strs[i])); // TC: O(N)
+            minLength = Math.min(minLength, trie.searchCommon(strs[i])); // TC: O(N)
         }
-        Collections.sort(list);
-        return strs[0].substring(0, list.get(0));
+        return strs[0].substring(0, minLength);
     }
 
     class Trie {
