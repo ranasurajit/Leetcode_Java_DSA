@@ -25,7 +25,7 @@ public class Solution {
                 break;
             }
         }
-        if (slow == null || fast == null) {
+        if (slow != fast) {
             // there is no cycle
             return null;
         }
