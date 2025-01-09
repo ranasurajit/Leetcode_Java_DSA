@@ -10,6 +10,12 @@
  * }
  */
 public class Solution {
+    /**
+     * Using Slow and Fast pointers approach
+     *
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(1)
+     */
     public ListNode detectCycle(ListNode head) {
         if (head == null || head.next == null) {
             return null;
