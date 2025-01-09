@@ -8,7 +8,7 @@ class Solution {
         int count = 0;
         for (String word : words) {                  // TC: O(N)
             if (word.length() >= n && 
-                pref.equals(word.substring(0, n))) { // TC: O(K)
+                word.startsWith(pref)) { // TC: O(K)
                 count++;
             }
         }
