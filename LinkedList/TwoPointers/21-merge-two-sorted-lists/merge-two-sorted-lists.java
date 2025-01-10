@@ -10,16 +10,46 @@
  */
 class Solution {
     /**
-     * Iterative Approach
+     * Recursive Approach
      * 
      * TC: O(M + N)
-     * SC: O(1)
+     * SC: O(M + N)
+     * 
+     * where M and N are lengths of LinkedList list1 and list2 respectively
      * 
      * @param list1
      * @param list2
      * @return
      */
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
+        if (list1 == null) {
+            return list2;
+        }
+        if (list2 == null) {
+            return list1;
+        }
+        if (list1.val <= list2.val) {
+            list1.next = mergeTwoLists(list1.next, list2);
+            return list1;
+        } else {
+            list2.next = mergeTwoLists(list1, list2.next);
+            return list2;
+        }
+    }
+
+    /**
+     * Iterative Approach
+     * 
+     * TC: O(M + N)
+     * SC: O(1)
+     * 
+     * where M and N are lengths of LinkedList list1 and list2 respectively
+     * 
+     * @param list1
+     * @param list2
+     * @return
+     */
+    public ListNode mergeTwoListsIterative(ListNode list1, ListNode list2) {
         if (list1 == null) {
             return list2;
         }
@@ -43,15 +73,12 @@ class Solution {
             temp = temp.next;
         }
         // check if any of the pointer is not yet null
-        while (p != null) {
+        // check if any of the pointer is not yet null
+        if (p != null) {
             temp.next = p;
-            p = p.next;
-            temp = temp.next;
         }
-        while (q != null) {
+        if (q != null) {
             temp.next = q;
-            q = q.next;
-            temp = temp.next;
         }
         return dummy.next;
     }
