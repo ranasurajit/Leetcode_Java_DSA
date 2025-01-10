@@ -10,14 +10,41 @@
  */
 class Solution {
 
-    List<Integer> list;
+    ListNode temp;
     Random random;
+    ArrayList<Integer> list;
+
+    public Solution(ListNode head) {
+        temp = head;
+        random = new Random();
+    }
+    
+    /**
+     * Using Reservoir Sampling
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public int getRandom() {
+        ListNode current = temp;
+        int result = 0;
+        int size = 1;
+        while (current != null) {
+            // Reservoir sampling: probability of choosing current node = 1/size
+            if (random.nextInt(size) == 0) {
+                result = current.val;
+            }
+            size++;
+            current = current.next;
+        }
+        return result;
+    }
 
     /**
+     * Using Brute-Force Approach
      * TC: O(N)
      * SC: O(N)
      */
-    public Solution(ListNode head) {
+    public void solution(ListNode head) {
         list = new ArrayList<Integer>();
         random = new Random();
 
@@ -32,7 +59,7 @@ class Solution {
      * TC: O(1)
      * SC: O(1)
      */
-    public int getRandom() {
+    public int getRandomBrute() {
         int n = list.size();
         int randomIndex = random.nextInt(n);
         return list.get(randomIndex);
