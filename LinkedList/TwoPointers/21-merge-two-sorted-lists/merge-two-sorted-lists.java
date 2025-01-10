@@ -9,6 +9,16 @@
  * }
  */
 class Solution {
+    /**
+     * Iterative Approach
+     * 
+     * TC: O(M + N)
+     * SC: O(1)
+     * 
+     * @param list1
+     * @param list2
+     * @return
+     */
     public ListNode mergeTwoLists(ListNode list1, ListNode list2) {
         if (list1 == null) {
             return list2;
@@ -18,24 +28,30 @@ class Solution {
         }
         ListNode p = list1;
         ListNode q = list2;
+
+        // Create a node reference to return
         ListNode dummy = new ListNode(-1);
-        ListNode temp = dummy;
+        ListNode temp = dummy; // pointer to traverse
         while (p != null && q != null) {
-            if (p.val <= q.val) {
+            if (p.val < q.val) {
                 temp.next = p;
-                temp = temp.next;
                 p = p.next;
             } else {
                 temp.next = q;
-                temp = temp.next;
                 q = q.next;
             }
+            temp = temp.next;
         }
-        if (p != null) {
+        // check if any of the pointer is not yet null
+        while (p != null) {
             temp.next = p;
+            p = p.next;
+            temp = temp.next;
         }
-        if (q != null) {
+        while (q != null) {
             temp.next = q;
+            q = q.next;
+            temp = temp.next;
         }
         return dummy.next;
     }
