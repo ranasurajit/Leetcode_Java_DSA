@@ -1,5 +1,7 @@
 class Solution {
     /**
+     * Using Binary Search
+     *
      * TC: O(log(N))
      * SC: O(1)
      */
