@@ -1,5 +1,7 @@
 class Solution {
     /**
+     * Optimal Approach - Using Trie
+     * 
      * TC: O(2 x N) ~ O(N)
      * SC: O(1)
      */
@@ -7,26 +9,26 @@ class Solution {
         int n = nums.length;
         BitTrie trie = new BitTrie();
         for (int i = 0; i < n; i++) { // TC: O(N)
-            trie.insert(nums[i]);     // TC: O(1)
+            trie.insert(nums[i]);
         }
+        // it's time to compare and get the maximum XOR
         int maxXOR = 0;
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            maxXOR = Math.max(maxXOR, trie.getMaxXORValue(nums[i])); // TC: O(1)
+        for (int i = 0; i < n; i++) {
+            maxXOR = Math.max(maxXOR, trie.getMaxXORPossible(nums[i]));
         }
         return maxXOR;
     }
 
     class BitTrie {
+
         BitTrieNode root;
 
         class BitTrieNode {
-            BitTrieNode left;  // store 0 bit
+            BitTrieNode left; // store 0 bit
             BitTrieNode right; // store 1 bit
-
-            public BitTrieNode() {}
         }
 
-        public BitTrie () {
+        public BitTrie() {
             root = new BitTrieNode();
         }
 
@@ -36,17 +38,17 @@ class Solution {
          */
         public void insert(int digit) {
             BitTrieNode crawler = root;
-            // iterate through 32 bits from most significate bit (left to right)
-            for (int i = 31; i >= 0; i--) { // TC: O(32) ~ O(1)
+            // loop from most significant bit (left to right i.e. index 31 to 0)
+            for (int i = 31; i >= 0; i--) {
                 int ithBit = (digit >> i) & 1;
                 if (ithBit == 0) {
-                    // store it in left node of BitTrie
+                    // move to left child of BitTrie
                     if (crawler.left == null) {
                         crawler.left = new BitTrieNode();
                     }
                     crawler = crawler.left;
                 } else {
-                    // store it in right node of BitTrie
+                    // move to right child of BitTrie
                     if (crawler.right == null) {
                         crawler.right = new BitTrieNode();
                     }
@@ -59,29 +61,33 @@ class Solution {
          * TC: O(32) ~ O(1)
          * SC: O(1)
          */
-        public int getMaxXORValue(int digit) {
+        public int getMaxXORPossible(int digit) {
             BitTrieNode crawler = root;
-            int result = 0;
-            // iterate through 32 bits from most significate bit (left to right)
+            int maxXOR = 0;
+            // loop from most significant bit (left to right i.e. index 31 to 0)
             for (int i = 31; i >= 0; i--) {
                 int ithBit = (digit >> i) & 1;
                 if (ithBit == 0) {
+                    // we can get max XOR if we perform XOR with bit 1 so move right
                     if (crawler.right != null) {
-                        result += (int) Math.pow(2, i);
+                        maxXOR += (int) Math.pow(2, i);
                         crawler = crawler.right;
                     } else {
+                        // we have no option but to move left
                         crawler = crawler.left;
                     }
                 } else {
+                    // we can get max XOR if we perform XOR with bit 0 so move left
                     if (crawler.left != null) {
+                        maxXOR += (int) Math.pow(2, i);
                         crawler = crawler.left;
-                        result += (int) Math.pow(2, i);
                     } else {
+                        // we have no option but to move right
                         crawler = crawler.right;
                     }
                 }
             }
-            return result;
+            return maxXOR;
         }
     }
 
