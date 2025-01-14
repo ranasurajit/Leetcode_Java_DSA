@@ -10,6 +10,8 @@
  */
 class Solution {
     /**
+     * Using Incremental Approach (Merge Two LinkedList Approach)
+     * 
      * TC: O(K x (M + N))
      * SC: O(M + N)
      *
