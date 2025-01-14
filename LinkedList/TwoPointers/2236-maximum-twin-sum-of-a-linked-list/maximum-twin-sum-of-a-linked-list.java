@@ -14,6 +14,9 @@ class Solution {
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(1)
+     * 
+     * @param head
+     * @return
      */
     public int pairSum(ListNode head) {
         if (head == null) {
@@ -39,6 +42,9 @@ class Solution {
      *
      * TC: O(N)
      * SC: O(1)
+     * 
+     * @param head
+     * @return
      */
     private ListNode reverse(ListNode head) {
         ListNode prev = null;
@@ -57,6 +63,9 @@ class Solution {
      *
      * TC: O(N / 2)
      * SC: O(1)
+     * 
+     * @param head
+     * @return
      */
     private ListNode middle(ListNode head) {
         ListNode slow = head;
