@@ -12,7 +12,7 @@ class Solution {
     /**
      * Using Slow and Fast Pointers Approach
      *
-     * TC: O(N + K)
+     * TC: O(N)
      * SC: O(1)
      */
     public ListNode swapNodes(ListNode head, int k) {
