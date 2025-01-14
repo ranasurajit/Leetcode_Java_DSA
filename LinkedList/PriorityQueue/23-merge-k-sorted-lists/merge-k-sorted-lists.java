@@ -10,6 +10,40 @@
  */
 class Solution {
     /**
+     * Optimal Approach (Using Prority Queue (Min-Heap))
+     * 
+     * TC: O(K + K x L) ~ O(K x L), where L is the average length of Linked-Lists
+     * SC: O(K)
+     * 
+     * @param lists
+     * @return
+     */
+    public ListNode mergeKLists(ListNode[] lists) {
+        int k = lists.length;
+        if (k == 0) {
+            return null;
+        }
+        ListNode dummy = new ListNode(-1);
+        ListNode current = dummy;
+        PriorityQueue<ListNode> pq = new PriorityQueue<ListNode>((p, q) -> {
+            return p.val - q.val;
+        }); // SC: O(K)
+        for (int i = 0; i < k; i++) { // TC: O(K)
+            if (lists[i] != null) {
+                pq.offer(lists[i]);
+            }
+        }
+        while (!pq.isEmpty()) {
+            current.next = pq.poll();
+            current = current.next;
+            if (current.next != null) {
+                pq.offer(current.next);
+            }
+        }
+        return dummy.next;
+    }
+
+    /**
      * Using Incremental Approach (Merge Two LinkedList Approach)
      * 
      * TC: O(K x (M + N))
@@ -18,7 +52,7 @@ class Solution {
      * @param lists
      * @return
      */
-    public ListNode mergeKLists(ListNode[] lists) {
+    public ListNode mergeKListsIncremental(ListNode[] lists) {
         int k = lists.length;
         if (k == 0) {
             return null;
