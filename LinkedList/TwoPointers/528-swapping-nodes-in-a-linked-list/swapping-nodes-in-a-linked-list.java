@@ -22,24 +22,23 @@ class Solution {
         int count = 1;
         ListNode slow = head;
         ListNode fast = head;
+        ListNode first = head;
+        ListNode second = head;
+
         while (count < k) { // TC: O(K)
             fast = fast.next;
             count++;
         }
-        int firstValue = fast.val;
+        first = fast;
         while (fast != null && fast.next != null) { // TC: O(N - K)
             slow = slow.next;
             fast = fast.next;
         }
-        int lastValue = slow.val;
-        slow.val = firstValue;
-        fast = head;
-        count = 1;
-        while (count < k) { // TC: O(K)
-            fast = fast.next;
-            count++;
-        }
-        fast.val = lastValue;
+        second = slow;
+        // swap values of first and second ListNodes
+        int temp = first.val;
+        first.val = second.val;
+        second.val = temp;
         return head;
     }
 }
