@@ -19,9 +19,6 @@ class Solution {
         if (head == null) {
             return null;
         }
-        if (head.next == null) {
-            return head.val == 0 ? null : head;
-        }
         /**
          * we need to store prefixSum so we need to start with
          * prefixSum 0, so we would need a dummy node for the
