@@ -19,17 +19,29 @@ class Solution {
         if (head == null) {
             return null;
         }
-        ListNode dummy = new ListNode(0); // needed to add prefixSum = 0 node to HashMap
+        if (head.next == null) {
+            return head.val == 0 ? null : head;
+        }
+        /**
+         * we need to store prefixSum so we need to start with
+         * prefixSum 0, so we would need a dummy node for the
+         * same
+         */
+        ListNode dummy = new ListNode(0);
         dummy.next = head;
-        HashMap<Integer, ListNode> map = new HashMap<Integer, ListNode>(); // SC: O(N)
-        map.put(0, dummy);
         int prefixSum = 0;
-        // start the traversal
+        /**
+         * We would need to store the ListNodes with prefixSum and
+         * so we need a HashMap<Integer, ListNode>
+         */
+        Map<Integer, ListNode> map = new HashMap<Integer, ListNode>(); // SC: O(N)
+        map.put(prefixSum, dummy);
+        // traverse the nodes
         ListNode current = head;
         while (current != null) { // TC: O(N)
             prefixSum += current.val;
             if (map.containsKey(prefixSum)) {
-                // here we need to delete the nodes which nullfies other nodes
+                // we need to remove all the nodes that cancels/nullifies nodes
                 ListNode start = map.get(prefixSum);
                 ListNode temp = start.next;
                 int pSum = prefixSum;
