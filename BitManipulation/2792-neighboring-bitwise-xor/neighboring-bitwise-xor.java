@@ -1,7 +1,11 @@
 class Solution {
     /**
      * Optimal Approach
-     *
+     * Using XOR property if { a, b, c } is derived and original is { x, y, z }
+     * then  { a, b, c } = { x ^ y, y ^ z, z ^ x }
+     * then a ^ b ^ c = x ^ y ^ y ^ z ^ z ^ y
+     * so for valid (x, y, z), a ^ b ^ c = 0
+     * 
      * TC: O(N)
      * SC: O(1)
      */
