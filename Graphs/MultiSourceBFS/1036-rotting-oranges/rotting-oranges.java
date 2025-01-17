@@ -4,19 +4,22 @@ class Solution {
      *
      * TC: O(M x N)
      * SC: O(M x N)
+     * 
+     * @param grid
+     * @return
      */
     public int orangesRotting(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
         int freshOranges = 0;
         Queue<int[]> queue = new LinkedList<int[]>();
-        for (int i = 0; i < m; i++) {     // TC: O(M)
+        for (int i = 0; i < m; i++) { // TC: O(M)
             for (int j = 0; j < n; j++) { // TC: O(N)
                 if (grid[i][j] == 1) {
                     // fresh oranges
                     freshOranges++;
                 } else if (grid[i][j] == 2) {
-                    // rotten oranges so add it in Queue for Multi-source BFS
+                    // rotten oranges
                     queue.offer(new int[] { i, j });
                 }
             }
@@ -24,8 +27,11 @@ class Solution {
         if (freshOranges == 0) {
             return 0;
         }
+        /**
+         * starting the multi-source BFS from multiple sources
+         * i.e. rotten oranges cells
+         */
         int time = 0;
-        // starting the multi-source BFS from multiple sources i.e. rotten oranges cells
         while (!queue.isEmpty()) {
             int size = queue.size();
             while (size-- > 0) {
@@ -35,12 +41,12 @@ class Solution {
                     int effRow = current[0] + direction[0];
                     int effCol = current[1] + direction[1];
                     if (effRow >= 0 && effRow < m &&
-                        effCol >= 0 && effCol < n &&
-                        grid[effRow][effCol] == 1) {
-                        // it is going to be rotten
-                        queue.offer(new int[] { effRow, effCol });
-                        // marking the grid visited
+                            effCol >= 0 && effCol < n &&
+                            grid[effRow][effCol] == 1) {
+                        // marking the cell visited
                         grid[effRow][effCol] = 2;
+                        // now the cell at { effRow, effCol } = 2 is rotten
+                        queue.offer(new int[] { effRow, effCol });
                         freshOranges--;
                     }
                 }
