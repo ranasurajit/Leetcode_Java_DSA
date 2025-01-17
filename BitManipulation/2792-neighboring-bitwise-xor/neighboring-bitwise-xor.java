@@ -1,5 +1,24 @@
 class Solution {
     /**
+     * Optimal Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public boolean doesValidArrayExist(int[] derived) {
+        int n = derived.length;
+        /**
+         * if we xor all the derived elements to be valid it 
+         * should return xor(derived) = 0
+         */
+        int xor = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            xor = (xor ^ derived[i]);
+        }
+        return xor == 0;
+    }
+
+    /**
      * Use XOR property of 
      * derived[i] = original[i] ^ original[i + 1] = 
      * original[i + 1] = derived[i] ^ original[i]
@@ -7,7 +26,7 @@ class Solution {
      * TC: O(2 x N) ~ O(N)
      * SC: O(N)
      */
-    public boolean doesValidArrayExist(int[] derived) {
+    public boolean doesValidArrayExistBruteForce(int[] derived) {
         int n = derived.length;
         int[] original = new int[n];      // SC: O(N)
         // choice 1 - choose original[0] = 0
