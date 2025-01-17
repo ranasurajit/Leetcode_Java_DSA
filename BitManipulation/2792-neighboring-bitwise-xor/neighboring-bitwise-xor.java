@@ -1,5 +1,9 @@
 class Solution {
     /**
+     * Use XOR property of 
+     * derived[i] = original[i] ^ original[i + 1] = 
+     * original[i + 1] = derived[i] ^ original[i]
+     *
      * TC: O(2 x N) ~ O(N)
      * SC: O(N)
      */
