@@ -1,11 +1,13 @@
 class Graph {
-
     private Map<Integer, ArrayList<int[]>> adj;
     private int n;
 
     /**
      * TC: O(V + E)
      * SC: O(V + E)
+     * 
+     * @param n
+     * @param edges
      */
     public Graph(int n, int[][] edges) {
         this.n = n;
@@ -22,6 +24,8 @@ class Graph {
     /**
      * TC: O(1)
      * SC: O(1)
+     * 
+     * @param edge
      */
     public void addEdge(int[] edge) {
         this.adj.get(edge[0]).add(new int[] { edge[1], edge[2] });
@@ -30,6 +34,10 @@ class Graph {
     /**
      * TC: O((V + E) x log(V))
      * SC: O(2 x V) ~ O(V)
+     * 
+     * @param node1
+     * @param node2
+     * @return
      */
     public int shortestPath(int node1, int node2) {
         int[] minDist = new int[n];                             // SC: O(V)
