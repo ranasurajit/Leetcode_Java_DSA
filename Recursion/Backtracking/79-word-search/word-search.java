@@ -1,4 +1,6 @@
 class Solution {
+    // Left, Right, Bottom, Top
+    private int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
     /**
      * Using Recursion and Backtracking Approach
      * 
@@ -52,8 +54,6 @@ class Solution {
         board[i][j] = '$';
 
         // exploring the cell's neighbouring cells in all 4 directions
-        // Left, Right, Bottom, Top
-        int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
         for (int[] direction : directions) { // TC: O(4)
             int effRow = i + direction[0];
             int effCol = j + direction[1];
