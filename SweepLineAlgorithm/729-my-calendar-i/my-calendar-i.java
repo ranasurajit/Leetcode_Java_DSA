@@ -6,7 +6,7 @@
  */
 class MyCalendar {
 
-    TreeMap<Integer, Integer> events = null;
+    private TreeMap<Integer, Integer> events = null;
 
     public MyCalendar() {
         events = new TreeMap<Integer, Integer>();
