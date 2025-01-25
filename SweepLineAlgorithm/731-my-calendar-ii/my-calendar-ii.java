@@ -6,10 +6,10 @@
  */
 class MyCalendarTwo {
 
-    TreeMap<Integer, Integer> map = null;
+    private TreeMap<Integer, Integer> events;
 
     public MyCalendarTwo() {
-        map = new TreeMap<Integer, Integer>();
+        events = new TreeMap<>();
     }
     
     /**
@@ -20,21 +20,20 @@ class MyCalendarTwo {
      * @param endTime
      * @return
      */
-    public boolean book(int startTime, int endTime) {
-        // increment start time by +1 and decrement end time (excluded) by -1
-        map.put(startTime, map.getOrDefault(startTime, 0) + 1);
-        map.put(endTime, map.getOrDefault(endTime, 0) - 1);
+    public boolean book(int start, int end) {
+        // Mark the event in the timeline
+        events.put(start, events.getOrDefault(start, 0) + 1);
+        events.put(end, events.getOrDefault(end, 0) - 1);
 
-        int sum = 0; // calculate cumulative sum for all keys
-        for (Integer key : map.keySet()) { // TC: O(N)
-            sum += map.get(key);
-            if (sum > 2) {
-                /**
-                    * there is a triple booking then undo the
-                    * last operation done for start and end time
-                    */
-                map.put(startTime, map.get(startTime) - 1); // TC: O(log(N))
-                map.put(endTime, map.get(endTime) + 1); // TC: O(log(N))
+        int activeEvents = 0;
+        for (Map.Entry<Integer, Integer> entry : events.entrySet()) {
+            activeEvents += entry.getValue();
+            if (activeEvents > 2) {
+                // Undo the booking if triple overlap detected
+                events.put(start, events.get(start) - 1);
+                if (events.get(start) == 0) events.remove(start);
+                events.put(end, events.get(end) + 1);
+                if (events.get(end) == 0) events.remove(end);
                 return false;
             }
         }
