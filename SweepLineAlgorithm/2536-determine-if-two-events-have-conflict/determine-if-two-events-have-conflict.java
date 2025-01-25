@@ -6,12 +6,15 @@ class Solution {
      * SC: O(N)
      */
     public boolean haveConflict(String[] event1, String[] event2) {
-                                                            // SC: O(2 x N)
-        TreeMap<Integer, Integer> events = new TreeMap<Integer, Integer>();
-
         int[] eventLeft = convertTimeToInteger(event1);     // TC: O(N), SC: O(1)
         int[] eventRight = convertTimeToInteger(event2);    // TC: O(N), SC: O(1)
 
+        return doesOverlap(eventLeft, eventRight);
+    }
+
+    private boolean doesOverlap(int[] eventLeft, int[] eventRight) {
+        TreeMap<Integer, Integer> events =
+            new TreeMap<Integer, Integer>();                // SC: O(2 x N)
         events.put(eventLeft[0], 
             events.getOrDefault(eventLeft[0], 0) + 1);      // TC: O(log(N))
         events.put(eventLeft[1] + 1,
