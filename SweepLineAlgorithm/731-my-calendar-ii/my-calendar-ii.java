@@ -31,9 +31,7 @@ class MyCalendarTwo {
             if (activeEvents > 2) {
                 // Undo the booking if triple overlap detected
                 events.put(start, events.get(start) - 1);
-                if (events.get(start) == 0) events.remove(start);
                 events.put(end, events.get(end) + 1);
-                if (events.get(end) == 0) events.remove(end);
                 return false;
             }
         }
