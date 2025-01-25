@@ -28,12 +28,13 @@ class Solution {
             groupList.putIfAbsent(groupKey, new LinkedList<Integer>());
             groupList.get(groupKey).add(sorted[i]);
         }
-        // inplace replace the nums array
+        // create the result array
+        int[] result = new int[n];
         for (int i = 0; i < n; i++) {                         // TC: O(N)
             int group = groupMap.get(nums[i]);
-            nums[i] = groupList.get(group).pollFirst();
+            result[i] = groupList.get(group).pollFirst();
         }
-        return nums;
+        return result;
     }
 
     /**
