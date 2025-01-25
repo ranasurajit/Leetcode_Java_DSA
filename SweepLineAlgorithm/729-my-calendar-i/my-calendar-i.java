@@ -8,7 +8,7 @@ class MyCalendar {
     
     /**
      * TC: O(N x log(N))
-     * SC: O(1)
+     * SC: O(N)
      */
     public boolean book(int startTime, int endTime) {
         map.put(startTime, map.getOrDefault(startTime, 0) + 1); // TC: O(log(N))
