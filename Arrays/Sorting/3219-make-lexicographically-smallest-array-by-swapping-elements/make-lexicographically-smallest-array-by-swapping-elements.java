@@ -2,7 +2,7 @@ class Solution {
     /**
      * Optimal Approach
      *
-     * TC: O(N x log(N) + 2 x N) ~ O(N x log(N))
+     * TC: O(N x log(N) + 3 x N) ~ O(N x log(N))
      * SC: O(3 x N) ~ O(N)
      */
     public int[] lexicographicallySmallestArray(int[] nums, int limit) {
@@ -30,7 +30,7 @@ class Solution {
         }
         // creating the result array
         int[] result = new int[n];
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++) {                         // TC: O(N)
             int group = groupMap.get(nums[i]);
             result[i] = groupList.get(group).pollFirst();
         }
