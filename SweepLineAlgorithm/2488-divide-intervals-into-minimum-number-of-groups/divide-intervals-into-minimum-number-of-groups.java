@@ -4,6 +4,9 @@ class Solution {
      *
      * TC: O(N x log(N))
      * SC: O(N)
+     * 
+     * @param intervals
+     * @return
      */
     public int minGroups(int[][] intervals) {
         TreeMap<Integer, Integer> events = new TreeMap<Integer, Integer>();
@@ -14,6 +17,10 @@ class Solution {
     /**
      * TC: O(N x log(N))
      * SC: O(1)
+     * 
+     * @param intervals
+     * @param events
+     * @return
      */
     private int getMaximumOverlaps(int[][] intervals, 
         TreeMap<Integer, Integer> events) {
