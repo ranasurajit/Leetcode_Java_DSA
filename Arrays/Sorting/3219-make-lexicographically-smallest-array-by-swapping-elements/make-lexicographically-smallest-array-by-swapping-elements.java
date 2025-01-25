@@ -7,28 +7,32 @@ class Solution {
      */
     public int[] lexicographicallySmallestArray(int[] nums, int limit) {
         int n = nums.length;
-        int[] sorted = nums.clone();   // SC: O(N)
-        Arrays.sort(sorted);           // TC: O(N x log(N))
-        Map<Integer, Integer> numsToGroup = new HashMap<Integer, Integer>(); // SC: O(N)
-        Map<Integer, LinkedList<Integer>> groupToList =
-            new HashMap<Integer, LinkedList<Integer>>(); // SC: O(N)
+        int[] sorted = nums.clone();                            // TC: O(N), SC: O(N)
+        Arrays.sort(sorted);                                    // TC: O(N x log(N))
+        Map<Integer, Integer> groupMap = new HashMap<Integer, Integer>(); // SC: O(N)
+        // took a HashMap data-structure to store <Key, Queue>
+        Map<Integer, LinkedList<Integer>> groupList =
+            new HashMap<Integer, LinkedList<Integer>>();                  // SC: O(N)
+        // adding the first element from sorted array to above maps
         int groupKey = 0;
-        numsToGroup.put(sorted[0], groupKey);
-        groupToList.putIfAbsent(groupKey, new LinkedList<Integer>());
-        groupToList.get(groupKey).add(sorted[0]);
+        groupMap.put(sorted[0], groupKey);
+        groupList.putIfAbsent(groupKey, new LinkedList<Integer>());
+        groupList.get(groupKey).add(sorted[0]);
 
-        for (int i = 1; i < n; i++) {  // TC: O(N)
+        // processing rest elements from sorted to form groups
+        for (int i = 1; i < n; i++) {                          // TC: O(N)
             if (Math.abs(sorted[i] - sorted[i - 1]) > limit) {
                 groupKey++;
             }
-            numsToGroup.put(sorted[i], groupKey);
-            groupToList.putIfAbsent(groupKey, new LinkedList<Integer>());
-            groupToList.get(groupKey).add(sorted[i]);
+            groupMap.put(sorted[i], groupKey);
+            groupList.putIfAbsent(groupKey, new LinkedList<Integer>());
+            groupList.get(groupKey).add(sorted[i]);
         }
+        // creating the result array
         int[] result = new int[n];
-        for (int i = 0; i < n; i++) {  // TC: O(N)
-            int group = numsToGroup.get(nums[i]);
-            result[i] = groupToList.get(group).pollFirst();
+        for (int i = 0; i < n; i++) {
+            int group = groupMap.get(nums[i]);
+            result[i] = groupList.get(group).pollFirst();
         }
         return result;
     }
