@@ -4,6 +4,10 @@ class Solution {
      *
      * TC: O(N x log(N))
      * SC: O(N)
+     * 
+     * @param event1
+     * @param event2
+     * @return
      */
     public boolean haveConflict(String[] event1, String[] event2) {
         int[] eventLeft = convertTimeToInteger(event1);     // TC: O(N), SC: O(1)
@@ -12,6 +16,14 @@ class Solution {
         return doesOverlap(eventLeft, eventRight);
     }
 
+    /**
+     * TC: O(N x log(N))
+     * SC: O(N)
+     * 
+     * @param eventLeft
+     * @param eventRight
+     * @return
+     */
     private boolean doesOverlap(int[] eventLeft, int[] eventRight) {
         TreeMap<Integer, Integer> events =
             new TreeMap<Integer, Integer>();                // SC: O(2 x N)
@@ -37,6 +49,9 @@ class Solution {
     /**
      * TC: O(N)
      * SC: O(1)
+     * 
+     * @param event
+     * @return
      */
     private int[] convertTimeToInteger(String[] event) {
         int[] eventData = new int[2];
