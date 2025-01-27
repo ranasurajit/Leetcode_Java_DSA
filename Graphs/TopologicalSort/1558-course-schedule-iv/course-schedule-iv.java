@@ -15,15 +15,14 @@ class Solution {
             return result;
         }
         int[] indegrees = new int[numCourses]; // SC: O(V)
-        // Create Adjacency List
-        Map<Integer, ArrayList<Integer>> adj = 
-            new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V + E)
-        for (int[] edge : prerequisites) {
-            adj.putIfAbsent(edge[0], new ArrayList<Integer>());
-            adj.get(edge[0]).add(edge[1]);
-            indegrees[edge[1]]++;
-        }
-        // Performing Topological Sorting by Kahn's Algorithm (BFS) - TC: O(V + E)
+        // Create Adjacency List -                TC: O(V + E), SC: O(V)
+        Map<Integer, ArrayList<Integer>> adj = createGraph(prerequisites, indegrees);
+
+        /**
+         * Performing Topological Sorting by Kahn's Algorithm (BFS)
+         * TC: O(V + E)
+         * SC: O(V)
+         */
         Map<Integer, HashSet<Integer>> depMap = topoSort(adj, indegrees);
         for (int i = 0; i < q; i++) { // TC: O(Q)
             int src = queries[i][0];
@@ -31,6 +30,22 @@ class Solution {
             result.add(depMap.getOrDefault(des, new HashSet<Integer>()).contains(src));
         }
         return result;
+    }
+
+    /**
+     * TC: O(V + E)
+     * SC: O(V)
+     */
+    private Map<Integer, ArrayList<Integer>> createGraph(int[][] edges,
+        int[] indegrees) {
+        Map<Integer, ArrayList<Integer>> adj = 
+            new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V + E)
+        for (int[] edge : edges) {
+            adj.putIfAbsent(edge[0], new ArrayList<Integer>());
+            adj.get(edge[0]).add(edge[1]);
+            indegrees[edge[1]]++;
+        }
+        return adj;
     }
 
     /**
@@ -54,6 +69,7 @@ class Solution {
             for (Integer v : adj.getOrDefault(u, new ArrayList<Integer>())) {
                 // adding the pre-requisites to its followers
                 dep.computeIfAbsent(v, k -> new HashSet<Integer>()).add(u);
+                // adding indirect dependencies of u as well to v
                 dep.get(v).addAll(dep.getOrDefault(u, new HashSet<Integer>()));
                 indegrees[v]--;
                 if (indegrees[v] == 0) {
