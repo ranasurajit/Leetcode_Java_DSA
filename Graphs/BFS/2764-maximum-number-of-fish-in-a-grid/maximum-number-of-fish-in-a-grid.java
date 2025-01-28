@@ -4,7 +4,7 @@ class Solution {
     private int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
 
     /**
-     * Using DFS Approach
+     * Using BFS Approach
      *
      * TC: O(2 x M x N) ~ O(M x N)
      * SC: O(M x N)
