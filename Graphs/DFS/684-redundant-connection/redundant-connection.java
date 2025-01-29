@@ -10,8 +10,8 @@ class Solution {
      */
     public int[] findRedundantConnection(int[][] edges) {
         int n = edges.length;
-        Map<Integer, ArrayList<Integer>> adj = new HashMap<Integer, ArrayList<Integer>>();
-
+        Map<Integer, ArrayList<Integer>> adj =
+            new HashMap<Integer, ArrayList<Integer>>();
         for (int[] edge : edges) { // TC: O(E)
             /**
              * check if edges exist in graph and if we can reach
@@ -30,7 +30,6 @@ class Solution {
             adj.computeIfAbsent(edge[0], k -> new ArrayList<Integer>()).add(edge[1]);
             adj.computeIfAbsent(edge[1], k -> new ArrayList<Integer>()).add(edge[0]);
         }
-
         return new int[] {};
     }
 
