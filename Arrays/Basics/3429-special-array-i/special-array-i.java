@@ -1,5 +1,7 @@
 class Solution {
     /**
+     * Approach I - Sum of Odd and Even numbers is Odd
+     *
      * TC: O(N)
      * SC: O(1)
      */
