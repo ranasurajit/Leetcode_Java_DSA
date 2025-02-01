@@ -14,7 +14,7 @@ class Solution {
             return true;
         }
         for (int i = 1; i < n; i++) { // TC: O(N)
-            // sum of different parity (odd and even) will always be odd
+            // XOR of different parity (odd and even) will always be 1
             if (((nums[i] ^ nums[i - 1]) & 1) == 0) {
                 return false;
             }
