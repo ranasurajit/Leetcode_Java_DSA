@@ -14,6 +14,15 @@
  * }
  */
 class Solution {
+    /**
+     * Using BFS Approach
+     * 
+     * TC: O(N) - as all nodes will be visited once
+     * SC: O(N) - using a Queue to add all the nodes
+     * 
+     * @param root
+     * @return
+     */
     public List<List<Integer>> levelOrder(TreeNode root) {
         List<List<Integer>> traversal = new ArrayList<List<Integer>>();
         if (root == null) {
@@ -22,19 +31,19 @@ class Solution {
         Queue<TreeNode> queue = new LinkedList<TreeNode>();
         queue.offer(root);
         while (!queue.isEmpty()) {
-            List<Integer> levels = new ArrayList<Integer>();
-            int size = queue.size();
-            for (int i = 0; i < size; i++) {
-                TreeNode node = queue.poll();
-                levels.add(node.val);
-                if (node.left != null) {
-                    queue.offer(node.left);
+            int n = queue.size();
+            List<Integer> branch = new ArrayList<Integer>();
+            while (n-- > 0) {
+                TreeNode current = queue.poll();
+                branch.add(current.val);
+                if (current.left != null) {
+                    queue.offer(current.left);
                 }
-                if (node.right != null) {
-                    queue.offer(node.right);
+                if (current.right != null) {
+                    queue.offer(current.right);
                 }
             }
-            traversal.add(levels);
+            traversal.add(branch);
         }
         return traversal;
     }
