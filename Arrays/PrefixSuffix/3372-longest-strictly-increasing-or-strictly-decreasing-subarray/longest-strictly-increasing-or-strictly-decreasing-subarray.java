@@ -7,10 +7,9 @@ class Solution {
      */
     public int longestMonotonicSubarray(int[] nums) {
         int n = nums.length;
-        int maxInc = 1;
-        int maxDec = 1;
         int currentInc = 1;
         int currentDec = 1;
+        int maxLength = 1;
         for (int i = 1; i < n; i++) { // TC: O(N)
             if (nums[i] > nums[i - 1]) {
                 currentInc++;
@@ -22,10 +21,9 @@ class Solution {
                 currentInc = 1;
                 currentDec = 1;
             }
-            maxInc = Math.max(maxInc, currentInc);
-            maxDec = Math.max(maxDec, currentDec);
+            maxLength = Math.max(maxLength, Math.max(currentInc, currentDec));
         }
-        return Math.max(maxInc, maxDec);
+        return maxLength;
     }
 
     /**
