@@ -19,10 +19,10 @@ class Solution {
                 st.push(ch);
             }
         }
-        String result = "";
+        StringBuilder sb = new StringBuilder();
         while (!st.isEmpty()) {                      // TC: O(N)
-            result += st.pop();
+            sb.append(st.pop());
         }
-        return result;
+        return sb.toString();
     }
 }
