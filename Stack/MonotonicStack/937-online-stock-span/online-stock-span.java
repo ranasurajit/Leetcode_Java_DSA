@@ -15,6 +15,9 @@ class StockSpanner {
     /**
      * TC: O(N)
      * SC: O(1)
+     * 
+     * @param price
+     * @return
      */
     public int next(int price) {
         int span = 1;
