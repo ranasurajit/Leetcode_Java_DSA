@@ -23,12 +23,9 @@ class Solution {
         TreeNode leftLCA = lowestCommonAncestor(root.left, p, q);
         // compute LCA node from right sub-tree
         TreeNode rightLCA = lowestCommonAncestor(root.right, p, q);
-        if (leftLCA == null) {
-            return rightLCA;
-        } else if (rightLCA == null) {
-            return leftLCA;
-        } else {
+        if (leftLCA != null && rightLCA != null) {
             return root;
         }
+        return leftLCA == null ? rightLCA : leftLCA;
     }
 }
