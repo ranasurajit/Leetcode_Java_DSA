@@ -19,6 +19,9 @@ class Solution {
      *
      * TC: O(N)
      * SC: O(N)
+     * 
+     * @param root
+     * @return
      */
     public TreeNode invertTree(TreeNode root) {
         if (root == null) {
