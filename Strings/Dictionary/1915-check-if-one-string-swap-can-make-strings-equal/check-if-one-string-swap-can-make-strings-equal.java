@@ -24,6 +24,7 @@ class Solution {
                 }
             }
         }
+        // chcek if the replaceable indices have same Characters
         return (s1.charAt(i) == s2.charAt(j)) && (s2.charAt(i) == s1.charAt(j));
     }
 
