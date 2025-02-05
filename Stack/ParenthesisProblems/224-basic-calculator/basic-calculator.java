@@ -4,45 +4,47 @@ class Solution {
      *
      * TC: O(N)
      * SC: O(1)
+     * 
+     * @param s
+     * @return
      */
     public int calculate(String s) {
         int n = s.length();
-        Stack<Integer> st = new Stack<Integer>();
-        int num = 0;
         int result = 0;
+        int num = 0;
         int sign = 1;
+        Stack<Integer> st = new Stack<Integer>(); // SC: O(2)
         for (int i = 0; i < n; i++) { // TC: O(N)
             char ch = s.charAt(i);
             if (Character.isDigit(ch)) {
-                // keep forming the number
+                // keep forming the num
                 num = num * 10 + (ch - '0');
             } else if (ch == '+') {
-                // store the num into result
+                // store the formed num to result and reset num
                 result += (num * sign);
-                // reset the num
                 num = 0;
                 sign = 1;
             } else if (ch == '-') {
-                // store the num into result
+                // store the formed num to result and reset num
                 result += (num * sign);
-                // reset the num
                 num = 0;
                 sign = -1;
             } else if (ch == '(') {
-                // push history to Stack
+                /**
+                 * store the current result and sign to Stack and
+                 * reset other values to compute new result
+                 */
                 st.push(result);
                 st.push(sign);
-                // reset result and num
                 result = 0;
                 num = 0;
                 sign = 1;
             } else if (ch == ')') {
-                // store the num into result
                 result += (num * sign);
                 num = 0;
                 int lastSign = st.pop();
                 int lastResult = st.pop();
-                result = lastSign * result;
+                result = result * lastSign;
                 result += lastResult;
             } else {
                 continue;
