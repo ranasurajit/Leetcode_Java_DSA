@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Using Hashing Approach
+     * Using Hashing and Two Pointers Approach
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(1)
