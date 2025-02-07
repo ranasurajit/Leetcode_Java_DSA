@@ -2,12 +2,12 @@ class Solution {
     /**
      * Using Hashing Approach
      *
-     * TC: O(N)
-     * SC: O(2 x N) ~ O(N)
+     * TC: O(Q)
+     * SC: O(2 x Q) ~ O(Q)
      */
     public int[] queryResults(int limit, int[][] queries) {
-        Map<Integer, Integer> map = new HashMap<Integer, Integer>(); // SC: O(N)
-        Map<Integer, Integer> colorMap = new HashMap<Integer, Integer>(); // SC: O(N)
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>(); // SC: O(Q)
+        Map<Integer, Integer> colorMap = new HashMap<Integer, Integer>(); // SC: O(Q)
         int q = queries.length;
         int[] result = new int[q];
         int count = 0;
