@@ -26,25 +26,33 @@ class Solution {
         return maxSum[0];
     }
 
+    /**
+     * TC: O(N), as all nodes are visited only once
+     * SC: O(N)
+     * 
+     * @param root
+     * @param maxSum
+     * @return
+     */
     private int solve(TreeNode root, int[] maxSum) {
         if (root == null) {
             return 0;
         }
-        int leftSum = solve(root.left, maxSum);
-        int rightSum = solve(root.right, maxSum);
+        int leftMaxSum = solve(root.left, maxSum);
+        int rightMaxSum = solve(root.right, maxSum);
         /**
-         * we may get a convergent path that turns up and down so we 
+         * we may get a convergent path that turns up and down so we
          * won't be sending it back to recursion
          * dono left and right acche
          */
-        int option1 = root.val + leftSum + rightSum;
+        int option1 = root.val + leftMaxSum + rightMaxSum;
         /**
          * we may get either leftSum or rightSum to be better
          * so we may take the max(leftSum, rightSum) and return it
          * to the recursion
          * koi ek accha
          */
-        int option2 = root.val + Math.max(leftSum, rightSum);
+        int option2 = root.val + Math.max(leftMaxSum, rightMaxSum);
         /**
          * we may get only rootSum better
          * so we may take it and return it
@@ -52,7 +60,9 @@ class Solution {
          * sirf root accha
          */
         int option3 = root.val;
-        maxSum[0] = Math.max(maxSum[0], Math.max(option1, Math.max(option2, option3)));
+        // set the maximum possible option to maxSum
+        maxSum[0] = Math.max(maxSum[0],
+                Math.max(option1, Math.max(option2, option3)));
         return Math.max(option2, option3);
     }
 }
