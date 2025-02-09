@@ -22,17 +22,17 @@ class Solution {
          * index so that it makes a bad pair
          */
         Map<Integer, Integer> map = new HashMap<Integer, Integer>(); // SC: O(N)
-        long count = 0L;
-        long nonmatch = 0L;
-        long match = 0L;
+        long badPairsCount = 0L;
+        long badPairs = 0L;
+        long goodPairs = 0L;
         for (int i = 0; i < n; i++) { // TC: O(N)
-            nonmatch = i;
-            match = map.getOrDefault(nums[i], 0);
+            badPairs = i;
+            goodPairs = map.getOrDefault(nums[i], 0);
             // match count will make good pairs
-            count += (nonmatch - match);
+            badPairsCount += (badPairs - goodPairs);
             map.put(nums[i], map.getOrDefault(nums[i], 0) + 1);
         }
-        return count;
+        return badPairsCount;
     }
 
     /**
