@@ -16,10 +16,10 @@ class Solution {
                 st.push(ch);
             }
         }
-        String result = "";
+        StringBuilder sb = new StringBuilder();
         while (!st.isEmpty()) { // TC: O(N)
-            result = st.pop() + result;
+            sb.insert(0, st.pop());
         }
-        return result;
+        return sb.toString();
     }
 }
