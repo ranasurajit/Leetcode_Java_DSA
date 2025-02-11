@@ -14,27 +14,37 @@
  * }
  */
 class Solution {
+    /**
+     * Using DFS Approach
+     *
+     * TC: O(N + K)
+     * SC: O(N + K)
+     */
     public int sumNumbers(TreeNode root) {
+        List<Integer> list = new ArrayList<Integer>(); // SC: O(K)
+        solve(root, 0, list);     // TC: O(N), SC: O(N)
         int sum = 0;
-        int total = 0;
-        List<Integer> list = new ArrayList<Integer>();
-        dfsTree(root, sum, list);
-        for (Integer it : list) {
-            total += it;
+        for (Integer it : list) { // TC: O(K)
+            sum += it;
         }
-        return total;
+        return sum;
     }
 
-    private void dfsTree(TreeNode node, int sum, List<Integer> list) {
-        if (node == null) {
+    /**
+     * Using DFS Approach
+     *
+     * TC: O(N)
+     * SC: O(N)
+     */
+    private void solve(TreeNode root, int sum, List<Integer> list) {
+        if (root == null) {
             return;
         }
-        sum += node.val;
-        if (node.left == null && node.right == null) {
+        sum = sum * 10 + root.val;
+        if (root.left == null && root.right == null) {
             list.add(sum);
-            return;
         }
-        dfsTree(node.left, sum * 10, list);
-        dfsTree(node.right, sum * 10, list);
+        solve(root.left, sum, list);
+        solve(root.right, sum, list);
     }
 }
