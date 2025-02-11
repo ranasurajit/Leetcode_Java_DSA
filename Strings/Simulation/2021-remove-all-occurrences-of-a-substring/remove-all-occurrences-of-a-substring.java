@@ -11,10 +11,9 @@ class Solution {
         StringBuilder sb = new StringBuilder(); // SC: O(M)
         for (int i = 0; i < m; i++) { // TC: O(M)
             sb.append(s.charAt(i));
-            int startIndex = sb.length() - n;
-            int len = sb.length();
-            if (len >= n && 
-                sb.substring(startIndex, len).toString().equals(part)) { // TC: O(N)
+            if (sb.length() >= n && 
+                sb.substring(sb.length() - n, sb.length()).toString().equals(part)) { 
+                // TC: O(N)
                 sb.setLength(sb.length() - n);
             }
         }
