@@ -1,11 +1,28 @@
 class Solution {
     /**
-     * Approch I : Using StringBuilder
+     * Approch I : Using String Operation
+     *
+     * TC: O(M x N)
+     * SC: O(1)
+     */
+    public String removeOccurrences(String s, String part) {
+        while (true) {
+            int index = s.indexOf(part);
+            if (index == -1) {
+                break;
+            }
+            s = s.substring(0, index) + s.substring(index + part.length());
+        }
+        return s;
+    }
+
+    /**
+     * Approch II : Using StringBuilder
      *
      * TC: O(M x N)
      * SC: O(M)
      */
-    public String removeOccurrences(String s, String part) {
+    public String removeOccurrencesApproachII(String s, String part) {
         int m = s.length();
         int n = part.length();
         StringBuilder sb = new StringBuilder(); // SC: O(M)
@@ -22,12 +39,12 @@ class Solution {
     }
 
     /**
-     * Approch II : Using Stacks
+     * Approch III : Using Stacks
      *
      * TC: O(M x N)
      * SC: O(M + N)
      */
-    public String removeOccurrencesApproachII(String s, String part) {
+    public String removeOccurrencesApproachIII(String s, String part) {
         int m = s.length();
         int n = part.length();
         Stack<Character> st = new Stack<Character>(); // SC: O(M)
