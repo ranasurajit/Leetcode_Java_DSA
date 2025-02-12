@@ -2,8 +2,8 @@ class Solution {
     /**
      * Optimal Approach: Using Fixed Size Array
      *
-     * TC: O(2 x N x log(N)) ~ O(N x log(N))
-     * SC: O(N)
+     * TC: O(N)
+     * SC: O(1)
      */
     public int maximumSum(int[] nums) {
         int n = nums.length;
@@ -12,7 +12,7 @@ class Solution {
          * as per constraints 1 <= nums[i] <= 109
          * so we can take array of fixed size 82
          */
-        int[] sumMap = new int[82];
+        int[] sumMap = new int[82];     // SC: O(82) ~ O(1)
         int maxSum = -1;
         for (int i = 0; i < n; i++) {   // TC: O(N)
             int key = getSumOfDigits(nums[i]);
