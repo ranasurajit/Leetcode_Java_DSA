@@ -1,11 +1,36 @@
 class Solution {
     /**
-     * Better Approach: Using HashMap and Max-Heap(PriorityQueue)
+     * Optimal Approach: Using Fixed Size Array
      *
      * TC: O(2 x N x log(N)) ~ O(N x log(N))
      * SC: O(N)
      */
     public int maximumSum(int[] nums) {
+        int n = nums.length;
+        /**
+         * max-sum value possible is 999999999 = 81 
+         * as per constraints 1 <= nums[i] <= 109
+         * so we can take array of fixed size 82
+         */
+        int[] sumMap = new int[82];
+        int maxSum = -1;
+        for (int i = 0; i < n; i++) {   // TC: O(N)
+            int key = getSumOfDigits(nums[i]);
+            if (sumMap[key] > 0) {
+                maxSum = Math.max(maxSum, sumMap[key] + nums[i]);
+            }
+            sumMap[key] = Math.max(sumMap[key], nums[i]);
+        }
+        return maxSum;
+    }
+
+    /**
+     * Better Approach: Using HashMap and Max-Heap(PriorityQueue)
+     *
+     * TC: O(2 x N x log(N)) ~ O(N x log(N))
+     * SC: O(N)
+     */
+    public int maximumSumApproachII(int[] nums) {
         int n = nums.length;
         Map<Integer, PriorityQueue<Integer>> sumMap =
             new HashMap<Integer, PriorityQueue<Integer>>(); // SC: O(N)
@@ -32,7 +57,7 @@ class Solution {
      * TC: O(N ^ 2 + N) ~ O(N ^ 2)
      * SC: O(N)
      */
-    public int maximumSumApproachII(int[] nums) {
+    public int maximumSumApproachIII(int[] nums) {
         int n = nums.length;
         int[] numSum = new int[n]; // SC: O(N)
         for (int i = 0; i < n; i++) { // TC: O(N)
