@@ -13,13 +13,11 @@ class Solution {
         for (int i = 0; i < n; i++) {              // TC: O(N)
             pq.offer((long) nums[i]);
         }
-        long x = 0L;
-        long y = 0L;
         while (pq.peek() < k) {                    // TC: O(N)
-            x = pq.poll();                         // TC: O(log(N))
+            long x = pq.poll();                    // TC: O(log(N))
             // check if PriorityQueue becomes empty after polling
             if (!pq.isEmpty()) {
-                y = pq.poll();                     // TC: O(log(N))
+                long y = pq.poll();                // TC: O(log(N))
                 pq.offer(x * 2 + y);               // TC: O(log(N))
                 operations++;
             } else {
