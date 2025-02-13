@@ -12,14 +12,14 @@ class Solution {
         }
         // min-heap needed to sort the elements during insertion
         PriorityQueue<Long> pq = new PriorityQueue<Long>(); // SC: O(N)
-        for (int i = 0; i < n; i++) {             // TC: O(N)
+        for (int i = 0; i < n; i++) {              // TC: O(N)
             pq.offer((long) nums[i]);
         }
         int operations = 0;
-        while (pq.size() >= 2 && pq.peek() < k) { // TC: O(N)
+        while (pq.size() >= 2 && pq.peek() < k) {  // TC: O(N)
             long x = pq.poll();                    // TC: O(log(N))
             long y = pq.poll();                    // TC: O(log(N))
-            pq.offer(x * 2 + y);                  // TC: O(log(N))
+            pq.offer(x * 2 + y);                   // TC: O(log(N))
             operations++;
         }
         return operations;
