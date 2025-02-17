@@ -1,11 +1,41 @@
 class Solution {
     /**
-     * Approach I
+     * Approach II (Using Count of Characters and Backtracking)
+     * 
+     * TC: O(N!)
+     * SC: O(N)
+     */
+    public int numTilePossibilities(String tiles) {
+        int[] total = { 0 };
+        char[] ch = tiles.toCharArray();
+        int n = ch.length;
+        int[] count = new int[26];
+        for (char c : ch) {
+            count[c - 'A']++;
+        }
+        solveFreq(count, total);
+        return total[0] - 1;
+    }
+
+    private void solveFreq(int[] count, int[] total) {
+        total[0]++;
+        for (int i = 0; i < 26; i++) {
+            if (count[i] == 0) {
+                continue;
+            }
+            count[i]--; // try
+            solveFreq(count, total); // explore
+            count[i]++; // backtrack
+        }
+    }
+
+    /**
+     * Approach I (Using Standard Backtracking)
      * 
      * TC: O(N!)
      * SC: O(N x N!)
      */
-    public int numTilePossibilities(String tiles) {
+    public int numTilePossibilitiesApproachI(String tiles) {
         int n = tiles.length();
         boolean[] used = new boolean[n];
         HashSet<String> hs = new HashSet<String>();
