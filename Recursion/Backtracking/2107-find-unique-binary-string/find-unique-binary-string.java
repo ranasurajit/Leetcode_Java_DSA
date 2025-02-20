@@ -1,11 +1,30 @@
 class Solution {
     /**
+     * Approach III : Using Diagonal Flipping Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public String findDifferentBinaryString(String[] nums) {
+        int n = nums.length;
+        StringBuilder sb = new StringBuilder(); // SC: O(N) - neglect (return value)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            if (nums[i].charAt(i) == '0') {
+                sb.append('1');
+            } else {
+                sb.append('0');
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
      * Approach II : Using Hashing Approach
      *
      * TC: O(N ^ 2 + N) ~ O(N ^ 2)
      * SC: O(N)
      */
-    public String findDifferentBinaryString(String[] nums) {
+    public String findDifferentBinaryStringApproachII(String[] nums) {
         int n = nums.length;
         HashSet<Integer> hs = new HashSet<Integer>(); // SC: O(N)
         for (int i = 0; i < n; i++) { // TC: O(N)
@@ -31,7 +50,7 @@ class Solution {
      * TC: O(N x 2 ^ N)
      * SC: O(N)
      */
-    public String findDifferentBinaryStringUsingBacktracking(String[] nums) {
+    public String findDifferentBinaryStringApproachI(String[] nums) {
         int n = nums.length;
         HashSet<String> hs = new HashSet<String>();
         for (int i = 0; i < n; i++) { // TC: O(N)
