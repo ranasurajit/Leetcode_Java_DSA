@@ -4,6 +4,10 @@ class Solution {
      *
      * TC: O(2 x V + E) ~ O(V + E)
      * SC: O(3 x V) ~ O(V)
+     * 
+     * @param n
+     * @param connections
+     * @return
      */
     public int makeConnected(int n, int[][] connections) {
         int k = connections.length;
