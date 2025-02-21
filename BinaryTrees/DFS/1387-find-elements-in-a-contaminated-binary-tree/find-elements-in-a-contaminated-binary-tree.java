@@ -22,7 +22,7 @@
 class FindElements {
 
     TreeNode root = null;
-    HashSet<Integer> set;
+    BitSet bitSet;
 
     /**
      * Using DFS Approach
@@ -32,32 +32,30 @@ class FindElements {
      */
     public FindElements(TreeNode root) {
         this.root = root;
-        this.set = new HashSet<Integer>();
-        recoverBinaryTree(root, 0, set);
+        this.bitSet = new BitSet();
+        recoverBinaryTree(root, 0, bitSet);
     }
 
-    private void recoverBinaryTree(TreeNode root, int value, HashSet<Integer> set) {
+    private void recoverBinaryTree(TreeNode root, int value, BitSet bitSet) {
         if (root == null) {
             return;
         }
         root.val = value;
-        set.add(value);
+        bitSet.set(value);
         if (root.left != null) {
-            recoverBinaryTree(root.left, 2 * value + 1, set);
+            recoverBinaryTree(root.left, 2 * value + 1, bitSet);
         }
         if (root.right != null) {
-            recoverBinaryTree(root.right, 2 * value + 2, set);
+            recoverBinaryTree(root.right, 2 * value + 2, bitSet);
         }
     }
     
     /**
-     * Using Hashing Approach
-     *
      * TC: O(1)
      * SC: O(1)
      */
     public boolean find(int target) {
-        return set.contains(target);
+        return bitSet.get(target);
     }
 }
 
