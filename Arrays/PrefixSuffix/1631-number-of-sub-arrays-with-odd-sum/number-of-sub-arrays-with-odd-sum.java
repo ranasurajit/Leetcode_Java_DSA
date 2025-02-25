@@ -1,11 +1,39 @@
 class Solution {
     /** 
-     * Better Approach
+     * Approach IV :  Optimal Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public int numOfSubarrays(int[] arr) {
+        int n = arr.length;
+        int count = 0;
+        int MOD = (int) 1e9 + 7;
+        int even = 1; // initially prefixSum is 0 so even count = 1
+        int odd = 0;
+        int sum = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            sum += arr[i];
+            if (sum % 2 == 0) {
+                // even (encountered) so any previous odd + even(this) = odd
+                count = (count + odd) % MOD;
+                even++;
+            } else {
+                // odd (encountered) so any previous even + odd(this) = odd
+                count = (count + even) % MOD;
+                odd++;
+            }
+        }
+        return count;
+    }
+
+    /** 
+     * Approach III : Better Approach
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(N)
      */
-    public int numOfSubarrays(int[] arr) {
+    public int numOfSubarraysApproachIII(int[] arr) {
         int n = arr.length;
         int count = 0;
         int MOD = (int) 1e9 + 7;
@@ -20,11 +48,11 @@ class Solution {
         int odd = 0;
         for (int i = 0; i < n; i++) { // TC: O(N)
             if (prefix[i] % 2 == 0) {
-                // odd + even = odd
+                // even (encountered) so any previous odd + even(this) = odd
                 count = (count + odd) % MOD;
                 even++;
             } else {
-                // even + odd = odd
+                // odd (encountered) so any previous even + odd(this) = odd
                 count = (count + even) % MOD;
                 odd++;
             }
@@ -33,7 +61,7 @@ class Solution {
     }
 
     /** 
-     * Better Brute-Force Approach
+     * Approach II : Better Brute-Force Approach
      *
      * TC: O(N ^ 2)
      * SC: O(1)
@@ -54,12 +82,12 @@ class Solution {
     }
 
     /** 
-     * Brute-Force Approach
+     * Approach I : Brute-Force Approach
      *
      * TC: O(N ^ 3)
      * SC: O(1)
      */
-    public int numOfSubarraysApproachIII(int[] arr) {
+    public int numOfSubarraysApproachI(int[] arr) {
         int n = arr.length;
         int count = 0;
         for (int i = 0; i < n; i++) {
