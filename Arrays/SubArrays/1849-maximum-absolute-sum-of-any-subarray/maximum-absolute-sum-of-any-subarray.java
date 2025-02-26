@@ -2,7 +2,7 @@ class Solution {
     /**
      * Optimal Approach (Kadane's Algorithm)
      *
-     * TC: O(2 x N) ~ O(N)
+     * TC: O(N)
      * SC: O(1)
      */
     public int maxAbsoluteSum(int[] nums) {
@@ -11,7 +11,7 @@ class Solution {
         int currentSumMax = nums[0];
         int minSum = nums[0];
         int currentSumMin = nums[0];
-        // computing max sum
+        // computing max and min sum
         for (int i = 1; i < n; i++) {  // TC: O(N)
             currentSumMax = Math.max(nums[i], currentSumMax + nums[i]);
             maxSum = Math.max(maxSum, currentSumMax);
