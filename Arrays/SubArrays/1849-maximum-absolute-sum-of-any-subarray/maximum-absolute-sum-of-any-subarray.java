@@ -8,18 +8,16 @@ class Solution {
     public int maxAbsoluteSum(int[] nums) {
         int n = nums.length;
         int maxSum = nums[0];
-        int currentSum = nums[0];
+        int currentSumMax = nums[0];
+        int minSum = nums[0];
+        int currentSumMin = nums[0];
         // computing max sum
         for (int i = 1; i < n; i++) {  // TC: O(N)
-            currentSum = Math.max(nums[i], currentSum + nums[i]);
-            maxSum = Math.max(maxSum, currentSum);
-        }
-        int minSum = nums[0];
-        currentSum = nums[0];
-        // computing min sum
-        for (int i = 1; i < n; i++) {  // TC: O(N)
-            currentSum = Math.min(nums[i], currentSum + nums[i]);
-            minSum = Math.min(minSum, currentSum);
+            currentSumMax = Math.max(nums[i], currentSumMax + nums[i]);
+            maxSum = Math.max(maxSum, currentSumMax);
+
+            currentSumMin = Math.min(nums[i], currentSumMin + nums[i]);
+            minSum = Math.min(minSum, currentSumMin);
         }
         return Math.max(Math.abs(maxSum), Math.abs(minSum));
     }
