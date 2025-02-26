@@ -15,7 +15,6 @@ class Solution {
         for (int i = 1; i < n; i++) {  // TC: O(N)
             currentSumMax = Math.max(nums[i], currentSumMax + nums[i]);
             maxSum = Math.max(maxSum, currentSumMax);
-
             currentSumMin = Math.min(nums[i], currentSumMin + nums[i]);
             minSum = Math.min(minSum, currentSumMin);
         }
