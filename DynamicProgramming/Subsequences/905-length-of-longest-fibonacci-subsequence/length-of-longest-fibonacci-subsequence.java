@@ -1,11 +1,41 @@
 class Solution {
     /**
-     * Approach II: Using Memoization
+     * Approach III: Using Tabulation
      *
      * TC: O(N ^ 2)
      * SC: O(N ^ 2)
      */
     public int lenLongestFibSubseq(int[] arr) {
+        int n = arr.length;
+        Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>(); // SC: O(N)
+        for (int i = 0; i < n; i++) {         // TC: O(N)
+            indexMap.put(arr[i], i);
+        }
+        int[][] dp = new int[n][n];           // SC: O(N ^ 2)
+        for (int[] dp1D : dp) {               // TC: O(N)
+            Arrays.fill(dp1D, 2);
+        }
+        int maxLength = 0;
+        for (int j = 1; j < n; j++) {         // TC: O(N)
+            for (int k = j + 1; k < n; k++) { // TC: O(N)
+                int target = arr[k] - arr[j];
+                if (indexMap.containsKey(target) && indexMap.get(target) < j) {
+                    int i = indexMap.get(target);
+                    dp[j][k] = 1 + dp[i][j];
+                }
+                maxLength = Math.max(maxLength, dp[j][k]);
+            }
+        }
+        return maxLength >= 3 ? maxLength : 0;
+    }
+
+    /**
+     * Approach II: Using Memoization
+     *
+     * TC: O(N ^ 2)
+     * SC: O(N ^ 2)
+     */
+    public int lenLongestFibSubseqApproachII(int[] arr) {
         int n = arr.length;
         Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
         for (int i = 0; i < n; i++) {
