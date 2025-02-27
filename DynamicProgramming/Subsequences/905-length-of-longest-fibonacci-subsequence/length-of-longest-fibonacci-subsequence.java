@@ -1,11 +1,41 @@
 class Solution {
     /**
+     * Approach IV: Using Greedy Algorithm
+     *
+     * TC: O(N ^ 2 + N) ~ O(N ^ 2)
+     * SC: O(N)
+     */
+    public int lenLongestFibSubseq(int[] arr) {
+        int n = arr.length;
+        Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>(); // SC: O(N)
+        for (int i = 0; i < n; i++) {          // TC: O(N)
+            indexMap.put(arr[i], i);
+        }
+        int maxLength = 0;
+        for (int i = 0; i < n; i++) {          // TC: O(N)
+            for (int j = i + 1; j < n; j++) {  // TC: O(N)
+                int first = arr[i];
+                int second = arr[j];
+                int currentLen = 2;
+                while (indexMap.containsKey(first + second)) {
+                    int third = first + second;
+                    first = second;
+                    second = third;
+                    currentLen++;
+                }
+                maxLength = Math.max(maxLength, currentLen);
+            }
+        }
+        return maxLength == 2 ? 0 : maxLength; 
+    }
+
+    /**
      * Approach III: Using Tabulation
      *
      * TC: O(N ^ 2)
      * SC: O(N ^ 2)
      */
-    public int lenLongestFibSubseq(int[] arr) {
+    public int lenLongestFibSubseqApproachIII(int[] arr) {
         int n = arr.length;
         Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>(); // SC: O(N)
         for (int i = 0; i < n; i++) {         // TC: O(N)
