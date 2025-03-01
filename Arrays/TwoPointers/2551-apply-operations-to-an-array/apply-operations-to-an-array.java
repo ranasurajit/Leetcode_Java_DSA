@@ -1,11 +1,38 @@
 class Solution {
     /**
-     * Using Two-Pointers Approach
+     * Approach II : Using A Different Result Array Approach
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(1)
      */
     public int[] applyOperations(int[] nums) {
+        int n = nums.length;
+        int[] result = new int[n];
+        int index = 0;
+        int i = 0;
+        for (i = 0; i < n - 1; i++) { // TC: O(N)
+            if (nums[i] != 0) {
+                if (nums[i] == nums[i + 1]) {
+                    result[index++] = 2 * nums[i];
+                    i++;
+                } else {
+                    result[index++] = nums[i];
+                }
+            }
+        }
+        if (i < n) {
+            result[index] = nums[i];
+        }
+        return result;
+    }
+
+    /**
+     * Approach I : Using Two-Pointers Approach (In-place modification)
+     *
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(1)
+     */
+    public int[] applyOperationsApproachI(int[] nums) {
         int n = nums.length;
         for (int i = 0; i < n - 1; i++) { // TC: O(N)
             if (nums[i] == nums[i + 1]) {
