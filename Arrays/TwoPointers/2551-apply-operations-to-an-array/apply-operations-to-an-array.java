@@ -2,7 +2,7 @@ class Solution {
     /**
      * Using Two-Pointers Approach
      *
-     * TC: O((3 / 2) x N) ~ O(N)
+     * TC: O(2 x N) ~ O(N)
      * SC: O(1)
      */
     public int[] applyOperations(int[] nums) {
@@ -16,7 +16,7 @@ class Solution {
         // Using Two-Pointers
         int p = 0;     // pointer from beginning index of array 'nums' 
         int q = 0;     // pointer from beginning index of array 'nums' 
-        while (p < n) { // TC: O(N / 2)
+        while (p < n) { // TC: O(N)
             while (p < n && nums[p] != 0) {
                 p++;
             }
