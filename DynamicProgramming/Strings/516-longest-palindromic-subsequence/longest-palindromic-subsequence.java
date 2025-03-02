@@ -1,9 +1,9 @@
 class Solution {
     /**
-     * Approach II : Using Memoization Approach
+     * Approach III : Using Tabulation Approach
      *
-     * TC: O(N + 2 ^ (2 x N)) ~ O(4 ^ N)
-     * SC: O(3 x N) ~ O(N)
+     * TC: O(N + N x N) ~ O(N X N)
+     * SC: O(2 x N + N x N) ~ O(N x N)
      *
      * @param s
      * @return
@@ -11,7 +11,34 @@ class Solution {
     public int longestPalindromeSubseq(String s) {
         int n = s.length();
         String s1 = reverse(s, n);
-        int[][] memo = new int[n + 1][n + 1];
+        int[][] dp = new int[n + 1][n + 1];   // SC: O(N x N)
+        // initialization not needed as 0th index row of dp is by-default zero
+        // iterative call
+        for (int i = 1; i < n + 1; i++) {     // TC: O(N)
+            for (int j = 1; j < n + 1; j++) { // TC: O(N)
+                if (s.charAt(i - 1) == s1.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        return dp[n][n];
+    }
+
+    /**
+     * Approach II : Using Memoization Approach
+     *
+     * TC: O(N + N x N) ~ O(N X N)
+     * SC: O(3 x N + N x N) ~ O(N x N + N)
+     *
+     * @param s
+     * @return
+     */
+    public int longestPalindromeSubseqMemoization(String s) {
+        int n = s.length();
+        String s1 = reverse(s, n);
+        int[][] memo = new int[n + 1][n + 1]; // SC: O(N x N)
         for (int[] memoItem : memo) {
             Arrays.fill(memoItem, -1);
         }
