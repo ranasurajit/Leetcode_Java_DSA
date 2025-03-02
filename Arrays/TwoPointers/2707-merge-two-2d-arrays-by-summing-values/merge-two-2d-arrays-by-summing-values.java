@@ -10,34 +10,29 @@ class Solution {
         int n = nums2.length;
         int p = 0; // pointer at beginning of array 'nums1'
         int q = 0; // pointer at beginning of array 'nums2'
-        List<int[]> list = new ArrayList<int[]>(); // SC: O(M + N)
+        List<int[]> merged = new ArrayList<int[]>(); // SC: O(M + N)
         while (p < m && q < n) { // TC: O(M + N)
             if (nums1[p][0] == nums2[q][0]) {
-                list.add(new int[] { nums1[p][0], nums1[p][1] + nums2[q][1] });
+                merged.add(new int[] { nums1[p][0], nums1[p][1] + nums2[q][1] });
                 p++;
                 q++;
             } else if (nums1[p][0] < nums2[q][0]) {
-                list.add(nums1[p]);
+                merged.add(nums1[p]);
                 p++;
             } else {
-                list.add(nums2[q]);
+                merged.add(nums2[q]);
                 q++;
             }
         }
         while (p < m) {
-            list.add(nums1[p]);
+            merged.add(nums1[p]);
             p++;
         }
         while (q < n) {
-            list.add(nums2[q]);
+            merged.add(nums2[q]);
             q++;
         }
-        int[][] merged = new int[list.size()][2];
-        int index = 0;
-        for (int[] item : list) { // TC: O(M + N)
-            merged[index++] = item;
-        }
-        return merged;
+        return merged.toArray(new int[merged.size()][2]);
     }
 
     /**
