@@ -1,8 +1,8 @@
 class Solution {
     /**
-     * Approach II : Using TreeMap (To Keep Result sorted)
+     * Approach II : Using Two-Pointers Approach
      * 
-     * TC: O(2 x (M + N)) ~ O(M + N)
+     * TC: O(M + N)
      * SC: O(M + N)
      */
     public int[][] mergeArrays(int[][] nums1, int[][] nums2) {
