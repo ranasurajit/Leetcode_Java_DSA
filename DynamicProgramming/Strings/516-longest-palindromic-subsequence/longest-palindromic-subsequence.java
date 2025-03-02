@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach III : Using Tabulation Approach
+     * Approach III : Using Space Optimization Approach
      *
      * TC: O(N + N x N) ~ O(N X N)
      * SC: O(2 x N + N x N) ~ O(N x N)
@@ -9,6 +9,35 @@ class Solution {
      * @return
      */
     public int longestPalindromeSubseq(String s) {
+        int n = s.length();
+        String s1 = reverse(s, n);
+        int[] current = new int[n + 1];
+        int[] previous = new int[n + 1];
+        // initialization not needed as 0th index row of dp is by-default zero
+        // iterative call - convert dp[i] as current and dp[i - 1] as previous
+        for (int i = 1; i < n + 1; i++) {     // TC: O(N)
+            for (int j = 1; j < n + 1; j++) { // TC: O(N)
+                if (s.charAt(i - 1) == s1.charAt(j - 1)) {
+                    current[j] = 1 + previous[j - 1];
+                } else {
+                    current[j] = Math.max(previous[j], current[j - 1]);
+                }
+            }
+            previous = current.clone();
+        }
+        return previous[n];
+    }
+
+    /**
+     * Approach III : Using Tabulation Approach
+     *
+     * TC: O(N + N x N) ~ O(N X N)
+     * SC: O(2 x N + N x N) ~ O(N x N)
+     *
+     * @param s
+     * @return
+     */
+    public int longestPalindromeSubseqTabulation(String s) {
         int n = s.length();
         String s1 = reverse(s, n);
         int[][] dp = new int[n + 1][n + 1];   // SC: O(N x N)
