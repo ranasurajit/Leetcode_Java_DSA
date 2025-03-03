@@ -1,11 +1,41 @@
 class Solution {
     /**
-     * Approach II : Using Two Pointers Approach
+     * Approach III : Using Two Pointers Approach (Optimal)
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(1)
      */
     public int[] pivotArray(int[] nums, int pivot) {
+        int n = nums.length;
+        int[] result = new int[n];
+        int p = 0; // pointer from start index to fill elements < pivot
+        int q = n - 1; // pointer from end index to fill elements > pivot
+        int countPivot = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            if (nums[i] < pivot) {
+                result[p++] = nums[i];
+            } else if (nums[i] == pivot) {
+                countPivot++;
+            }
+        }
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            if (nums[i] > pivot) {
+                result[q--] = nums[i];
+            }
+        }
+        while (countPivot-- > 0) {
+            result[p++] = pivot;
+        }
+        return result;
+    }
+
+    /**
+     * Approach II : Using Two Pointers Approach
+     *
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(1)
+     */
+    public int[] pivotArrayApproachII(int[] nums, int pivot) {
         int n = nums.length;
         int lCount = 0;
         int gCount = 0;
