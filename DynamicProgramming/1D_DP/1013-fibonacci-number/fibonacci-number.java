@@ -1,11 +1,36 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public int fib(int n) {
+        int current = 0;
+        int prev = 1;
+        int prev2 = 0;
+        if (n <= 1) {
+            return n;
+        }
+        /**
+         * iterative call
+         * replace dp[i] with current, dp[i - 1] with prev and dp[i - 2] as prev2
+         */
+        for (int i = 2; i < n + 1; i++) { // TC: O(N)
+            current = prev + prev2;
+            prev2 = prev;
+            prev = current;
+        }
+        return prev;
+    }
+
+    /**
      * Approach III : Using Tabulation Approach
      *
      * TC: O(N)
      * SC: O(N)
      */
-    public int fib(int n) {
+    public int fibTabulation(int n) {
         int[] dp = new int[n + 1]; // SC: O(N)
         // initialization
         dp[0] = 0;
