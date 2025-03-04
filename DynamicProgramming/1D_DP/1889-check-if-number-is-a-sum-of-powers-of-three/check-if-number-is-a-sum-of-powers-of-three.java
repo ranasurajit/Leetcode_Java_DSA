@@ -14,8 +14,7 @@ class Solution {
         for (int i = 0; i < k; i++) { // TC: O(K)
             pow[i] = (int) Math.pow(3, i);
         }
-        int sum = 0;
-        return hasSumSubSequenceRecursion(k, pow, sum, n);
+        return hasSumSubSequenceRecursion(k, pow, n);
     }
 
     /**
@@ -23,18 +22,18 @@ class Solution {
      * SC: O(K)
      * where K is such that log(N) Base 3
      */
-    private boolean hasSumSubSequenceRecursion(int k, int[] pow, int sum, int n) {
+    private boolean hasSumSubSequenceRecursion(int k, int[] pow, int sum) {
         if (sum < 0) { // pruning un-necessary calls
             return false;
         }
         if (k == 0) {
-            return sum == n;
+            return sum == 0;
         }
         // include
         boolean include = 
-            hasSumSubSequenceRecursion(k - 1, pow, sum + pow[k - 1], n);
+            hasSumSubSequenceRecursion(k - 1, pow, sum - pow[k - 1]);
         // exclude
-        boolean exclude = hasSumSubSequenceRecursion(k - 1, pow, sum, n);
+        boolean exclude = hasSumSubSequenceRecursion(k - 1, pow, sum);
         return include || exclude;
     }
 }
