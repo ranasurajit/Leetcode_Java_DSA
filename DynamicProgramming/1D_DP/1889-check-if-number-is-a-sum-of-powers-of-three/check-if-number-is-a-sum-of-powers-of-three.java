@@ -23,12 +23,14 @@ class Solution {
      * where K is such that log(N) Base 3
      */
     private boolean hasSumSubSequenceRecursion(int k, int[] pow, int sum) {
+        // Base Case
         if (sum < 0) { // pruning un-necessary calls
             return false;
         }
         if (k == 0) {
             return sum == 0;
         }
+        // Recursion Calls
         // include
         boolean include = 
             hasSumSubSequenceRecursion(k - 1, pow, sum - pow[k - 1]);
