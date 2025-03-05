@@ -2,23 +2,18 @@ class Solution {
     /**
      * Approach II : Using Math
      *
-     * TC: O(K x K) where K = (2 x N - 1)
-     * SC: O(K x K) 
+     * TC: O(1)
+     * SC: O(1) 
      *
      * maximum visits possible is all cells of size (2 x N - 1)
      */
     public long coloredCells(int n) {
         /**
-         * For each incremental n to n + 1, each cell will 
-         * contribute 4 times of its neighboring cells (n)
+         * It goes like 1 + (1 + 4) + (1 + 4 + 8) + (1 + 4 + 8 + 12)
+         * i.e. 1 + 4 * (1 + 2 + 3 + ... (n - 1))
+         * i.e, 1 + 4 * (N * (N - 1))/ 2 = 1 + 2 * N * (N - 1)
          */
-        long coloredCells = 1;
-        int count = 1;
-        while (count < n) {
-            coloredCells += 4 * count;
-            count++;
-        }
-        return coloredCells;
+        return 1 + 2L * n * (n - 1);
     }
 
     /**
