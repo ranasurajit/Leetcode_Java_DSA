@@ -10,12 +10,9 @@ class Solution {
     public long coloredCells(int n) {
         /**
          * For each incremental n to n + 1, each cell will 
-         * contribute 3 times of its neighboring cells
+         * contribute 4 times of its neighboring cells (n)
          */
         long coloredCells = 1;
-        if (n == 1) {
-            return coloredCells;
-        }
         int count = 1;
         while (count < n) {
             coloredCells += 4 * count;
