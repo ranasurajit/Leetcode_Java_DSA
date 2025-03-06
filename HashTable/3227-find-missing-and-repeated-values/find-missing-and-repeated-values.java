@@ -1,11 +1,45 @@
 class Solution {
     /**
+     * Approach III : Using Bit Manipulation Approach
+     *
+     * TC: O(N x N)
+     * SC: O(N x N)
+     */
+    public int[] findMissingAndRepeatedValues(int[][] grid) {
+        int n = grid.length;
+        boolean[] visited = new boolean[n * n + 1]; // SC: O(N x N)
+        int repeated = 0;
+        int xorAll = 0;
+        int xorCount = 0;
+        int count = 1;
+        for (int i = 0; i < n; i++) {      // TC: O(N)
+            for (int j = 0; j < n; j++) {  // TC: O(N)
+                xorAll ^= grid[i][j];
+                xorCount ^= count;
+                count++;
+                if (repeated == 0) {
+                    if (visited[grid[i][j]]) {
+                        repeated = grid[i][j];
+                    } else {
+                        visited[grid[i][j]] = true;
+                    }
+                }
+            }
+        }
+        int[] result = new int[2];
+        result[0] = repeated;
+        int missing = xorAll ^ xorCount ^ repeated;
+        result[1] = missing;
+        return result;
+    }
+
+    /**
      * Approach II : Using Array as Hashing Approach
      *
      * TC: O(2 x N x N) ~ O(N x N)
      * SC: O(N x N)
      */
-    public int[] findMissingAndRepeatedValues(int[][] grid) {
+    public int[] findMissingAndRepeatedValuesApproachII(int[][] grid) {
         int n = grid.length;
         int[] freq = new int[n * n + 1];   // SC: O(N x N)
         for (int i = 0; i < n; i++) {      // TC: O(N)
