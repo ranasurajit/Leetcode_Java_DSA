@@ -17,8 +17,8 @@ class Solution {
      */
     private int solveMemoization(int n, int[] memo) {
         // Base Case
-        if (n == 0 || n == 1 || n == 2) {
-            return n;
+        if (n == 0 || n == 1) {
+            return 1;
         }
         // Memoization Check
         if (memo[n] != -1) {
@@ -46,8 +46,8 @@ class Solution {
      */
     private int solveRecursion(int n) {
         // Base Case
-        if (n == 0 || n == 1 || n == 2) {
-            return n;
+        if (n == 0 || n == 1) {
+            return 1;
         }
         // Recursion Calls
         int xWays = solveRecursion(n - 1);
