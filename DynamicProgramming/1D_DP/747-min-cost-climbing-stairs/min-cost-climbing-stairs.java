@@ -1,11 +1,28 @@
 class Solution {
     /**
+     * Using Tabulation
+     *
+     * TC: O(N)
+     * TC: O(1)
+     */
+    public int minCostClimbingStairs(int[] cost) {
+        int n = cost.length;
+        if (n == 2) {
+            return Math.min(cost[0], cost[1]);
+        }
+        for (int i = 2; i < n; i++) { // TC: O(N)
+            cost[i] = cost[i] + Math.min(cost[i - 1], cost[i - 2]);
+        }
+        return Math.min(cost[n - 1], cost[n - 2]);
+    }
+
+    /**
      * Using Memoization
      *
      * TC: O(N)
      * TC: O(2 x N)
      */
-    public int minCostClimbingStairs(int[] cost) {
+    public int minCostClimbingStairsMemoization(int[] cost) {
         int n = cost.length;
         int[] memo = new int[n + 1];
         Arrays.fill(memo, -1);
