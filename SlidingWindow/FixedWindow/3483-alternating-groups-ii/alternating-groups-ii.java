@@ -1,7 +1,13 @@
 class Solution {
+    /**
+     * Approach II : Using Sliding Window (Fixed Size) Approach
+     *
+     * TC: O(N + K - 1) ~ O(N + K)
+     * SC: O(N + 2 x K - 1) ~ O(N + K)
+     */
     public int numberOfAlternatingGroups(int[] colors, int k) {
         int n = colors.length;
-        // doubling the colors array to form like a circular tile system
+        // imitating the 'colors' array to form like a circular tile system
         int[] circularColors = new int[n + k - 1]; // SC: O(N + K - 1)
         for (int i = 0; i < n + k - 1; i++) {      // TC: O(N + K - 1)
             circularColors[i] = colors[i % n];
@@ -35,6 +41,38 @@ class Solution {
                 }
                 i++;
                 j++;
+            }
+        }
+        return groups;
+    }
+
+    /**
+     * Approach I : Using Brute-Force Approach
+     *
+     * TC: O(K x N + N + K - 1) ~ O(K x N)
+     * SC: O(N + K - 1)
+     */
+    public int numberOfAlternatingGroupsApproachI(int[] colors, int k) {
+        int n = colors.length;
+        // imitating the 'colors' array to form like a circular tile system
+        int[] circularColors = new int[n + k - 1]; // SC: O(N + K - 1)
+        for (int i = 0; i < n + k - 1; i++) {      // TC: O(N + K - 1)
+            circularColors[i] = colors[i % n];
+        }
+        int groups = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            int changes = 0;
+            for (int j = i + 1; j < i + k; j++) { // TC: O(K)
+                if (circularColors[j] != circularColors[j - 1]) {
+                    changes++;
+                }
+            }
+            if (changes == k - 1) {
+                /**
+                 * number of changes = k guarantees
+                 * that our sliding window has alternative colors
+                 */
+                groups++;
             }
         }
         return groups;
