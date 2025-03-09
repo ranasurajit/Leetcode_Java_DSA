@@ -26,7 +26,6 @@ class Solution {
                 // sliding window size is not yet met
                 j++;
             } else if (j - i + 1 == k) {
-                System.out.println("## " + changes);
                 if (changes == k - 1) {
                     groups++;
                 }
