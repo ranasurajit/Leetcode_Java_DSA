@@ -12,8 +12,7 @@ class Solution {
         int j = 0; // end pointer of sliding window
         int count = 0;
         while (j < n) { // TC: O(N)
-            char ch = s.charAt(j);
-            dict[ch - 'a']++;
+            dict[s.charAt(j) - 'a']++;
             while (dict[0] > 0 && dict[1] > 0 && dict[2] > 0) {
                 /**
                  * as when sliding window is met we can include
@@ -22,8 +21,7 @@ class Solution {
                  */
                 count += (n - j);
                 // shrink the window
-                ch = s.charAt(i);
-                dict[ch - 'a']--;
+                dict[s.charAt(i) - 'a']--;
                 i++;
             }
             j++;
