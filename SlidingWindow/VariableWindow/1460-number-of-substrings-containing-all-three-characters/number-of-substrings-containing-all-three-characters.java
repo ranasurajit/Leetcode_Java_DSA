@@ -1,11 +1,43 @@
 class Solution {
     /**
-     * using Sliding Window (Variable Size) Approach
+     * Approach II : Using Sliding Window (Variable Size) and Array Approach
      *
      * TC: O(N)
      * SC: O(1)
      */
     public int numberOfSubstrings(String s) {
+        int n = s.length();
+        int[] dict = new int[3];
+        int i = 0; // start pointer of sliding window
+        int j = 0; // end pointer of sliding window
+        int count = 0;
+        while (j < n) { // TC: O(N)
+            char ch = s.charAt(j);
+            dict[ch - 'a']++;
+            while (dict[0] > 0 && dict[1] > 0 && dict[2] > 0) {
+                /**
+                 * as when sliding window is met we can include
+                 * all characters till n i.e. total count for a 
+                 * pair (i, j) = (n - j)
+                 */
+                count += (n - j);
+                // shrink the window
+                ch = s.charAt(i);
+                dict[ch - 'a']--;
+                i++;
+            }
+            j++;
+        }
+        return count;
+    }
+
+    /**
+     * Approach I : Using Sliding Window (Variable Size) and Hashing Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public int numberOfSubstringsApproachI(String s) {
         int n = s.length();
         Map<Character, Integer> map = new HashMap<Character, Integer>(); // SC: O(3)
         int i = 0; // start pointer of sliding window
