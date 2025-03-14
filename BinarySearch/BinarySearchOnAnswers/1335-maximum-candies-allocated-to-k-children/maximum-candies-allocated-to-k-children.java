@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach II : Optimal Approach (Binary Search)
+     * Approach II : Optimal Approach (Using Binary Search on Answers)
      *
      * TC: O(N + N x log(M)) ~ O(N x log(M))
      * SC: O(1)
@@ -48,7 +48,7 @@ class Solution {
     }
 
     /**
-     * Approach I : Brute-Force Approach (Linear Search)
+     * Approach I : Brute-Force Approach (Using Linear Search)
      *
      * TC: O(N + M x N) ~ O(M x N)
      * SC: O(1)
