@@ -11,13 +11,10 @@ class Solution {
         int n = ranks.length;
         long minRank = Integer.MAX_VALUE;
         long minTime = 0;
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            minRank = Math.min(minRank, ranks[i]);
-        }
         // Using Binary Search on Answers
         long low = 1;
         // as the mechanic with best rank can repair all cars
-        long high = minRank * cars * cars;
+        long high = (long) Arrays.stream(ranks).min().getAsInt() * cars * cars;
         while (low <= high) { // TC: O(log(K))
             long mid = low + (high - low) / 2;
             if (isRepairPossible(ranks, n, cars, mid)) { // TC: O(N)
