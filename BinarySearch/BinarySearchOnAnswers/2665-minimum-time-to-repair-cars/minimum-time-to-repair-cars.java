@@ -28,32 +28,6 @@ class Solution {
     }
 
     /**
-     * Approach I : Brute-Force (Using Linear Search on Answers)
-     *
-     * TC: O(N + K x N)
-     * SC: O(1)
-     *
-     * where K = Min(ranks) x cars = 100 * 10^6 (TLE - 47 / 1072 testcases passed) 
-     */
-    public long repairCarsApproachI(int[] ranks, int cars) {
-        int n = ranks.length;
-        long minRank = Integer.MAX_VALUE;
-        long minTime = 0;
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            minRank = Math.min(minRank, ranks[i]);
-        }
-        // time max value is minTimeNeeded as the mechanic with best rank can repair all cars
-        long maxTime = minRank * cars * cars;
-        for (long time = 1; time <= maxTime; time++) { // TC: O(K)
-            if (isRepairPossible(ranks, n, cars, time)) { // TC: O(N)
-                minTime = time;
-                break;
-            }
-        }
-        return minTime;
-    }
-
-    /**
      * TC: O(N)
      * SC: O(1)
      */
