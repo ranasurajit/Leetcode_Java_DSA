@@ -9,13 +9,12 @@ class Solution {
      */
     public long repairCars(int[] ranks, int cars) {
         int n = ranks.length;
-        long maxTimeNeeded = 0;
+        long low = 1;
+        long high = 0;
         long minTime = 0;
         for (int i = 0; i < n; i++) { // TC: O(N)
-            maxTimeNeeded = Math.max(maxTimeNeeded, (long) ranks[i] * cars * cars);
+            high = Math.max(high, (long) ranks[i] * cars * cars);
         }
-        long low = 1;
-        long high = maxTimeNeeded;
         while (low <= high) { // TC: O(log(K))
             long mid = low + (high - low) / 2;
             if (isRepairPossible(ranks, n, cars, mid)) { // TC: O(N)
