@@ -5,18 +5,19 @@ class Solution {
      * TC: O(N + N x log(K)) ~ O(N x log(K))
      * SC: O(1)
      *
-     * where K = Max(ranks) x cars = 100 * 10^6 = 10^8 (1072 / 1072 testcases passed) 
+     * where K = Min(ranks) x cars = 100 * 10^6 = 10^8 (1072 / 1072 testcases passed) 
      */
     public long repairCars(int[] ranks, int cars) {
         int n = ranks.length;
-        long maxTimeNeeded = 0;
+        long minRank = Integer.MAX_VALUE;
         long minTime = 0;
         for (int i = 0; i < n; i++) { // TC: O(N)
-            maxTimeNeeded = Math.max(maxTimeNeeded, (long) ranks[i] * cars * cars);
+            minRank = Math.min(minRank, ranks[i]);
         }
         // Using Binary Search on Answers
         long low = 1;
-        long high = maxTimeNeeded;
+        // as the mechanic with best rank can repair all cars
+        long high = minRank * cars * cars;
         while (low <= high) { // TC: O(log(K))
             long mid = low + (high - low) / 2;
             if (isRepairPossible(ranks, n, cars, mid)) { // TC: O(N)
@@ -35,16 +36,18 @@ class Solution {
      * TC: O(N + K x N)
      * SC: O(1)
      *
-     * where K = Max(ranks) x cars = 100 * 10^6 (TLE - 48 / 1072 testcases passed) 
+     * where K = Min(ranks) x cars = 100 * 10^6 (TLE - 47 / 1072 testcases passed) 
      */
     public long repairCarsApproachI(int[] ranks, int cars) {
         int n = ranks.length;
-        long maxTimeNeeded = 0;
+        long minRank = Integer.MAX_VALUE;
         long minTime = 0;
         for (int i = 0; i < n; i++) { // TC: O(N)
-            maxTimeNeeded = Math.max(maxTimeNeeded, (long) ranks[i] * cars * cars);
+            minRank = Math.min(minRank, ranks[i]);
         }
-        for (long time = 1; time <= maxTimeNeeded; time++) { // TC: O(K)
+        // time max value is minTimeNeeded as the mechanic with best rank can repair all cars
+        long maxTime = minRank * cars * cars;
+        for (long time = 1; time <= maxTime; time++) { // TC: O(K)
             if (isRepairPossible(ranks, n, cars, time)) { // TC: O(N)
                 minTime = time;
                 break;
