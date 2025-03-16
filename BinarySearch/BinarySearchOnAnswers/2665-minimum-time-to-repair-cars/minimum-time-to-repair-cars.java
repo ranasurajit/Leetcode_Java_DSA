@@ -21,8 +21,8 @@ class Solution {
         while (low <= high) { // TC: O(log(K))
             long mid = low + (high - low) / 2;
             if (isRepairPossible(ranks, n, cars, mid)) { // TC: O(N)
-                minTime = mid;
-                high = mid - 1;
+                minTime = mid; // probable answer
+                high = mid - 1; // shrink the size to get best answer
             } else {
                 low = mid + 1;
             }
