@@ -1,13 +1,69 @@
 class Solution {
     /**
-     * Approach II : Using Memoization Approach
+     * Approach IV : Using Space Optimization Approach
      *
-     * TC: O(2 ^ (M + N))
-     * SC: O(M + N)
-     *
-     * (17 / 47 testcases passed)
+     * TC: O(M x N)
+     * SC: O(N)
      */
     public int longestCommonSubsequence(String text1, String text2) {
+        int m = text1.length();
+        int n = text2.length();
+        // Initialization
+        int[] prev = new int[n + 1]; // SC: O(N)
+        prev[0] = 0;
+        // Iterative Calls
+        for (int i = 1; i < m + 1; i++) { // TC: O(M)
+            int[] current = new int[n + 1]; // SC: O(N)
+            current[0] = 0;
+            for (int j = 1; j < n + 1; j++) { // TC: O(N)
+                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                    current[j] = 1 + prev[j - 1];
+                } else {
+                    current[j] = Math.max(current[j - 1], prev[j]);
+                }
+            }
+            prev = current.clone();
+        }
+        return prev[n];
+    }
+
+    /**
+     * Approach III : Using Tabulation Approach
+     *
+     * TC: O(M x N)
+     * SC: O(M x N)
+     */
+    public int longestCommonSubsequenceTabulation(String text1, String text2) {
+        int m = text1.length();
+        int n = text2.length();
+        // Initialization
+        int[][] dp = new int[m + 1][n + 1]; // SC: O(M x N)
+        for (int i = 0; i < m + 1; i++) {
+            dp[i][0] = 0;
+        }
+        for (int j = 0; j < n + 1; j++) {
+            dp[0][j] = 0;
+        }
+        // Iterative Calls
+        for (int i = 1; i < m + 1; i++) { // TC: O(M)
+            for (int j = 1; j < n + 1; j++) { // TC: O(N)
+                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = Math.max(dp[i][j - 1], dp[i - 1][j]);
+                }
+            }
+        }
+        return dp[m][n];
+    }
+
+    /**
+     * Approach II : Using Memoization Approach
+     *
+     * TC: O(M x N)
+     * SC: O(M x N + (M + N))
+     */
+    public int longestCommonSubsequenceMemoization(String text1, String text2) {
         int m = text1.length();
         int n = text2.length();
         int[][] memo = new int[m + 1][n + 1];
