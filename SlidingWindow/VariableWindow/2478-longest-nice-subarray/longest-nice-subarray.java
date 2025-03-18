@@ -1,11 +1,33 @@
 class Solution {
     /**
+     * Approach II : Better Approach
+     *
+     * TC: O(N ^ 2)
+     * SC: O(1)
+     */
+    public int longestNiceSubarray(int[] nums) {
+        int n = nums.length;
+        int maxLength = 1;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            int bitmask = 0;
+            for (int j = i; j < n; j++) { // TC: O(N)
+                if ((bitmask & nums[j]) != 0) {
+                    break;
+                }
+                bitmask = (bitmask | nums[j]);
+                maxLength = Math.max(maxLength, j - i + 1);
+            }
+        }
+        return maxLength;
+    }
+
+    /**
      * Approach I : Brute-Force Approach
      *
      * TC: O(N ^ 3)
      * SC: O(1)
      */
-    public int longestNiceSubarray(int[] nums) {
+    public int longestNiceSubarrayApproachI(int[] nums) {
         int n = nums.length;
         int maxLength = 1;
         for (int i = 0; i < n; i++) { // TC: O(N)
