@@ -5,7 +5,7 @@ class Solution {
      * TC: O(N)
      * SC: O(1)
      *
-     * Testcases passed (65 / 65) - Runtime 4ms - Beats 28.34%
+     * Testcases passed (65 / 65) - Runtime 3ms - Beats 98.64%
      */
     public int longestNiceSubarray(int[] nums) {
         int n = nums.length;
