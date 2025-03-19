@@ -1,11 +1,29 @@
 class Solution {
     /**
+     * Approach III : Using Optimization Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int minPrice = prices[0];
+        int maxProfit = Integer.MIN_VALUE;
+        for (int i = 1; i < n; i++) { // TC: O(N)
+            // keep track of minimum in left of index i
+            minPrice = Math.min(minPrice, prices[i]);
+            maxProfit = Math.max(maxProfit, prices[i] - minPrice);
+        }
+        return maxProfit == Integer.MIN_VALUE ? 0 : maxProfit;
+    }
+
+    /**
      * Approach II : Using Memoization Approach
      *
      * TC: O(4 x  N)
      * SC: O(N + N)
      */
-    public int maxProfit(int[] prices) {
+    public int maxProfitMemoization(int[] prices) {
         int n = prices.length;
         int[][][] memo = new int[n + 1][2][2]; // SC: O(4 x N) ~ O(N)
         for (int[][] memoItem : memo) {
