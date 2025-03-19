@@ -1,20 +1,21 @@
 class Solution {
     /**
-     * Approach III : Using Optimization Approach
+     * Approach III : Using Tabulation Approach
      *
      * TC: O(N)
-     * SC: O(1)
+     * SC: O(N)
      */
     public int maxProfit(int[] prices) {
         int n = prices.length;
+        int[] dp = new int[n]; // SC: O(N)
         int minPrice = prices[0];
         int maxProfit = 0;
         for (int i = 1; i < n; i++) { // TC: O(N)
             // keep track of minimum in left of index i
             minPrice = Math.min(minPrice, prices[i]);
-            maxProfit = Math.max(maxProfit, prices[i] - minPrice);
+            dp[i] = Math.max(dp[i - 1], prices[i] - minPrice);
         }
-        return maxProfit;
+        return dp[n - 1];
     }
 
     /**
