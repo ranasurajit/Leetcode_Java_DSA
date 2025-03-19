@@ -1,11 +1,11 @@
 class Solution {
     /**
-     * Approach II : Sliding Window (Fixed Size) Approach
+     * Approach II : Fixed Size Manipulation Approach
      *
      * TC: O(N)
      * SC: O(1)
      *
-     * Accepted (689 / 689 testcases passed), Runtime ~ 9ms, Beats 16.02%
+     * Accepted (689 / 689 testcases passed), Runtime ~ 6ms, Beats 100.00%
      */
     public int minOperations(int[] nums) {
         int n = nums.length;
