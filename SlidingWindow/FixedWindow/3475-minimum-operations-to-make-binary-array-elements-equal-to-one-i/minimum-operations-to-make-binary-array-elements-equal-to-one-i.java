@@ -1,6 +1,7 @@
 class Solution {
+
     /**
-     * Approach III : Sliding Window (Fixed Size) Approach
+     * Approach III : Fixed Size Manipulation Approach
      *
      * TC: O(N)
      * SC: O(1)
@@ -8,6 +9,30 @@ class Solution {
      * Accepted (689 / 689 testcases passed), Runtime ~ 6ms, Beats 100.00%
      */
     public int minOperations(int[] nums) {
+        int n = nums.length;
+        int operations = 0;
+        for (int i = 0; i < n - 2; i++) { // TC: O(N)
+            if (nums[i] == 1) {
+                continue;
+            }
+            nums[i] = 1 - nums[i];
+            nums[i + 1] = 1 - nums[i + 1];
+            nums[i + 2] = 1 - nums[i + 2];
+            operations++;
+        }
+        // check if last two elements are 1 else return -1
+        return nums[n - 2] == 1 && nums[n - 1] == 1 ? operations : -1;
+    }
+
+    /**
+     * Approach II : Sliding Window (Fixed Size) Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     *
+     * Accepted (689 / 689 testcases passed), Runtime ~ 8ms, Beats 34.91%
+     */
+    public int minOperationsApproachII(int[] nums) {
         int n = nums.length;
         int operations = 0;
         int i = 0;
@@ -26,30 +51,6 @@ class Solution {
                 i++;
                 j++;
             }
-        }
-        // check if last two elements are 1 else return -1
-        return nums[n - 2] == 1 && nums[n - 1] == 1 ? operations : -1;
-    }
-
-    /**
-     * Approach II : Fixed Size Manipulation Approach
-     *
-     * TC: O(N)
-     * SC: O(1)
-     *
-     * Accepted (689 / 689 testcases passed), Runtime ~ 6ms, Beats 100.00%
-     */
-    public int minOperationsApproachII(int[] nums) {
-        int n = nums.length;
-        int operations = 0;
-        for (int i = 0; i < n - 2; i++) { // TC: O(N)
-            if (nums[i] == 1) {
-                continue;
-            }
-            nums[i] = 1 - nums[i];
-            nums[i + 1] = 1 - nums[i + 1];
-            nums[i + 2] = 1 - nums[i + 2];
-            operations++;
         }
         // check if last two elements are 1 else return -1
         return nums[n - 2] == 1 && nums[n - 1] == 1 ? operations : -1;
