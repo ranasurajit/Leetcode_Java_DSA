@@ -4,6 +4,8 @@ class Solution {
      *
      * TC: O(6 x N) ~ O(N)
      * SC: O(1)
+     *
+     * Accepted (689 / 689 testcases passed), Runtime ~ 9ms, Beats 16.02%
      */
     public int minOperations(int[] nums) {
         int n = nums.length;
