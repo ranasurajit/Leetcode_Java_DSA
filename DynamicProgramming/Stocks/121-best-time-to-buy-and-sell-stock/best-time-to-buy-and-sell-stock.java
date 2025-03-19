@@ -10,6 +10,7 @@ class Solution {
         int[] dp = new int[n]; // SC: O(N)
         int minPrice = prices[0];
         int maxProfit = 0;
+        // dp[i] = best maximum profit calculated till index i
         for (int i = 1; i < n; i++) { // TC: O(N)
             // keep track of minimum in left of index i
             minPrice = Math.min(minPrice, prices[i]);
