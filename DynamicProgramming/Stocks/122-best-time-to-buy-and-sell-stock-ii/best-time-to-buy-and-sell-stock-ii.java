@@ -1,155 +1,83 @@
 class Solution {
     /**
-     * Using Space Optimization
-     * 
+     * Approach II : Using Memoization Approach
+     *
      * TC: O(2 x N) ~ O(N)
-     * SC: O(2 + 2) ~ O(1)
-     * 
-     * @param prices
-     * @return
+     * SC: O(2 x N + N) ~ O(2 x N)
      */
     public int maxProfit(int[] prices) {
-        /*
-         * buy param is 1 to buy and 0 to sell, so in index = 0,
-         * we can only buy so buy = 1
-         */
         int n = prices.length;
-        int[] prev = new int[2]; // SC: O(2)
-        int[] curr = new int[2]; // SC: O(2)
-        prev[0] = prev[1] = 0; // Base case
-        for (int idx = n - 1; idx >= 0; idx--) { // TC: O(N)
-            for (int buy = 0; buy < 2; buy++) { // TC: O(2)
-                int profit = 0;
-                if (buy == 1) {
-                    // Max(if I decide to buy or not buy on day at index i)
-                    profit = Math.max(-1 * prices[idx] + prev[0],
-                            0 + prev[1]);
-                } else {
-                    // Max(if I decide to sell or not sell on day at index i)
-                    profit = Math.max(prices[idx] + prev[1],
-                            0 + prev[0]);
-                }
-                curr[buy] = profit;
-            }
-            prev = curr;
+        int[][] memo = new int[n + 1][2]; // SC: O(2 x N)
+        for (int[] memoItem : memo) {
+            Arrays.fill(memoItem, -1);
         }
-        return prev[1];
+        return solveMemoization(0, n, prices, 1, memo);
     }
 
     /**
-     * Using Tabulation
-     * 
+     * Using Memoization Approach
+     *
      * TC: O(2 x N) ~ O(N)
-     * SC: O(2 x N) ~ O(N)
-     * 
-     * @param prices
-     * @return
+     * SC: O(N)
      */
-    public int maxProfitUsingTabulation(int[] prices) {
-        /*
-         * buy param is 1 to buy and 0 to sell, so in index = 0,
-         * we can only buy so buy = 1
-         */
-        int n = prices.length;
-        int[][] dp = new int[n + 1][2];
-        dp[n][0] = dp[n][1] = 0; // Base case
-        for (int idx = n - 1; idx >= 0; idx--) {
-            for (int buy = 0; buy < 2; buy++) {
-                int profit = 0;
-                if (buy == 1) {
-                    // Max(if I decide to buy or not buy on day at index i)
-                    profit = Math.max(-1 * prices[idx] + dp[idx + 1][0],
-                            0 + dp[idx + 1][1]);
-                } else {
-                    // Max(if I decide to sell or not sell on day at index i)
-                    profit = Math.max(prices[idx] + dp[idx + 1][1],
-                            0 + dp[idx + 1][0]);
-                }
-                dp[idx][buy] = profit;
-            }
-        }
-        return dp[0][1];
-    }
-
-    /**
-     * Using Memoization
-     * 
-     * TC: O(N x 2) ~ O(N)
-     * SC: O(N x 2) + O(N) ~ O(N x 3) ~ O(N)
-     * 
-     * @param prices
-     * @return
-     */
-    public int maxProfitMemoization(int[] prices) {
-        /*
-         * buy param is 1 to buy and 0 to sell, so in index = 0,
-         * we can only buy so buy = 1
-         */
-        // states are index and (buy/sell i.e. 1 or 0)
-        int n = prices.length;
-        int[][] dp = new int[n][2];
-        for (int[] dp1D : dp) {
-            Arrays.fill(dp1D, -1);
-        }
-        return solveMemoization(0, 1, prices, dp);
-    }
-
-    private static int solveMemoization(int i, int buy, int[] prices, int[][] dp) {
-        // Base case
-        if (i == prices.length) {
-            // canot make profit on day at index = n (prices.length)
+    private int solveMemoization(int index, int n, int[] prices, int buy, int[][] memo) {
+        // Base Case
+        if (index == n) {
             return 0;
         }
-        if (dp[i][buy] != -1) {
-            return dp[i][buy];
+        // Memoization Check
+        if (memo[index][buy] != -1) {
+            return memo[index][buy];
         }
-        int profit = 0;
+        // Recursion Calls
+        int pick = 0;
+        int notpick = 0;
         if (buy == 1) {
-            // Max(if I decide to buy or not buy on day at index i)
-            profit = Math.max(-1 * prices[i] + solveMemoization(i + 1, 0, prices, dp),
-                    0 + solveMemoization(i + 1, 1, prices, dp));
+            // buy
+            pick = -1 * prices[index] + solveMemoization(index + 1, n, prices, 0, memo);
+            notpick = solveMemoization(index + 1, n, prices, 1, memo);
         } else {
-            // Max(if I decide to sell or not sell on day at index i)
-            profit = Math.max(prices[i] + solveMemoization(i + 1, 1, prices, dp),
-                    0 + solveMemoization(i + 1, 0, prices, dp));
+            // sell
+            pick = prices[index] + solveMemoization(index + 1, n, prices, 1, memo);
+            notpick = solveMemoization(index + 1, n, prices, 0, memo);
         }
-        dp[i][buy] = profit;
-        return dp[i][buy];
+        return memo[index][buy] = Math.max(pick, notpick);
     }
 
     /**
-     * Using Recursion
-     * 
+     * Approach I : Using Recursion Approach
+     *
      * TC: O(2 ^ N)
      * SC: O(N)
-     * 
-     * @param prices
-     * @return
      */
-    public int maxProfitUsingRecursion(int[] prices) {
-        /*
-         * buy param is 1 to buy and 0 to sell, so in index = 0,
-         * we can only buy so buy = 1
-         */
-        return solveRecursion(0, 1, prices);
+    public int maxProfitRecursion(int[] prices) {
+        int n = prices.length;
+        return solveRecursion(0, n, prices, 1);
     }
 
-    private static int solveRecursion(int i, int buy, int[] prices) {
-        // Base case
-        if (i == prices.length) {
-            // canot make profit on day at index = n (prices.length)
+    /**
+     * Using Recursion Approach
+     *
+     * TC: O(2 ^ N)
+     * SC: O(N)
+     */
+    private int solveRecursion(int index, int n, int[] prices, int buy) {
+        // Base Case
+        if (index == n) {
             return 0;
         }
-        int profit = 0;
+        // Recursion Calls
+        int pick = 0;
+        int notpick = 0;
         if (buy == 1) {
-            // Max(if I decide to buy or not buy on day at index i)
-            profit = Math.max(-1 * prices[i] + solveRecursion(i + 1, 0, prices),
-                    0 + solveRecursion(i + 1, 1, prices));
+            // buy
+            pick = -1 * prices[index] + solveRecursion(index + 1, n, prices, 0);
+            notpick = solveRecursion(index + 1, n, prices, 1);
         } else {
-            // Max(if I decide to sell or not sell on day at index i)
-            profit = Math.max(prices[i] + solveRecursion(i + 1, 1, prices),
-                    0 + solveRecursion(i + 1, 0, prices));
+            // sell
+            pick = prices[index] + solveRecursion(index + 1, n, prices, 1);
+            notpick = solveRecursion(index + 1, n, prices, 0);
         }
-        return profit;
+        return Math.max(pick, notpick);
     }
 }
