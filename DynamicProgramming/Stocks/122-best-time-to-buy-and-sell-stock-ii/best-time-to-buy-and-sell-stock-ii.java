@@ -1,11 +1,40 @@
 class Solution {
     /**
-     * Approach III : Using Tabulation Approach
+     * Approach IV : Using Space Optimization Approach
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(2 x N) ~ O(N)
      */
     public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[] next = new int[2]; // SC: O(2) ~ O(1)
+        // buy = 1 = you can buy else you can sell
+        // Initialization - if (index == n) return 0
+        next[0] = 0;
+        next[1] = 0;
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            int[] current = new int[2];
+            for (int buy = 0; buy < 2; buy++) { // TC: O(2)
+                if (buy == 1) {
+                    // buy
+                    current[buy] = Math.max(next[1], -1 * prices[i] + next[0]);
+                } else {
+                    // sell
+                    current[buy] = Math.max(next[0], prices[i] + next[1]);
+                }
+                next = current.clone();
+            }
+        }
+        return next[1];
+    }
+
+    /**
+     * Approach III : Using Tabulation Approach
+     *
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(2 x N) ~ O(N)
+     */
+    public int maxProfitTabulation(int[] prices) {
         int n = prices.length;
         int[][] dp = new int[n + 1][2]; // SC: O(2 x N)
         // buy = 1 = you can buy else you can sell
