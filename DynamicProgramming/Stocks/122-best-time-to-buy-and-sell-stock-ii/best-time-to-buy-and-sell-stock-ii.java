@@ -8,6 +8,7 @@ class Solution {
     public int maxProfit(int[] prices) {
         int n = prices.length;
         int[][] dp = new int[n + 1][2]; // SC: O(2 x N)
+        // buy = 1 = you can buy else you can sell
         // Initialization - if (index == n) return 0
         dp[n][0] = 0;
         dp[n][1] = 0;
@@ -37,6 +38,7 @@ class Solution {
         for (int[] memoItem : memo) {
             Arrays.fill(memoItem, -1);
         }
+        // buy = 1 = you can buy else you can sell
         return solveMemoization(0, n, prices, 1, memo);
     }
 
@@ -78,6 +80,7 @@ class Solution {
      */
     public int maxProfitRecursion(int[] prices) {
         int n = prices.length;
+        // buy = 1 = you can buy else you can sell
         return solveRecursion(0, n, prices, 1);
     }
 
