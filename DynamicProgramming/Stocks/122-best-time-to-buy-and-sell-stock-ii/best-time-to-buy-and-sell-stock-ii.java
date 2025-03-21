@@ -3,7 +3,7 @@ class Solution {
      * Approach IV : Using Space Optimization Approach
      *
      * TC: O(2 x N) ~ O(N)
-     * SC: O(2 x N) ~ O(N)
+     * SC: O(1)
      */
     public int maxProfit(int[] prices) {
         int n = prices.length;
