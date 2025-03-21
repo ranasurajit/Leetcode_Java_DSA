@@ -1,11 +1,56 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation Approach
+     *
+     * TC: O(6 x N) ~ O(N)
+     * SC: O(6 x N) ~ O(N)
+     */
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int t = 2;
+        // buy = 1 then you can buy else you can sell
+        int[][][] dp = new int[n + 1][2][t + 1]; // SC: O(6 x N)
+        // Initialization - when k = 0 or index = n return 0
+        for (int i = 0; i < n + 1; i++) { // TC: O(N)
+            for (int j = 0; j < 2; j++) { // TC: O(2)
+                for (int k = 0; k < t + 1; k++) { // TC: O(3)
+                    if (i == n || k == 0) {
+                        dp[i][j][k] = 0;
+                    }
+                }
+            }
+        }
+        // Iterative Calls
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            for (int buy = 0; buy < 2; buy++) { // TC: O(2)
+                for (int k = 1; k < t + 1; k++) { // TC: O(3)
+                    if (buy == 1) {
+                        // buy
+                        dp[i][buy][k] = Math.max(
+                            dp[i + 1][1][k],
+                            -1 * prices[i] + dp[i + 1][0][k]
+                        );
+                    } else {
+                        // sell
+                        dp[i][buy][k] = Math.max(
+                            dp[i + 1][0][k],
+                            prices[i] + dp[i + 1][1][k - 1]
+                        );
+                    }
+                }
+            }
+        }
+        // answer will be at i = 0, buy = 1, k = 2
+        return dp[0][1][2];
+    }
+
+    /**
      * Approach II : Using Memoization Approach
      *
      * TC: O(6 x N) ~ O(N)
      * SC: O(6 x N + N) ~ O(N + N)
      */
-    public int maxProfit(int[] prices) {
+    public int maxProfitMemoization(int[] prices) {
         int n = prices.length;
         int k = 2;
         // buy = 1 then you can buy else you can sell
