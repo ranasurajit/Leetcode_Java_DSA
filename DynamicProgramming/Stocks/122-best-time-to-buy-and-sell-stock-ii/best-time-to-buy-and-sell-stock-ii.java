@@ -23,7 +23,7 @@ class Solution {
                     current[buy] = Math.max(next[0], prices[i] + next[1]);
                 }
             }
-            next = current.clone();
+            next = current;
         }
         return next[1];
     }
