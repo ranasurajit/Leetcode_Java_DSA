@@ -1,11 +1,37 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation Approach
+     *
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(2 x N) ~ O(N)
+     */
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n + 1][2]; // SC: O(2 x N)
+        // Initialization - if (index == n) return 0
+        dp[n][0] = 0;
+        dp[n][1] = 0;
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            for (int buy = 0; buy < 2; buy++) { // TC: O(2)
+                if (buy == 1) {
+                    // buy
+                    dp[i][buy] = Math.max(dp[i + 1][1], -1 * prices[i] + dp[i + 1][0]);
+                } else {
+                    // sell
+                    dp[i][buy] = Math.max(dp[i + 1][0], prices[i] + dp[i + 1][1]);
+                }
+            }
+        }
+        return dp[0][1];
+    }
+
+    /**
      * Approach II : Using Memoization Approach
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(2 x N + N) ~ O(2 x N)
      */
-    public int maxProfit(int[] prices) {
+    public int maxProfitMemoization(int[] prices) {
         int n = prices.length;
         int[][] memo = new int[n + 1][2]; // SC: O(2 x N)
         for (int[] memoItem : memo) {
