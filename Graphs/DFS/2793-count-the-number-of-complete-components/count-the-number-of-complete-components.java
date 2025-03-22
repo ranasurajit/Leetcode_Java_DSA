@@ -1,13 +1,63 @@
 class Solution {
     /**
-     * Approach III : Using DFS Approach (Better Approach)
+     * Approach IV : Using BFS Approach (Better Approach)
      *
-     * TC: O(2 x V + 2 x E) ~ O(V + E)
-     * SC: O(2 x V) ~ O(V)
+     * TC: O(3 x V + 2 x E) ~ O(V + E)
+     * SC: O(2 x V + E) ~ O(V + E)
      */
     public int countCompleteComponents(int n, int[][] edges) {
         Map<Integer, ArrayList<Integer>> adj =
-            new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V)
+            new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V + E)
+        for (int[] edge : edges) { // TC: O(V + E)
+            adj.computeIfAbsent(edge[0], k -> new ArrayList<Integer>()).add(edge[1]);
+            adj.computeIfAbsent(edge[1], k -> new ArrayList<Integer>()).add(edge[0]);
+        }
+        boolean[] visited = new boolean[n]; // SC: O(V)
+        int count = 0;
+        for (int i = 0; i < n; i++) { // TC: O(V)
+            if (!visited[i]) {
+                int[] verticesEdges = { 0, 0 }; // SC: O(1)
+                bfsGraph(i, adj, visited, verticesEdges); // TC: O(V + E), SC: O(V)
+                // for complete components e = (v * (v - 1)) / 2
+                if (verticesEdges[1] / 2 == (verticesEdges[0] * (verticesEdges[0] - 1)) / 2) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    /**
+     * TC: O(V + E)
+     * SC: O(V)
+     */
+    private void bfsGraph(int s, Map<Integer, ArrayList<Integer>> adj,
+        boolean[] visited, int[] verticesEdges) {
+        Queue<Integer> queue = new LinkedList<Integer>(); // SC: O(V)
+        queue.offer(s);
+        visited[s] = true;
+        while (!queue.isEmpty()) {
+            int u = queue.poll();
+            verticesEdges[0]++;
+            verticesEdges[1] += adj.getOrDefault(u, new ArrayList<Integer>()).size();
+            for (Integer v : adj.getOrDefault(u, new ArrayList<Integer>())) {
+                if (!visited[v]) {
+                    visited[v] = true;
+                    queue.offer(v);
+                }
+            }
+        }
+    }
+
+    /**
+     * Approach III : Using DFS Approach (Better Approach)
+     *
+     * TC: O(2 x V + 2 x E) ~ O(V + E)
+     * SC: O(2 x V + E) ~ O(V + E)
+     */
+    public int countCompleteComponentsApproachIII(int n, int[][] edges) {
+        Map<Integer, ArrayList<Integer>> adj =
+            new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V + E)
         for (int[] edge : edges) { // TC: O(V + E)
             adj.computeIfAbsent(edge[0], k -> new ArrayList<Integer>()).add(edge[1]);
             adj.computeIfAbsent(edge[1], k -> new ArrayList<Integer>()).add(edge[0]);
@@ -47,11 +97,11 @@ class Solution {
      * Approach II : Using DFS Approach
      *
      * TC: O(4 x V + 2 x E) ~ O(V + E)
-     * SC: O(3 x V) ~ O(V)
+     * SC: O(3 x V + E) ~ O(V + E)
      */
     public int countCompleteComponentsApproachII(int n, int[][] edges) {
         Map<Integer, ArrayList<Integer>> adj =
-            new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V)
+            new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V + E)
         for (int[] edge : edges) { // TC: O(V + E)
             adj.computeIfAbsent(edge[0], k -> new ArrayList<Integer>()).add(edge[1]);
             adj.computeIfAbsent(edge[1], k -> new ArrayList<Integer>()).add(edge[0]);
@@ -104,11 +154,11 @@ class Solution {
      * Approach I : Using Indegrees and DFS Approach
      *
      * TC: O(4 x V + 2 x E) ~ O(V + E)
-     * SC: O(5 x V) ~ O(V)
+     * SC: O(5 x V + E) ~ O(V + E)
      */
     public int countCompleteComponentsApproachI(int n, int[][] edges) {
         Map<Integer, ArrayList<Integer>> adj =
-            new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V)
+            new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V + E)
         int[] indegrees = new int[n]; // SC: O(V)
         int[] componentIndices = new int[n]; // SC: O(V)
         for (int[] edge : edges) { // TC: O(V + E)
