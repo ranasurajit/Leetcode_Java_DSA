@@ -22,14 +22,12 @@ class Solution {
         for (int i = 0; i < n; i++) {
             if (!compMap.containsKey(componentIndices[i])) {
                 compMap.put(componentIndices[i], 
-                    Arrays.asList(0, Integer.MAX_VALUE, Integer.MIN_VALUE));
+                    Arrays.asList(0, Integer.MAX_VALUE));
             }
             compMap.get(componentIndices[i]).
                 set(0, compMap.get(componentIndices[i]).get(0) + 1);
             compMap.get(componentIndices[i]).
                 set(1, Math.min(compMap.get(componentIndices[i]).get(1), indegrees[i]));
-            compMap.get(componentIndices[i]).
-                set(2, Math.max(compMap.get(componentIndices[i]).get(1), indegrees[i]));
         }
         for (Integer key : compMap.keySet()) {
             List<Integer> comp = compMap.get(key);
@@ -37,9 +35,6 @@ class Solution {
                 incomplete++;
             }
         }
-        System.out.println(Arrays.toString(indegrees));
-        System.out.println(Arrays.toString(componentIndices));
-        System.out.println(compMap);
         return count - incomplete;
     }
 
