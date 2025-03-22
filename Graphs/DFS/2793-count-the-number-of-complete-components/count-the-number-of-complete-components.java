@@ -1,8 +1,8 @@
 class Solution {
     /**
-     * Approach II : Using DFS Approach
+     * Approach III : Using DFS Approach (Better Approach)
      *
-     * TC: O(4 x V + 2 x E) ~ O(V + E)
+     * TC: O(2 x V + 2 x E) ~ O(V + E)
      * SC: O(2 x V) ~ O(V)
      */
     public int countCompleteComponents(int n, int[][] edges) {
@@ -16,7 +16,51 @@ class Solution {
         int count = 0;
         for (int i = 0; i < n; i++) { // TC: O(V)
             if (!visited[i]) {
-                Set<Integer> compSet = new HashSet<Integer>();
+                int[] verticesEdges = { 0, 0 }; // SC: O(1)
+                dfsGraphAgain(i, adj, visited, verticesEdges); // TC: O(E), SC: O(V)
+                // for complete components e = (v * (v - 1)) / 2
+                if (verticesEdges[1] / 2 == (verticesEdges[0] * (verticesEdges[0] - 1)) / 2) {
+                    count++;
+                }
+            }
+        }
+        return count;
+    }
+
+    /**
+     * TC: O(E)
+     * SC: O(V)
+     */
+    private void dfsGraphAgain(int u, Map<Integer, ArrayList<Integer>> adj,
+        boolean[] visited, int[] verticesEdges) {
+        visited[u] = true;
+        verticesEdges[0]++;
+        verticesEdges[1] += adj.getOrDefault(u, new ArrayList<Integer>()).size();
+        for (Integer v : adj.getOrDefault(u, new ArrayList<Integer>())) {
+            if (!visited[v]) {
+                dfsGraphAgain(v, adj, visited, verticesEdges);
+            }
+        }
+    }
+
+    /**
+     * Approach II : Using DFS Approach
+     *
+     * TC: O(4 x V + 2 x E) ~ O(V + E)
+     * SC: O(3 x V) ~ O(V)
+     */
+    public int countCompleteComponentsApproachII(int n, int[][] edges) {
+        Map<Integer, ArrayList<Integer>> adj =
+            new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V)
+        for (int[] edge : edges) { // TC: O(V + E)
+            adj.computeIfAbsent(edge[0], k -> new ArrayList<Integer>()).add(edge[1]);
+            adj.computeIfAbsent(edge[1], k -> new ArrayList<Integer>()).add(edge[0]);
+        }
+        boolean[] visited = new boolean[n]; // SC: O(V)
+        int count = 0;
+        for (int i = 0; i < n; i++) { // TC: O(V)
+            if (!visited[i]) {
+                Set<Integer> compSet = new HashSet<Integer>(); // SC: O(V)
                 dfsGraphComponent(i, adj, visited, compSet); // TC: O(E), SC: O(V)
                 if (isCompleteComponent(compSet, adj)) { // TC: O(V), SC: O(1)
                     count++;
