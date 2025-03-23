@@ -6,7 +6,15 @@ class Solution {
      * SC: O(4 x V + E) ~ O(V + E)
      */
     public int countPaths(int n, int[][] roads) {
-        Map<Integer, ArrayList<int[]>> adj = createGraph(roads); // TC: O(V + E), SC: O(V + E)
+        Map<Integer, ArrayList<int[]>> adj = 
+            new HashMap<Integer, ArrayList<int[]>>(); // TC: O(V + E), SC: O(V + E)
+        for (int[] edge : roads) {
+            adj.computeIfAbsent(edge[0], k -> new ArrayList<int[]>())
+                .add(new int[] { edge[1], edge[2] });
+            adj.computeIfAbsent(edge[1], k -> new ArrayList<int[]>())
+                .add(new int[] { edge[0], edge[2] });
+        }
+
         int mod = (int) 1e9 + 7;
 
         long[] minDist = new long[n]; // SC: O(V)
@@ -36,22 +44,5 @@ class Solution {
             }
         }
         return countMinPaths[n - 1];
-    }
-
-    /**
-     * Creating AdjacencyList from graph edges
-     *
-     * TC: O(V + E)
-     * SC: O(V + E)
-     */
-    private Map<Integer, ArrayList<int[]>> createGraph(int[][] roads) {
-        Map<Integer, ArrayList<int[]>> adj = new HashMap<Integer, ArrayList<int[]>>();
-        for (int[] edge : roads) {
-            adj.computeIfAbsent(edge[0], k -> new ArrayList<int[]>())
-                .add(new int[] { edge[1], edge[2] });
-            adj.computeIfAbsent(edge[1], k -> new ArrayList<int[]>())
-                .add(new int[] { edge[0], edge[2] });
-        }
-        return adj;
     }
 }
