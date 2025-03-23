@@ -6,6 +6,7 @@ class Solution {
      * SC: O(4 x V + E) ~ O(V + E)
      */
     public int countPaths(int n, int[][] roads) {
+        // Create Adjacency List
         Map<Integer, ArrayList<int[]>> adj = 
             new HashMap<Integer, ArrayList<int[]>>(); // TC: O(V + E), SC: O(V + E)
         for (int[] edge : roads) {
