@@ -10,7 +10,7 @@ class Solution {
         int mod = (int) 1e9 + 7;
 
         long[] minDist = new long[n]; // SC: O(V)
-        Arrays.fill(minDist, Long.MAX_VALUE);
+        Arrays.fill(minDist, Long.MAX_VALUE / 2);
         minDist[0] = 0;
 
         PriorityQueue<long[]> pq = 
