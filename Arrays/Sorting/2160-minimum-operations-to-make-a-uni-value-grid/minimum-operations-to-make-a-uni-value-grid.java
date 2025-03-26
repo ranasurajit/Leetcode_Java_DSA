@@ -5,7 +5,7 @@ class Solution {
      * TC: O((2 + (M x N)) x Log(M x N)) ~ O((M x N) x log(M x N))
      * SC: O(M x N)
      *
-     * Runtime - 36 ms, Beats 86.43%
+     * Runtime - 34 ms, Beats 90.45%
      */
     public int minOperations(int[][] grid, int x) {
         int m = grid.length;
