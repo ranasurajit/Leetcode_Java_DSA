@@ -20,8 +20,7 @@ class Solution {
         Arrays.sort(nums); // TC: O((M x N) x Log(M x N))
         int i = 0;
         int j = nums.length - 1;
-        int mid = i + (j - i) / 2;
-        int target = nums[mid];
+        int target = nums[i + (j - i) / 2];
         int operations = 0;
         while (i < j) { // TC: O(M x N)
             if ((target - nums[i]) % x != 0) {
