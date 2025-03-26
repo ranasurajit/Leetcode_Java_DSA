@@ -3,74 +3,53 @@ class Trie {
     TrieNode root;
 
     class TrieNode {
-        boolean isEndOfWord;
+        boolean isEnd;
         TrieNode[] children;
 
-        public TrieNode() {
-            isEndOfWord = false;
+        public TrieNode () {
+            isEnd = false;
             children = new TrieNode[26];
         }
     }
 
-    private TrieNode createNode() {
-        return new TrieNode();
-    }
-
     public Trie() {
-        root = createNode();
+        root = new TrieNode();
     }
     
-    /**
-     * TC: O(N)
-     * SC: O(N x 26) ~ O(N)
-     */
     public void insert(String word) {
-        TrieNode crawler = root;
-        int n = word.length();
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            int idx = word.charAt(i) - 'a';
-            if (crawler.children[idx] == null) {
-                crawler.children[idx] = createNode();
+        TrieNode crawl = root;
+        for (char ch : word.toCharArray()) {
+            int idx = ch - 'a';
+            if (crawl.children[idx] == null) {
+                crawl.children[idx] = new TrieNode();
             }
-            crawler = crawler.children[idx];
+            crawl = crawl.children[idx];
         }
-        crawler.isEndOfWord = true;
+        crawl.isEnd = true;
     }
     
-    /**
-     * TC: O(N)
-     * SC: O(1)
-     */
     public boolean search(String word) {
-        TrieNode crawler = root;
-        int n = word.length();
-        int i = 0;
-        for (i = 0; i < n; i++) { // TC: O(N)
-            int idx = word.charAt(i) - 'a';
-            if (crawler.children[idx] == null) {
+        TrieNode crawl = root;
+        for (char ch : word.toCharArray()) {
+            int idx = ch - 'a';
+            if (crawl.children[idx] == null) {
                 return false;
             }
-            crawler = crawler.children[idx];
+            crawl = crawl.children[idx];
         }
-        return i == n && crawler.isEndOfWord;
+        return crawl.isEnd;
     }
     
-    /**
-     * TC: O(N)
-     * SC: O(1)
-     */
     public boolean startsWith(String prefix) {
-        TrieNode crawler = root;
-        int n = prefix.length();
-        int i = 0;
-        for (i = 0; i < n; i++) { // TC: O(N)
-            int idx = prefix.charAt(i) - 'a';
-            if (crawler.children[idx] == null) {
+        TrieNode crawl = root;
+        for (char ch : prefix.toCharArray()) {
+            int idx = ch - 'a';
+            if (crawl.children[idx] == null) {
                 return false;
             }
-            crawler = crawler.children[idx];
+            crawl = crawl.children[idx];
         }
-        return i == n;
+        return crawl != null;
     }
 }
 
