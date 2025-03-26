@@ -19,21 +19,18 @@ class Solution {
         int i = 0;
         int j = nums.length - 1;
         int mid = i + (j - i) / 2;
+        int target = nums[mid];
         int operations = 0;
         while (i < j) { // TC: O(M x N)
-            while (nums[i] < nums[mid]) {
-                nums[i] = nums[i] + x;
-                operations++;
-            }
-            if (nums[i] != nums[mid]) {
+            if ((target - nums[i]) % x == 0) {
+                operations += Math.abs(target - nums[i]) / x;
+            } else {
                 return -1;
             }
             i++;
-            while (nums[j] > nums[mid]) {
-                nums[j] = nums[j] - x;
-                operations++;
-            }
-            if (nums[j] != nums[mid]) {
+            if ((target - nums[j]) % x == 0) {
+                operations += Math.abs(target - nums[j]) / x;
+            } else {
                 return -1;
             }
             j--;
