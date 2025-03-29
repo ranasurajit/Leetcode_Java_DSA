@@ -1,81 +1,121 @@
 class Solution {
     private static final int MOD = (int) 1e9 + 7;
-    private static final int N = (int) 1e5;
-    private int[] sieve = new int[N + 1];
-    
+
+    /**
+     * Using Multiple Approaches (Greedy + Monotonic Stack Approach)
+     *
+     * - Next and Previous Greater Elements Using Monotonic Stack
+     * - Prime Factorization Approach
+     * - Fast Power Approach
+     * 
+     * TC: O(N x Sqrt(N) + O(3 x N) + (N + K) x log(N)) ~ O(N x Sqrt(N) + (N + K) x log(N))
+     * SC: O(4 x N + K x log(N)) ~ O(N + K x log(N))
+     */
     public int maximumScore(List<Integer> nums, int k) {
-        buildSieve();
         int n = nums.size();
-        
-        int[] score = new int[n];
-        for (int j = 0; j < n; j++) score[j] = primeScore(nums.get(j));
-        
-        long[] left = new long[n];
-        long[] right = new long[n];
-        Stack<Integer> stack = new Stack<>();
-        
-        for (int j = 0; j < n; j++) {
-            while (!stack.isEmpty() && score[stack.peek()] < score[j]) stack.pop();
-            left[j] = stack.isEmpty() ? -1 : stack.peek();
-            stack.push(j);
+        long[] scores = new long[n]; // SC: O(N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            scores[i] = computePrimeScore(nums.get(i)); // TC: O(Sqrt(N))
         }
-        
-        stack.clear();
-        
-        for (int j = n - 1; j >= 0; j--) {
-            while (!stack.isEmpty() && score[stack.peek()] <= score[j]) stack.pop();
-            right[j] = stack.isEmpty() ? n : stack.peek();
-            stack.push(j);
+        Stack<Integer> st = new Stack<>();
+        long[] pge = previousGreaterElements(n, scores, st); // TC: O(N), SC: O(N)
+        st.clear();
+        long[] nge = nextGreaterElements(n, scores, st); // TC: O(N), SC: O(N)
+
+        // Pre-computing possible counts of sub-arrays possibile for any index
+        List<long[]> valAndFreq = new ArrayList<>(); // SC: O(N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            long possible = (i - pge[i]) * (nge[i] - i);
+            valAndFreq.add(new long[]{ nums.get(i), possible });
         }
-        
-        List<long[]> valAndFreq = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
-            long possible = (i - left[i]) * (right[i] - i);
-            valAndFreq.add(new long[]{nums.get(i), possible});
-        }
-        
-        valAndFreq.sort((a, b) -> Long.compare(b[0], a[0]));
+        // Sorting the possibilities in descending order of value of nums
+        valAndFreq.sort((a, b) -> Long.compare(b[0], a[0])); // TC: O(N x log(N))
         
         long result = 1;
-        for (long[] cur : valAndFreq) {
+        for (long[] cur : valAndFreq) { // TC: O(K)
             if (k == 0) break;
-            
             long take = Math.min(cur[1], (long) k);
             k -= take;
-            result = (result * fastPower(cur[0], take)) % MOD;
+            result = (result * fastPower(cur[0], take)) % MOD; // TC: O(log(N)), SC: O(log(N))
         }
-        
         return (int) result;
     }
-    
-    private void buildSieve() {
-        Arrays.fill(sieve, 0);
-        for (int j = 2; j * j <= N; j++) {
-            for (int k = j; k <= N; k += j) {
-                if (sieve[k] == 0) sieve[k] = j;
+
+    /**
+     * Using Calculation of Previous Greater Element Using Monotonic Stack
+     * 
+     * TC: O(N)
+     * SC: O(N)
+     */
+    private long[] previousGreaterElements(int n, long[] scores, Stack<Integer> st) {
+        long[] pge = new long[n]; // SC: O(N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            while (!st.isEmpty() && scores[st.peek()] < scores[i]) {
+                st.pop();
+            }
+            pge[i] = st.isEmpty() ? -1 : st.peek();
+            st.push(i);
+        }
+        return pge;
+    }
+
+    /**
+     * Using Calculation of Next Greater Element Using Monotonic Stack
+     * 
+     * TC: O(N)
+     * SC: O(N)
+     */
+    private long[] nextGreaterElements(int n, long[] scores, Stack<Integer> st) {
+        long[] nge = new long[n]; // SC: O(N)
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            while (!st.isEmpty() && scores[st.peek()] <= scores[i]) {
+                st.pop();
+            }
+            nge[i] = st.isEmpty() ? n : st.peek();
+            st.push(i);
+        }
+        return nge;
+    }
+
+    /**
+     * Method to get Prime Score of a number
+     *
+     * TC: O(Sqrt(N))
+     * SC: O(N)
+     */
+    private long computePrimeScore(int num) {
+        long count = 0;
+        for (int i = 2; i * i <= num; i++) {
+            if (num % i == 0) {
+                count++;
+                while (num % i == 0) {
+                    num = num / i;
+                }
             }
         }
-        for (int j = 1; j <= N; j++) {
-            if (sieve[j] == 0) sieve[j] = j;
+        if (num > 1) {
+            count++;
         }
+        return count;
     }
     
-    private int primeScore(int x) {
-        int result = 0;
-        while (x != 1) {
-            int div = sieve[x];
-            while (x % div == 0) x /= div;
-            result++;
+    /**
+     * Using Fast Power Approach
+     *
+     * TC: O(log(N))
+     * SC: O(log(N))
+     */
+    private long fastPower(long x, long n) {
+        // Base Case
+        if (n == 0) {
+            return 1;
         }
-        return result;
-    }
-    
-    private long fastPower(long x, long y) {
-        long result = 1;
-        while (y > 0) {
-            if ((y & 1) == 1) result = (result * x) % MOD;
-            x = (x * x) % MOD;
-            y /= 2;
+        // Recursive Calls
+        long half = fastPower(x, n / 2);
+        long result = (half * half) % MOD;
+        if ((n & 1) == 1) {
+            // n is odd
+            result = (x * result) % MOD;
         }
         return result;
     }
