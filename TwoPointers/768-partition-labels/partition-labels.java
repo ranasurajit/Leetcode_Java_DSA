@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach : Using Two Pointers Approach
+     * Approach I : Using Two Pointers Approach
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(26) ~ O(1)
@@ -13,21 +13,19 @@ class Solution {
             lastOccur[s.charAt(i) - 'a'] = i;
         }
         int start = 0;
-        int end = -1;
+        int end = 0;
         for (int i = 0; i < n; i++) { // TC: O(N)
-            if (end == -1) {
-                end = lastOccur[s.charAt(i) - 'a'];
-                int j = 0;
-                for (j = start + 1; j <= end; j++) {
-                    if (lastOccur[s.charAt(j) - 'a'] > end) {
-                        end = lastOccur[s.charAt(j) - 'a'];
-                    }
+            end = lastOccur[s.charAt(i) - 'a'];
+            int j = 0;
+            for (j = start + 1; j <= end; j++) {
+                if (lastOccur[s.charAt(j) - 'a'] > end) {
+                    end = lastOccur[s.charAt(j) - 'a'];
                 }
-                partitions.add(j - i);
-                start = j;
-                i = start - 1;
-                end = -1;
             }
+            partitions.add(j - i);
+            start = j;
+            i = start - 1;
+            end = 0;
         }
         return partitions;
     }
