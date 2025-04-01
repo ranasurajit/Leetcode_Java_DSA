@@ -1,5 +1,32 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation Approach
+     *
+     * TC: O(N)
+     * SC: O(N)
+     *
+     * Accepted (54 / 54 testcases passed) - Beats 18.21%
+     */
+    public long mostPoints(int[][] questions) {
+        int n = questions.length;
+        // Initialization
+        long[] dp = new long[n + 1]; // SC: O(N)
+        dp[n] = 0;
+        // Iterative Calls
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            int points = questions[i][0];
+            int brainpower = questions[i][1];
+            long take = points;
+            if (i + brainpower + 1 < n) {
+                take += dp[i + brainpower + 1];
+            }
+            long nottake = dp[i + 1];
+            dp[i] = Math.max(take, nottake);
+        }
+        return dp[0];
+    }
+
+    /**
      * Approach II : Using Memoization Approach
      *
      * TC: O(N)
@@ -7,7 +34,7 @@ class Solution {
      *
      * Accepted (54 / 54 testcases passed) - Beats 18.21%
      */
-    public long mostPoints(int[][] questions) {
+    public long mostPointsMemoization(int[][] questions) {
         int n = questions.length;
         long[] memo = new long[n + 1]; // SC: O(N)
         Arrays.fill(memo, -1L);
