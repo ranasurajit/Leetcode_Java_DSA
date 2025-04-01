@@ -5,7 +5,7 @@ class Solution {
      * TC: O(N)
      * SC: O(N)
      *
-     * Accepted (54 / 54 testcases passed) - Beats 18.21%
+     * Accepted (54 / 54 testcases passed) - Beats 96.96%
      */
     public long mostPoints(int[][] questions) {
         int n = questions.length;
