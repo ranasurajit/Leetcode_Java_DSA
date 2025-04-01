@@ -5,7 +5,7 @@ class Solution {
      * TC: O(N)
      * SC: O(N + N)
      *
-     * Accepted (54 / 54 testcases passed) 
+     * Accepted (54 / 54 testcases passed) - Beats 18.21%
      */
     public long mostPoints(int[][] questions) {
         int n = questions.length;
@@ -38,8 +38,7 @@ class Solution {
          * if question at index idx is solved, then next question 
          * that can be solved is at (idx + brainpower + 1)th index
          */
-        long take = questions[idx][0] + 
-            solveMemoization(idx + brainpower + 1, n, questions, memo);
+        long take = points + solveMemoization(idx + brainpower + 1, n, questions, memo);
         return memo[idx] = Math.max(take, nottake);
     }
 
@@ -76,7 +75,7 @@ class Solution {
          * if question at index idx is solved, then next question 
          * that can be solved is at (idx + brainpower + 1)th index
          */
-        long take = questions[idx][0] + solveRecursion(idx + brainpower + 1, n, questions);
+        long take = points + solveRecursion(idx + brainpower + 1, n, questions);
         return Math.max(take, nottake);
     }
 }
