@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach III : Optimal Approach
+     * Approach III : Optimal Approach (Using Array Pre-processing)
      *
      * TC: O(3 x N) ~ O(N)
      * SC: O(2 x N) ~ O(N)
