@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach: Using Hashing Approach
+     * Approach : Using Hashing Approach
      *
      * TC: O(N)
      * SC: O(N)
