@@ -1,13 +1,41 @@
 class Solution {
     /**
-     * Approach III : Optimal Approach (Using Array Pre-processing)
+     * Approach IV : Optimal Approach - 1 Pass Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     *
+     * Accepted (599 / 599 testcases passed)
+     */
+    public long maximumTripletValue(int[] nums) {
+        int n = nums.length;
+        /**
+         * For this value of a triplet to be maximum
+         * nums[i] - nums[j]) * nums[k]
+         * nums[i] should be 1st maximum and 
+         * nums[k] should be 2nd  maximum and
+         * nums[j] should be the minimum in array 'nums'
+         */
+        long prefixMax = nums[0];
+        long diffMax = 0;
+        long maxValue = Long.MIN_VALUE;
+        for (int i = 1; i < n; i++) { // TC: O(N)
+            maxValue = Math.max(maxValue, diffMax * nums[i]);
+            diffMax = Math.max(diffMax, prefixMax - nums[i]);
+            prefixMax = Math.max(prefixMax, nums[i]);
+        }
+        return maxValue < 0 ? 0 : maxValue;
+    }
+
+    /**
+     * Approach III : Optimal Approach (Using Array Pre-processing) - 3 Pass Approach
      *
      * TC: O(3 x N) ~ O(N)
      * SC: O(2 x N) ~ O(N)
      *
      * Accepted (599 / 599 testcases passed)
      */
-    public long maximumTripletValue(int[] nums) {
+    public long maximumTripletValueApproachIII(int[] nums) {
         int n = nums.length;
         /**
          * For this value of a triplet to be maximum
