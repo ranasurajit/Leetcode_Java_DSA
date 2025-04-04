@@ -2,10 +2,10 @@ class Solution {
     /**
      * Approach II : Using Memoization Approach
      *
-     * TC: O(2 ^ N)
-     * SC: O(N)
+     * TC: O(N x N)
+     * SC: O(N x N + N)
      *
-     * Time Limit Exceeded (22 / 55 testcases passed)
+     * Time Limit Exceeded (55 / 55 testcases passed) - Beats 7.76%
      */
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
