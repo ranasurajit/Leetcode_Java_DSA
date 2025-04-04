@@ -16,7 +16,10 @@ class Solution {
      */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         // Base Case
-        if (root == null || root == p || root == q) {
+        if (root == null) {
+            return null;
+        }
+        if (root == p || root == q) {
             return root;
         }
         // DFS
