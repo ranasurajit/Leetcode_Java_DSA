@@ -9,26 +9,25 @@
  */
 class Solution {
     /**
-     * Using DFS Approach
+     * Approach : Using DFS Approach
      *
-     * TC: O(N)
-     * SC: O(N)
+     * TC: O(N) as all nodes visited twice
+     * SC: O(N) - recursion stack space
      */
     public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        // Base case
-        if (root == null) {
-            return null;
-        }
-        if (root == p || root == q) {
+        // Base Case
+        if (root == null || root == p || root == q) {
             return root;
         }
-        // compute LCA node from left sub-tree
-        TreeNode leftLCA = lowestCommonAncestor(root.left, p, q);
-        // compute LCA node from right sub-tree
-        TreeNode rightLCA = lowestCommonAncestor(root.right, p, q);
-        if (leftLCA != null && rightLCA != null) {
+        // DFS
+        TreeNode leftChild = lowestCommonAncestor(root.left, p, q);
+        TreeNode rightChild = lowestCommonAncestor(root.right, p, q);
+        if (leftChild == null) {
+            return rightChild;
+        } else if (rightChild == null) {
+            return leftChild;
+        } else {
             return root;
         }
-        return leftLCA == null ? rightLCA : leftLCA;
     }
 }
