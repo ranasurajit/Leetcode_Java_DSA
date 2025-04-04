@@ -15,7 +15,7 @@
  */
 class Solution {
     /**
-     * Approach : Using BFS Approach
+     * Approach : Using BFS and DFS Approach
      *
      * TC: O(2 x N + log(N)) ~ O(N)
      * SC: O(2 x N + log(N)) ~ O(N)
