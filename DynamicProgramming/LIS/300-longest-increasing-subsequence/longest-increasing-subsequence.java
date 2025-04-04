@@ -1,5 +1,35 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization Approach
+     *
+     * TC: O(N x N)
+     * SC: O(2 x N) ~ O(N)
+     *
+     * Accepted (55 / 55 testcases passed) - Beats < 25%
+     */
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] next = new int[n + 1];
+        int[] current = new int[n + 1];
+        // Initialization - not needed as base case returns 0
+        // Iterative Calls
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            for (int j = i - 1; j >= -1; j--) { // TC: O(N)
+                int nottake = next[j + 1];
+                int take = 0;
+                // Take - Check if prevIndex = -1 or nums[index] > nums[prevIndex] for LIS
+                if (j == -1 || nums[i] > nums[j]) {
+                    // Take - prevIndex becomes index and 1 is contributed to length
+                    take = 1 + next[i + 1];
+                }
+                current[j + 1] = Math.max(take, nottake);
+            }
+            next = current.clone();
+        }
+        return next[0];
+    }
+
+    /**
      * Approach III : Using Tabulation Approach
      *
      * TC: O(N x N)
@@ -7,7 +37,7 @@ class Solution {
      *
      * Accepted (55 / 55 testcases passed) - Beats < 25%
      */
-    public int lengthOfLIS(int[] nums) {
+    public int lengthOfLISTabulation(int[] nums) {
         int n = nums.length;
         int[][] dp = new int[n + 1][n + 1]; // states are index and prevIndex
         // Initialization - not needed as base case returns 0
