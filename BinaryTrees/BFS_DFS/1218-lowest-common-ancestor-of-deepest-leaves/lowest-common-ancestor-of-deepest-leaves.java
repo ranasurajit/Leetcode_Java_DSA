@@ -15,12 +15,47 @@
  */
 class Solution {
     /**
-     * Approach : Using BFS and DFS Approach
+     * Approach II : Using DFS and Tracking Depth Approach
+     *
+     * TC: O(N)
+     * SC: O(N)
+     */
+    public TreeNode lcaDeepestLeaves(TreeNode root) {
+        return lcaNode(root).node;
+    }
+
+    private TreePair lcaNode(TreeNode node) {
+        if (node == null) {
+            return new TreePair(null, 0);
+        }
+        TreePair left = lcaNode(node.left);
+        TreePair right = lcaNode(node.right);
+        if (left.depth == right.depth) {
+            return new TreePair(node, left.depth + 1);
+        } else if (left.depth > right.depth) {
+            return new TreePair(left.node, left.depth + 1);
+        } else {
+            return new TreePair(right.node, right.depth + 1);
+        }
+    }
+
+    class TreePair {
+        TreeNode node;
+        int depth;
+
+        public TreePair (TreeNode node, int depth) {
+            this.node = node;
+            this.depth = depth;
+        }
+    }
+
+    /**
+     * Approach I : Using BFS and DFS Approach
      *
      * TC: O(2 x N + log(N)) ~ O(N)
      * SC: O(2 x N + log(N)) ~ O(N)
      */
-    public TreeNode lcaDeepestLeaves(TreeNode root) {
+    public TreeNode lcaDeepestLeavesApproachI(TreeNode root) {
         HashMap<Integer, ArrayList<Integer>> map = 
             new HashMap<Integer, ArrayList<Integer>>(); // SC: O(log(N))
         Queue<TreeNode> queue = new LinkedList<TreeNode>(); // SC: O(N)
