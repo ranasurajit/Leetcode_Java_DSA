@@ -5,7 +5,7 @@ class Solution {
      * TC: O(N x N)
      * SC: O(N x N)
      *
-     * Accepted (55 / 55 testcases passed) - Beats < 10%
+     * Accepted (55 / 55 testcases passed) - Beats < 25%
      */
     public int lengthOfLIS(int[] nums) {
         int n = nums.length;
