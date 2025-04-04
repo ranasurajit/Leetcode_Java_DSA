@@ -22,12 +22,9 @@ class Solution {
         // DFS
         TreeNode leftChild = lowestCommonAncestor(root.left, p, q);
         TreeNode rightChild = lowestCommonAncestor(root.right, p, q);
-        if (leftChild == null) {
-            return rightChild;
-        } else if (rightChild == null) {
-            return leftChild;
-        } else {
+        if (leftChild != null && rightChild != null) {
             return root;
         }
+        return leftChild == null ? rightChild : leftChild;
     }
 }
