@@ -1,13 +1,41 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation Approach
+     *
+     * TC: O(N x N)
+     * SC: O(N x N)
+     *
+     * Accepted (55 / 55 testcases passed) - Beats < 10%
+     */
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[][] dp = new int[n + 1][n + 1]; // states are index and prevIndex
+        // Initialization - not needed as base case returns 0
+        // Iterative Calls
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            for (int j = i - 1; j >= -1; j--) { // TC: O(N)
+                int nottake = dp[i + 1][j + 1];
+                int take = 0;
+                // Take - Check if prevIndex = -1 or nums[index] > nums[prevIndex] for LIS
+                if (j == -1 || nums[i] > nums[j]) {
+                    // Take - prevIndex becomes index and 1 is contributed to length
+                    take = 1 + dp[i + 1][i + 1];
+                }
+                dp[i][j + 1] = Math.max(take, nottake);
+            }
+        }
+        return dp[0][0];
+    }
+
+    /**
      * Approach II : Using Memoization Approach
      *
      * TC: O(N x N)
      * SC: O(N x N + N)
      *
-     * Time Limit Exceeded (55 / 55 testcases passed) - Beats 7.76%
+     * Accepted (55 / 55 testcases passed) - Beats < 10%
      */
-    public int lengthOfLIS(int[] nums) {
+    public int lengthOfLISMemoization(int[] nums) {
         int n = nums.length;
         int[][] memo = new int[n][n + 1]; // states are index and prevIndex
         for (int[] mem : memo) {
