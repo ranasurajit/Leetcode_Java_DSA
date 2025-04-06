@@ -1,56 +1,24 @@
 class Solution {
     /**
-     * Approach II : Using Memoization Approach (Hashing Appproach)
+     * Approach III : Using Tabulation Approach
      *
-     * TC: O(N x log(N) + 2 ^ N) ~ O(2 ^ N)
+     * TC: O(N x log(N) + N + N ^ 2) ~ O(N ^ 2)
      * SC: O(N)
      *
-     * Accepted (40 / 49 testcases passed), Beats < 10%
+     * Accepted (49 / 49 testcases passed), Beats ~ 70%
      */
     public List<Integer> largestDivisibleSubset(int[] nums) {
-        // int n = nums.length;
-        // List<Integer> lds = new ArrayList<>();
-
-        // // Sort the array and find the length of Longest Divisible Subset (LDS)
-        // Arrays.sort(nums); // TC: O(N x log(N))
-        // int[] dp = new int[n];
-        // Arrays.fill(dp, 1);
-        // int lis = 1;
-
-        
-        // for (int i = 1; i < n; i++) { // TC: O(N)
-        //     for (int j = 0; j < i; j++) { // TC: O(N)
-        //         if (nums[i] % nums[j] == 0 && 1 + dp[j] > dp[i]) {
-        //             dp[i] = 1 + dp[j];
-        //             if (lis < dp[i]) {
-        //                 lis = dp[i];
-        //             }
-        //         }
-        //     }
-        // }
-
-        // // Find one of the possible Longest Divisible Subset (LDS)
-        // int prev = -1;
-        // for (int i = n - 1; i >= 0; i++) {
-        //     if (dp[i] == lis && (prev == -1 || prev % nums[i] == 0)) {
-        //         lds.add(nums[i]);
-        //         lis--;
-        //         prev = nums[i];
-        //     }
-        // }
-        // return lds;
-
         int n = nums.length;
-        List<Integer> ans = new ArrayList<>();
-        
-        // Step-1: Sort the array and Find LIS length
-        Arrays.sort(nums);
+        List<Integer> lds = new ArrayList<Integer>();
+
+        // Sort the array and find the length of Longest Divisible Subset (LDS)
+        Arrays.sort(nums); // TC: O(N x log(N))
         int lis = 1;
-        int[] dp = new int[n];
+        int[] dp = new int[n]; // SC: O(N)
         Arrays.fill(dp, 1);
         
-        for (int i = 1; i < n; ++i) {
-            for (int j = 0; j < i; ++j) {
+        for (int i = 1; i < n; i++) { // TC: O(N)
+            for (int j = 0; j < i; j++) { // TC: O(N)
                 if (nums[i] % nums[j] == 0 && 1 + dp[j] > dp[i]) {
                     dp[i] = 1 + dp[j];
                     if (lis < dp[i]) {
@@ -59,18 +27,17 @@ class Solution {
                 }
             }
         }
-        
-        // Step-2: Find one possible LIS
+
+        // Find one of the possible Longest Divisible Subset (LDS)
         int prev = -1;
-        for (int i = n - 1; i >= 0; i--) {
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
             if (dp[i] == lis && (prev == -1 || prev % nums[i] == 0)) {
-                ans.add(nums[i]);
+                lds.add(nums[i]);
                 lis--;
                 prev = nums[i];
             }
         }
-        
-        return ans;
+        return lds;
     }
 
     /**
