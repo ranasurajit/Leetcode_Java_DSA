@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach II : Using Memoization Approach
+     * Approach II : Using Memoization Approach (Hashing Appproach)
      *
      * TC: O(N x log(N) + 2 ^ N) ~ O(2 ^ N)
      * SC: O(N)
@@ -37,8 +37,7 @@ class Solution {
             solveMemoization(index + 1, prevIndex, n, nums, memo); // explore possibilities
         // take
         List<Integer> take = new ArrayList<Integer>();
-        if (prevIndex == -1 || nums[prevIndex] % nums[index] == 0 || 
-            nums[index] % nums[prevIndex] == 0) { // divisible subset condition
+        if (prevIndex == -1 || nums[index] % nums[prevIndex] == 0) { // divisible subset condition
             take.add(nums[index]);
             take.addAll(solveMemoization(index + 1, index, n, nums, memo));
         }
@@ -78,8 +77,7 @@ class Solution {
             solveRecursion(index + 1, prevIndex, n, nums); // explore possibilities
         // take
         List<Integer> take = new ArrayList<Integer>();
-        if (prevIndex == -1 || nums[prevIndex] % nums[index] == 0 || 
-            nums[index] % nums[prevIndex] == 0) { // divisible subset condition
+        if (prevIndex == -1 || nums[index] % nums[prevIndex] == 0) { // divisible subset condition
             take.add(nums[index]);
             take.addAll(solveRecursion(index + 1, index, n, nums));
         }
