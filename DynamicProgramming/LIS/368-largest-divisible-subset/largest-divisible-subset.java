@@ -5,9 +5,83 @@ class Solution {
      * TC: O(N x log(N) + 2 ^ N) ~ O(2 ^ N)
      * SC: O(N)
      *
-     * Time Limit Exceeded (47 / 49 testcases passed)
+     * Accepted (40 / 49 testcases passed), Beats < 10%
      */
     public List<Integer> largestDivisibleSubset(int[] nums) {
+        // int n = nums.length;
+        // List<Integer> lds = new ArrayList<>();
+
+        // // Sort the array and find the length of Longest Divisible Subset (LDS)
+        // Arrays.sort(nums); // TC: O(N x log(N))
+        // int[] dp = new int[n];
+        // Arrays.fill(dp, 1);
+        // int lis = 1;
+
+        
+        // for (int i = 1; i < n; i++) { // TC: O(N)
+        //     for (int j = 0; j < i; j++) { // TC: O(N)
+        //         if (nums[i] % nums[j] == 0 && 1 + dp[j] > dp[i]) {
+        //             dp[i] = 1 + dp[j];
+        //             if (lis < dp[i]) {
+        //                 lis = dp[i];
+        //             }
+        //         }
+        //     }
+        // }
+
+        // // Find one of the possible Longest Divisible Subset (LDS)
+        // int prev = -1;
+        // for (int i = n - 1; i >= 0; i++) {
+        //     if (dp[i] == lis && (prev == -1 || prev % nums[i] == 0)) {
+        //         lds.add(nums[i]);
+        //         lis--;
+        //         prev = nums[i];
+        //     }
+        // }
+        // return lds;
+
+        int n = nums.length;
+        List<Integer> ans = new ArrayList<>();
+        
+        // Step-1: Sort the array and Find LIS length
+        Arrays.sort(nums);
+        int lis = 1;
+        int[] dp = new int[n];
+        Arrays.fill(dp, 1);
+        
+        for (int i = 1; i < n; ++i) {
+            for (int j = 0; j < i; ++j) {
+                if (nums[i] % nums[j] == 0 && 1 + dp[j] > dp[i]) {
+                    dp[i] = 1 + dp[j];
+                    if (lis < dp[i]) {
+                        lis = dp[i];
+                    }
+                }
+            }
+        }
+        
+        // Step-2: Find one possible LIS
+        int prev = -1;
+        for (int i = n - 1; i >= 0; i--) {
+            if (dp[i] == lis && (prev == -1 || prev % nums[i] == 0)) {
+                ans.add(nums[i]);
+                lis--;
+                prev = nums[i];
+            }
+        }
+        
+        return ans;
+    }
+
+    /**
+     * Approach II : Using Memoization Approach (Hashing Appproach)
+     *
+     * TC: O(N x log(N) + 2 ^ N) ~ O(2 ^ N)
+     * SC: O(N)
+     *
+     * Accepted (40 / 49 testcases passed), Beats < 10%
+     */
+    public List<Integer> largestDivisibleSubsetMemoization(int[] nums) {
         int n = nums.length;
         Arrays.sort(nums); // TC: O(N x log(N))
         Map<String, List<Integer>> memo = new HashMap<String, List<Integer>>();
