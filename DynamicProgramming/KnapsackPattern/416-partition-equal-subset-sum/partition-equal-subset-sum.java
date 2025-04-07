@@ -1,13 +1,55 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization Approach
+     *
+     * TC: O(N x T + N) ~ O(N x T)
+     * SC: O(2 x T) ~ O(T)
+     *
+     * Accepted (144 / 144 testcases passed), Beats > 60.00%
+     */
+    public boolean canPartition(int[] nums) {
+        int n = nums.length;
+        int totalSum = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            totalSum += nums[i];
+        }
+        // If sum is odd then it is not possible to form two subsets
+        if ((totalSum & 1) != 0) {
+            return false;
+        }
+        /**
+         * Now the problem is reduced to find a subset with sum = totalSum / 2.
+         * Two subsets should have totalSum = sum / 2
+         */
+        int sum = totalSum / 2;
+        // Initialization
+        boolean[] prev = new boolean[sum + 1]; // TC: O(T)
+        prev[0] = true;
+        // Iterative Calls
+        for (int i = 1; i < n + 1; i++) { // TC: O(N)
+            boolean[] current = new boolean[sum + 1]; // TC: O(T)
+            current[0] = true;
+            for (int j = 1; j < sum + 1; j++) { // TC: O(T)
+                if (j >= nums[i - 1]) {
+                    current[j] = prev[j - nums[i - 1]] || prev[j];
+                } else {
+                    current[j] = prev[j];
+                }
+            }
+            prev = current;
+        }
+        return prev[sum];
+    }
+
+    /**
      * Approach III : Using Tabulation Approach
      *
      * TC: O(N x T + 2 x N + T) ~ O(N x T)
      * SC: O(N x T)
      *
-     * Accepted (144 / 144 testcases passed), Beats 93.79%
+     * Accepted (144 / 144 testcases passed), Beats > 60.00%
      */
-    public boolean canPartition(int[] nums) {
+    public boolean canPartitionTabulation(int[] nums) {
         int n = nums.length;
         int totalSum = 0;
         for (int i = 0; i < n; i++) { // TC: O(N)
