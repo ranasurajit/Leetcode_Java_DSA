@@ -5,7 +5,7 @@ class Solution {
      * TC: O(N x T + N) ~ O(N x T)
      * SC: O(2 x T) ~ O(T)
      *
-     * Accepted (144 / 144 testcases passed), Beats > 60.00%
+     * Accepted (144 / 144 testcases passed), Beats 60.78%, Memory 76.62%
      */
     public boolean canPartition(int[] nums) {
         int n = nums.length;
@@ -47,7 +47,7 @@ class Solution {
      * TC: O(N x T + 2 x N + T) ~ O(N x T)
      * SC: O(N x T)
      *
-     * Accepted (144 / 144 testcases passed), Beats > 60.00%
+     * Accepted (144 / 144 testcases passed), Beats 51.31%, Memory 65.70%
      */
     public boolean canPartitionTabulation(int[] nums) {
         int n = nums.length;
@@ -91,7 +91,7 @@ class Solution {
      * TC: O(N x T + N) ~ O(N x T)
      * SC: O(N x T + N)
      *
-     * Accepted (144 / 144 testcases passed), Beats 93.79%
+     * Accepted (144 / 144 testcases passed), Beats 93.79%, Memory 40.15%
      */
     public boolean canPartitionMemoization(int[] nums) {
         int n = nums.length;
