@@ -1,0 +1,117 @@
+class Solution {
+    /**
+     * Approach II : Using Memoization Approach
+     *
+     * TC: O(N x T + N) ~ O(N x T)
+     * SC: O(N x T + N)
+     *
+     * Time Limit Exceeded (37 / 144 testcases passed)
+     */
+    public boolean canPartition(int[] nums) {
+        int n = nums.length;
+        int totalSum = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            totalSum += nums[i];
+        }
+        // If sum is odd then it is not possible to form two subsets
+        if ((totalSum & 1) != 0) {
+            return false;
+        }
+        /**
+         * Now the problem is reduced to find a subset with sum = totalSum / 2.
+         * Two subsets should have totalSum = sum / 2
+         */
+        int sum = totalSum / 2;
+        int[][] memo = new int[n + 1][sum + 1]; // SC: O(N x T)
+        for (int[] mem : memo) {
+            Arrays.fill(mem, -1);
+        }
+        return solveMemoization(n, sum, nums, memo); // TC: O(N x T), SC: O(N)
+    }
+
+    /**
+     * Using Memoization Approach
+     *
+     * TC: O(N x T)
+     * SC: O(N)
+     */
+    private boolean solveMemoization(int n, int sum, int[] nums, int[][] memo) {
+        // Base Case
+        if (sum == 0) {
+            return true;
+        }
+        if (n == 0) {
+            return false;
+        }
+        // Memoization Check
+        if (memo[n][sum] != -1) {
+            return memo[n][sum] == 1;
+        }
+        // Recursion Calls
+        // take or not take
+        if (sum >= nums[n - 1]) {
+            // we have option to pick or not pick
+            boolean result = solveMemoization(n - 1, sum - nums[n - 1], nums, memo) ||
+                solveMemoization(n - 1, sum, nums, memo);
+            memo[n][sum] = result ? 1 : 0;
+            return result;
+        } else {
+            // we cannot pick
+            boolean result = solveMemoization(n - 1, sum, nums, memo);
+            memo[n][sum] = result ? 1 : 0;
+            return result;
+        }
+    }
+
+    /**
+     * Approach I : Using Recursion Approach
+     *
+     * TC: O(N + 2 ^ N) ~ O(2 ^ N)
+     * SC: O(N)
+     *
+     * Time Limit Exceeded (37 / 144 testcases passed)
+     */
+    public boolean canPartitionRecursion(int[] nums) {
+        int n = nums.length;
+        int totalSum = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            totalSum += nums[i];
+        }
+        // If sum is odd then it is not possible to form two subsets
+        if ((totalSum & 1) != 0) {
+            return false;
+        }
+        /**
+         * Now the problem is reduced to find a subset with sum = totalSum / 2.
+         * Two subsets should have totalSum = sum / 2
+         */
+        int sum = totalSum / 2;
+        return solveRecursion(n, sum, nums); // TC: O(2 ^ N), SC: O(N)
+    }
+
+    /**
+     * Using Recursion Approach
+     *
+     * TC: O(2 ^ N)
+     * SC: O(N)
+     */
+    private boolean solveRecursion(int n, int sum, int[] nums) {
+        // Base Case
+        if (sum == 0) {
+            return true;
+        }
+        if (n == 0) {
+            return false;
+        }
+        // Recursion Calls
+        // take or not take
+        if (sum >= nums[n - 1]) {
+            // we have option to pick or not pick
+            return solveRecursion(n - 1, sum - nums[n - 1], nums) ||
+                solveRecursion(n - 1, sum, nums);
+        } else {
+            // we cannot pick
+            return solveRecursion(n - 1, sum, nums);
+        }
+    }
+}
