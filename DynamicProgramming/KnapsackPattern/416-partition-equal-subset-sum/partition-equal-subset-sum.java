@@ -1,13 +1,57 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation Approach
+     *
+     * TC: O(N x T + 2 x N + T) ~ O(N x T)
+     * SC: O(N x T)
+     *
+     * Accepted (144 / 144 testcases passed), Beats 93.79%
+     */
+    public boolean canPartition(int[] nums) {
+        int n = nums.length;
+        int totalSum = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            totalSum += nums[i];
+        }
+        // If sum is odd then it is not possible to form two subsets
+        if ((totalSum & 1) != 0) {
+            return false;
+        }
+        /**
+         * Now the problem is reduced to find a subset with sum = totalSum / 2.
+         * Two subsets should have totalSum = sum / 2
+         */
+        int sum = totalSum / 2;
+        // Initialization
+        boolean[][] dp = new boolean[n + 1][sum + 1]; // SC: O(N x T)
+        for (int j = 0; j < sum + 1; j++) { // TC: O(T)
+            dp[0][j] = false;
+        }
+        for (int i = 0; i < n + 1; i++) { // TC: O(N)
+            dp[i][0] = true;
+        }
+        // Iterative Calls
+        for (int i = 1; i < n + 1; i++) { // TC: O(N)
+            for (int j = 1; j < sum + 1; j++) { // TC: O(T)
+                if (j >= nums[i - 1]) {
+                    dp[i][j] = dp[i - 1][j - nums[i - 1]] || dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[n][sum];
+    }
+
+    /**
      * Approach II : Using Memoization Approach
      *
      * TC: O(N x T + N) ~ O(N x T)
      * SC: O(N x T + N)
      *
-     * Time Limit Exceeded (37 / 144 testcases passed)
+     * Accepted (144 / 144 testcases passed), Beats 93.79%
      */
-    public boolean canPartition(int[] nums) {
+    public boolean canPartitionMemoization(int[] nums) {
         int n = nums.length;
         int totalSum = 0;
         for (int i = 0; i < n; i++) { // TC: O(N)
