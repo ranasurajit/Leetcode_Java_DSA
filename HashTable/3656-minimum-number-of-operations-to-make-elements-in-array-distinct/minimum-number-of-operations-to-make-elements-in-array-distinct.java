@@ -1,11 +1,34 @@
 class Solution {
     /**
+     * Approach II : Using Array Reverse Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public int minimumOperations(int[] nums) {
+        int n = nums.length;
+        int[] map = new int[101]; // SC: O(101) ~ O(1) as from constrains 1 <= nums[i] <= 100
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            map[nums[i]]++;
+            if (map[nums[i]] > 1) {
+                /**
+                 * we check the last index at which the duplicate element exists then
+                 * for any index we count the number of operations needed to remove that
+                 * index by formula (i + 3) / 3
+                 */
+                return (i + 3) / 3;
+            }
+        }
+        return 0;
+    }
+
+    /**
      * Approach I : Using Hashing Approach
      *
      * TC: O(N)
      * SC: O(N)
      */
-    public int minimumOperations(int[] nums) {
+    public int minimumOperationsApproachI(int[] nums) {
         int n = nums.length;
         Map<Integer, Integer> map = new HashMap<Integer, Integer>(); // SC: O(N)
         int operations = 0;
