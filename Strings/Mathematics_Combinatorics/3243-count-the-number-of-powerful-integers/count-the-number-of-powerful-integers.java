@@ -34,7 +34,7 @@ class Solution {
                 return count;
             }
         }
-        if (trailing.compareTo(suffix) >= 0) {
+        if (Long.valueOf(suffix) <= Long.valueOf(trailing)) {
             count++;
         }
         return count;
