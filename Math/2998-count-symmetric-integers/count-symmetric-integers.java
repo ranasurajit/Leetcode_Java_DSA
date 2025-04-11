@@ -11,14 +11,13 @@ class Solution {
     public int countSymmetricIntegers(int low, int high) {
         int countSymmetric = 0;
         for (int i = low; i <= high; i++) { // TC: O(H - L)
+            // as per constraints 1 <= low <= high <= 10^4 so high cannot exceed 10000
             if (i >= 10 && i <= 99 && i % 11 == 0) { // digits of size 2
                 countSymmetric++;
-            } else if (i >= 1000 && i <= 9999) {
-                int first = i / 1000;
-                int second = (i / 100) % 10;
-                int third = (i / 10) % 10;
-                int fourth = i % 10;
-                if (first + second == third + fourth) {
+            } else if (i >= 1000 && i <= 9999) { // digits of size 4
+                int leftHalf = (i / 1000) + (i / 100) % 10;
+                int rightHalf = ((i / 10) % 10) + (i % 10);
+                if (leftHalf == rightHalf) {
                     countSymmetric++;
                 }
             }
