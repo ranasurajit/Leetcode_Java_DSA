@@ -5,6 +5,8 @@ class Solution {
      * TC: O(Len x (H - L))
      * SC: O(1)
      * where L = average length of number
+     *
+     * Runtime: 31 ms Beats < 35%
      */
     public int countSymmetricIntegers(int low, int high) {
         int countSymmetric = 0;
