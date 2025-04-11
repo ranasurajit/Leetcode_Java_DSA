@@ -6,7 +6,7 @@ class Solution {
      * SC: O(1)
      * where L = average length of number
      *
-     * Runtime: 31 ms Beats < 35%
+     * Runtime: 10 ms Beats ~ 100%
      */
     public int countSymmetricIntegers(int low, int high) {
         int countSymmetric = 0;
