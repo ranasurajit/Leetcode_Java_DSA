@@ -39,7 +39,7 @@ class Solution {
                     }
                 }
             }
-            for (int k = arr[j]; k <= 1000; ++k) {
+            for (int k = arr[j]; k <= 1000; ++k) { // TC: O(1000)
                 ++sum[k];
             }
         }
