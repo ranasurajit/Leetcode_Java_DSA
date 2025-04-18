@@ -2,8 +2,8 @@ class Solution {
     /**
      * Approach : Using Recursion Approach
      *
-     * TC: O(N)
-     * SC: O(2 x N) ~ O(N)
+     * TC: O(2 ^ N), as the string size nearly doubles at each step in the worst case
+     * SC: O(2 ^ N + N) ~ O(2 ^ N)
      */
     public String countAndSay(int n) {
         // Base Case
