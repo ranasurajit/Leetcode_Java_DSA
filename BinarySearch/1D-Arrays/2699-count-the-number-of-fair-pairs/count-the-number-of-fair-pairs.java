@@ -10,15 +10,15 @@ class Solution {
     public long countFairPairs(int[] nums, int lower, int upper) {
         int n = nums.length;
         Arrays.sort(nums); // TC: O(N x log(N))
-        long countPairsLower = 0L;
-        long countPairsUpper = 0L;
+        long counPairs = 0L;
         for (int i = 0; i < n; i++) { // TC: O(N)
-            int lowerValue = lower - nums[i];
-            countPairsLower += lowerBound(nums, i + 1, n - 1, lowerValue); // TC: O(log(N))
-            int upperValue = upper - nums[i];
-            countPairsUpper += upperBound(nums, i + 1, n - 1, upperValue); // TC: O(log(N))
+            long countPairsLower = 
+                lowerBound(nums, i + 1, n - 1, lower - nums[i]); // TC: O(log(N))
+            long countPairsUpper =
+                lowerBound(nums, i + 1, n - 1, upper - nums[i] + 1); // TC: O(log(N))
+            counPairs += (countPairsUpper - countPairsLower);
         }
-        return countPairsUpper - countPairsLower;
+        return counPairs;
     }
 
     /**
@@ -32,25 +32,6 @@ class Solution {
         while (low <= high) {
             int mid = low + (high - low) / 2;
             if (nums[mid] >= x) {
-                high = mid - 1;
-            } else {
-                low = mid + 1;
-            }
-        }
-        return low;
-    }
-
-    /**
-     * Using Binary Search Approach
-     * to find x such that nums[i] > x
-     *
-     * TC: O(log(N))
-     * SC: O(1)
-     */
-    private int upperBound(int[] nums, int low, int high, int x) {
-        while (low <= high) {
-            int mid = low + (high - low) / 2;
-            if (nums[mid] > x) {
                 high = mid - 1;
             } else {
                 low = mid + 1;
