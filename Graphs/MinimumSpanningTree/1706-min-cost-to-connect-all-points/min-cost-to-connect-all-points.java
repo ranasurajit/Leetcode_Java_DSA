@@ -2,7 +2,7 @@ class Solution {
     /**
      * Approach II : Using Kruskal's Algorithm for Minimum Spanning Tree
      *
-     * TC: O(N ^ 2 + N ^ 2 x log(N ^ 2) + N ^ 2 x α(N)) ~ O(N ^ 2 x log(N ^ 2))
+     * TC: O(N ^ 2 + N ^ 2 x log(N ^ 2) + N ^ 2 x α(N)) ~ O(N ^ 2 x log(N))
      * SC: O(N ^ 2 + 2 x N) ~ O(N ^ 2)
      */
     public int minCostConnectPoints(int[][] points) {
@@ -93,7 +93,7 @@ class Solution {
     /**
      * Approach I : Using Prim's Algorithm for Minimum Spanning Tree
      *
-     * TC: O(N ^ 2 + N ^ 2 x log(N ^ 2)) ~ O(N ^ 2 x log(N ^ 2))
+     * TC: O(N ^ 2 + N ^ 2 x log(N ^ 2)) ~ O(N ^ 2 x log(N))
      * SC: O(3 x N ^ 2 + N) ~ O(N ^ 2)
      */
     public int minCostConnectPointsApproachI(int[][] points) {
