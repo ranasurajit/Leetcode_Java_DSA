@@ -9,10 +9,11 @@ class Solution {
         int n = s.length();
         Stack<Character> st = new Stack<Character>(); // SC: O(N)
         for (int i = 0; i < n; i++) { // TC: O(N)
-            if (!st.isEmpty() && Math.abs(st.peek() - s.charAt(i)) == 32) {
+            char ch = s.charAt(i);
+            if (!st.isEmpty() && Math.abs(st.peek() - ch) == 32) {
                 st.pop();
             } else {
-                st.push(s.charAt(i));
+                st.push(ch);
             }
         }
         StringBuilder sb = new StringBuilder(); // SC: O(N)
