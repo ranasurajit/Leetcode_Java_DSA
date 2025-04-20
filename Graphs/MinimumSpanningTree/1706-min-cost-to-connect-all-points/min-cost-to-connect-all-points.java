@@ -1,58 +1,56 @@
 class Solution {
     /**
-     * Using Prim's Algorithm Approach
+     * Approach I : Using Prim's Algorithm for Minimum Spanning Tree
      *
-     * TC: O(V ^ 2 x log(V))
-     * SC: O(V ^ 2 + V)
+     * TC: O(N ^ 2 + N ^ 2 x log(N ^ 2)) ~ O(N ^ 2 x log(N ^ 2))
+     * SC: O(3 x N ^ 2 + N) ~ O(N ^ 2)
      */
     public int minCostConnectPoints(int[][] points) {
         int n = points.length;
-        Map<Integer, ArrayList<int[]>> adj = 
-            createGraph(n, points); // TC: O(V ^ 2), SC: TC: O(V ^ 2)
-        // Min-Heap to store edges based on weights - int[] { weight, node }
-        PriorityQueue<int[]> pq = new PriorityQueue<int[]>((p, q) -> p[0] - q[0]); // SC: O(V ^ 2)
-        pq.offer(new int[] { 0, 0 });
-        boolean[] visited = new boolean[n]; // SC: O(V)
         int minCost = 0;
-        while (!pq.isEmpty()) { // TC: O(V ^ 2)
-            int[] current = pq.poll(); // TC: O(log(V))
-            int w = current[0];
+        Map<Integer, ArrayList<int[]>> adj =
+            createAdjacencyList(points, n); // TC: O(E), SC: O(2 x E)
+        boolean[] visited = new boolean[n]; // SC: O(N)
+        // we would need a PriorityQueue (Min-Heap) to store edges in order of edgeCosts
+        PriorityQueue<int[]> pq = new PriorityQueue<int[]>((p, q) -> p[0] - q[0]); // SC: O(E)
+        pq.offer(new int[] { 0, 0 }); // TC: O(log(E))
+        while (!pq.isEmpty()) { // TC: O(E)
+            int[] current = pq.poll(); // TC: O(log(E))
+            int cost = current[0];
             int u = current[1];
             if (visited[u]) {
                 continue;
             }
             visited[u] = true;
-            minCost += w;
-            for (int[] ngbr : adj.get(u)) {
+            minCost += cost;
+            for (int[] ngbr : adj.getOrDefault(u, new ArrayList<int[]>())) { // TC: O(E)
                 int v = ngbr[0];
-                int edgeWeight = ngbr[1];
+                int edgeCost = ngbr[1];
                 if (!visited[v]) {
-                    pq.offer(new int[] { edgeWeight, v }); // TC: O(log(V))
+                    pq.offer(new int[] { edgeCost, v }); // TC: O(log(E))
                 }
             }
         }
         return minCost;
     }
-    
+
     /**
-     * Creating Adjacency List
+     * Creating AdjacencyList
      *
-     * TC: O(V ^ 2 + V) ~ O(V ^ 2)
-     * SC: O(V ^ 2)
+     * TC: O(N ^ 2)
+     * SC: O(2 x N ^ 2)
      */
-    private Map<Integer, ArrayList<int[]>> createGraph(int v, int[][] points) {
-        Map<Integer, ArrayList<int[]>> adj =
-            new HashMap<Integer, ArrayList<int[]>>(); // SC: O(V x V)
-        for (int i = 0; i < v; i++) { // TC: O(V)
-            adj.put(i, new ArrayList<int[]>());
-        }
-        for (int i = 0; i < v; i++) { // TC: O(V)
-            for (int j = i + 1; j < v; j++) { // TC: O(V)
-                int x1 = points[i][0], y1 = points[i][1];
-                int x2 = points[j][0], y2 = points[j][1];
+    private Map<Integer, ArrayList<int[]>> createAdjacencyList(int[][] points, int n) {
+        Map<Integer, ArrayList<int[]>> adj = new HashMap<Integer, ArrayList<int[]>>();
+        for (int i = 0; i < n - 1; i++) {     // TC: O(N)
+            for (int j = i + 1; j < n; j++) { // TC: O(N)
+                int x1 = points[i][0];
+                int y1 = points[i][1];
+                int x2 = points[j][0];
+                int y2 = points[j][1];
                 int weight = Math.abs(x1 - x2) + Math.abs(y1 - y2);
-                adj.get(i).add(new int[] { j, weight });
-                adj.get(j).add(new int[] { i, weight });
+                adj.computeIfAbsent(i, k -> new ArrayList<int[]>()).add(new int[] { j, weight });
+                adj.computeIfAbsent(j, k -> new ArrayList<int[]>()).add(new int[] { i, weight });
             }
         }
         return adj;
