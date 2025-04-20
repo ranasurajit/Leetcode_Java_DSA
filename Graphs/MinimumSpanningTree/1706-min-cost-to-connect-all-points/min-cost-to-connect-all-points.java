@@ -1,11 +1,102 @@
 class Solution {
     /**
+     * Approach II : Using Kruskal's Algorithm for Minimum Spanning Tree
+     *
+     * TC: O(N ^ 2 + N ^ 2 x log(N ^ 2) + N ^ 2 x α(N)) ~ O(N ^ 2 x log(N ^ 2))
+     * SC: O(N ^ 2 + 2 x N) ~ O(N ^ 2)
+     */
+    public int minCostConnectPoints(int[][] points) {
+        int n = points.length;
+        int minCost = 0;
+        // pre-requisites to perform DSU operation
+        int[] parent = new int[n]; // SC: O(N)
+        int[] rank = new int[n]; // SC: O(N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            parent[i] = i;
+            rank[i] = 1;
+        }
+        // forming the edges
+        List<int[]> edges = createEdges(points, n); // TC: O(N ^ 2), SC: O(N ^ 2)
+        // sorting the edges in order of edgeWeights
+        edges.sort(Comparator.comparingInt(a -> a[2])); // TC: O(E x log(E))
+        for (int[] edge : edges) { // TC: O(E)
+            int u = edge[0];
+            int v = edge[1];
+            int cost = edge[2];
+            if (find(parent, u) != find(parent, v)) { // TC: O(α(V)), SC: O(V)
+                unionByRank(u, v, parent, rank); // TC: O(α(V)), SC: O(1)
+                minCost += cost;
+            }
+        }
+        return minCost;
+    }
+
+    /**
+     * Find by Path Compression (Using Disjoint Set Union) Approach
+     *
+     * TC: O(α(V))
+     * SC: O(V)
+     */
+    private int find(int[] parent, int x) {
+        if (x == parent[x]) {
+            return x;
+        }
+        return parent[x] = find(parent, parent[x]);
+    }
+
+    /**
+     * Union by Rank (Using Disjoint Set Union) Approach
+     *
+     * TC: O(α(2 x V)) ~ O(α(V))
+     * SC: O(1)
+     */
+    private void unionByRank(int x, int y, int[] parent, int[] rank) {
+        int xParent = find(parent, x); // TC: O(α(V))
+        int yParent = find(parent, y); // TC: O(α(V))
+        if (xParent == yParent) {
+            return;
+        }
+        if (rank[xParent] > rank[yParent]) {
+            // make xParent as parent of yParent
+            parent[yParent] = xParent;
+        } else if (rank[xParent] < rank[yParent]) {
+            // make yParent as parent of xParent
+            parent[xParent] = yParent;
+        } else {
+            // make xParent as parent of yParent
+            parent[yParent] = xParent;
+            rank[xParent]++;
+        }
+    }
+
+    /**
+     * Creating Edges List
+     *
+     * TC: O(N ^ 2)
+     * SC: O(N ^ 2)
+     */
+    private List<int[]> createEdges(int[][] points, int n) {
+        List<int[]> edges = new ArrayList<int[]>();
+        for (int i = 0; i < n - 1; i++) { // TC: O(N)
+            for (int j = i + 1; j < n; j++) { // TC: O(N)
+                int x1 = points[i][0];
+                int y1 = points[i][1];
+                int x2 = points[j][0];
+                int y2 = points[j][1];
+                int weight = Math.abs(x1 - x2) + Math.abs(y1 - y2);
+                edges.add(new int[] { i, j, weight });
+            }
+        }
+        return edges;
+    }
+
+    /**
      * Approach I : Using Prim's Algorithm for Minimum Spanning Tree
      *
      * TC: O(N ^ 2 + N ^ 2 x log(N ^ 2)) ~ O(N ^ 2 x log(N ^ 2))
      * SC: O(3 x N ^ 2 + N) ~ O(N ^ 2)
      */
-    public int minCostConnectPoints(int[][] points) {
+    public int minCostConnectPointsApproachI(int[][] points) {
         int n = points.length;
         int minCost = 0;
         Map<Integer, ArrayList<int[]>> adj =
