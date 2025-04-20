@@ -9,7 +9,7 @@ class Solution {
         int n = s.length();
         Stack<Character> st = new Stack<Character>(); // SC: O(N)
         for (int i = 0; i < n; i++) { // TC: O(N)
-            if (!st.isEmpty() && isBadString(st.peek(), s.charAt(i))) {
+            if (!st.isEmpty() && Math.abs(st.peek() - s.charAt(i)) == 32) {
                 st.pop();
             } else {
                 st.push(s.charAt(i));
@@ -20,13 +20,5 @@ class Solution {
             sb.insert(0, st.pop());
         }
         return sb.toString();
-    }
-
-    /**
-     * TC: O(1)
-     * SC: O(1)
-     */
-    private boolean isBadString(char charA, char charB) {
-        return ((charA - 'a') == (charB - 'a') + 32) || ((charA - 'a') == (charB - 'a') - 32);
     }
 }
