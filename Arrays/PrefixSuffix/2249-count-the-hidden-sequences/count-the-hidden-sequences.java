@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach III : Using Array Pre-Processing (Without Space) Approach
+     * Approach III : Using Array Pre-Processing (Without Space) + Math Approach
      *
      * TC: O(N)
      * SC: O(1)
