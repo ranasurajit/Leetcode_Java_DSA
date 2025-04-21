@@ -10,8 +10,8 @@ class Solution {
         int hidden = 0;
         int minValue = 0;
         int maxValue = 0;
-        for (int i = 1; i <= n; i++) { // TC: O(N)
-            hidden = differences[i - 1] + hidden;
+        for (int diff : differences) { // TC: O(N)
+            hidden += diff;
             minValue = Math.min(minValue, hidden);
             maxValue = Math.max(maxValue, hidden);
             /**
