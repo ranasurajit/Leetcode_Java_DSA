@@ -1,11 +1,9 @@
 class Solution {
     /**
-     * Approach II : Using Array Pre-Processing Approach
+     * Approach III : Using Array Pre-Processing (Without Space) Approach
      *
-     * TC: O(N + R)
-     * SC: O(N)
-     *
-     * where R = Range (upper - lower + 1)
+     * TC: O(N)
+     * SC: O(1)
      */
     public int numberOfArrays(int[] differences, int lower, int upper) {
         int n = differences.length;
@@ -16,8 +14,36 @@ class Solution {
             hidden = differences[i - 1] + hidden;
             minValue = Math.min(minValue, hidden);
             maxValue = Math.max(maxValue, hidden);
+            /**
+            * possible values for hidden[0] i.e. 
+            * start + minValue >= lower and start + maxValue <= upper
+            * i.e. lower - minValue <= start <= upper - maxValue
+            */
+            if ((upper - maxValue) - (lower - minValue) + 1 <= 0) {
+                return 0;
+            }
         }
-        // now storing min and max values in array 'hidden'
+        return (upper - maxValue) - (lower - minValue) + 1;
+    }
+
+    /**
+     * Approach II : Using Array Pre-Processing (Without Space) Approach
+     *
+     * TC: O(N + R)
+     * SC: O(1)
+     *
+     * where R = Range (upper - lower + 1)
+     */
+    public int numberOfArraysApproachII(int[] differences, int lower, int upper) {
+        int n = differences.length;
+        int hidden = 0;
+        int minValue = 0;
+        int maxValue = 0;
+        for (int i = 1; i <= n; i++) { // TC: O(N)
+            hidden = differences[i - 1] + hidden;
+            minValue = Math.min(minValue, hidden);
+            maxValue = Math.max(maxValue, hidden);
+        }
         int countSeq = 0;
         for (int i = lower; i <= upper; i++) { // TC: O(upper - lower + 1) ~ O(R)
             if (minValue + i >= lower && maxValue + i <= upper) {
