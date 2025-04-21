@@ -6,7 +6,6 @@ class Solution {
      * SC: O(1)
      */
     public int numberOfArrays(int[] differences, int lower, int upper) {
-        int n = differences.length;
         int hidden = 0;
         int minValue = 0;
         int maxValue = 0;
