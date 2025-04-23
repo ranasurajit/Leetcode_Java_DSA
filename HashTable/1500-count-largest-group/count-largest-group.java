@@ -91,8 +91,7 @@ class Solution {
     private int sumOfDigits(int num) {
         int sum = 0;
         while (num > 0) {
-            int mod = num % 10;
-            sum += mod;
+            sum += num % 10;
             num = num / 10;
         }
         return sum;
