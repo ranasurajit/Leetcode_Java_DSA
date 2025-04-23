@@ -1,13 +1,45 @@
 class Solution {
     /**
-     * Approach : Using Hashing Approach
+     * Approach II : Using Hashing and Array-Pre-Processing Approach
+     * 
+     * TC: O(N x L + 2 x N) ~ O(N x L)
+     * SC: O(2 x N) ~ O(N)
+     *
+     * where L = average number of digit
+     */
+    public int countLargestGroup(int n) {
+        Map<Integer, ArrayList<Integer>> map = 
+            new HashMap<Integer, ArrayList<Integer>>(); // SC: O(N)
+        /**
+         * As per constraints (1 <= n <= 10^4), 9999 has max sum of 36 
+         */
+        int[] sumDigits = new int[(int) 1e4 + 1];
+        for (int i = 1; i <= n; i++) { // TC: O(N)
+            sumDigits[i] = sumOfDigits(i); // TC: O(L)
+        }
+        for (int i = 1; i <= n; i++) { // TC: O(N)
+            map.computeIfAbsent(sumDigits[i], k -> new ArrayList<Integer>()).add(i);
+        }
+        // System.out.println(map);
+        Map<Integer, Integer> freq = new HashMap<Integer, Integer>(); // SC: O(N)
+        int maxSize = 0;
+        for (Integer key : map.keySet()) { // TC: O(N)
+            int size = map.get(key).size();
+            freq.put(size, freq.getOrDefault(size, 0) + 1);
+            maxSize = Math.max(maxSize, size);
+        }
+        return freq.get(maxSize);
+    }
+
+    /**
+     * Approach I : Using Hashing Approach
      * 
      * TC: O(N x L + N) ~ O(N x L)
      * SC: O(2 x N) ~ O(N)
      *
      * where L = average number of digit
      */
-    public int countLargestGroup(int n) {
+    public int countLargestGroupApproachI(int n) {
         Map<Integer, ArrayList<Integer>> map = 
             new HashMap<Integer, ArrayList<Integer>>(); // SC: O(N)
         for (int i = 1; i <= n; i++) { // TC: O(N)
