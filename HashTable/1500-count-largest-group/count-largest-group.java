@@ -1,5 +1,32 @@
 class Solution {
     /**
+     * Approach III : Using Hashing Approach
+     * 
+     * TC: O(N x L)
+     * SC: O(N)
+     *
+     * where L = average number of digit
+     */
+    public int countLargestGroup(int n) {
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>(); // SC: O(N)
+        int maxSize = 0;
+        int count = 0;
+        for (int i = 1; i <= n; i++) { // TC: O(N)
+            int sum = sumOfDigits(i); // TC: O(L)
+            map.put(sum, map.getOrDefault(sum, 0) + 1);
+            int size = map.get(sum);
+            if (size == maxSize) {
+                count++;
+            } else if (size > maxSize) {
+                maxSize = size;
+                // reset count if a new bigger size of sum of digits is observed
+                count = 1;
+            }
+        }
+        return count;
+    }
+
+    /**
      * Approach II : Using Hashing and Array-Pre-Processing Approach
      * 
      * TC: O(N x L + 2 x N) ~ O(N x L)
@@ -7,7 +34,7 @@ class Solution {
      *
      * where L = average number of digit
      */
-    public int countLargestGroup(int n) {
+    public int countLargestGroupApproachII(int n) {
         Map<Integer, ArrayList<Integer>> map = 
             new HashMap<Integer, ArrayList<Integer>>(); // SC: O(N)
         /**
@@ -20,7 +47,6 @@ class Solution {
         for (int i = 1; i <= n; i++) { // TC: O(N)
             map.computeIfAbsent(sumDigits[i], k -> new ArrayList<Integer>()).add(i);
         }
-        // System.out.println(map);
         Map<Integer, Integer> freq = new HashMap<Integer, Integer>(); // SC: O(N)
         int maxSize = 0;
         for (Integer key : map.keySet()) { // TC: O(N)
@@ -46,7 +72,6 @@ class Solution {
             int sum = sumOfDigits(i); // TC: O(L)
             map.computeIfAbsent(sum, k -> new ArrayList<Integer>()).add(i);
         }
-        // System.out.println(map);
         Map<Integer, Integer> freq = new HashMap<Integer, Integer>(); // SC: O(N)
         int maxSize = 0;
         for (Integer key : map.keySet()) { // TC: O(N)
