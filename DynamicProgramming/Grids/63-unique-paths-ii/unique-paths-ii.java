@@ -2,7 +2,7 @@ class Solution {
     /**
      * Approach III : Using Tabulation Approach
      *
-     * TC: O((M x N) + O(M + N))
+     * TC: O(M x N)
      * SC: O(M x N)
      *
      * Time Limit Exceeded (42 / 42 testcases passed)
