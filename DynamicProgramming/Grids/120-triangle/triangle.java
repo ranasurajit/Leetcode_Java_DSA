@@ -1,5 +1,30 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization Approach
+     *
+     * TC: O(N x N + N) ~ O(N x N)
+     * SC: O(2 x N) ~ O(N)
+     *
+     * Accepted (45 / 45 testcases passed)
+     */
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        // Initialization
+        int[] next = new int[n]; // SC: O(N)
+        for (int j = 0; j < n; j++) { // TC: O(N)
+            next[j] = triangle.get(n - 1).get(j);
+        }
+        for (int i = n - 2; i >= 0; i--) { // TC: O(N)
+            int[] current = new int[n]; // SC: O(N)
+            for (int j = i; j >= 0; j--) { // TC: O(N)
+                current[j] = triangle.get(i).get(j) + Math.min(next[j], next[j + 1]);
+            }
+            next = current.clone();
+        }
+        return next[0];
+    }
+
+    /**
      * Approach III : Using Tabulation Approach
      *
      * TC: O(N x N + N) ~ O(N x N)
@@ -7,7 +32,7 @@ class Solution {
      *
      * Accepted (45 / 45 testcases passed)
      */
-    public int minimumTotal(List<List<Integer>> triangle) {
+    public int minimumTotalTabulation(List<List<Integer>> triangle) {
         int n = triangle.size();
         // Initialization
         int[][] dp = new int[n][n]; // SC: O(N x N)
