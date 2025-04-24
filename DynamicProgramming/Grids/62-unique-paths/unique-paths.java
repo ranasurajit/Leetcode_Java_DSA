@@ -1,13 +1,39 @@
 class Solution {
     /**
-     * Approach II : Using Memoization Approach
+     * Approach III : Using Tabulation Approach
      *
-     * TC: O(2 ^ (M x N))
-     * SC: O((M - 1) + (N - 1)) ~ O(M + N)
+     * TC: O((M x N) + (M + N)) ~ O(M x N)
+     * SC: O(M x N)
      *
      * Accepted (63 / 63 testcases passed)
      */
     public int uniquePaths(int m, int n) {
+        // Initialization
+        int[][] dp = new int[m][n]; // SC: O(M x N)
+        for (int i = 0; i < m; i++) { // TC: O(M)
+            dp[i][0] = 1;
+        }
+        for (int j = 0; j < n; j++) { // TC: O(N)
+            dp[0][j] = 1;
+        }
+        // Iterative Calls
+        for (int i = 1; i < m; i++) { // TC: O(M)
+            for (int j = 1; j < n; j++) { // TC: O(N)
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    /**
+     * Approach II : Using Memoization Approach
+     *
+     * TC: O(M x N)
+     * SC: O((M x N) + (M + N))
+     *
+     * Accepted (63 / 63 testcases passed)
+     */
+    public int uniquePathsMemoization(int m, int n) {
         int[][] memo = new int[m + 1][n + 1]; // SC: O(M x N)
         for (int[] mem : memo) {
             Arrays.fill(mem, -1);
@@ -18,8 +44,8 @@ class Solution {
     /**
      * Using Memoization Approach
      *
-     * TC: O(2 ^ (M x N))
-     * SC: O((M - 1) + (N - 1)) ~ O(M + N)
+     * TC: O(M x N)
+     * SC: O((M x N) + (M + N))
      */
     private int solveMemoization(int i, int j, int[][] memo) {
         // Base Case
