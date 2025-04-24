@@ -1,5 +1,35 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization Approach
+     *
+     * TC: O((M x N) + N) ~ O(M x N)
+     * SC: O(2 x N) ~ O(N)
+     *
+     * Accepted (66 / 66 testcases passed)
+     */
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        // Initialization
+        int[] prev = new int[n]; // SC: O(N)
+        prev[0] = grid[0][0];
+        int[] current = new int[n]; // SC: O(N)
+        current[0] = grid[0][0];
+        for (int j = 1; j < n; j++) { // TC: O(N)
+            prev[j] += grid[0][j] + prev[j - 1];
+        }
+        // Iterative Calls
+        for (int i = 1; i < m; i++) { // TC: O(M)
+            current[0] += grid[i][0]; 
+            for (int j = 1; j < n; j++) { // TC: O(N)
+                current[j] = grid[i][j] + Math.min(prev[j], current[j - 1]);
+            }
+            prev = current.clone();
+        }
+        return prev[n - 1];
+    }
+
+    /**
      * Approach III : Using Tabulation Approach
      *
      * TC: O((M x N) + (M + N)) ~ O(M x N)
@@ -7,7 +37,7 @@ class Solution {
      *
      * Accepted (66 / 66 testcases passed)
      */
-    public int minPathSum(int[][] grid) {
+    public int minPathSumTabulation(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
         // Initialization
