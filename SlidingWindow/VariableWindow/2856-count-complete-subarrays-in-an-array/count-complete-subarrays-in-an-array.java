@@ -3,16 +3,16 @@ class Solution {
      * Approach II : Sliding Window (Variable Size) Approach Using Hashing
      *
      * TC: O(2 x N) ~ O(N)
-     * SC: O(N)
+     * SC: O(2 x N) ~ O(N)
      */
     public int countCompleteSubarrays(int[] nums) {
         int n = nums.length;
+        Set<Integer> set = new HashSet<Integer>(); // SC: O(N)
         Map<Integer, Integer> map = new HashMap<Integer, Integer>(); // SC: O(N)
         for (int num : nums) { // TC: O(N)
-            map.put(num, map.getOrDefault(num, 0) + 1);
+            set.add(num);
         }
-        int k = map.size(); // number of distinct elements in the array 'nums'
-        map.clear();
+        int k = set.size(); // number of distinct elements in the array 'nums'
         int count = 0;
         int i = 0; // start pointer of sliding window
         int j = 0; // end pointer of sliding window
