@@ -1,96 +1,80 @@
 class Solution {
-    public int minimumTotal(List<List<Integer>> triangle) {
-        // return solve(0, 0, triangle);
-        // int n = triangle.size();
-        // int[][] dp = new int[n][n + 1]; // SC: O(N x N)
-        // for (int[] dp1D : dp) { // TC: O(N x N)
-        //     Arrays.fill(dp1D, -1);
-        // }
-        // return solveMemoization(0, 0, triangle, dp);
-        // return minimumTotalTabulation(triangle);
-        return minimumTotalSpaceOptimization(triangle);
-    }
-
     /**
-     * Using Space Optimization
-     * 
-     * TC: O(N x N + N) ~ O(N x N)
-     * SC: O(2N) ~ O(N)
-     * 
-     * @param triangle
-     * @return
-     */
-    public static int minimumTotalSpaceOptimization(List<List<Integer>> triangle) {
-        int n = triangle.size();
-        int[] front = new int[n]; // SC: O(N)
-        int[] current = new int[n]; // SC: O(N)
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            front[i] = triangle.get(n - 1).get(i);
-        }
-        for (int i = n - 2; i >= 0; i--) { // TC: O(N)
-            for (int j = i; j >= 0; j--) { // TC: O(N)
-                int down = triangle.get(i).get(j) + front[j];
-                int diag = triangle.get(i).get(j) + front[j + 1];
-                current[j] = Math.min(down, diag);
-            }
-            front = current.clone();
-        }
-        return front[0];
-    }
-
-    /**
-     * Using Tabulation
-     * 
-     * TC: O(N x N + N) ~ O(N x N)
-     * SC: O(N x N)
-     * 
-     * @param triangle
-     * @return
-     */
-    public static int minimumTotalTabulation(List<List<Integer>> triangle) {
-        int n = triangle.size();
-        int[][] dp = new int[n][n + 1]; // SC: O(N x N)
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            dp[n - 1][i] = triangle.get(n - 1).get(i);
-        }
-        for (int i = n - 2; i >= 0; i--) { // TC: O(N)
-            for (int j = i; j >= 0; j--) { // TC: O(N)
-                int down = triangle.get(i).get(j) + dp[i + 1][j];
-                int diag = triangle.get(i).get(j) + dp[i + 1][j + 1];
-                dp[i][j] = Math.min(down, diag);
-            }
-        }
-        return dp[0][0];
-    }
-
-    /**
-     * Using Memoization
-     * 
+     * Approach II : Using Memoization Approach
+     *
      * TC: O(N x N)
-     * SC: O(N x N + N)
-     * 
-     * @param triangle
-     * @return
+     * SC: O(N x N)
+     *
+     * Time Limit Exceeded (42 / 45 testcases passed)
      */
-    private static int solveMemoization(int m, int n, List<List<Integer>> triangle, int[][] dp) {
-        if (m == triangle.size()) {
-            return 0;
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        int[][] memo = new int[n + 1][n + 1]; // SC: O(N x N)
+        for (int[] mem : memo) {
+            Arrays.fill(mem, -1);
         }
-        if (dp[m][n] != -1) {
-            return dp[m][n];
-        }
-        int down = triangle.get(m).get(n) + solveMemoization(m + 1, n, triangle, dp);
-        int diag = triangle.get(m).get(n) + solveMemoization(m + 1, n + 1, triangle, dp);
-        dp[m][n] = Math.min(down, diag);
-        return dp[m][n];
+        // since we have mutiple paths at the last index so we start recursion from index (0, 0)
+        return solveMemoization(0, 0, n, triangle, memo);
     }
 
-    private static int solveRecursion(int m, int n, List<List<Integer>> triangle) {
-        if (m == triangle.size()) {
-            return 0;
+    /**
+     * Using Memoization Approach
+     *
+     * TC: O(N x N)
+     * SC: O(N)
+     */
+    private int solveMemoization(int i, int j, int n, List<List<Integer>> triangle,
+        int[][] memo) {
+        // Base Case
+        if (i == n - 1) {
+            return triangle.get(i).get(j);
         }
-        int down = triangle.get(m).get(n) + solveRecursion(m + 1, n, triangle);
-        int diag = triangle.get(m).get(n) + solveRecursion(m + 1, n + 1, triangle);
-        return Math.min(down, diag);
+        // Memoization Check
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        /**
+         * as per moves to next subsequent indices i.e. (i)(j) to (i + 1)(j) and (i + 1)(j + 1)
+         * it can never go out of bounds
+         */
+        // Recursive Calls
+        int downMove = solveMemoization(i + 1, j, n, triangle, memo);
+        int diagonalMove = solveMemoization(i + 1, j + 1, n, triangle, memo);
+        return memo[i][j] = triangle.get(i).get(j) + Math.min(downMove, diagonalMove);
+    }
+
+    /**
+     * Approach I : Using Recursion Approach
+     *
+     * TC: O(2 ^ (N x (N + 1)) / 2)
+     * SC: O(N)
+     *
+     * Time Limit Exceeded (42 / 45 testcases passed)
+     */
+    public int minimumTotalRecursion(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        // since we have mutiple paths at the last index so we start recursion from index (0, 0)
+        return solveRecursion(0, 0, n, triangle);
+    }
+
+    /**
+     * Using Recursion Approach
+     *
+     * TC: O(2 ^ (N x (N + 1)) / 2)
+     * SC: O(N)
+     */
+    private int solveRecursion(int i, int j, int n, List<List<Integer>> triangle) {
+        // Base Case
+        if (i == n - 1) {
+            return triangle.get(i).get(j);
+        }
+        /**
+         * as per moves to next subsequent indices i.e. (i)(j) to (i + 1)(j) and (i + 1)(j + 1)
+         * it can never go out of bounds
+         */
+        // Recursive Calls
+        int downMove = triangle.get(i).get(j) + solveRecursion(i + 1, j, n, triangle);
+        int diagonalMove = triangle.get(i).get(j) + solveRecursion(i + 1, j + 1, n, triangle);
+        return Math.min(downMove, diagonalMove);
     }
 }
