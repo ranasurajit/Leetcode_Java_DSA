@@ -1,11 +1,39 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation Approach
+     *
+     * TC: O(M x N)
+     * SC: O(M x N), Memo Space
+     */
+    public int uniquePaths(int m, int n) {
+        // m and n are the states here
+        // Initialization
+        int[][] dp = new int[m][n];
+        dp[0][0] = 1;
+        for (int i = 0; i < m; i++) {
+            dp[i][0] = 1;
+        }
+        for (int j = 0; j < n; j++) {
+            dp[0][j] = 1;
+        }
+        // Iterative Calls
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        // Return total ways at (m, n)
+        return dp[m - 1][n - 1];
+    }
+
+    /**
      * Approach II : Using Memoization Approach
      *
      * TC: O(M x N)
      * SC: O((M x N) + (M + N)), Memo Space + Recursion Stack Space
      */
-    public int uniquePaths(int m, int n) {
+    public int uniquePathsMemoization(int m, int n) {
+        // m and n are the states here
         int[][] memo = new int[m + 1][n + 1]; // SC: O(M x N)
         for (int[] mem : memo) {
             Arrays.fill(mem, -1);
