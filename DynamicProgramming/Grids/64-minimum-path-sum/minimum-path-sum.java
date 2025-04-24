@@ -1,147 +1,77 @@
 class Solution {
+    /**
+     * Approach II : Using Memoization Approach
+     *
+     * TC: O(M x N)
+     * SC: O((M x N) + (M + N))
+     *
+     * Accepted (66 / 66 testcases passed)
+     */
     public int minPathSum(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        // return solveRecursion(m - 1, n - 1, grid);
-
-        // int[][] dp = new int[m][n];
-        // for (int[] dp1D : dp) {
-        //     Arrays.fill(dp1D, -1);
-        // }
-        // return solveMemoization(m - 1, n - 1, grid, dp);
-        // return minPathSumTabulation(grid);
-        return minPathSumSpaceOptimization(grid);
+        int[][] memo = new int[m + 1][n + 1]; // SC: O(M x N)
+        for (int[] mem : memo) {
+            Arrays.fill(mem, -1);
+        }
+        return solveMemoization(m - 1, n - 1, grid, memo);
     }
 
     /**
-     * Using Space Optimization
-     * 
+     * Using Memoization Approach
+     *
      * TC: O(M x N)
-     * SC: O(2N) ~ O(N)
-     * 
-     * @param m
-     * @param n
-     * @param grid
-     * @return
+     * SC: O((M - 1) + (N - 1)) ~ O(M + N)
      */
-    public static int minPathSumSpaceOptimization(int[][] grid) {
+    private int solveMemoization(int i, int j, int[][] grid, int[][] memo) {
+        // Base Case
+        if (i == 0 && j == 0) {
+            return grid[i][j];
+        }
+        if (i < 0 || j < 0) {
+            return (int) 1e9 + 7;
+        }
+        // Memoization Check
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        // Recursive Calls
+        int up = grid[i][j] + solveMemoization(i - 1, j, grid, memo);
+        int down = grid[i][j] + solveMemoization(i, j - 1, grid, memo);
+        return memo[i][j] = Math.min(up, down);
+    }
+
+    /**
+     * Approach I : Using Recursion Approach
+     *
+     * TC: O(2 ^ (M x N))
+     * SC: O((M - 1) + (N - 1)) ~ O(M + N)
+     *
+     * Time Limit Exceeded (25 / 66 testcases passed)
+     */
+    public int minPathSumRecursion(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
-        int[] prev = new int[n]; // SC: O(N)
-        for (int i = 0; i < m; i++) { // TC: O(M)
-            int[] curr = new int[n]; // SC: O(N)
-            for (int j = 0; j < n; j++) { // TC: O(N)
-                if (i == 0 && j == 0) {
-                    curr[j] = grid[i][j];
-                } else {
-                    int up = grid[i][j];
-                    if (i > 0) {
-                        up += prev[j];
-                    } else {
-                        up += (int) 1e9;
-                    }
-                    int left = grid[i][j];
-                    if (j > 0) {
-                        left += curr[j - 1];
-                    } else {
-                        left += (int) 1e9;
-                    }
-                    curr[j] = Math.min(up, left);
-                }
-            }
-            prev = curr;
-        }
-        return prev[n - 1];
+        return solveRecursion(m - 1, n - 1, grid);
     }
 
     /**
-     * Using Tabulation
-     * 
-     * TC: O(M x N)
-     * SC: O(M x N)
-     * 
-     * @param m
-     * @param n
-     * @param grid
-     * @return
+     * Using Recursion Approach
+     *
+     * TC: O(2 ^ (M x N))
+     * SC: O((M - 1) + (N - 1)) ~ O(M + N)
      */
-    public static int minPathSumTabulation(int[][] grid) {
-        int m = grid.length;
-        int n = grid[0].length;
-        int[][] dp = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i == 0 && j == 0) {
-                    dp[i][j] = grid[i][j];
-                } else {
-                    int up = grid[i][j];
-                    if (i > 0) {
-                        up += dp[i - 1][j];
-                    } else {
-                        up += (int) 1e9;
-                    }
-                    int left = grid[i][j];
-                    if (j > 0) {
-                        left += dp[i][j - 1];
-                    } else {
-                        left += (int) 1e9;
-                    }
-                    dp[i][j] = Math.min(up, left);
-                }
-            }
+    private int solveRecursion(int i, int j, int[][] grid) {
+        // Base Case
+        if (i == 0 && j == 0) {
+            return grid[i][j];
         }
-        return dp[m - 1][n - 1];
-    }
-
-    /**
-     * Using Memoization
-     * 
-     * TC: O(M x N)
-     * SC: O((M - 1) + (N - 1) + (M x N))
-     * 
-     * @param m
-     * @param n
-     * @param grid
-     * @return
-     */
-    private static int solveMemoization(int m, int n, int[][] grid, int[][] dp) {
-        // Base case
-        if (m == 0 && n == 0) {
-            return grid[0][0];
+        if (i < 0 || j < 0) {
+            return (int) 1e9 + 7;
         }
-        if (m < 0 || n < 0) {
-            return (int) 1e9;
-        }
-        if (dp[m][n] != -1) {
-            return dp[m][n];
-        }
-        int up = grid[m][n] + solveMemoization(m - 1, n, grid, dp);
-        int left = grid[m][n] + solveMemoization(m, n - 1, grid, dp);
-        dp[m][n] = Math.min(up, left);
-        return dp[m][n];
-    }
-
-    /**
-     * Using Recursion
-     * 
-     * TC: O(2^ (M x N))
-     * SC: O((M - 1) + (N - 1))
-     * 
-     * @param m
-     * @param n
-     * @param grid
-     * @return
-     */
-    private static int solveRecursion(int m, int n, int[][] grid) {
-        // Base case
-        if (m == 0 && n == 0) {
-            return grid[m][n];
-        }
-        if (m < 0 || n < 0) {
-            return (int) 1e9;
-        }
-        int up = grid[m][n] + solveRecursion(m - 1, n, grid);
-        int left = grid[m][n] + solveRecursion(m, n - 1, grid);
-        return Math.min(up, left);
+        // Recursive Calls
+        int up = grid[i][j] + solveRecursion(i - 1, j, grid);
+        int down = grid[i][j] + solveRecursion(i, j - 1, grid);
+        return Math.min(up, down);
     }
 }
