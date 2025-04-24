@@ -1,143 +1,93 @@
 class Solution {
+    /**
+     * Approach II : Using Memoization Approach
+     *
+     * TC: O(M x N)
+     * SC: O((M x N) + (M + N))
+     *
+     * Time Limit Exceeded (42 / 42 testcases passed)
+     */
     public int uniquePathsWithObstacles(int[][] obstacleGrid) {
         int m = obstacleGrid.length;
         int n = obstacleGrid[0].length;
-        //  return solveRecursion(m - 1, n - 1, obstacleGrid);
-        // int[][] dp = new int[m][n];
-        // for (int[] dp1D : dp) {
-        //     Arrays.fill(dp1D, -1);
-        // }
-        // return solveMemoization(m - 1, n - 1, obstacleGrid, dp);
-        return uniquePathsWithObstaclesSpaceOptimization(obstacleGrid);
-    }
-
-    /**
-     * Using Space Optimization
-     * 
-     * TC: O(M x N)
-     * SC: O(2N) ~ O(N)
-     * 
-     * @param obstacleGrid
-     * @return
-     */
-    public static int uniquePathsWithObstaclesSpaceOptimization(int[][] obstacleGrid) {
-        int m = obstacleGrid.length;
-        int n = obstacleGrid[0].length;
-        int[] prev = new int[n]; // SC: O(N)
-        for (int i = 0; i < m; i++) { // TC: O(M)
-            int[] current = new int[n]; // SC: O(N)
-            for (int j = 0; j < n; j++) { // TC: O(N)
-                if (i >= 0 && j >= 0 && obstacleGrid[i][j] == 1) {
-                    current[j] = 0;
-                    continue;
-                }
-                if (i == 0 && j == 0) {
-                    current[j] = 1;
-                    continue;
-                }
-                int up = 0;
-                int left = 0;
-                if (i > 0) {
-                    up = prev[j];
-                }
-                if (j > 0) {
-                    left = current[j - 1];
-                }
-                current[j] = up + left;
-            }
-            prev = current;
-        }
-        return prev[n - 1];
-    }
-
-    /**
-     * Using Tabulation
-     * 
-     * TC: O(M x N)
-     * SC: O(M x N)
-     * 
-     * @param obstacleGrid
-     * @return
-     */
-    public static int uniquePathsWithObstaclesTabulation(int[][] obstacleGrid) {
-        int m = obstacleGrid.length;
-        int n = obstacleGrid[0].length;
-        int[][] dp = new int[m][n];
-        for (int i = 0; i < m; i++) {
-            for (int j = 0; j < n; j++) {
-                if (i >= 0 && j >= 0 && obstacleGrid[i][j] == 1) {
-                    dp[i][j] = 0;
-                    continue;
-                }
-                if (i == 0 && j == 0) {
-                    dp[i][j] = 1;
-                    continue;
-                }
-                int up = 0;
-                int left = 0;
-                if (i > 0) {
-                    up = dp[i - 1][j];
-                }
-                if (j > 0) {
-                    left = dp[i][j - 1];
-                }
-                dp[i][j] = up + left;
-            }
-        }
-        return dp[m - 1][n - 1];
-    }
-
-    /**
-     * Using Memoization
-     * 
-     * TC: O(M x N)
-     * SC: O((M - 1) + (N - 1) + (M x N))
-     * 
-     * @param obstacleGrid
-     * @return
-     */
-    private static int solveMemoization(int m, int n, int[][] grid, int[][] dp) {
-        // Base case
-        if (m >= 0 && n >= 0 && grid[m][n] == 1) {
+        if (obstacleGrid[0][0] == 1) {
             return 0;
         }
-        if (m == 0 && n == 0) {
+        int[][] memo = new int[m + 1][n + 1]; // SC: O(M x N)
+        for (int[] mem : memo) {
+            Arrays.fill(mem, -1);
+        }
+        return solveMemoization(m - 1, n - 1, obstacleGrid, memo);
+    }
+
+    /**
+     * Using Memoization Approach
+     *
+     * TC: O(M x N)
+     * SC: O((M - 1) + (N - 1)) ~ O(M + N)
+     */
+    private int solveMemoization(int i, int j, int[][] grid, int[][] memo) {
+        // Base Case
+        if (i == 0 && j == 0) {
+            // Reached destination
             return 1;
         }
-        if (m < 0 || n < 0) {
+        if (i < 0 || j < 0) {
+            // Out of bounds of the grid
             return 0;
         }
-        if (dp[m][n] != -1) {
-            return dp[m][n];
+        if (grid[i][j] == 1) {
+            return 0;
         }
-        int up = solveMemoization(m - 1, n, grid, dp);
-        int left = solveMemoization(m, n - 1, grid, dp);
-        dp[m][n] = up + left;
-        return dp[m][n];
+        // Memoization Check
+        if (memo[i][j] != -1) {
+            return memo[i][j];
+        }
+        // Recursive Calls
+        int up = solveMemoization(i - 1, j, grid, memo);
+        int left = solveMemoization(i, j - 1, grid, memo);
+        return memo[i][j] = up + left;
     }
 
     /**
-     * Using Recursion
-     * 
+     * Approach I : Using Recursion Approach
+     *
      * TC: O(2 ^ (M x N))
-     * SC: O((M - 1) + (N - 1))
-     * 
-     * @param obstacleGrid
-     * @return
+     * SC: O((M - 1) + (N - 1)) ~ O(M + N)
+     *
+     * Time Limit Exceeded (31 / 42 testcases passed)
      */
-    private int solveRecursion(int m, int n, int[][] grid) {
-        // Base case
-        if (m >= 0 && n >= 0 && grid[m][n] == 1) {
+    public int uniquePathsWithObstaclesRecursion(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        if (obstacleGrid[0][0] == 1) {
             return 0;
         }
-        if (m == 0 && n == 0) {
+        return solveRecursion(m - 1, n - 1, obstacleGrid);
+    }
+
+    /**
+     * Using Recursion Approach
+     *
+     * TC: O(2 ^ (M x N))
+     * SC: O((M - 1) + (N - 1)) ~ O(M + N)
+     */
+    private int solveRecursion(int i, int j, int[][] grid) {
+        // Base Case
+        if (i == 0 && j == 0) {
+            // Reached destination
             return 1;
         }
-        if (m < 0 || n < 0) {
+        if (i < 0 || j < 0) {
+            // Out of bounds of the grid
             return 0;
         }
-        int up = solveRecursion(m - 1, n, grid);
-        int left = solveRecursion(m, n - 1, grid);
+        if (grid[i][j] == 1) {
+            return 0;
+        }
+        // Recursive Calls
+        int up = solveRecursion(i - 1, j, grid);
+        int left = solveRecursion(i, j - 1, grid);
         return up + left;
     }
 }
