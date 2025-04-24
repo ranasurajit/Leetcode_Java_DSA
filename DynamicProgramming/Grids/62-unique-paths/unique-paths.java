@@ -1,5 +1,29 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization Approach
+     *
+     * TC: O(M x N)
+     * SC: O(2 x N) ~ O(N)
+     *
+     * Accepted (63 / 63 testcases passed)
+     */
+    public int uniquePaths(int m, int n) {
+        // Initialization
+        int[] prev = new int[n]; // SC: O(N)
+        Arrays.fill(prev, 1);
+        // Iterative Calls
+        for (int i = 1; i < m; i++) { // TC: O(M)
+            int[] current = new int[n]; // SC: O(N)
+            current[0] = 1;
+            for (int j = 1; j < n; j++) { // TC: O(N)
+                current[j] = prev[j] + current[j - 1];
+            }
+            prev = current;
+        }
+        return prev[n - 1];
+    }
+
+    /**
      * Approach III : Using Tabulation Approach
      *
      * TC: O((M x N) + (M + N)) ~ O(M x N)
@@ -7,7 +31,7 @@ class Solution {
      *
      * Accepted (63 / 63 testcases passed)
      */
-    public int uniquePaths(int m, int n) {
+    public int uniquePathsTabulation(int m, int n) {
         // Initialization
         int[][] dp = new int[m][n]; // SC: O(M x N)
         for (int i = 0; i < m; i++) { // TC: O(M)
