@@ -1,13 +1,36 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation Approach
+     *
+     * TC: O(N x N + N) ~ O(N x N)
+     * SC: O(N x N)
+     *
+     * Accepted (45 / 45 testcases passed)
+     */
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        // Initialization
+        int[][] dp = new int[n][n]; // SC: O(N x N)
+        for (int j = 0; j < n; j++) { // TC: O(N)
+            dp[n - 1][j] = triangle.get(n - 1).get(j);
+        }
+        for (int i = n - 2; i >= 0; i--) { // TC: O(N)
+            for (int j = i; j >= 0; j--) { // TC: O(N)
+                dp[i][j] = triangle.get(i).get(j) + Math.min(dp[i + 1][j], dp[i + 1][j + 1]);
+            }
+        }
+        return dp[0][0];
+    }
+
+    /**
      * Approach II : Using Memoization Approach
      *
      * TC: O(N x N)
      * SC: O(N x N)
      *
-     * Time Limit Exceeded (42 / 45 testcases passed)
+     * Accepted (45 / 45 testcases passed)
      */
-    public int minimumTotal(List<List<Integer>> triangle) {
+    public int minimumTotalMemoization(List<List<Integer>> triangle) {
         int n = triangle.size();
         int[][] memo = new int[n + 1][n + 1]; // SC: O(N x N)
         for (int[] mem : memo) {
