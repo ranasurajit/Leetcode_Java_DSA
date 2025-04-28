@@ -15,15 +15,13 @@ class Solution {
         long sum = 0L;
         while (j < n) { // TC: O(N)
             sum += nums[j];
-            long score = sum * (j - i + 1);
-            while (score >= k) {
+            while (sum * (j - i + 1) >= k) {
                 // remove calculation from nums[i];
                 sum -= nums[i];
                 // shrink the window
                 i++;
-                score = sum * (j - i + 1);
             }
-            if (score < k) {
+            if (sum * (j - i + 1) < k) {
                 // we need to consider all the sub-arrays in the range [i..j]
                 count += (j - i + 1);
             }
