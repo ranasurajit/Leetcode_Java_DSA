@@ -21,10 +21,8 @@ class Solution {
                 // shrink the window
                 i++;
             }
-            if (sum * (j - i + 1) < k) {
-                // we need to consider all the sub-arrays in the range [i..j]
-                count += (j - i + 1);
-            }
+            // we need to consider all the sub-arrays in the range [i..j]
+            count += (j - i + 1);
             j++;
         }
         return count;
