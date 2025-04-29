@@ -21,13 +21,13 @@ class Solution {
      * SC: O(2 x N) ~ O(N)
      */
     public TreeNode buildTree(int[] preorder, int[] inorder) {
-        int m = preorder.length;
         int n = inorder.length;
         Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>(); // SC: O(N)
         for (int i = 0; i < n; i++) { // TC: O(N)
             indexMap.put(inorder[i], i);
         }
-        return solve(preorder, inorder, indexMap, 0, m - 1, 0, n - 1);
+        int[] preIdx = { 0 };
+        return solve(preorder, inorder, indexMap, 0, n - 1, preIdx);
     }
 
     /**
@@ -36,22 +36,19 @@ class Solution {
      * TC: O(N)
      * SC: O(N)
      */
-    private TreeNode solve(int[] preorder, int[] inorder, Map<Integer, Integer> indexMap,
-        int psIndex, int peIndex, int isIndex, int ieIndex) {
+    private TreeNode solve(int[] preorder, int[] inorder, Map<Integer, Integer> indexMap, 
+        int inStart, int inEnd, int[] preIdx) {
         // Base Case
-        if (psIndex > peIndex || isIndex > ieIndex) {
+        if (inStart > inEnd || preIdx[0] >= preorder.length) {
             return null;
         }
         // Recursion Calls
-        int rootValue = preorder[psIndex];
-        int rootIdx = indexMap.get(rootValue);
+        int rootValue = preorder[preIdx[0]];
         TreeNode root = new TreeNode(rootValue);
-        int leftSize = rootIdx - isIndex;
-        int rightSize = ieIndex - rootIdx;
-        root.left = solve(preorder, inorder, indexMap, 
-            psIndex + 1, psIndex + leftSize, isIndex, rootIdx - 1);
-        root.right = solve(preorder, inorder, indexMap, 
-            psIndex + leftSize + 1, psIndex + leftSize + rightSize, rootIdx + 1, ieIndex);
+        int rootIdx = indexMap.get(rootValue);
+        preIdx[0]++;
+        root.left = solve(preorder, inorder, indexMap, inStart, rootIdx - 1, preIdx);
+        root.right = solve(preorder, inorder, indexMap, rootIdx + 1, inEnd, preIdx);
         return root;
     }
 }
