@@ -15,23 +15,19 @@
  */
 class Solution {
     /**
-     * Using DFS Approach
-     *
-     * TC: O(N)
-     * SC: O(N)
+     * Approach : Using DFS Approach
      * 
-     * @param root
-     * @return
+     * TC: O(N)
+     * SC: O(H) (worst case ~ O(N) in case of skewed Tree)
+     * 
+     * where H = log(N) in case of complete binary tree
      */
     public int maxDepth(TreeNode root) {
         if (root == null) {
             return 0;
         }
-        // compute height from left sub-tree
-        int lh = maxDepth(root.left);
-        // compute height from right sub-tree
-        int rh = maxDepth(root.right);
-        // height = max of left or right height of sub-tree + root node
-        return 1 + Math.max(lh, rh);
+        int leftDepth = 1 + maxDepth(root.left);
+        int rightDepth = 1 + maxDepth(root.right);
+        return Math.max(leftDepth, rightDepth);
     }
 }
