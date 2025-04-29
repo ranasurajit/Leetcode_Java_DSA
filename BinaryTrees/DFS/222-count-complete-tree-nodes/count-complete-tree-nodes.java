@@ -14,12 +14,34 @@
  * }
  */
 class Solution {
+    /**
+     * Approach : Using DFS Approach
+     * 
+     * TC: O(N)
+     * SC: O(H)
+     * 
+     * where H = log(N) in case of complete binary tree
+     */
     public int countNodes(TreeNode root) {
+        return dfsTree(root);
+    }
+
+    /**
+     * Using DFS Approach
+     * 
+     * TC: O(N)
+     * SC: O(H)
+     * 
+     * where H = log(N) in case of complete binary tree
+     */
+    private int dfsTree(TreeNode root) {
+        // Base Case
         if (root == null) {
             return 0;
         }
-        int left = countNodes(root.left);
-        int right = countNodes(root.right);
-        return 1 + left + right;
+        // Recursion Calls
+        int leftCount = dfsTree(root.left);
+        int rightCount = dfsTree(root.right);
+        return 1 + leftCount + rightCount;
     }
 }
