@@ -23,10 +23,12 @@ class Solution {
      * where H = log(N) in case of complete binary tree
      */
     public boolean isSameTree(TreeNode p, TreeNode q) {
+        // Base Case
         if (p == null || q == null) {
             return p == q;
         }
-        return p.val == q.val && 
+        // Recursion Calls
+        return p.val == q.val &&
             isSameTree(p.left, q.left) &&
             isSameTree(p.right, q.right);
     }
