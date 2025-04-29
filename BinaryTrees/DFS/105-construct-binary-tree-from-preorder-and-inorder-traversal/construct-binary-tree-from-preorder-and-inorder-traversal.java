@@ -27,7 +27,7 @@ class Solution {
             indexMap.put(inorder[i], i);
         }
         int[] preIdx = { 0 };
-        return solve(preorder, inorder, indexMap, 0, n - 1, preIdx);
+        return solve(preorder, inorder, indexMap, 0, n - 1, preIdx); // TC: O(N), SC: O(N)
     }
 
     /**
