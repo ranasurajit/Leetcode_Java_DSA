@@ -5,7 +5,7 @@ class Solution {
      * TC: O(2 x N) ~ O(N)
      * SC: O(1)
      *
-     * Time Limit Exceeded (622 / 633 testcases passed)
+     * Accepted (633 / 633 testcases passed)
      */
     public long countSubarrays(int[] nums, int k) {
         int n = nums.length;
