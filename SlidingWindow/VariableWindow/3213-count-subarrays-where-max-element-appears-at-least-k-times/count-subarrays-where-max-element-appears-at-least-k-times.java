@@ -2,17 +2,14 @@ class Solution {
     /**
      * Approach II : Sliding Window (Variable Size) Approach
      *
-     * TC: O(2 x N) ~ O(N)
+     * TC: O(N)
      * SC: O(1)
      *
      * Time Limit Exceeded (622 / 633 testcases passed)
      */
     public long countSubarrays(int[] nums, int k) {
         int n = nums.length;
-        int max = 0;
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            max = Math.max(max, nums[i]);
-        }
+        int max = Arrays.stream(nums).max().getAsInt();
         long count = 0L;
         int i = 0; // start pointer of sliding window
         int j = 0; // end pointer of sliding window
