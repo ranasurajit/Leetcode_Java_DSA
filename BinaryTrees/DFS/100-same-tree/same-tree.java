@@ -14,12 +14,20 @@
  * }
  */
 class Solution {
+    /**
+     * Approach : Using DFS Approach
+     * 
+     * TC: O(N)
+     * SC: O(H) (worst case ~ O(N) in case of skewed Tree)
+     * 
+     * where H = log(N) in case of complete binary tree
+     */
     public boolean isSameTree(TreeNode p, TreeNode q) {
         if (p == null || q == null) {
             return p == q;
         }
         return p.val == q.val && 
-            isSameTree(p.left, q.left) && 
+            isSameTree(p.left, q.left) &&
             isSameTree(p.right, q.right);
     }
 }
