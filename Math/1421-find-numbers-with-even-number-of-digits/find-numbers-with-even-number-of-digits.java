@@ -1,11 +1,29 @@
 class Solution {
     /**
-     * Approach II : Using Math (Logarithm) Approach
+     * Approach III : Using Ranges/Constraints Approach
      *
      * TC: O(N)
      * SC: O(1)
      */
     public int findNumbers(int[] nums) {
+        int n = nums.length;
+        int count = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            if ((nums[i] >= 10 && nums[i] <= 99) || (nums[i] >= 1000 && nums[i] <= 9999) ||
+                nums[i] == 100000) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Approach II : Using Math (Logarithm) Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public int findNumbersLogarithmApproach(int[] nums) {
         int n = nums.length;
         int count = 0;
         for (int i = 0; i < n; i++) { // TC: O(N)
@@ -23,7 +41,7 @@ class Solution {
      * TC: O(K x N)
      * SC: O(1)
      */
-    public int findNumbersBruteForce(int[] nums) {
+    public int findNumbersBruteForceApproach(int[] nums) {
         int n = nums.length;
         int count = 0;
         for (int i = 0; i < n; i++) { // TC: O(N)
