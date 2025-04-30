@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach : Using Math (Logarithm) Approach
+     * Approach II : Using Math (Logarithm) Approach
      *
      * TC: O(N)
      * SC: O(1)
@@ -18,7 +18,7 @@ class Solution {
     }
 
     /**
-     * Approach : Brute-Force Approach
+     * Approach I : Brute-Force Approach
      *
      * TC: O(K x N)
      * SC: O(1)
