@@ -15,12 +15,58 @@
  */
 class Solution {
     /**
-     * Approach : Using BFS Approach
+     * Approach II : Using BFS Approach
+     * 
+     * TC: O(N)
+     * SC: O(N)
+     */
+    public boolean isCousins(TreeNode root, int x, int y) {
+        Queue<TreeNode> queue = new LinkedList<TreeNode>(); // SC: O(N)
+        queue.offer(root);
+        int childCount = 0;
+        while (!queue.isEmpty()) { // TC: O(N)
+            int size = queue.size();
+            for (int i = 0; i < size; i++) {
+                int sameParentCount = 0;
+                TreeNode current = queue.poll();
+                if (current.left != null) {
+                    queue.offer(current.left);
+                    if (current.left.val == x || current.left.val == y) {
+                        sameParentCount++;
+                        childCount++;
+                    }
+                }
+                if (current.right != null) {
+                    queue.offer(current.right);
+                    if (current.right.val == x || current.right.val == y) {
+                        sameParentCount++;
+                        childCount++;
+                    }
+                }
+                // same level
+                if (sameParentCount == 2) {
+                    // we got both x and y in the same level
+                    return false;
+                }
+            }
+            // end of a level
+            if (childCount == 2) {
+                return true;
+            } else if (childCount == 1) {
+                // we might get the other node (x or y) in other level
+                return false;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Approach I : Using BFS Approach
      * 
      * TC: O(N)
      * SC: O(2 x N) ~ O(N)
      */
-    public boolean isCousins(TreeNode root, int x, int y) {
+    public boolean isCousinsApproachI(TreeNode root, int x, int y) {
         Map<Integer, int[]> nodeMap = new HashMap<Integer, int[]>(); // SC: O(N)
         Queue<Pair> queue = new LinkedList<Pair>(); // SC: O(N)
         queue.offer(new Pair(root, -1, 0));
