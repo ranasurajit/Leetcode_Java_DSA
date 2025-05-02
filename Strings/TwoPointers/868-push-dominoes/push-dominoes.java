@@ -27,11 +27,7 @@ class Solution {
             j = k;
             k++;
         }
-        StringBuilder sb = new StringBuilder();
-        for (int i = 1; i < n + 1; i++) {
-            sb.append(pattern[i]);
-        }
-        return sb.toString();
+        return String.valueOf(pattern).substring(1, pattern.length - 1);
     }
 
     private void compute(char[] pattern, int p, int q) {
