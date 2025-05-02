@@ -15,7 +15,7 @@
  */
 class Solution {
     /**
-     * Using BFS algorithm
+     * Approach : Using BFS Approach
      *
      * TC: O(N)
      * SC: O(N)
@@ -25,22 +25,24 @@ class Solution {
         if (root == null) {
             return view;
         }
-        Queue<TreeNode> queue = new LinkedList<TreeNode>();
+        Queue<TreeNode> queue = new LinkedList<TreeNode>(); // SC: O(N)
         queue.offer(root);
-        while (!queue.isEmpty()) {
+        int level = 0;
+        while (!queue.isEmpty()) { // TC: O(N)
             int size = queue.size();
-            TreeNode node = null;
-            while (size > 0) {
-                node = queue.poll();
-                if (node.left != null) {
-                    queue.offer(node.left);
+            for (int i = 0; i < size; i++) {
+                TreeNode current = queue.poll();
+                if (view.size() == level) {
+                    view.add(current.val);
                 }
-                if (node.right != null) {
-                    queue.offer(node.right);
+                if (current.right != null) {
+                    queue.offer(current.right);
                 }
-                size--;
+                if (current.left != null) {
+                    queue.offer(current.left);
+                }
             }
-            view.add(node.val);
+            level++;
         }
         return view;
     }
