@@ -1,11 +1,39 @@
 class Solution {
     /**
-     * Approach : Using Greedy Approach
+     * Approach II : Using Greedy Approach (Cleaner Approach)
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public int minDominoRotations(int[] tops, int[] bottoms) {
+        int n = tops.length;
+        int[] freqTop = new int[7];    // SC: O(1)
+        int[] freqBottom = new int[7]; // SC: O(1)
+        int[] sameCount = new int[7];  // SC: O(1)
+        for (int i = 0; i < n; i++) {  // TC: O(N)
+            freqTop[tops[i]]++;
+            freqBottom[bottoms[i]]++;
+            if (tops[i] == bottoms[i]) {
+                sameCount[tops[i]]++;
+            }
+        }
+        for (int i = 1; i < 7; i++) {  // TC: O(1)
+            // other than common total occurences of max occuring value = n
+            if (freqTop[i] + freqBottom[i] - sameCount[i] == n) {
+                // return the minimum count removing duplicates
+                return Math.min(freqTop[i], freqBottom[i]) - sameCount[i];
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Approach I : Using Greedy Approach
      *
      * TC: O(3 x N) ~ O(N)
      * SC: O(1)
      */
-    public int minDominoRotations(int[] tops, int[] bottoms) {
+    public int minDominoRotationsApproachI(int[] tops, int[] bottoms) {
         int n = tops.length;
         int[] freqTop = new int[7];    // SC: O(1)
         int[] freqBottom = new int[7]; // SC: O(1)
