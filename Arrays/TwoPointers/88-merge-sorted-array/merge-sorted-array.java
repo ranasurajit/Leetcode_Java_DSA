@@ -1,27 +1,43 @@
 class Solution {
+    /**
+     * Approach : Using Two Pointers Approach
+     *
+     * TC: O(2 x (M + N)) ~ O(M + N)
+     * SC: O(M + N)
+     */
     public void merge(int[] nums1, int m, int[] nums2, int n) {
-        int p = m - 1;
-        int q = n - 1;
-        int r = m + n - 1;
-        while (p >= 0 && q >= 0) {
-            if(nums1[p] > nums2[q]) {
-                nums1[r] = nums1[p];
-                p--;
+        List<Integer> sorted = new ArrayList<Integer>();
+
+        int p = 0; // pointer at start of array 'nums1'
+        int q = 0; // pointer at start of array 'nums2'
+
+        int[] merged = new int[m + n]; // SC: O(M + N)
+        int k = 0;
+
+        while (p < m && q < n) { // TC: O(M + N)
+            if (nums1[p] < nums2[q]) {
+                merged[k] = nums1[p];
+                p++;
             } else {
-                nums1[r] = nums2[q];
-                q--;
+                merged[k] = nums2[q];
+                q++;
             }
-            r--;
+            k++;
         }
-        while (p >= 0) {
-            nums1[r] = nums1[p];
-            p--;
-            r--;
+
+        while (p < m) {
+            merged[k] = nums1[p];
+            p++;
+            k++;
         }
-        while (q >= 0) {
-            nums1[r] = nums2[q];
-            q--;
-            r--;
+        while (q < n) {
+            merged[k] = nums2[q];
+            q++;
+            k++;
+        }
+
+        for (int i = 0; i < (m + n); i++) { // TC: O(M + N)
+            nums1[i] = merged[i];
         }
     }
 }
