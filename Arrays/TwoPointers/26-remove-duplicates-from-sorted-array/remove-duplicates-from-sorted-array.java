@@ -1,17 +1,19 @@
 class Solution {
     /**
-     * TC: O(N)
-     * SC: O(1)
+     * Approach : Using Hashing Approach
+     *
+     * TC: O(N x log(N) + N) ~ O(N x log(N))
+     * SC: O(N)
      */
     public int removeDuplicates(int[] nums) {
-        int n = nums.length;
-        int i = 0;
-        for (int j = 1; j < n; j++) { // TC: O(N)
-            if (nums[i] != nums[j]) {
-                i++;
-                nums[i] = nums[j];
-            }
+        Set<Integer> set = new TreeSet<Integer>(); // SC: O(N)
+        for (int item : nums) { // TC: O(N)
+            set.add(item); // TC: O(log(N))
         }
-        return i + 1;
+        int index = 0;
+        for (Integer key : set) { // TC: O(N)
+            nums[index++] = key;
+        }
+        return index;
     }
 }
