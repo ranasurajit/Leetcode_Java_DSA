@@ -1,25 +1,22 @@
 class Solution {
+    /**
+     * Approach I : Using Hashing Approach
+     *
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(3) ~ O(1)
+     */
     public void sortColors(int[] nums) {
-        int low = 0;
-        int mid = 0;
-        int high = nums.length - 1;
-        while (mid <= high) {
-            if (nums[mid] == 0) {
-                swap(nums, low, mid);
-                low++;
-                mid++;
-            } else if (nums[mid] == 1) {
-                mid++;
-            } else {
-                swap(nums, mid, high);
-                high--;
+        int n = nums.length;
+        int[] map = new int[3];
+        for (int i = 0; i < n; i++) {  // TC: O(N)
+            map[nums[i]]++;
+        }
+        int index = 0;
+        for (int i = 0; i < 3; i++) {  // TC: O(N)
+            int size = map[i];
+            for (int j = 0; j < size; j++) {
+                nums[index++] = i;
             }
         }
-    }
-
-    private void swap(int[] arr, int a, int b) {
-        int temp = arr[a];
-        arr[a] = arr[b];
-        arr[b] = temp;
     }
 }
