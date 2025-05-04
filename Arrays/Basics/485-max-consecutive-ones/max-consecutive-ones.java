@@ -16,8 +16,8 @@ class Solution {
                 currentCount = 0;
             } else {
                 currentCount++;
-                maxCount = Math.max(maxCount, currentCount);
             }
+            maxCount = Math.max(maxCount, currentCount);
             i++;
         }
         return maxCount;
