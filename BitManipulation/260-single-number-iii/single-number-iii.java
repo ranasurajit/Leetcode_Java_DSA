@@ -1,24 +1,26 @@
 class Solution {
+    /**
+     * Approach : Using Bit-Manipulation Approach
+     *
+     * TC: O(2 x N)
+     * SC: O(1)
+     */
     public int[] singleNumber(int[] nums) {
         int xor = 0;
-        for (int it : nums) {
-            xor = xor ^ it;
+        for (int item : nums) { // TC: O(N)
+            xor ^= item;
         }
-        int diffBit = 1;
-        int[] singles = new int[2];
-        int a = 0, b = 0;
-        // finding right most set bit for xor
-        int rightSetBit = xor & -xor;
-        // segregating numbers and applying xor based upon if num has bit on/off at index = rightSetBit
-        for (int it : nums) {
-            if ((rightSetBit & it) == 0) {
-                a = a ^ it;
+        // find the right most set bit
+        int rightMostSetBit = xor & -xor;
+        int first = 0;
+        int second = 0;
+        for (int item : nums) { // TC: O(N)
+            if ((rightMostSetBit & item)== 0) {
+                first ^= item;
             } else {
-                b = b ^ it;
+                second ^= item;
             }
         }
-        singles[0] = a < b ? a : b;
-        singles[1] = a < b ? b : a;
-        return singles;
+        return new int[] { first, second };
     }
 }
