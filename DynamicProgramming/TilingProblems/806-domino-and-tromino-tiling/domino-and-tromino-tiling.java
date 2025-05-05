@@ -2,7 +2,7 @@ class Solution {
     private static final int MOD = (int) 1e9 + 7;
 
     /**
-     * Approach II: Using Memoization
+     * Approach II: Using Memoization Approach
      *
      * TC: O(2 ^ N)
      * SC: O(N)
@@ -39,7 +39,7 @@ class Solution {
     }
 
     /**
-     * Approach I: Using Recursion
+     * Approach I: Using Recursion Approach
      *
      * TC: O(2 ^ N)
      * SC: O(N)
