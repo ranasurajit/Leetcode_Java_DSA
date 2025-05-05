@@ -2,9 +2,9 @@ class Solution {
     private static final int MOD = (int) 1e9 + 7;
 
     /**
-     * Approach II: Using Tabulation Approach
+     * Approach III: Using Tabulation Approach
      *
-     * TC: O(2 ^ N)
+     * TC: O(N)
      * SC: O(N)
      *
      * Accepted (39 / 39 testcases passed)
