@@ -4,13 +4,13 @@ class Solution {
     /**
      * Approach II: Using Memoization Approach
      *
-     * TC: O(2 ^ N)
-     * SC: O(N)
+     * TC: O(N)
+     * SC: O(N + N)
      *
      * Accepted (39 / 39 testcases passed)
      */
     public int numTilings(int n) {
-        int[] memo = new int[1001];
+        int[] memo = new int[n + 1]; // SC: O(N)
         Arrays.fill(memo, -1);
         return solveMemoization(n, memo) % MOD;
     }
