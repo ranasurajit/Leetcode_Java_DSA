@@ -10,7 +10,7 @@ class Solution {
      * Accepted (39 / 39 testcases passed)
      */
     public int numTilings(int n) {
-        int[] dp = new int[1001]; // SC: O(N)
+        int[] dp = new int[n + 3]; // SC: O(N)
         dp[1] = 1;
         dp[2] = 2;
         dp[3] = 5;
