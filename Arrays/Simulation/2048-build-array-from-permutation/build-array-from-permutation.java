@@ -1,4 +1,10 @@
 class Solution {
+    /**
+     * Approach II : Using In Place Operation
+     *
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(1)
+     */
     public int[] buildArray(int[] nums) {
         int n = nums.length;
         for (int i = 0; i < n; i++) { // TC: O(N)
