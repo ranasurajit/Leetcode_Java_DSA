@@ -17,13 +17,16 @@ class Solution {
      * SC: O(log(N))
      */
     private double fastPow(double x, int n) {
+        // Base Case
         if (n == 0 || x == 1) {
             return 1.0;
         }
         if (n == 1) {
             return x;
         }
+        // Hypothesis
         double pow = fastPow(x, n / 2);
+        // Induction
         double ans = pow * pow;
         if ((n & 1) == 1) {
             // odd power
