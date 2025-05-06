@@ -1,45 +1,34 @@
 class Solution {
     /**
-     * Using Recursion Approach
-     * 
+     * Approach : Using Recursion Approach
+     *
      * TC: O(log(N))
      * SC: O(log(N))
-     * 
-     * @param x
-     * @param n
-     * @return
      */
     public double myPow(double x, int n) {
         if (n < 0) {
-            return 1 / pow(x, -1 * n);
+            return 1 / fastPow(x, -1 * n);
         }
-        return pow(x, n);
+        return fastPow(x, n);
     }
 
     /**
-     * Using Recursion
-     * 
      * TC: O(log(N))
      * SC: O(log(N))
-     * 
-     * @param x
-     * @param n
-     * @return
      */
-    private double pow(double x, int n) {
+    private double fastPow(double x, int n) {
+        if (n == 0 || x == 1) {
+            return 1.0;
+        }
         if (n == 1) {
             return x;
         }
-        if (x == 1.0 || n == 0) {
-            return 1.0;
+        double pow = fastPow(x, n / 2);
+        double ans = pow * pow;
+        if ((n & 1) == 1) {
+            // odd power
+            ans = x * ans;
         }
-        double answer = pow(x, n / 2);
-        if ((n & 1) == 0) {
-            // n is even
-            return answer * answer;
-        } else {
-            // n is odd
-            return x * answer * answer;
-        }
+        return ans;
     }
 }
