@@ -1,20 +1,46 @@
 class Solution {
+    /**
+     * Approach : Using Recursion Approach
+     *
+     * TC: O(2n * Catalan Number) ~ O(4^n / √n)
+     * (Only valid sequences are generated = Catalan Number)
+     * SC: O(3 x N) ~ O(N)
+     */
     public List<String> generateParenthesis(int n) {
+        int open = n;
+        int close = n;
         List<String> result = new ArrayList<String>();
-        String current = "";
-        helper(n, 0, 0, result, current);
+        StringBuilder sb = new StringBuilder(); // SC: O(N)
+        solveRecursion(open, close, sb, result);
         return result;
     }
 
-    private void helper(int n, int open, int closed, List<String> result, String current) {
-        if (open == n && closed == n) {
-            result.add(current);
+    /**
+     * TC: O(2n * Catalan Number) ~ O(4^n / √n)
+     * (Only valid sequences are generated = Catalan Number)
+     * SC: O(2 x N)
+     */
+    private void solveRecursion(int open, int close, StringBuilder current, List<String> result) {
+        // Base Case
+        if (open == 0 && close == 0) {
+            result.add(current.toString()); // TC: O(N)
+            return;
         }
-        if (open < n) {
-            helper(n, open + 1, closed, result, current + "(");
+        // Recursion Calls
+        /**
+         * we have two choices to use open '(' or close ')' brackets
+         * (close to be used when open < close)
+         */
+        // use open
+        if (open > 0) {
+            current.append('(');
+            solveRecursion(open - 1, close, current, result);
+            current.setLength(current.length() - 1); // backtrack
         }
-        if (closed < open) {
-            helper(n, open, closed + 1, result, current + ")");
+        if (open < close) {
+            current.append(')');
+            solveRecursion(open, close - 1, current, result);
+            current.setLength(current.length() - 1); // backtrack
         }
     }
 }
