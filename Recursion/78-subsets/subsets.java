@@ -1,22 +1,36 @@
 class Solution {
+    /**
+     * Approach : Using Recursion Approach
+     *
+     * TC: O(N x 2 ^ N)
+     * SC: O(N)
+     */
     public List<List<Integer>> subsets(int[] nums) {
-        List<List<Integer>> result = new ArrayList<List<Integer>>();
-        List<Integer> current = new ArrayList<Integer>();
-        helper(nums, 0, result, current);
-        return result;
+        int n = nums.length;
+        List<List<Integer>> uniques = new ArrayList<List<Integer>>();
+        List<Integer> current = new ArrayList<Integer>(); // SC: O(N)
+        solveRecursion(0, nums, n, current, uniques);
+        return uniques;
     }
 
-    private void helper(int[] nums, int index, List<List<Integer>> result, List<Integer> current) {
-        if (index == nums.length) {
-            result.add(new ArrayList<Integer>(current));
+    /**
+     * TC: O(N x 2 ^ N)
+     * SC: O(N)
+     */
+    private void solveRecursion(int idx, int[] arr, int n, List<Integer> current,
+        List<List<Integer>> uniques) {
+        // Base Case
+        if (idx == n) {
+            uniques.add(new ArrayList<Integer>(current)); // TC: O(N)
             return;
         }
-        // take 
-        current.add(nums[index]);
-        helper(nums, index + 1, result, current);
+        // Recursion Calls
         // not take
-        // backtrack
+        solveRecursion(idx + 1, arr, n, current, uniques);
+        // take
+        current.add(arr[idx]);
+        solveRecursion(idx + 1, arr, n, current, uniques);
+        // backtrack to explore all other possibilities
         current.remove(current.size() - 1);
-        helper(nums, index + 1, result, current);
     }
 }
