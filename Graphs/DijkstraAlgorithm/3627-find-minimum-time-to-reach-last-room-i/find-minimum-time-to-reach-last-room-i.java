@@ -4,7 +4,7 @@ class Solution {
     /**
      * Approach : Using Dijkstra's Algorithm Approach
      *
-     * TC: O(N x M x log(N x M))
+     * TC: O(2 x N x M x log(N x M)) ~ O(N x M x log(N x M))
      * SC: O(2 x N x M) ~ O(N x M)
      */
     public int minTimeToReach(int[][] moveTime) {
@@ -20,7 +20,7 @@ class Solution {
         PriorityQueue<int[]> pq = new PriorityQueue<int[]>((p, q) -> p[0] - q[0]); // SC: O(N x M)
         pq.offer(new int[] { 0, 0, 0 });
         while (!pq.isEmpty()) { // TC: O(N x M)
-            int[] current = pq.poll();
+            int[] current = pq.poll(); // TC: O(log(N x M))
             int time = current[0];
             int row = current[1];
             int col = current[2];
