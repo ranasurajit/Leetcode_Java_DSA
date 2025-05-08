@@ -4,6 +4,12 @@ class Solution {
         "mno", "pqrs", "tuv", "wxyz" 
     };
 
+    /**
+     * Approach : Using Recursion Approach
+     *
+     * TC: O(N x 4 ^ N)
+     * SC: O(N)
+     */
     public List<String> letterCombinations(String digits) {
         int n = digits.length();
         List<String> result = new ArrayList<String>();
@@ -15,6 +21,14 @@ class Solution {
         return result;
     }
 
+    /**
+     * TC: O(N x 4 ^ N) 
+     *
+     * as for a keypad key maximum 4 loops happen
+     * For example keypad 9 has 4 options (w, x, y and z)
+
+     * SC: O(N)
+     */
     private void solveRecursion(int idx, int n, String digits, 
         StringBuilder sb, List<String> result) {
         // Base Case
