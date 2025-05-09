@@ -10,7 +10,7 @@ class Solution {
         int i = 0; // start pointer of sliding window
         int j = 0; // end pointer of sliding window
         Map<Integer, Integer> map = new HashMap<Integer, Integer>(); // SC: O(K)
-        long maxSum = (long) Integer.MIN_VALUE;
+        long maxSum = 0L;
         long sum = 0L;
         while (j < n) { // TC: O(N)
             sum += nums[j];
@@ -34,6 +34,6 @@ class Solution {
                 j++;
             }
         }
-        return maxSum == (long) Integer.MIN_VALUE ? 0L : maxSum;
+        return maxSum;
     }
 }
