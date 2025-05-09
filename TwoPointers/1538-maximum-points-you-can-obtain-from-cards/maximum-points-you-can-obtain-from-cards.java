@@ -13,7 +13,7 @@ class Solution {
         for (int i = 0; i < k; i++) { // TC: O(K)
             leftSum += cardPoints[i];
         }
-        max = Math.max(max, leftSum);
+        max = leftSum;
         int p = k - 1; // left pointer
         int q = n - 1; // right pointer
         while (p >= 0 && q >= 0 && k > 0) { // TC: O(K)
