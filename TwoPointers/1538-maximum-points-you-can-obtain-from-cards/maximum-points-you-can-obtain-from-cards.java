@@ -16,13 +16,13 @@ class Solution {
         max = leftSum;
         int p = k - 1; // left pointer
         int q = n - 1; // right pointer
-        while (p >= 0 && q >= 0 && k > 0) { // TC: O(K)
+        while (k > 0 && p >= 0 && q >= 0) { // TC: O(K)
             leftSum -= cardPoints[p];
             rightSum += cardPoints[q];
             p--;
             q--;
             k--;
-            max = Math.max(max, (leftSum + rightSum));
+            max = Math.max(max, leftSum + rightSum);
         }
         return max;
     }
