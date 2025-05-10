@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach I : Using Sliding Window (Variable Size) Approach
+     * Approach II : Using Sliding Window (Variable Size) Approach
      * 
      * We can find countSubArraysWithSum(<= goal) - We can find countSubArraysWithSum(<= goal - 1)
      *
