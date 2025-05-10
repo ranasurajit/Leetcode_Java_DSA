@@ -1,10 +1,34 @@
 class Solution {
+    /**
+     * Approach : Using Sliding Window (Variable Size) Approach
+     * 
+     * We can find countSubArraysWithLessThanEqualsKOddNumbers(<= goal) - We can find
+     * countSubArraysWithLessThanEqualsKOddNumbers(<= goal - 1)
+     *
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(1)
+     * 
+     * @param nums
+     * @param goal
+     * @return
+     */
     public int numberOfSubarrays(int[] nums, int k) {
         int n = nums.length;
         return countSubArraysWithLessThanEqualsKOddNumbers(nums, n, k) -
             countSubArraysWithLessThanEqualsKOddNumbers(nums, n, k - 1);
     }
 
+    /**
+     * Using Sliding Window (Variable Size) Approach
+     * 
+     * TC: O(N)
+     * SC: O(1)
+     * 
+     * @param nums
+     * @param n
+     * @param k
+     * @return
+     */
     private int countSubArraysWithLessThanEqualsKOddNumbers(int[] nums, int n, int k) {
         if (k < 0) {
             return 0;
