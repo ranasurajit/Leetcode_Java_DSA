@@ -1,66 +1,50 @@
 class Solution {
     /**
-     * Approach II : Using Sliding Window (Variable Size) and Array Approach
-     *
-     * TC: O(N)
-     * SC: O(1)
+     * Approach : Using Sliding Window (Variable Size) Approach
+     * 
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(K)
+     * 
+     * @param s
+     * @param n
+     * @param k
+     * @return
      */
     public int numberOfSubstrings(String s) {
         int n = s.length();
-        int[] dict = new int[3];
-        int i = 0; // start pointer of sliding window
-        int j = 0; // end pointer of sliding window
-        int count = 0;
-        while (j < n) { // TC: O(N)
-            dict[s.charAt(j) - 'a']++;
-            while (dict[0] > 0 && dict[1] > 0 && dict[2] > 0) {
-                /**
-                 * as when sliding window is met we can include
-                 * all characters till n i.e. total count for a 
-                 * pair (i, j) = (n - j)
-                 */
-                count += (n - j);
-                // shrink the window
-                dict[s.charAt(i) - 'a']--;
-                i++;
-            }
-            j++;
-        }
-        return count;
+        return countSubstringsLessThanEqualsK(s, n, 3) - countSubstringsLessThanEqualsK(s, n, 2);
     }
 
     /**
-     * Approach I : Using Sliding Window (Variable Size) and Hashing Approach
-     *
+     * Using Sliding Window (Variable Size) Approach
+     * 
      * TC: O(N)
-     * SC: O(1)
+     * SC: O(K)
+     * 
+     * @param s
+     * @param n
+     * @param k
+     * @return
      */
-    public int numberOfSubstringsApproachI(String s) {
-        int n = s.length();
-        Map<Character, Integer> map = new HashMap<Character, Integer>(); // SC: O(3)
-        int i = 0; // start pointer of sliding window
-        int j = 0; // end pointer of sliding window
+    private int countSubstringsLessThanEqualsK(String s, int n, int k) {
+        int i = 0;
+        int j = 0;
+        Map<Character, Integer> map = new HashMap<Character, Integer>(); // SC: O(K)
         int count = 0;
         while (j < n) { // TC: O(N)
             char ch = s.charAt(j);
             map.put(ch, map.getOrDefault(ch, 0) + 1);
-            while (map.size() == 3) {
-                /**
-                 * as when sliding window is met we can include
-                 * all characters till n i.e. total count for a 
-                 * pair (i, j) = (n - j)
-                 */
-                count += (n - j);
-                // shrink the window
-                char ci = s.charAt(i);
-                int freq = map.get(ci);
+            while (map.size() > k) {
+                // remove computation from index 'i'
+                int freq = map.get(s.charAt(i));
                 if (freq == 1) {
-                    map.remove(ci);
+                    map.remove(s.charAt(i));
                 } else {
-                    map.put(ci, freq - 1);
+                    map.put(s.charAt(i), freq - 1);
                 }
                 i++;
             }
+            count += (j - i + 1);
             j++;
         }
         return count;
