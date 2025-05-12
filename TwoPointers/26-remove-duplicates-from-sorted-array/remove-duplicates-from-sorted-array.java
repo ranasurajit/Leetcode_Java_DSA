@@ -1,20 +1,23 @@
 class Solution {
     /**
+     * Approach : Two Pointers Approach
+     *
      * TC: O(N)
      * SC: O(1)
      */
     public int removeDuplicates(int[] nums) {
         int n = nums.length;
-        int i = 0; // pointer at 0th index of nums
-        int j = 1; // pointer at 1st index of nums
-        while (j < n) { // TC: O(N)
-            // we will have only index 'i' pointing to uniques
-            if (nums[i] != nums[j]) {
-                i++;
-                nums[i] = nums[j];
+        int p = 0; // points to unique element
+        int q = 1; // finds the unique element
+        while (q < n) { // TC: O(N)
+            if (nums[p] != nums[q]) {
+                nums[p + 1] = nums[q];
+                p++;
+                q++;
+            } else {
+                q++;
             }
-            j++;
         }
-        return i + 1; // number of unique elements
+        return p + 1;
     }
 }
