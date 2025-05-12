@@ -1,11 +1,39 @@
 class Solution {
     /**
-     * Approach : Two Pointers Approach
+     * Approach II : Two Pointers Approach
      *
      * TC: O(N)
      * SC: O(1)
      */
     public String reverseVowels(String s) {
+        char[] chars = s.toCharArray();
+        int n = chars.length;
+        int p = 0;
+        int q = n - 1;
+        while (p < q) { // TC: O(N)
+            if (!isVowel(chars[p])) {
+                p++;
+            } else if (!isVowel(chars[q])) {
+                q--;
+            } else {
+                // swap
+                char temp = chars[q];
+                chars[q] = chars[p];
+                chars[p] = temp;
+                p++;
+                q--;
+            }
+        }
+        return String.valueOf(chars);
+    }
+
+    /**
+     * Approach I : Two Pointers Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public String reverseVowelsApproachI(String s) {
         char[] chars = s.toCharArray();
         int n = chars.length;
         int p = 0;
