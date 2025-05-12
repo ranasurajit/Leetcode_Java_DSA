@@ -2,8 +2,9 @@ class Solution {
     /**
      * Approach II : Using Heaps (PriorityQueue) Approach
      *
-     * TC: O(M x log(N) + M x log(M) + 2 x N) ~ O(M x (log(M) + log(N)))
-     * SC: O(2 x N) ~ O(N)
+     * TC: O(M x log(N) + M x log(M) + N x log(N) + 2 x N) ~ 
+     *     O(M x log(N) + M x log(M) + N x log(N))
+     * SC: O(3 x N) ~ O(N)
      */
     public int mostBooked(int n, int[][] meetings) {
         // sort the meetings with respect to increasing order of start time of meeting
