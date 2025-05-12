@@ -1,11 +1,42 @@
 class Solution {
     /**
-     * Approach II : Using Simulation, Hashing, Sorting Approach
+     * Approach III : Using Simulation, Hashing, Sorting - Cleaner Approach
      *
      * TC: O(N ^ 3 + N x log(N) + 6 (N - 2)) ~ O(N ^ 3)
      * SC: (6 x (N - 2)) ~ O(N)
      */
     public int[] findEvenNumbers(int[] digits) {
+        int n = digits.length;
+        Set<Integer> set = new HashSet<Integer>();
+        for (int i = 0; i < n; i++) {         // TC: O(N)
+            for (int j = 0; j < n; j++) {     // TC: O(N)
+                for (int k = 0; k < n; k++) { // TC: O(N)
+                    if(i == j || j == k || k == i) {
+                        continue;
+                    }
+                    int nums = digits[i] * 100 + digits[j] * 10 + digits[k];
+                    if (nums >= 100 && (nums & 1) == 0) {
+                        set.add(nums);
+                    }
+                }
+            }
+        }
+        List<Integer> list = new ArrayList<Integer>(set);
+        int[] evenNumbers = new int[set.size()];
+        for (int i = 0; i < evenNumbers.length; i++) { // TC: (6 x (N - 2))
+            evenNumbers[i] = list.get(i);
+        }
+        Arrays.sort(evenNumbers); // TC: O(6 x N x log(6 x N)) ~ O(N x log(N))
+        return evenNumbers;
+    }
+
+    /**
+     * Approach II : Using Simulation, Hashing, Sorting Approach
+     *
+     * TC: O(N ^ 3 + N x log(N) + 6 (N - 2)) ~ O(N ^ 3)
+     * SC: (6 x (N - 2)) ~ O(N)
+     */
+    public int[] findEvenNumbersApproachII(int[] digits) {
         int n = digits.length;
         Set<Integer> set = new HashSet<Integer>();
         for (int i = 0; i < n - 2; i++) {         // TC: O(N)
