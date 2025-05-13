@@ -4,7 +4,7 @@ class Solution {
      * Approach II : Using Hashing Approach
      *
      * TC: O(N + T)
-     * SC: O(1)
+     * SC: O(2 x 26) ~ O(1)
      *
      * Accepted (824 / 824 testcases passed)
      */
@@ -28,7 +28,7 @@ class Solution {
             map = temp;
         }
         int length = 0;
-        for (int i = 0; i < 26; i++) {
+        for (int i = 0; i < 26; i++) { // TC: O(26) ~ O(1)
             length = (length + (map[i] % MOD)) % MOD;
         }
         return length % MOD;
