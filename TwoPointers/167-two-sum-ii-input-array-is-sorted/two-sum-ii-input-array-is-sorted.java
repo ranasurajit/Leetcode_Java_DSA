@@ -9,7 +9,7 @@ class Solution {
         int n = numbers.length;
         int p = 0;
         int q = n - 1;
-        while (p < q) {
+        while (p < q) { // TC: O(N)
             int sum = numbers[p] + numbers[q];
             if (sum == target) {
                 return new int[] { p + 1, q + 1 };
