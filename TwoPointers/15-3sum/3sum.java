@@ -14,7 +14,7 @@ class Solution {
         Arrays.sort(nums); // TC: O(N x log(N))
         for (int i = 0; i < n - 2; i++) { // TC: O(N)
             // nums[i] + nums[j] + nums[k] == 0 implies nums[j] + nums[k] == -1 * nums[i]
-            if (i > 0 && nums[i] == nums[i - 1]) {
+            if (i != 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
             int target = -1 * nums[i];
