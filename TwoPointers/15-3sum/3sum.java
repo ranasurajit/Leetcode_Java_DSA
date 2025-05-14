@@ -10,38 +10,45 @@ class Solution {
     public List<List<Integer>> threeSum(int[] nums) {
         int n = nums.length;
         List<List<Integer>> result = new ArrayList<List<Integer>>();
+        // as index is not needed so order does not matter
         Arrays.sort(nums); // TC: O(N x log(N))
         for (int i = 0; i < n - 2; i++) { // TC: O(N)
-            if (i != 0 && nums[i] == nums[i - 1]) {
+            // nums[i] + nums[j] + nums[k] == 0 implies nums[j] + nums[k] == -1 * nums[i]
+            if (i > 0 && nums[i] == nums[i - 1]) {
                 continue;
             }
             int target = -1 * nums[i];
-            twoSum(nums, i + 1, target, result); // TC: O(N)
+            // find the other two numbers of triplet
+            twoSum(nums, target, i + 1, result); // TC: O(N)
         }
         return result;
     }
 
     /**
+     * Using Two Pointers Approach
      *
+     * TC: O(N)
+     * SC: O(1)
      */
-    private void twoSum(int[] nums, int start, int target, List<List<Integer>> result) {
+    private void twoSum(int[] nums, int target, int start, List<List<Integer>> result) {
         int p = start;
         int q = nums.length - 1;
-        while (p < q) {
-            int sum = nums[p] + nums[q];
-            if (sum < target) {
-                p++;
-            } else if (sum > target) {
-                q--;
-            } else {
+        while (p < q) { // TC: O(N)
+            if (nums[p] + nums[q] == target) {
                 result.add(Arrays.asList(-1 * target, nums[p], nums[q]));
+                // remove duplicate elements
                 while (p < q && nums[p] == nums[p + 1]) {
                     p++;
                 }
+                // remove duplicate elements
                 while (p < q && nums[q] == nums[q - 1]) {
                     q--;
                 }
                 p++;
+                q--;
+            } else if (nums[p] + nums[q] < target) {
+                p++;
+            } else {
                 q--;
             }
         }
@@ -62,10 +69,7 @@ class Solution {
             for (int j = i + 1; j < n - 1; j++) { // TC: O(N)
                 for (int k = j + 1; k < n; k++) { // TC: O(N)
                     if (nums[i] + nums[j] + nums[k] == 0) {
-                        List<Integer> triplet = new ArrayList<Integer>();
-                        triplet.add(nums[i]);
-                        triplet.add(nums[j]);
-                        triplet.add(nums[k]);
+                        List<Integer> triplet = Arrays.asList(nums[i], nums[j], nums[k]);
                         Collections.sort(triplet); // TC: O(3 x log(3)) ~ O(1)
                         result.add(triplet);
                     }
