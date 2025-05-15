@@ -13,6 +13,9 @@ class Solution {
         // since we need only numbers and not index so order does not matter
         Arrays.sort(nums); // TC: O(N x log(N))
         for (int i = 0; i < n - 3; i++) { // TC: O(N)
+            if (i != 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
             long reqdSum = target - nums[i];
             threeSum(i + 1, nums, reqdSum, (long) nums[i], result); // TC: O(N ^ 2)
         }
