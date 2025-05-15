@@ -9,7 +9,8 @@ class Solution {
      */
     public List<String> getLongestSubsequence(String[] words, int[] groups) {
         int n = words.length;
-        Map<String, List<Integer>> memo = new HashMap<String, List<Integer>>(); // SC: O(N)
+        Map<Integer, Map<Integer, List<Integer>>> memo = 
+            new HashMap<Integer, Map<Integer, List<Integer>>>(); // SC: O(N)
         List<Integer> indices = solveMemoization(0, -1, n, groups, memo); // TC: O(N), SC: O(N)
         List<String> result = new ArrayList<String>();
         for (Integer it : indices) { // TC: O(N)
@@ -25,15 +26,14 @@ class Solution {
      * SC: O(N)
      */
     private List<Integer> solveMemoization(int idx, int prevGroup, int n, int[] groups,
-        Map<String, List<Integer>> memo) {
+        Map<Integer, Map<Integer, List<Integer>>> memo) {
         // Base Case
         if (idx == n) {
             return new ArrayList<Integer>();
         }
-        String key = idx + "|" + prevGroup;
         // Memoization Check
-        if (memo.containsKey(key)) {
-            return memo.get(key);
+        if (memo.containsKey(idx) && memo.get(idx).containsKey(prevGroup)) {
+            return memo.get(idx).get(prevGroup);
         }
         // Recursion Calls
         // we can take or not take
@@ -46,7 +46,7 @@ class Solution {
             take.addAll(solveMemoization(idx + 1, groups[idx], n, groups, memo));
         }
         List<Integer> result = take.size() > skip.size() ? take : skip;
-        memo.put(key, result);
+        memo.computeIfAbsent(idx, k -> new HashMap<Integer, List<Integer>>()).put(prevGroup, result);
         return result; 
     }
 
