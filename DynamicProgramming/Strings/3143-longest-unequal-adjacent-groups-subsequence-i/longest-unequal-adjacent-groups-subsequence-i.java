@@ -1,5 +1,24 @@
 class Solution {
     /**
+     * Approach III : Using Simulation Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     *
+     * Accepted (382 / 382 testcases passed)
+     */
+    public List<String> getLongestSubsequence(String[] words, int[] groups) {
+        int n = words.length;
+        List<String> result = new ArrayList<String>();
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            if (i == 0 || groups[i] != groups[i - 1]) {
+                result.add(words[i]);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Approach II : Using Memoization Approach
      *
      * TC: O(2 x N) ~ O(N)
@@ -7,7 +26,7 @@ class Solution {
      *
      * Accepted (382 / 382 testcases passed)
      */
-    public List<String> getLongestSubsequence(String[] words, int[] groups) {
+    public List<String> getLongestSubsequenceMemoization(String[] words, int[] groups) {
         int n = words.length;
         Map<Integer, Map<Integer, List<Integer>>> memo = 
             new HashMap<Integer, Map<Integer, List<Integer>>>(); // SC: O(N)
