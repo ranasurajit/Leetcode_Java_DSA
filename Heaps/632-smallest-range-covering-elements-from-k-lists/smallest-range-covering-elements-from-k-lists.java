@@ -2,8 +2,8 @@ class Solution {
     /**
      * Approach : Using PriorityQueue (Min and Max Heaps) Approach
      *
-     * TC: O(K + 2 x L x log(K)) ~ O(K + L x log(K))
-     * SC: O(2 x K) ~ O(K)
+     * TC: O(K + L x log(K))
+     * SC: O(K)
      */
     public int[] smallestRange(List<List<Integer>> nums) {
         // we will create min and max heaps to determine the min and max for a kth list
