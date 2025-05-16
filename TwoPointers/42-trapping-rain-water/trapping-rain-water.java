@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach I : Using Two Pointers Approach
+     * Approach II : Using Two Pointers Approach
      *
      * TC: O(N)
      * SC: O(1)
