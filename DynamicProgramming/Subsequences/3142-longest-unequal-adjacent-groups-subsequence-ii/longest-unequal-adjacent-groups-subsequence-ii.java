@@ -90,9 +90,8 @@ class Solution {
         List<Integer> skip = solveRecursion(idx + 1, prevIdx, n, words, groups);
         // take
         List<Integer> take = new ArrayList<Integer>();
-        if (prevIdx == -1 || 
-            (groups[prevIdx] != groups[idx] && 
-             hasHammingDistance(words[prevIdx], words[idx]))) { // TC: O(K), SC: O(1)
+        if (prevIdx == -1 || (hasHammingDistance(words[prevIdx], words[idx]) && 
+            groups[prevIdx] != groups[idx])) { // TC: O(K), SC: O(1)
             take.add(idx);
             take.addAll(solveRecursion(idx + 1, idx, n, words, groups));
         }
