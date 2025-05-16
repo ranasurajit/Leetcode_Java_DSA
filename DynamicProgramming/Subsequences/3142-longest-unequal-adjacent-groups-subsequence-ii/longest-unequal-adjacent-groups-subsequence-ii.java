@@ -1,20 +1,22 @@
 class Solution {
     /**
-     * Approach : Using Memoization Approach
+     * Approach II : Using Memoization Approach
      *
-     * TC: O(2 x N ^ 2) ~ O(N ^ 2)
-     * SC: O(N)
+     * TC: O(K x N ^ 2)
+     * SC: O(N ^ 2 + N)
      *
-     * Time Limit Exceeded (435 / 441 testcases passed)
+     * where K = MaxLength(words[i])
+     *
+     * Accepted (441 / 441 testcases passed)
      */
     public List<String> getWordsInLongestSubsequence(String[] words, int[] groups) {
         int n = groups.length;
         Map<Integer, Map<Integer, List<Integer>>> memo =
-            new HashMap<Integer, Map<Integer, List<Integer>>>();
+            new HashMap<Integer, Map<Integer, List<Integer>>>(); // SC: O(N x N)
         List<Integer> indices = 
-            solveMemoization(0, -1, n, words, groups, memo); // TC: O(N x 2 ^ N), SC: O(N)
+            solveMemoization(0, -1, n, words, groups, memo); // TC: O(K x N x N), SC: O(N)
         List<String> result = new ArrayList<String>();
-        for (Integer it : indices) {
+        for (Integer it : indices) { // TC: O(N)
             result.add(words[it]);
         }
         return result;
@@ -23,7 +25,7 @@ class Solution {
     /**
      * Using Memoization
      *
-     * TC: O(N x N)
+     * TC: O(K x N x N)
      * SC: O(N)
      */
     private List<Integer> solveMemoization(int idx, int prevIdx, int n, 
@@ -43,7 +45,7 @@ class Solution {
         List<Integer> take = new ArrayList<Integer>();
         if (prevIdx == -1 || 
             (groups[prevIdx] != groups[idx] && 
-             hasHammingDistance(words[prevIdx], words[idx]))) { // TC: O(N), SC: O(1)
+             hasHammingDistance(words[prevIdx], words[idx]))) { // TC: O(K), SC: O(1)
             take.add(idx);
             take.addAll(solveMemoization(idx + 1, idx, n, words, groups, memo));
         }
@@ -55,16 +57,18 @@ class Solution {
     /**
      * Approach : Using Recursion Approach
      *
-     * TC: O(N x 2 ^ N + N ^ 2) ~ O(N x 2 ^ N)
+     * TC: O(K x 2 ^ N + N ^ 2) ~ O(K x 2 ^ N)
      * SC: O(N)
+     * 
+     * where K = MaxLength(words[i])
      *
      * Time Limit Exceeded (435 / 441 testcases passed)
      */
     public List<String> getWordsInLongestSubsequenceRecursion(String[] words, int[] groups) {
         int n = groups.length;
-        List<Integer> indices = solveRecursion(0, -1, n, words, groups); // TC: O(N x 2 ^ N), SC: O(N)
+        List<Integer> indices = solveRecursion(0, -1, n, words, groups); // TC: O(K x 2 ^ N), SC: O(N)
         List<String> result = new ArrayList<String>();
-        for (Integer it : indices) {
+        for (Integer it : indices) { // TC: O(N)
             result.add(words[it]);
         }
         return result;
@@ -73,7 +77,7 @@ class Solution {
     /**
      * Using Recursion
      *
-     * TC: O(N x 2 ^ N)
+     * TC: O(K x 2 ^ N)
      * SC: O(N)
      */
     private List<Integer> solveRecursion(int idx, int prevIdx, int n, String[] words, int[] groups) {
@@ -88,7 +92,7 @@ class Solution {
         List<Integer> take = new ArrayList<Integer>();
         if (prevIdx == -1 || 
             (groups[prevIdx] != groups[idx] && 
-             hasHammingDistance(words[prevIdx], words[idx]))) { // TC: O(N), SC: O(1)
+             hasHammingDistance(words[prevIdx], words[idx]))) { // TC: O(K), SC: O(1)
             take.add(idx);
             take.addAll(solveRecursion(idx + 1, idx, n, words, groups));
         }
@@ -98,7 +102,7 @@ class Solution {
     /**
      * Using Simulation
      *
-     * TC: O(N)
+     * TC: O(K)
      * SC: O(1)
      */
     private boolean hasHammingDistance(String a, String b) {
