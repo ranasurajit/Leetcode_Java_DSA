@@ -1,50 +1,52 @@
 class Solution {
     /**
-     * TC: O(N x log(K) + K x log(K)) ~ O(N x log(K))
-     * SC: O(K)
+     * Approach : Using PriorityQueue (Min and Max Heaps) Approach
+     *
+     * TC: O(K + 2 x L x log(K)) ~ O(K + L x log(K))
+     * SC: O(2 x K) ~ O(K)
      */
     public int[] smallestRange(List<List<Integer>> nums) {
+        // we will create min and max heaps to determine the min and max for a kth list
+        // we will store { element, listIndex } in min and max heaps
+        PriorityQueue<int[]> minHeap = new PriorityQueue<int[]>((p, q) -> p[0] - q[0]); // SC: O(K)
+
         int k = nums.size();
-        PriorityQueue<Pair> pq = new PriorityQueue<Pair>((Pair p, Pair q) -> p.value - q.value); // SC: O(K)
-        // Creating initial range from all lists;
-        int maxElement = Integer.MIN_VALUE;
+        int maxValue = Integer.MIN_VALUE;
         for (int i = 0; i < k; i++) { // TC: O(K)
-            pq.offer(new Pair(nums.get(i).get(0), i, 0)); // TC: O(log(K))
-            maxElement = Math.max(maxElement, nums.get(i).get(0));
+            minHeap.offer(new int[] { nums.get(i).get(0), 0, i }); // TC: O(log(1))
+            maxValue = Math.max(maxValue, nums.get(i).get(0));
         }
-        int[] range = { -1000000, 1000000 };
-        while (!pq.isEmpty()) { // TC: O(N)
-            Pair current = pq.poll(); // TC: O(log(K))
-            int minElement = current.value;
-            int currListIdx = current.listIdx;
-            int currIdx = current.idx;
-            // compare for the smallest range
-            if (maxElement - minElement < range[1] - range[0]) {
-                range[0] = minElement;
-                range[1] = maxElement;
-            } else if (maxElement - minElement == range[1] - range[0] && range[0] > minElement) {
-                range[0] = minElement;
-                range[1] = maxElement;
+        int[] minRange = { minHeap.peek()[0], maxValue };
+        int minDiff = Integer.MAX_VALUE;
+        int startIndex = 0;
+        while (!minHeap.isEmpty()) { // TC: O(L) where L = length of min size list in nums
+            int[] current = minHeap.poll();
+            int minValue = current[0];
+            int idx = current[1];
+            int listIndex = current[2];
+            if (minDiff > maxValue - minValue) {
+                minRange[0] = minValue;
+                minRange[1] = maxValue;
+                minDiff = maxValue - minValue;
+                startIndex = idx;
+            } else if (minDiff == maxValue - minValue && startIndex > idx) {
+                minRange[0] = minValue;
+                minRange[1] = maxValue;
+                minDiff = maxValue - minValue;
+                startIndex = idx;
             }
-            if (currIdx + 1 < nums.get(currListIdx).size()) {
-                int newValue = nums.get(currListIdx).get(currIdx + 1);
-                pq.offer(new Pair(newValue, currListIdx, currIdx + 1)); // TC: O(log(K))
-                maxElement = Math.max(maxElement, newValue);
+            if (idx + 1 < nums.get(listIndex).size()) {
+                int newValue = nums.get(listIndex).get(idx + 1);
+                minHeap.offer(new int[] { // TC: O(log(K))
+                    newValue,
+                    idx + 1,
+                    listIndex
+                });
+                maxValue = Math.max(maxValue, newValue);
             } else {
                 break;
             }
         }
-        return range;
-    }
-}
-
-class Pair {
-    int value;
-    int listIdx;
-    int idx;
-    public Pair (int value, int listIdx, int idx) {
-        this.value = value;
-        this.listIdx = listIdx;
-        this.idx = idx;
+        return minRange;
     }
 }
