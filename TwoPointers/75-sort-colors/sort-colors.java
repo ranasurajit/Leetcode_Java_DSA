@@ -2,15 +2,15 @@ class Solution {
     /**
      * Approach II : Using Two Pointers Approach
      *
-     * TC: O(2 x N) ~ O(N)
-     * SC: O(3) ~ O(1)
+     * TC: O(N)
+     * SC: O(1)
      */
     public void sortColors(int[] nums) {
         int n = nums.length;
         int low = 0;
         int mid = 0;
         int high = n - 1;
-        while (mid <= high) {
+        while (mid <= high) { // TC: O(N)
             if (nums[mid] == 0) {
                 // if mid pointer is pointing at value 0, swap it with value at low pointer
                 swap(nums, low, mid);
