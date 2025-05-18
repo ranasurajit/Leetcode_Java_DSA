@@ -1,29 +1,21 @@
 class Solution {
     /**
-     * Using Binary Search Approach
-     * 
+     * Approach : Using Binary Search Approach
+     *
      * TC: O(log(N))
      * SC: O(1)
-     *
-     * @param nums
-     * @param target
-     * @return
      */
     public int searchInsert(int[] nums, int target) {
-        return lowerbound(nums, target);
+        return lowerBound(nums, target);
     }
 
     /**
-     * Lower bound => nums[i] >= x
-     * 
+     * Using Binary Search Approach to Find Lower Bound
+     *
      * TC: O(log(N))
      * SC: O(1)
-     * 
-     * @param nums
-     * @param target
-     * @return
      */
-    private int lowerbound(int[] nums, int target) {
+    int lowerBound(int[] nums, int target) {
         int n = nums.length;
         int low = 0;
         int high = n - 1;
