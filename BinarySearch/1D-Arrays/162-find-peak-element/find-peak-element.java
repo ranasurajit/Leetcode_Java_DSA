@@ -7,15 +7,18 @@ class Solution {
      */
     public int findPeakElement(int[] nums) {
         int n = nums.length;
+        // handle single element
         if (n == 1) {
             return 0;
         }
+        // below two conditions handles test cases if we find peaks at two ends
         if (nums[0] > nums[1]) {
             return 0;
         }
         if (nums[n - 1] > nums[n - 2]) {
             return n - 1;
         }
+        // Applying Binary Search on range [1...(n - 2)]
         int low = 1;
         int high = n - 2;
         while (low <= high) { // TC: O(log(N))
