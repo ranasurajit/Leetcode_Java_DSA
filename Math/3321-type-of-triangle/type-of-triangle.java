@@ -1,11 +1,30 @@
 class Solution {
     /**
-     * Approach : Using Sorting and Hashing Approach
+     * Approach III : Using Sorting Approach
      *
      * TC: O(1)
      * SC: O(1)
      */
     public String triangleType(int[] nums) {
+        Arrays.sort(nums); // TC: O(3 x log(3)) ~ O(1)
+        if (nums[0] + nums[1] <= nums[2]) {
+            return "none";
+        } else if (nums[0] == nums[2]) {
+            return "equilateral";
+        } else if (nums[0] == nums[1] || nums[1] == nums[2]) {
+            return "isosceles";
+        } else {
+            return "scalene";
+        }
+    }
+
+    /**
+     * Approach II : Using Sorting and Hashing Approach
+     *
+     * TC: O(1)
+     * SC: O(1)
+     */
+    public String triangleTypeBetter(int[] nums) {
         Arrays.sort(nums); // TC: O(3 x log(3)) ~ O(1)
         Set<Integer> set = new HashSet<Integer>(); // SC: O(3) ~ O(1)
         for (int num : nums) { // TC: O(3) ~ O(1)
@@ -24,7 +43,7 @@ class Solution {
     }
 
     /**
-     * Approach : Using Math Brute-Force Approach
+     * Approach I : Using Math Brute-Force Approach
      *
      * TC: O(1)
      * SC: O(1)
