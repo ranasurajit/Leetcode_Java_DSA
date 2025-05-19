@@ -11,11 +11,11 @@ class Solution {
         int high = n - 1;
         while (low <= high) { // TC: O(log(N))
             // eliminating duplicates at left
-            while (low < n - 1 && nums[low] == nums[low + 1]) {
+            while (low < high && nums[low] == nums[low + 1]) {
                 low++;
             }
             // eliminating duplicates at right
-            while (high > 0 && nums[high] == nums[high - 1]) {
+            while (low < high && nums[high] == nums[high - 1]) {
                 high--;
             }
             int mid = low + (high - low) / 2;
