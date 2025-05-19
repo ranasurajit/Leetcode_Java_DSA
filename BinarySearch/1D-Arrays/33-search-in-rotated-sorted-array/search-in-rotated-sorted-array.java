@@ -1,11 +1,46 @@
 class Solution {
     /**
+     * Approach II : Using Binary Search Approach
+     * 
+     * TC: O(log(N))
+     * SC: O(1)
+     */
+    public int search(int[] nums, int target) {
+        int n = nums.length;
+        int low = 0;
+        int high = n - 1;
+        while (low <= high) { // TC: O(log(N))
+            int mid = low + (high - low) / 2;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] >= nums[low]) {
+                // left part is sorted
+                if (target >= nums[low] && target <= nums[mid]) {
+                    // target lies in left
+                    high = mid - 1;
+                } else {
+                    low = mid + 1;
+                }
+            } else if (nums[mid] <= nums[high]) {
+                // right part is sorted
+                if (target >= nums[mid] && target <= nums[high]) {
+                    // target lies in right
+                    low = mid + 1;
+                } else {
+                    high = mid - 1;
+                }
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Approach I : Using Binary Search Approach (Finding MinIndex or Rotated Index)
      * 
      * TC: O(log(N) + log(L) + log(N - L))
      * SC: O(1)
      */
-    public int search(int[] nums, int target) {
+    public int searchApproachI(int[] nums, int target) {
         int n = nums.length;
         int minIndex = getRotatedIndex(nums, n); // TC: O(log(N))
         // index [0...minIndex - 1] is sorted so target may lie in this range
