@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Appraoch : Using Simulation Approach
+     * Approach : Using Simulation Approach
      *
      * TC: O(M x N)
      * SC: O(1)
