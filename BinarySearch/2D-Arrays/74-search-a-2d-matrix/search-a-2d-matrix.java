@@ -2,7 +2,7 @@ class Solution {
     /**
      * Approach II : Using Binary Search On Cells Approach
      *
-     * TC: TC: O(log(M x N))
+     * TC: O(log(M x N))
      * SC: O(1)
      */
     public boolean searchMatrix(int[][] matrix, int target) {
