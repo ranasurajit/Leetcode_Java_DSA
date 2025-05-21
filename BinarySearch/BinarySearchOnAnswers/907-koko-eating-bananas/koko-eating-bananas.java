@@ -1,78 +1,45 @@
 class Solution {
     /**
-     * Optimal Approach
+     * Approach : Using Binary Search on Answers Approach
      * 
-     * TC: O(N x log(K)), where K = Maximum value in piles array
+     * TC:  O(N + N x log(Max(piles[i]))) ~ O(N x log(Max(piles[i])))
      * SC: O(1)
-     * 
-     * @param piles
-     * @param h
-     * @return
      */
     public int minEatingSpeed(int[] piles, int h) {
-        int low = 1;
-        int high = getMax(piles);
-        int minSpeed = Integer.MAX_VALUE;
-        while (low <= high) { // TC: O(log(K))
-            int mid = low + (high - low) / 2;
-            if (calculateTotalHours(piles, mid) <= h) { // TC: O(N)
+        int n = piles.length;
+        long low = 1;
+        long high = Integer.MIN_VALUE;
+        // low is the minimum number of bananas Koko should finish in an hour
+        // high is the maximum number of bananas Koko needs to finish in an hour
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            high = (long) Math.max(high, piles[i]);
+        }
+        // Applying Binary Search
+        long minSpeed = high;
+        while (low <= high) { // TC: O(log(Max(piles[i])))
+            long mid = low + (high - low) / 2;
+            // mid value is likely to be the minimum speed at which Koko should eat the bananas
+            if (countFinishedBanans(piles, n, mid) <= h) { // TC: O(N)
                 minSpeed = Math.min(minSpeed, mid);
                 high = mid - 1;
             } else {
                 low = mid + 1;
             }
         }
-        return minSpeed;
+        return (int) minSpeed;
     }
 
     /**
-     * TC: O(K x N), where K = Maximum value in piles array
-     * SC: O(1)
-     * 
-     * @param piles
-     * @param h
-     * @return
-     */
-    public int minEatingSpeedBruteForce(int[] piles, int h) {
-        int low = 1;
-        int high = getMax(piles);
-        int minSpeed = Integer.MAX_VALUE;
-        for (int i = low; i <= high; i++) {
-            if ((int) calculateTotalHours(piles, i) <= h) {
-                minSpeed = Math.min(minSpeed, i);
-            }
-        }
-        return minSpeed;
-    }
-
-    /**
+     * Return the count of bananas that can be finished at a speed of 'mid' bananas / hour
+     *
      * TC: O(N)
      * SC: O(1)
-     * 
-     * @param piles
-     * @param current
-     * @return
      */
-    private static long calculateTotalHours(int[] piles, int current) {
-        long sum = 0L;
-        for (int pile : piles) {
-            sum += pile % current == 0 ? (pile / current) : (pile / current) + 1;
+    private long countFinishedBanans(int[] piles, int n, long mid) {
+        long count = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            count += piles[i] % mid == 0 ? piles[i] / mid : (piles[i] / mid) + 1;
         }
-        return sum;
-    }
-
-    /**
-     * TC: O(N)
-     * SC: O(1)
-     * 
-     * @param piles
-     * @return
-     */
-    private static int getMax(int[] piles) {
-        int max = Integer.MIN_VALUE;
-        for (int pile : piles) {
-            max = Math.max(max, pile);
-        }
-        return max;
+        return count;
     }
 }
