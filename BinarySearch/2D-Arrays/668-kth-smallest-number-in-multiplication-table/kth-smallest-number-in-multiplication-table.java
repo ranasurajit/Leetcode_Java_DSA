@@ -14,8 +14,8 @@ class Solution {
         // Applying Binary Search
         while (low <= high) { // TC: O(log(M x N))
             int mid = low + (high - low) / 2;
-            int countLessThanMid = getCountOfNumbersLessThanK(mid, m, n); // TC: O(M)
-            if (countLessThanMid < k) {
+            int countLessThan = getCountOfNumbersLessThanK(mid, m, n); // TC: O(M)
+            if (countLessThan < k) {
                 low = mid + 1;
             } else {
                 high = mid - 1;
@@ -32,8 +32,9 @@ class Solution {
      */
     private int getCountOfNumbersLessThanK(int mid, int m, int n) {
         int count = 0;
-        for (int i = 1; i <= m; i++) { // TC: O(M)
-            count += Math.min(mid / i, n);
+        for (int i = 1; i <= m; i++) {
+            // for each row count the number of elements less than mid
+            count += Math.min(n, mid / i);
         }
         return count;
     }
