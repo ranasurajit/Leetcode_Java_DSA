@@ -10,7 +10,6 @@ class Solution {
      * @return
      */
     public int smallestDivisor(int[] nums, int threshold) {
-        int n = nums.length;
         long low = 1L;
         long high = 1L;
         for (int num : nums) { // TC: O(N)
