@@ -1,64 +1,56 @@
 class Solution {
     /**
-     * Using Optimal Approach (Binary Search)
-     *
-     * TC: O(N + N x log(K)) ~ O(N x log(K))
+     * Approach : Using Binary Search on Answers Approach
+     * 
+     * TC: O(N + N x (Sum(weights) - Max(weights))) ~ O(N x (Sum(weights) - Max(weights)))
      * SC: O(1)
+     * 
+     * @param weights
+     * @param days
+     * @return
      */
     public int shipWithinDays(int[] weights, int days) {
-        int n = weights.length;
-        int low = Integer.MIN_VALUE;
-        int high = 0;
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            low = Math.max(low, weights[i]);
-            high += weights[i];
+        long low = Integer.MIN_VALUE;
+        long high = 0L;
+        for (int weigh : weights) { // TC: O(N)
+            low = Math.max(low, (long) weigh);
+            high += (long) weigh;
         }
-        while (low <= high) { // TC: O(log(K)), where K = (high - low)
-            int mid = low + (high - low) / 2;
-            if (daysNeededForCapacity(weights, n, mid) > days) { // TC: O(N)
-                low = mid + 1;
-            } else {
+        // Applying Binary Search
+        long minCapacity = high;
+        while (low <= high) { // TC: O(Sum(weights) - Max(weights))
+            long mid = low + (high - low) / 2;
+            // calculate days needed when capacity of ship = mid
+            long daysNeeded = getNumberOfDaysToShipAllPackages(weights, mid); // TC: O(N)
+            if (daysNeeded <= days) {
+                minCapacity = Math.min(minCapacity, mid);
                 high = mid - 1;
+            } else {
+                low = mid + 1;
             }
         }
-        return low;
+        return (int) minCapacity;
     }
 
     /**
-     * Using Brute-Force Approach
-     *
-     * TC: O(N + K x N)
-     * SC: O(1)
-     */
-    public int shipWithinDaysBruteForce(int[] weights, int days) {
-        int n = weights.length;
-        int low = Integer.MIN_VALUE;
-        int high = 0;
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            low = Math.max(low, weights[i]);
-            high += weights[i];
-        }
-        for (int i = low; i <= high; i++) { // TC: O(K), where K = (high - low)
-            if (daysNeededForCapacity(weights, n, i) <= days) { // TC: O(N)
-                return i;
-            }
-        }
-        return -1;
-    }
-
-    /**
+     * Using Simulation Approach
+     * 
      * TC: O(N)
      * SC: O(1)
+     * 
+     * @param weights
+     * @param capacity
+     * @return
      */
-    private int daysNeededForCapacity(int[] weights, int n, int capacity) {
-        int sum = 0;
-        int days = 1;
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            if (sum + weights[i] > capacity) {
-                days++;
-                sum = weights[i];
+    private long getNumberOfDaysToShipAllPackages(int[] weights, long capacity) {
+        long days = 1L;
+        long sum = 0L; 
+        for (int weigh : weights) { // TC: O(N)
+            if (sum + (long) weigh <= capacity) {
+                sum += (long) weigh;
             } else {
-                sum += weights[i];
+                days++;
+                sum = (long) weigh;
             }
         }
         return days;
