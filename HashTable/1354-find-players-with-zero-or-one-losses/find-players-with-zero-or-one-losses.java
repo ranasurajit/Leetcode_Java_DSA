@@ -16,7 +16,6 @@ class Solution {
             players.add(match[1]);
             lostPlayers.put(match[1], lostPlayers.getOrDefault(match[1], 0) + 1);
         }
-        ArrayList<Integer> playersList = new ArrayList<Integer>(players); // SC: O(K)
         List<Integer> winners = new ArrayList<Integer>(); // SC: O(P)
         List<Integer> loosers = new ArrayList<Integer>(); // SC: O(K - P)
         for (Integer player : players) { // TC: O(K)
