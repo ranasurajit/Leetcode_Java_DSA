@@ -2,14 +2,14 @@ class Solution {
     /**
      * Approach : Using Hashing Approach
      *
-     * TC: O(N + K x log(K))
+     * TC: O(N + K + K x log(K))
      * SC: O(2 x K) ~ O(K)
      *
      * where K = number of players who played atleast 1 match
      */
     public List<List<Integer>> findWinners(int[][] matches) {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
-        Map<Integer, int[]> map = new TreeMap<Integer, int[]>(); // SC: O(K)
+        Map<Integer, int[]> map = new HashMap<Integer, int[]>(); // SC: O(K)
         for (int[] match : matches) { // TC: O(N)
             map.putIfAbsent(match[0], new int[] { 0, 0 });
             map.putIfAbsent(match[1], new int[] { 0, 0 });
@@ -31,6 +31,8 @@ class Solution {
                 loosers.add(key); // TC: O(log(K)
             }
         }
+        Collections.sort(winners); // TC: O(P x log(P))
+        Collections.sort(loosers); // TC: O((K - P) x log(K - P))
         result.add(winners);
         result.add(loosers);
         return result;
