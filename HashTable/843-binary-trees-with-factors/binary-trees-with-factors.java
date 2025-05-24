@@ -4,7 +4,7 @@ class Solution {
     /**
      * Approach : Using Hashing Approach
      *
-     * TC: O(N x log(N) + 2 x N + N ^ 2) ~ O(N ^ 2)
+     * TC: O(N x log(N) + N + N ^ 2) ~ O(N ^ 2)
      * SC: O(N)
      */
     public int numFactoredBinaryTrees(int[] arr) {
@@ -15,19 +15,18 @@ class Solution {
          */
         Arrays.sort(arr); // TC: O(N x log(N))
         Map<Integer, Long> btFreqMap = new HashMap<Integer, Long>(); // SC: O(N)
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            btFreqMap.put(arr[i], 1L);
-        }
+        btFreqMap.put(arr[0], 1L);
         for (int i = 1; i < n; i++) { // parent node - TC: O(N)
+            long ways = 1L; 
             for (int j = 0; j < i; j++) { // child node (should be less than parent) - TC: O(N)
                 // arr[j] should divide arr[i] and also arr[i]/arr[j] should be present in HashMap
                 if (arr[i] % arr[j] == 0 && btFreqMap.containsKey(arr[i] / arr[j])) {
                     long leftChildWays = btFreqMap.get(arr[j]) % MOD;
                     long rightChildWays = btFreqMap.get(arr[i] / arr[j]) % MOD;
-                    long ways = (leftChildWays * rightChildWays) % MOD;
-                    btFreqMap.put(arr[i], (btFreqMap.get(arr[i]) + ways) % MOD);
+                    ways += (leftChildWays * rightChildWays) % MOD;
                 }
             }
+            btFreqMap.put(arr[i], ways);
         }
         long count = 0L;
         for (Integer key : btFreqMap.keySet()) { // TC: O(N)
