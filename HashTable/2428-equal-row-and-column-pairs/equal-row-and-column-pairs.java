@@ -26,7 +26,7 @@ class Solution {
             }
             String key = sb.toString();
             if (map.containsKey(key)) {
-                count += map.get(key) == 1 ? 1 : map.get(key);
+                count += map.get(key);
             }
         }
         return count;
