@@ -1,13 +1,49 @@
 class Solution {
     /**
-     * Approach : Using Hashing Approach
+     * Approach II : Using Hashing Approach (Cleaner Approach)
+     *
+     * TC: O(N + K + K x log(K))
+     * SC: O(4 x K) ~ O(K)
+     *
+     * where K = number of players who played atleast 1 match
+     */
+    public List<List<Integer>> findWinners(int[][] matches) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        Set<Integer> players = new HashSet<Integer>(); // SC: O(K)
+        Map<Integer, Integer> lostPlayers = new HashMap<Integer, Integer>(); // SC: O(K)
+        for (int[] match : matches) { // TC: O(N)
+            players.add(match[0]);
+            players.add(match[1]);
+            lostPlayers.put(match[1], lostPlayers.getOrDefault(match[1], 0) + 1);
+        }
+        ArrayList<Integer> playersList = new ArrayList<Integer>(players); // SC: O(K)
+        List<Integer> winners = new ArrayList<Integer>(); // SC: O(P)
+        List<Integer> loosers = new ArrayList<Integer>(); // SC: O(K - P)
+        for (Integer player : players) { // TC: O(K)
+            if (!lostPlayers.containsKey(player)) {
+                winners.add(player);
+            } else {
+                if (lostPlayers.get(player) == 1) {
+                    loosers.add(player);
+                }
+            }
+        }
+        Collections.sort(winners); // TC: O(P x log(P))
+        Collections.sort(loosers); // TC: O((K - P) x log(K - P))
+        result.add(winners);
+        result.add(loosers);
+        return result;
+    }
+
+    /**
+     * Approach I : Using Hashing Approach
      *
      * TC: O(N + K + K x log(K))
      * SC: O(2 x K) ~ O(K)
      *
      * where K = number of players who played atleast 1 match
      */
-    public List<List<Integer>> findWinners(int[][] matches) {
+    public List<List<Integer>> findWinnersApproachI(int[][] matches) {
         List<List<Integer>> result = new ArrayList<List<Integer>>();
         Map<Integer, int[]> map = new HashMap<Integer, int[]>(); // SC: O(K)
         for (int[] match : matches) { // TC: O(N)
