@@ -6,6 +6,8 @@ class Solution {
      *
      * TC: O(N x L)
      * SC: O(N)
+     *
+     * where L = average count of digits in nums i.e. 1 <= L <= 10
      */
     public int countNicePairs(int[] nums) {
         int n = nums.length;
