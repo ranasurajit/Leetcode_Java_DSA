@@ -37,7 +37,7 @@ class Solution {
         }
         int size = map.size();
         int pushes = 0;
-        int places = 8; // we have keys 2-9 to re-map the Characters
+        int places = 8; // we have keys 2-9 i.e. 8 keys to re-map the Characters
         int tap = 1;
         while (size > 0) { // TC: O(N)
             int slab = Math.min(places, size);
