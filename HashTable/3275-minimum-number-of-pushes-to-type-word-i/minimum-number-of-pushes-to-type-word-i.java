@@ -1,13 +1,34 @@
 class Solution {
     /**
-     * Approach : Using Hashing Approach
+     * Approach II : Using Hashing Approach (Cleaner Approach)
+     * 
+     * TC: O(N)
+     * SC: O(26) ~ O(1)
+     */
+    public int minimumPushes(String word) {
+        int n = word.length();
+        int[] freq = new int[26]; // SC: O(26)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            freq[word.charAt(i) - 'a']++;
+        }
+        int pushes = 0;
+        int count = 0;
+        for (int i = 0; i < 26; i++) { // TC: O(N)
+            if (freq[i] > 0) {
+                pushes += (count / 8) + 1;
+                count++;
+            }
+        }
+        return pushes;
+    }
+
+    /**
+     * Approach I : Using Hashing Approach
      * 
      * TC: O(2 x N) ~ O(N)
      * SC: O(N)
-     * 
-     * Accepted - Test Cases Passed: (1112 /1112)
      */
-    public int minimumPushes(String word) {
+    public int minimumPushesApproachI(String word) {
         int n = word.length();
         // we will store { Characters, freq } in HashMap
         Map<Character, Integer> map = new HashMap<Character, Integer>(); // SC: O(N)
