@@ -6,10 +6,9 @@ class Solution {
      * SC: O(26) ~ O(1)
      */
     public int minimumPushes(String word) {
-        int n = word.length();
         int[] freq = new int[26]; // SC: O(26)
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            freq[word.charAt(i) - 'a']++;
+        for (char ch : word.toCharArray()) { // TC: O(N)
+            freq[ch - 'a']++;
         }
         int pushes = 0;
         int count = 0;
