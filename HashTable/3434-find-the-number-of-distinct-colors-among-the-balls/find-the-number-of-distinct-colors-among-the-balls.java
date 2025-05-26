@@ -3,7 +3,7 @@ class Solution {
      * Approach : Using Hashing (2 HashMaps) Approach
      * 
      * TC: O(N)
-     * SC: O(N)
+     * SC: O(2 x N) ~ O(N)
      */
     public int[] queryResults(int limit, int[][] queries) {
         int n = queries.length;
