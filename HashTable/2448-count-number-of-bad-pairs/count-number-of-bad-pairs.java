@@ -21,7 +21,7 @@ class Solution {
             // good pairs will be how many diff values we encountered to left of index 'i'
             long goodPairs = freqMap.getOrDefault(diff, 0L);
             badPairs += (i - goodPairs);
-            freqMap.put(diff, freqMap.getOrDefault(diff, 0L) + 1L);
+            freqMap.put(diff, goodPairs + 1);
         }
         return badPairs;
     }
