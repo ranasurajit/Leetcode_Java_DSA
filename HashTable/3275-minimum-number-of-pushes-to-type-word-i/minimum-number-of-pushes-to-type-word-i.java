@@ -14,6 +14,7 @@ class Solution {
         int count = 0;
         for (int i = 0; i < 26; i++) { // TC: O(N)
             if (freq[i] > 0) {
+                // we have keys 2-9 i.e. 8 keys to re-map the Characters
                 pushes += (count / 8) + 1;
                 count++;
             }
