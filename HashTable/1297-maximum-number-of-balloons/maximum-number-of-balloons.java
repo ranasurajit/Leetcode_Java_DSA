@@ -17,12 +17,10 @@ class Solution {
             textChars[ch - 'a']++;
         }
         int count = n;
-        boolean notFoundAll = false;
         for (int i = 0; i < 26; i++) { // TC: O(26) ~ O(1)
             if (balloonChars[i] > 0 && textChars[i] > 0) {
                 count = Math.min(count, textChars[i] / balloonChars[i]);
             } else if (balloonChars[i] > 0 && textChars[i] == 0) {
-                notFoundAll = true;
                 return 0;
             }
         }
