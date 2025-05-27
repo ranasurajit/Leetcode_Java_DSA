@@ -6,15 +6,13 @@
  */
 class MyHashMap {
 
-    int[] nums = null;
-    int size = (int) 1e6 + 1;
+    int[] nums = new int[(int) 1e6 + 1];
 
     /**
      * TC: O(1)
      * SC: O(1e6 + 1) ~ O(1)
      */
     public MyHashMap() {
-        nums = new int[size];
         Arrays.fill(nums, -1);
     }
     
