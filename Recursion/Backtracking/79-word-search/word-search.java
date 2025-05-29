@@ -1,23 +1,22 @@
 class Solution {
-    // Left, Right, Bottom, Top
-    private int[][] directions = { { 0, 1 }, { 0, -1 }, { 1, 0 }, { -1, 0 } };
+    private static final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
+    private int m;
+    private int n;
+
     /**
-     * Using Recursion and Backtracking Approach
-     * 
+     * Approach : Using Recursion + Backtracking Approach
+     *
      * TC: O(M x N x 3 ^ L)
      * SC: O(L)
-     * 
-     * @param board
-     * @param word
-     * @return
+     *
+     * where L = Length(word)
      */
     public boolean exist(char[][] board, String word) {
-        int m = board.length;
-        int n = board[0].length;
+        m = board.length;
+        n = board[0].length;
         for (int i = 0; i < m; i++) { // TC: O(M)
             for (int j = 0; j < n; j++) { // TC: O(N)
-                if (board[i][j] == word.charAt(0) &&
-                        findWord(0, i, j, board, word, m, n)) { // TC: O(3 ^ L)
+                if (board[i][j] == word.charAt(0) && solveBacktrack(i, j, 0, board, word)) { // TC: O(3 ^ L)
                     return true;
                 }
             }
@@ -26,43 +25,36 @@ class Solution {
     }
 
     /**
+     * Using Recursion + Backtracking Approach
+     *
      * TC: O(3 ^ L)
      * SC: O(L)
-     * 
-     * @param index
-     * @param i
-     * @param j
-     * @param board
-     * @param word
-     * @param m
-     * @param n
-     * @return
+     *
+     * where L = Length(word)
      */
-    private boolean findWord(int index, int i, int j, char[][] board,
-        String word, int m, int n) {
-        // if all characters in word matches and reached end then return true
+    private boolean solveBacktrack(int x, int y, int index, char[][] board, String word) {
+        // Base Case
         if (index == word.length()) {
+            // we found the word in board
             return true;
         }
-        // validate the grid cell coordinates if out of bounds or match with String word
-        if (i < 0 || i >= m || j < 0 || j >= n || board[i][j] != word.charAt(index)) {
+        if (x < 0 || x >= m || y < 0 || y >= n || board[x][y] != word.charAt(index)) {
+            // invalid cases
             return false;
         }
-        // store the current grid character to backtrack later
-        char temp = board[i][j];
-        // marking it as visited till it's neighbouring cells are explored
-        board[i][j] = '$';
-
-        // exploring the cell's neighbouring cells in all 4 directions
-        for (int[] direction : directions) { // TC: O(4)
-            int effRow = i + direction[0];
-            int effCol = j + direction[1];
-            if (findWord(index + 1, effRow, effCol, board, word, m, n)) {
+        // Recursion Calls
+        char temp = board[x][y];
+        board[x][y] = '$'; // marking it as visited
+        // explore
+        for (int[] dir : directions) {
+            int effX = x + dir[0];
+            int effY = y + dir[1];
+            if (solveBacktrack(effX, effY, index + 1, board, word)) {
                 return true;
             }
         }
-        // backtrack to unvisit the current cell for further exploration
-        board[i][j] = temp;
+        // backtrack
+        board[x][y] = temp;
         return false;
     }
 }
