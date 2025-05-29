@@ -5,7 +5,7 @@ class Solution {
      * TC: O(2 x M + N) ~ O(M + N)
      * SC: O(3 x M +  2 x N) ~ O(M + N)
      *
-     * Time Limit Exceeded (816 / 825 testcases passed)
+     * Accepted (825 / 825 testcases passed)
      */
     public int[] maxTargetNodes(int[][] edges1, int[][] edges2) {
         int m = edges1.length + 1;
@@ -16,6 +16,10 @@ class Solution {
         // do a BFS traversal in Tree 2 to get the best counts of even nodes and odd nodes
         int evenNodesFromTree2 = bfsGraph(0, n, adj2, null); // TC: O(N), SC: O(N)
         int oddNodesFromTree2 = n - evenNodesFromTree2;
+        /**
+         * we calculate best contribution as connecting node in Tree 2 is not fixed
+         * (as even and odd counts depends on which node in Tree2 we are connecting to)
+         */
         int bestContribution = Math.max(evenNodesFromTree2, oddNodesFromTree2);
 
         boolean[] included = new boolean[m]; // SC: O(M)
