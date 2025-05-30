@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach I : Using Recursion + Backtracking Approach
+     * Approach I : Using Recursion + Backtracking (Knapsack Recursion Template) Approach
      *
      * TC: O(2 ^ N)
      * SC: O(2 ^ N + 2 x N) ~ O(2 ^ N)
