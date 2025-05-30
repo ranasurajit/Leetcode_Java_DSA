@@ -1,70 +1,110 @@
 class Solution {
-
-    private Set<Integer> colSet = new HashSet<Integer>();
-    private Set<Integer> diagSet = new HashSet<Integer>();
-    private Set<Integer> antiDiagSet = new HashSet<Integer>();
-
     /**
-     * Using Recursion and Backtracking Approach
+     * Approach I : Using Recursion + Backtracking Approach
      *
-     * TC: O(N! + N ^ 2) ~ O(N!)
-     * SC: O(N + N ^ 2) ~ O(N ^ 2)
+     * TC: O(N ^ 3 x N! + N ^ 2) ~ O(N ^ 3 x N!)
+     * SC: O(N ^ 2 + N) ~ O(N ^ 2)
      */
     public List<List<String>> solveNQueens(int n) {
-        // create the board
-        List<String> board = new ArrayList<String>();
-        for (int i = 0; i < n; i++) {     // TC: O(N)
-            StringBuilder row = new StringBuilder();
+        // preparing the board
+        List<String> board = new ArrayList<String>(); // SC: O(N x N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            StringBuilder sb = new StringBuilder(); // SC: O(N)
             for (int j = 0; j < n; j++) { // TC: O(N)
-                row.append(".");
+                sb.append(".");
             }
-            board.add(row.toString());
+            board.add(sb.toString());
         }
         List<List<String>> result = new ArrayList<List<String>>();
-        solve(board, 0, result, n);
+        // calling recursion function
+        solveBacktrack(0, n, board, result); // TC: O(N ^ 3 x N!), SC: O(N)
         return result;
     }
 
     /**
-     * Using Recursion and Backtracking Approach
+     * Using Recursion + Backtracking Approach
      *
-     * TC: O(N!)
+     * TC: O(N ^ 3 x N!)
      * SC: O(N)
      */
-    private void solve(List<String> board, int row, List<List<String>> result, int n) {
-        if (row >= n) {
+    private void solveBacktrack(int col, int n, List<String> board, List<List<String>> result) {
+        // Base Case
+        if (col == n) {
             result.add(new ArrayList<String>(board));
             return;
         }
-        for (int col = 0; col < n; col++) {
-            int colId = col;
-            int diagId = row + col;
-            int antiDiagId = row - col;
-            // check if Queen will be attacked at (row, col)
-            if (colSet.contains(colId) || diagSet.contains(diagId) ||
-                antiDiagSet.contains(antiDiagId)) {
+        // Recursion Calls
+        for (int row = 0; row < n; row++) { // TC: O(N)
+            if (col == 0 || isQueenSafe(row, col, n, board)) { // TC: O(N ^ 2)
+                // modify
+                StringBuilder s = new StringBuilder(board.get(row));
+                s.setCharAt(col, 'Q');
+                board.set(row, s.toString());
+                // explore - we need to place next queen in next column
+                solveBacktrack(col + 1, n, board, result);
+                // backtrack
+                s.setCharAt(col, '.');
+                board.set(row, s.toString());
+            }
+        }
+    }
+
+    /**
+     * Simple Simulation and Matrix Validation Approach
+     *
+     * TC: O(2 x N ^ 2 + 2 x N) ~ O(N ^ 2)
+     * SC: O(1)
+     */
+    private boolean isQueenSafe(int row, int col, int n, List<String> board) {
+        // check in same row
+        for (int j = 0; j < n; j++) { // TC: O(N)
+            if (j == col) {
                 continue;
             }
-            // post this, Queen will not be attacked at (row, col)
-            // locking the cell for Queen
-            colSet.add(colId);
-            diagSet.add(diagId);
-            antiDiagSet.add(antiDiagId);
-            // set the value as 'Q'
-            StringBuilder modifiedRow = new StringBuilder(board.get(row));
-            modifiedRow.setCharAt(col, 'Q');
-            board.set(row, modifiedRow.toString());
-
-            // explore
-            solve(board, row + 1, result, n);
-
-            // backtrack
-            // remove locks for the cell for Queen
-            colSet.remove(colId);
-            diagSet.remove(diagId);
-            antiDiagSet.remove(antiDiagId);
-            modifiedRow.setCharAt(col, '.');
-            board.set(row, modifiedRow.toString());
+            if (board.get(row).charAt(j) == 'Q') {
+                return false;
+            }
         }
+        // check in same column
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            if (i == row) {
+                continue;
+            }
+            if (board.get(i).charAt(col) == 'Q') {
+                return false;
+            }
+        }
+        // check in right diagonal
+        int sumCellIndex = row + col;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            if (i == row) {
+                continue;
+            }
+            for (int j = 0; j < n; j++) { // TC: O(N)
+                if (j == col) {
+                    continue;
+                }
+                if (i + j == sumCellIndex && board.get(i).charAt(j) == 'Q') {
+                    return false;
+                }
+            }
+        }
+        // check in left diagonal
+        int diffCellIndex = row - col;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            if (i == row) {
+                continue;
+            }
+            for (int j = 0; j < n; j++) { // TC: O(N)
+                if (j == col) {
+                    continue;
+                }
+                if (i - j == diffCellIndex && board.get(i).charAt(j) == 'Q') {
+                    return false;
+                }
+            }
+        }
+        // by this point Queen position at (row, col) is safe
+        return true;
     }
 }
