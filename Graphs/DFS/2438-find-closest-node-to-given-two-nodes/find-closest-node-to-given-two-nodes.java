@@ -10,9 +10,6 @@ class Solution {
         if (node1 == node2) {
             return node1;
         }
-        // Creating adjacency list
-        Map<Integer, ArrayList<Integer>> adj = createGraph(edges, n); // TC: O(N), SC: O(N)
-
         // initializing distance arrays
         int[] dist1 = new int[n]; // SC: O(N)
         int[] dist2 = new int[n]; // SC: O(N)
@@ -24,8 +21,8 @@ class Solution {
         dist2[node2] = 0;
 
         // performing DFS traversal to fill the distances
-        dfsGraph(node1, visited1, adj, dist1); // TC: O(N), SC: O(N)
-        dfsGraph(node2, visited2, adj, dist2); // TC: O(N), SC: O(N)
+        dfsGraph(node1, visited1, edges, dist1); // TC: O(N), SC: O(N)
+        dfsGraph(node2, visited2, edges, dist2); // TC: O(N), SC: O(N)
         
         // compare shortest distances
         int minDist = Integer.MAX_VALUE;
@@ -46,13 +43,12 @@ class Solution {
      * TC: O(N)
      * SC: O(N)
      */
-    private void dfsGraph(int u, boolean[] visited, Map<Integer, ArrayList<Integer>> adj, int[] dist) {
+    private void dfsGraph(int u, boolean[] visited, int[] edges, int[] dist) {
         visited[u] = true;
-        for (Integer v : adj.getOrDefault(u, new ArrayList<Integer>())) {
-            if (!visited[v]) {
-                dist[v] = dist[u] + 1;
-                dfsGraph(v, visited, adj, dist);
-            }
+        int v = edges[u];
+        if (v != -1 && !visited[v]) {
+            dist[v] = dist[u] + 1;
+            dfsGraph(v, visited, edges, dist);
         }
     }
 
