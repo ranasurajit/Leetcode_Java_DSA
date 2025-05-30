@@ -2,8 +2,8 @@ class Solution {
     /**
      * Approach : Using DFS Approach
      *
-     * TC: O(4 x N) ~ O(N)
-     * SC: O(7 x N) ~ O(N)
+     * TC: O(3 x N) ~ O(N)
+     * SC: O(6 x N) ~ O(N)
      */
     public int closestMeetingNode(int[] edges, int node1, int node2) {
         int n = edges.length;
@@ -50,24 +50,5 @@ class Solution {
             dist[v] = dist[u] + 1;
             dfsGraph(v, visited, edges, dist);
         }
-    }
-
-    /**
-     * Using Hashing Approach
-     *
-     * TC: O(N)
-     * SC: O(N)
-     */
-    private Map<Integer, ArrayList<Integer>> createGraph(int[] edges, int n) {
-        Map<Integer, ArrayList<Integer>> adj = new HashMap<Integer, ArrayList<Integer>>(); // SC: O(N)
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            if (!adj.containsKey(i)) {
-                adj.put(i, new ArrayList<Integer>());
-            }
-            if (edges[i] != -1) {
-                adj.get(i).add(edges[i]);
-            }
-        }
-        return adj;
     }
 }
