@@ -1,35 +1,33 @@
-/**
- * Using Sweep-Line Algorithm
- * 
- * TC: O(N x log(N))
- * SC: O(N)
- */
 class MyCalendarThree {
+    Map<Integer, Integer> eventsMap = null;
 
-    private TreeMap<Integer, Integer> events;
-
+    /**
+     * TC: O(1)
+     * SC: O(Q)
+     */
     public MyCalendarThree() {
-        events = new TreeMap<Integer, Integer>();
+        eventsMap = new TreeMap<Integer, Integer>();
     }
     
     /**
-     * TC: O(N x log(N))
+     * TC: O(Q x log(Q) + 2 x log(Q)) ~ O(Q x log(Q))
      * SC: O(1)
-     * 
-     * @param startTime
-     * @param endTime
-     * @return
      */
     public int book(int startTime, int endTime) {
-        events.put(startTime, events.getOrDefault(startTime, 0) + 1); // TC: O(log(N))
-        events.put(endTime, events.getOrDefault(endTime, 0) - 1);     // TC: O(log(N))
-        int activeEvents = 0;
-        int maxActiveEvents = Integer.MIN_VALUE;
-        for (Integer key : events.keySet()) { // TC: O(N)
-            activeEvents += events.get(key);  // TC: O(log(N))
-            maxActiveEvents = Math.max(maxActiveEvents, activeEvents);
+        eventsMap.put(startTime, eventsMap.getOrDefault(startTime, 0) + 1); // TC: O(log(Q))
+        /**
+         * as endTime is not included as [startTime, endTime)
+         * is half-open interval i.e. startTime <= x < endTime
+         */
+        eventsMap.put(endTime, eventsMap.getOrDefault(endTime, 0) - 1); // TC: O(log(Q))
+        int sum = 0;
+        int maxEvents = 0;
+        for (Integer key : eventsMap.keySet()) { // TC: O(Q)
+            sum += eventsMap.get(key); // TC: O(log(Q))
+            // capture the maximum overlapping booking in maxEvents
+            maxEvents = Math.max(maxEvents, sum);
         }
-        return maxActiveEvents;
+        return maxEvents;
     }
 }
 
