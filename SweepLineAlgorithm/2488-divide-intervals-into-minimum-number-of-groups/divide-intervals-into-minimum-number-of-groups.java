@@ -1,11 +1,34 @@
 class Solution {
     /**
-     * Approach : Using Line Sweep Algorithm
+     * Approach II : Using Min-Heap + Sorting Approach
+     *
+     * TC: O(3 x N x log(N)) ~ O(N x log(N))
+     * SC: O(N)
+     */
+    public int minGroups(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0])); // TC: O(N x log(N))
+        // Using a Min-Heap to insert end time of each interval
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>(); // SC: O(N)
+        for (int[] time : intervals) { // TC: O(N)
+            int start = time[0];
+            int end = time[1];
+            // if heaps top's end time < start then we can form a group so we should remove top from heap
+            if (!pq.isEmpty() && pq.peek() < start) {
+                pq.poll(); // TC: O(log(N))
+            }
+            pq.offer(end); // TC: O(log(N))
+        }
+        // we have the size of the PriorityQueue which denotes the minimum number of groups
+        return pq.size();
+    }
+
+    /**
+     * Approach I : Using Line Sweep Approach
      *
      * TC: O(2 x N x log(N) + 2 x N x log(2 x N)) ~ O(N x log(N))
      * SC: O(2 x N) ~ O(N)
      */
-    public int minGroups(int[][] intervals) {
+    public int minGroupsLineSweep(int[][] intervals) {
         Map<Integer, Integer> eventsMap = new TreeMap<Integer, Integer>(); // SC: O(2 x N)
         for (int[] time : intervals) { // TC: O(N)
             int start = time[0];
