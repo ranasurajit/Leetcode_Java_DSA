@@ -1,45 +1,42 @@
 class Solution {
     /**
-     * Using Sweep-Line Algorithm
+     * Approach II : Using String Comparison Approach
      *
-     * TC: O(N x log(N))
-     * SC: O(N)
-     * 
-     * @param event1
-     * @param event2
-     * @return
+     * TC: O(1)
+     * SC: O(1)
      */
     public boolean haveConflict(String[] event1, String[] event2) {
-        int[] eventLeft = convertTimeToInteger(event1);     // TC: O(N), SC: O(1)
-        int[] eventRight = convertTimeToInteger(event2);    // TC: O(N), SC: O(1)
-
-        return doesOverlap(eventLeft, eventRight);
+        if (event1[1].compareTo(event2[0]) < 0 || event2[1].compareTo(event1[0]) < 0) {
+            return false;
+        }
+        return true;
     }
 
     /**
-     * TC: O(N x log(N))
-     * SC: O(N)
-     * 
-     * @param eventLeft
-     * @param eventRight
-     * @return
+     * Approach I : Using Line Sweep Approach
+     *
+     * TC: O(1)
+     * SC: O(1)
      */
-    private boolean doesOverlap(int[] eventLeft, int[] eventRight) {
-        TreeMap<Integer, Integer> events =
-            new TreeMap<Integer, Integer>();                // SC: O(2 x N)
-        events.put(eventLeft[0], 
-            events.getOrDefault(eventLeft[0], 0) + 1);      // TC: O(log(N))
-        events.put(eventLeft[1] + 1,
-            events.getOrDefault(eventLeft[1] + 1, 0) - 1);  // TC: O(log(N))
-        events.put(eventRight[0],
-            events.getOrDefault(eventRight[0], 0) + 1);     // TC: O(log(N))
-        events.put(eventRight[1] + 1,
-            events.getOrDefault(eventRight[1] + 1, 0) - 1); // TC: O(log(N))
+    public boolean haveConflictLineSweep(String[] event1, String[] event2) {
+        int[] interval1 = convertTimeToInteger(event1); // TC: O(1)
+        int[] interval2 = convertTimeToInteger(event2); // TC: O(1)
+        // Adding intervals to Sorted Map
+        Map<Integer, Integer> eventMap = new TreeMap<Integer, Integer>(); // SC: O(4)
+        eventMap.put(interval1[0], 
+            eventMap.getOrDefault(interval1[0], 0) + 1); // TC: O(4 x log(4)) ~ O(1)
+        eventMap.put(interval1[1] + 1, 
+            eventMap.getOrDefault(interval1[1] + 1, 0) - 1); // TC: O(4 x log(4)) ~ O(1)
+        eventMap.put(interval2[0], 
+            eventMap.getOrDefault(interval2[0], 0) + 1);  // TC: O(4 x log(4)) ~ O(1)
+        eventMap.put(interval2[1] + 1, 
+            eventMap.getOrDefault(interval2[1] + 1, 0) - 1);  // TC: O(4 x log(4)) ~ O(1)
 
-        int actualEvents = 0;
-        for (Integer key : events.keySet()) {               // TC: O(N), SC: O(1)
-            actualEvents += events.get(key);                // TC: O(log(N))
-            if (actualEvents > 1) {
+        int overlap = 0;
+        for (Integer key : eventMap.keySet()) { // TC: O(4)
+            overlap += eventMap.get(key); // TC: O(log(4))
+            if (overlap > 1) {
+                // there is an overlap
                 return true;
             }
         }
@@ -47,18 +44,14 @@ class Solution {
     }
 
     /**
-     * TC: O(N)
+     * TC: O(1) as we have only 5 length words that needs to be processed by this method
      * SC: O(1)
-     * 
-     * @param event
-     * @return
      */
     private int[] convertTimeToInteger(String[] event) {
-        int[] eventData = new int[2];
-        eventData[0] = Integer.valueOf(event[0].substring(0, 2) + 
-            event[0].substring(3, 5));
-        eventData[1] = Integer.valueOf(event[1].substring(0, 2) + 
-            event[1].substring(3, 5));
-        return eventData;
+        String eventStart = event[0];
+        String eventEnd = event[1];
+        int start = Integer.valueOf(eventStart.substring(0, 2) + eventStart.substring(3));
+        int end = Integer.valueOf(eventEnd.substring(0, 2) + eventEnd.substring(3));
+        return new int[] { start, end };
     }
 }
