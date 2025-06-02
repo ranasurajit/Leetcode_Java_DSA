@@ -1,11 +1,43 @@
 class Solution {
     /**
+     * Approach II : Using Greedy (Space Efficient) Approach
+     *
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(N)
+     */
+    public int candy(int[] ratings) {
+        int n = ratings.length;
+        // calculating the assignment of candies from left to right
+        int[] leftAssignment = new int[n]; // SC: O(N)
+        leftAssignment[0] = 1;
+        for (int i = 1; i < n; i++) { // TC: O(N)
+            if (ratings[i] > ratings[i - 1]) {
+                leftAssignment[i] = leftAssignment[i - 1] + 1;
+            } else {
+                leftAssignment[i] = 1;
+            }
+        }
+        // calculating the assignment of candies from right to left and calculate minimum candies also
+        int rightAssignment = 1;
+        int minimumCandies = Math.max(1, leftAssignment[n - 1]);
+        for (int i = n - 2; i >= 0; i--) { // TC: O(N)
+            if (ratings[i] > ratings[i + 1]) {
+                rightAssignment = rightAssignment + 1;
+            } else {
+                rightAssignment = 1;
+            }
+            minimumCandies += Math.max(leftAssignment[i], rightAssignment);
+        }
+        return minimumCandies;
+    }
+
+    /**
      * Approach I : Using Greedy Approach
      *
      * TC: O(3 x N) ~ O(N)
      * SC: O(2 x N) ~ O(N)
      */
-    public int candy(int[] ratings) {
+    public int candyGreedyApproach(int[] ratings) {
         int n = ratings.length;
         // calculating the assignment of candies from left to right
         int[] leftAssignment = new int[n]; // SC: O(N)
