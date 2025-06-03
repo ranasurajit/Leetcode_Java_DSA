@@ -2,8 +2,10 @@ class Solution {
     /**
      * Approach : Using BFS Approach
      *
-     * TC: O(N ^ 2) 
+     * TC: O(I + B + K) ~ O(N)
      * SC: O(2 x N) ~ O(N)
+     *
+     * where I = count(initialBoxes), B = count(containedBoxes) and K = count(keys) which sums to N 
      */
     public int maxCandies(int[] status, int[] candies, int[][] keys,
         int[][] containedBoxes, int[] initialBoxes) {
@@ -11,7 +13,7 @@ class Solution {
         int maxCandies = 0;
         boolean[] visited = new boolean[n];      // SC: O(N)
         Queue<Integer> queue = new LinkedList(); // SC: O(N)
-        for (int box : initialBoxes) { // TC: O(N)
+        for (int box : initialBoxes) { // TC: O(I)
             if (status[box] == 1) {
                 // box is open
                 queue.offer(box);
@@ -22,7 +24,7 @@ class Solution {
             while (!queue.isEmpty()) {
                 int u = queue.poll();
                 maxCandies += candies[u];
-                for (int v : containedBoxes[u]) { // TC: O(N)
+                for (int v : containedBoxes[u]) { // TC: O(B)
                     if (status[v] == 1) {
                         // box is open
                         queue.offer(v);
@@ -31,7 +33,7 @@ class Solution {
                         visited[v] = true;
                     }
                 }
-                for (int key : keys[u]) { // TC: O(N)
+                for (int key : keys[u]) { // TC: O(K)
                     if (visited[key] && status[key] == 0) {
                         queue.offer(key);
                     }
