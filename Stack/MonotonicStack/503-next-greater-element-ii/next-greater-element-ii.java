@@ -2,24 +2,23 @@ class Solution {
     /**
      * Approach II : Using Stack Approach (Cleaner Approach)
      * 
-     * TC: O(3 x N) ~ O(N)
-     * SC: O(2 x N) ~ O(N)
+     * TC: O(2 x N) ~ O(N)
+     * SC: O(N)
      */
     public int[] nextGreaterElements(int[] nums) {
         int n = nums.length;
-        int[] result = new int[2 * n]; // SC: O(N)
+        int[] result = new int[n]; // SC: O(N)
         Stack<Integer> st = new Stack<Integer>(); // SC: O(N)
         for (int i = 2 * n - 1; i >= 0; i--) { // TC: O(2 x N)
             while (!st.isEmpty() && st.peek() <= nums[i % n]) {
                 st.pop();
             }
-            result[i] = st.isEmpty() ? -1 : st.peek();
+            if (i < n) {
+                result[i] = st.isEmpty() ? -1 : st.peek();
+            }
             st.push(nums[i % n]);
         }
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            nums[i] = result[i];
-        }
-        return nums;
+        return result;
     }
 
     /**
