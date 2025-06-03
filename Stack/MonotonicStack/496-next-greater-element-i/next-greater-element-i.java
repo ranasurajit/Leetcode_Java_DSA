@@ -12,14 +12,10 @@ class Solution {
         Stack<Integer> st = new Stack<Integer>(); // SC: O(M)
         Map<Integer, Integer> map = new HashMap<Integer, Integer>(); // SC: O(M)
         for (int i = m - 1; i >= 0; i--) { // TC: O(M)
-            if (st.isEmpty()) {
-                nge[i] = -1;
-            } else {
-                while (!st.isEmpty() && st.peek() <= nums2[i]) {
-                    st.pop();
-                }
-                nge[i] = st.isEmpty() ? -1 : st.peek();
+            while (!st.isEmpty() && st.peek() <= nums2[i]) {
+                st.pop();
             }
+            nge[i] = st.isEmpty() ? -1 : st.peek();
             st.push(nums2[i]);
             map.put(nums2[i], i);
         }
