@@ -1,12 +1,9 @@
 class Solution {
     /**
-     * Using Stack Approach
-     * 
-     * TC: O(N + K), where K is the size of resultant
+     * Approach : Using Stack Approach
+     *
+     * TC: O(2 x N) ~ O(N)
      * SC: O(N)
-     * 
-     * @param asteroids
-     * @return
      */
     public int[] asteroidCollision(int[] asteroids) {
         int n = asteroids.length;
@@ -27,10 +24,11 @@ class Solution {
                 st.push(asteroids[i]);
             }
         }
-        int k = st.size();
-        int[] result = new int[k];
-        while (!st.isEmpty()) { // TC: O(K)
-            result[--k] = st.pop();
+        int m = st.size();
+        int[] result = new int[m];
+        int index = m - 1;
+        while (!st.isEmpty()) { // TC: O(N)
+            result[index--] = st.pop();
         }
         return result;
     }
