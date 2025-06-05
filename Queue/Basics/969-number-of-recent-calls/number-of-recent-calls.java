@@ -21,8 +21,6 @@ class RecentCounter {
      */
     public int ping(int t) {
         queue.offer(t);
-        int start = t - 3000;
-        int end = t;
         while (queue.peek() < t - 3000) {
             /**
              * we poll it as we don't need it again as it is 
