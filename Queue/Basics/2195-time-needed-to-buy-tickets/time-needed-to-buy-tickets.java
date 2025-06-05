@@ -1,11 +1,32 @@
 class Solution {
     /**
-     * Approach : Using Queue Approach
+     * Approach II : Using Queue Property + Simulation Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public int timeRequiredToBuy(int[] tickets, int k) {
+        int n = tickets.length;
+        int value = tickets[k];
+        int time = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            /**
+             * persons standing infront of kth person including him will
+             * buy at maximum of tickets[k] and rest (tickets[k] - 1)
+             */
+            int max = i <= k ? value : value - 1;
+            time += tickets[i] > max ? max : tickets[i];
+        }
+        return time;
+    }
+
+    /**
+     * Approach I : Using Queue Approach
      *
      * TC: O(N + K), where K = Sum(tickets)
      * SC: O(N)
      */
-    public int timeRequiredToBuy(int[] tickets, int k) {
+    public int timeRequiredToBuyUsingQueue(int[] tickets, int k) {
         int n = tickets.length;
         Queue<int[]> queue = new LinkedList<int[]>(); // SC: O(N)
         for (int i = 0; i < n; i++) { // TC: O(N)
