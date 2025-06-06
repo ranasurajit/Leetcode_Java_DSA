@@ -14,8 +14,8 @@ class Solution {
          * we will use two Deque's to store minimum and maximum value's indices
          * at the beginning of it in any variable size window
          */
-        Deque<Integer> minDeque = new LinkedList<Integer>(); // SC: O(N)
-        Deque<Integer> maxDeque = new LinkedList<Integer>(); // SC: O(N)
+        Deque<Integer> minDeque = new ArrayDeque<Integer>(); // SC: O(N)
+        Deque<Integer> maxDeque = new ArrayDeque<Integer>(); // SC: O(N)
 
         int i = 0; // start pointer of sliding window
         int j = 0; // end pointer of sliding window
