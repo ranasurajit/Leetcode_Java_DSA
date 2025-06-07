@@ -2,7 +2,7 @@ class Solution {
     /**
      * Approach : Using Heaps (PriorityQueue) Approach
      *
-     * TC: O(2 x N) ~ O(N)
+     * TC: O(N x log(N) + N) ~ O(N x log(N))
      * SC: O(2 x N) ~ O(N)
      */
     public String clearStars(String s) {
@@ -17,7 +17,7 @@ class Solution {
         }); // SC: O(N)
         for (int i = 0; i < n; i++) { // TC: O(N)
             if (chars[i] != '*') {
-                pq.offer(new int[] { chars[i] - 'a', i });
+                pq.offer(new int[] { chars[i] - 'a', i }); // TC: O(log(N))
             } else {
                 int idx = pq.poll()[1];
                 chars[idx] = '$';
