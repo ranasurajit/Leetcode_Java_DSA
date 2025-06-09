@@ -10,13 +10,10 @@
  */
 class Solution {
     /**
-     * Using Two Pointers (Slow and Fast pointers)
-     * 
+     * Approach : Using Two Pointers (Fast and Slow Pointers) Approach
+     *
      * TC: O(N / 2) ~ O(N)
      * SC: O(1)
-     * 
-     * @param head
-     * @return
      */
     public ListNode middleNode(ListNode head) {
         if (head == null || head.next == null) {
@@ -28,7 +25,6 @@ class Solution {
             slow = slow.next;
             fast = fast.next.next;
         }
-        // slow pointer will point to mid node of Linked List
         return slow;
     }
 }
