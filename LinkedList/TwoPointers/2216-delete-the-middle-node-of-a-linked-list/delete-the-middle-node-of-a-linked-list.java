@@ -10,12 +10,34 @@
  */
 class Solution {
     /**
-     * Approach : Using Two Pointers (Fast and Slow Pointers) Approach
+     * Approach II : Using Two Pointers (Fast and Slow Pointers Cleaner Approach) Approach
+     *
+     * TC: O(N / 2) ~ O(N)
+     * SC: O(1)
+     */
+    public ListNode deleteMiddle(ListNode head) {
+        if (head == null || head.next == null) {
+            return null;
+        }
+        ListNode prev = null;
+        ListNode slow = head;
+        ListNode fast = head;
+        while (fast != null && fast.next != null) { // TC: O(N / 2)
+            prev = slow;
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        prev.next = slow.next;
+        return head;
+    }
+
+    /**
+     * Approach I : Using Two Pointers (Fast and Slow Pointers) Approach
      *
      * TC: O(N)
      * SC: O(1)
      */
-    public ListNode deleteMiddle(ListNode head) {
+    public ListNode deleteMiddleTwoPointers(ListNode head) {
         if (head == null || head.next == null) {
             return null;
         }
