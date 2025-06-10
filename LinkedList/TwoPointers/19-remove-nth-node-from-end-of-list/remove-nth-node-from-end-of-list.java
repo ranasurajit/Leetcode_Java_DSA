@@ -10,6 +10,8 @@
  */
 class Solution {
     /**
+     * Approach : Using Two Pointers Approach
+     *
      * TC: O(N)
      * SC: O(1)
      */
@@ -21,20 +23,18 @@ class Solution {
         ListNode slow = dummy;
         ListNode fast = dummy;
         dummy.next = head;
-        // move the fast node forward by n steps
         int count = 0;
         while (fast != null && count < n) {
             fast = fast.next;
             count++;
         }
-        // now move slow and fast pointers by 1 step
-        while (fast != null && fast.next != null) {    // TC: O(N)
+        ListNode prev = null;
+        while (slow != null && fast != null) {
+            prev = slow;
             slow = slow.next;
             fast = fast.next;
         }
-        if (slow != null && slow.next != null) {
-            slow.next = slow.next.next; // skipping the nth node from last
-        }
+        prev.next = slow.next;
         return dummy.next;
     }
 }
