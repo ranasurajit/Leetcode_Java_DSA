@@ -11,9 +11,9 @@
  */
 public class Solution {
     /**
-     * Using Slow and Fast pointers approach
+     * Approach : Using Two Pointers (Fast and Slow Pointers) Approach
      *
-     * TC: O(2 x N) ~ O(N)
+     * TC: O(N)
      * SC: O(1)
      */
     public ListNode detectCycle(ListNode head) {
@@ -22,22 +22,28 @@ public class Solution {
         }
         ListNode slow = head;
         ListNode fast = head;
-        // move the slow pointer by 1 step and fast pointer by 2 steps
+        /**
+         * if there is a cycle, then both slow and fast pointer will meet
+         * otherwise fast or fast.next will be null
+         * move fast pointer by 2 steps and slow pointer by 1 step
+         */
         while (fast != null && fast.next != null) {
             slow = slow.next;
             fast = fast.next.next;
-            // here if fast and slow pointer meet then there is a cycle
             if (slow == fast) {
                 break;
             }
         }
-        if (slow != fast) {
-            // there is no cycle
+        if (fast == null || fast.next == null) {
+            // no cycle present at all
             return null;
         }
-        // assign fast to head and move both pointers by 1 step each
-        fast = head;
-        while (slow != null && fast != slow) {
+        /**
+         * at this point slow and fast coincided, so now set slow back to 
+         * head and then move both pointers by 1 step
+         */
+        slow = head;
+        while (slow != fast) {
             slow = slow.next;
             fast = fast.next;
         }
