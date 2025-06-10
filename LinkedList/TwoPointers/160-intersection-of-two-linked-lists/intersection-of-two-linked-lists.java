@@ -20,26 +20,26 @@ public class Solution {
         if (headA == null || headB == null) {
             return null;
         }
+        // If both heads are same
         if (headA == headB) {
             return headA;
         }
-        ListNode slow = headA; // pointer at the start of list A
-        ListNode fast = headB; // pointer at the start of list B
-        while (slow != fast) { // TC: O(2 x N)
-            slow = slow.next;
-            fast = fast.next;
-            if (slow == fast) {
-                // return the node at which both pointers meet
+        // Setting up two pointers at the start of each head ListNode
+        ListNode currentA = headA;
+        ListNode currentB = headB;
+        while (currentA != currentB) { // TC: O(2 x N)
+            currentA = currentA.next;
+            currentB = currentB.next;
+            if (currentA == currentB) {
                 break;
             }
-            // switch the pointers at the other end
-            if (slow == null) {
-                slow = headB;
+            if (currentA == null) {
+                currentA = headB;
             }
-            if (fast == null) {
-                fast = headA;
+            if (currentB == null) {
+                currentB = headA;
             }
         }
-        return slow;
+        return currentA;
     }
 }
