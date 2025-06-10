@@ -10,12 +10,33 @@
  */
 class Solution {
     /**
+     * Approach II : Using Iterative Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public ListNode reverseList(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode prev = null;
+        ListNode current = head;
+        while (current != null) { // TC: O(N)
+            ListNode temp = current.next;
+            current.next = prev;
+            prev = current;
+            current = temp;
+        }
+        return prev;
+    }
+
+    /**
      * Approach I : Using Recursion Approach
      *
      * TC: O(N)
      * SC: O(N)
      */
-    public ListNode reverseList(ListNode head) {
+    public ListNode reverseListUsingRecursion(ListNode head) {
         return solveRecursion(head);
     }
 
