@@ -11,31 +11,35 @@
  */
 public class Solution {
     /**
-     * TC: O(2 x M + 2 x N) ~ O(M + N)
+     * Approach : Using Two Pointers Approach
+     *
+     * TC: O(2 x N) ~ O(N)
      * SC: O(1)
      */
     public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-        if (headA == null) {
+        if (headA == null || headB == null) {
             return null;
-        } 
+        }
         if (headA == headB) {
             return headA;
         }
-        ListNode currA = headA;
-        ListNode currB = headB;
-        while (currA != currB) {
-            currA = currA.next;
-            currB = currB.next;
-            if (currA == currB) {
-                return currA;
+        ListNode slow = headA; // pointer at the start of list A
+        ListNode fast = headB; // pointer at the start of list B
+        while (slow != fast) { // TC: O(2 x N)
+            slow = slow.next;
+            fast = fast.next;
+            if (slow == fast) {
+                // return the node at which both pointers meet
+                break;
             }
-            if (currA == null) {
-                currA = headB;
+            // switch the pointers at the other end
+            if (slow == null) {
+                slow = headB;
             }
-            if (currB == null) {
-                currB = headA;
+            if (fast == null) {
+                fast = headA;
             }
         }
-        return currA;
+        return slow;
     }
 }
