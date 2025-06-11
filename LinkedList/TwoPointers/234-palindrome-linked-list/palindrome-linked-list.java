@@ -19,7 +19,6 @@ class Solution {
         if (head == null || head.next == null) {
             return true;
         }
-        ListNode current = head;
         ListNode midNode = middleLL(head); // TC: O(N / 2)
         midNode = midNode.next;
         ListNode revList = reverseLL(midNode);
