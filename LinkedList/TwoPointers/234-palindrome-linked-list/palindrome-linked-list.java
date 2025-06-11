@@ -20,16 +20,8 @@ class Solution {
             return true;
         }
         ListNode current = head;
-        int length = 0;
-        while (current != null) { // TC: O(N)
-            length++;
-            current = current.next;
-        }
-        boolean isEven = (length & 1) == 0;
         ListNode midNode = middleLL(head); // TC: O(N / 2)
-        if (!isEven) {
-            midNode = midNode.next;
-        }
+        midNode = midNode.next;
         ListNode revList = reverseLL(midNode);
         ListNode current1 = head;
         ListNode current2 = revList;
@@ -76,7 +68,7 @@ class Solution {
         }
         ListNode slow = head;
         ListNode fast = head;
-        while (fast != null && fast.next != null) { // TC: O(N)
+        while (fast != null && fast.next != null && fast.next.next != null) { // TC: O(N)
             slow = slow.next;
             fast = fast.next.next;
         }
