@@ -9,58 +9,99 @@
  * }
  */
 class Solution {
+    /**
+     * Approach II : Using Merge Sort Approach
+     *
+     * TC: O(N x log(N) + N) ~ O(N x log(N))
+     * SC: O(log(N))
+     */
     public ListNode sortList(ListNode head) {
         if (head == null || head.next == null) {
+            // list is already sorted
             return head;
         }
-        ListNode mid = findFirstMiddleLinkedList(head);
+        ListNode midNode = middleLL(head); // TC: O(N / 2), SC: O(1)
+        // splitting Linked-List into two halves
         ListNode leftHead = head;
-        ListNode rightHead = mid.next;
-        mid.next = null;
-        leftHead = sortList(leftHead);
-        rightHead = sortList(rightHead);
-        return mergeSortedLists(leftHead, rightHead);
+        ListNode rightHead = midNode.next;
+        midNode.next = null;
+        // sorting both halves by Recursion
+
+        leftHead = sortList(leftHead); // TC: log(N), each time the size is reduced by 1/2
+        rightHead = sortList(rightHead); // TC: log(N), each time the size is reduced by 1/2
+        return mergeSortedLists(leftHead, rightHead); // TC: O(N), SC: O(N)
     }
 
-    private ListNode mergeSortedLists(ListNode list1, ListNode list2) {
-        if (list1 == null) {
-            return list2;
+    /**
+     * Using Two Pointers Approach
+     *
+     * TC: O(N)
+     * SC: O(N)
+     */
+    private ListNode mergeSortedLists(ListNode l1, ListNode l2) {
+        if (l1 == null) {
+            return l2;
+        } else if (l2 == null) {
+            return l1;
         }
-        if (list2 == null) {
-            return list1;
-        }
-        ListNode dummy = new ListNode(-1);
-        ListNode temp = dummy;
-        ListNode t1 = list1;
-        ListNode t2 = list2;
-
-        while (t1 != null && t2 != null) {
-            if (t1.val <= t2.val) {
-                temp.next = t1;
-                t1 = t1.next;
+        ListNode mergedList = new ListNode(-1);
+        ListNode p = l1; // pointer at the start of list l1
+        ListNode q = l2; // pointer at the start of list l2
+        ListNode r = mergedList; // pointer at the start of resultant list mergedList
+        while (p != null && q != null) { // TC: O(N)
+            if (p.val < q.val) {
+                r.next = p;
+                p = p.next;
             } else {
-                temp.next = t2;
-                t2 = t2.next;
+                r.next = q;
+                q = q.next;
             }
-            temp = temp.next;
+            r = r.next;
         }
-
-        if (t1 == null) {
-            temp.next = t2;
+        if (p != null) {
+            r.next = p;
+        } else if (q != null) {
+            r.next = q;
         }
-        if (t2 == null) {
-            temp.next = t1;
-        }
-        return dummy.next;
+        return mergedList.next;
     }
 
-    private ListNode findFirstMiddleLinkedList(ListNode head) {
+    /**
+     * Using Fast and Slow Pointers Approach
+     *
+     * TC: O(N / 2)
+     * SC: O(1)
+     */
+    private ListNode middleLL(ListNode head) {
         ListNode slow = head;
         ListNode fast = head;
-        while (fast.next != null && fast.next.next != null) {
+        // mobve slow pointer by 1 step and fast pointer by 2 steps
+        while (fast != null && fast.next != null && fast.next.next != null) { // TC: O(N / 2)
             slow = slow.next;
             fast = fast.next.next;
         }
         return slow;
+    }
+
+    /**
+     * Approach I : Using Min-Heap (PriorityQueue) Approach
+     *
+     * TC: O(N x log(N) + N) ~ O(N x log(N))
+     * SC: O(N)
+     */
+    public ListNode sortListUsingHeaps(ListNode head) {
+        PriorityQueue<Integer> pq = new PriorityQueue<Integer>(); // SC: O(N)
+        ListNode current = head; 
+        while (current != null) { // TC: O(N)
+            pq.offer(current.val); // TC: O(log(N))
+            current = current.next;
+        }
+        ListNode dummy = new ListNode(-1);
+        current = dummy;
+        while (!pq.isEmpty()) { // TC: O(N)
+            current.next = new ListNode(pq.poll());
+            current = current.next; 
+        }
+        return dummy.next;
     }
 }
