@@ -16,7 +16,7 @@ class MyLinkedList {
         for (int i = 0; i < index; i++) {
             current = current.next;
         }
-        return current != null ? current.val : -1;
+        return current.val;
     }
     
     public void addAtHead(int val) {
