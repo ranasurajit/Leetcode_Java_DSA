@@ -24,13 +24,13 @@ class Solution {
         if (head == null) {
             return head;
         }
-        // creating cross-chained cloned nodes
+        // creating criss-cross linking with duplicate nodes to ease copying random pointers
         Node current = head;
         while (current != null) { // TC: O(N)
             Node temp = current.next;
             current.next = new Node(current.val);
             current.next.next = temp;
-            current = temp;
+            current = current.next.next;
         }
         // copying random pointers
         current = head;
@@ -38,7 +38,7 @@ class Solution {
             current.next.random = current.random != null ? current.random.next : null;
             current = current.next.next;
         }
-        // de-linking the cross-chaining and retaining the next pointers on both original and copied lists
+        // retaining the original and copied lists and removing criss-cross linkages/adding next pointers
         Node original = head;
         Node copied = head.next;
         Node copiedHead = copied;
