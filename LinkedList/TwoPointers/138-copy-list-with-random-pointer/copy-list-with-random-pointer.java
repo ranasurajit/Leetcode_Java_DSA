@@ -15,38 +15,32 @@ class Node {
 
 class Solution {
     /**
-     * Using Two Pointers Approach
+     * Approach I : Using Hashing Approach
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(N)
      */
     public Node copyRandomList(Node head) {
         if (head == null) {
-            return null;
+            return head;
         }
-        // store the node references of head and newHead
         Map<Node, Node> map = new HashMap<Node, Node>(); // SC: O(N)
-        Node dummy = new Node(-1);
-        Node temp = dummy;
         Node current = head;
-        // traversing to copy only next nodes
+        // creating a HashMap to create related copies of actual nodes mapped to it
         while (current != null) { // TC: O(N)
-            temp.next = new Node(current.val);
-            map.put(current, temp.next);
-            // moving both the pointers
-            temp = temp.next;
+            map.put(current, new Node(current.val));
             current = current.next;
         }
-        // setting random pointers
+        // copying next and random pointers in the below loop
         current = head;
-        temp = dummy.next;
         while (current != null) { // TC: O(N)
-            // setting the random pointers from references from HashMap
-            Node random = current.random;
-            temp.random = map.get(random);
-            temp = temp.next;
+            Node clonedNode = map.get(current);
+            // copy the next nodes
+            clonedNode.next = map.get(current.next);
+            // copy the random pointers
+            clonedNode.random = map.get(current.random);
             current = current.next;
         }
-        return dummy.next;
+        return map.get(head);
     }
 }
