@@ -1,96 +1,73 @@
 class MyLinkedList {
 
     ListNode head = null;
+    int size = -1;
 
     public MyLinkedList() {
         head = null;
+        size = 0;
     }
     
     public int get(int index) {
-        if (index < 0 || head == null) {
+        if (index < 0 || index >= size) {
             return -1;
         }
-        if (index == 0) {
-            return head.val;
-        }
         ListNode current = head;
-        int count = 0;
-        while (current != null) {
+        for (int i = 0; i < index; i++) {
             current = current.next;
-            count++;
-            if (count == index && current != null) {
-                return current.val;
-            }
         }
-        return -1;
+        return current != null ? current.val : -1;
     }
     
     public void addAtHead(int val) {
-        if (head == null) {
-            head = new ListNode(val);
-        } else {
-            ListNode next = head;
-            head = new ListNode(val);
-            head.next = next;
-        }
+        ListNode newNode = new ListNode(val);
+        newNode.next = head;
+        head = newNode;
+        size++;
     }
     
     public void addAtTail(int val) {
+        ListNode node = new ListNode(val);
         if (head == null) {
-            head = new ListNode(val);
-            return; 
+            head = node;
+        } else {
+            ListNode current = head;
+            while (current.next != null) {
+                current = current.next;
+            }
+            current.next = node;
         }
-        ListNode prev = null;
-        ListNode current = head;
-        while (current != null) {
-            prev = current;
-            current = current.next;
-        }
-        prev.next = new ListNode(val);
+        size++;
     }
     
     public void addAtIndex(int index, int val) {
+        if (index < 0 || index > size) return;
         if (index == 0) {
             addAtHead(val);
             return;
         }
-        ListNode prev = null;
-        ListNode current = head;
-        int count = 0;
-        while (current != null) {
-            prev = current;
-            current = current.next;
-            count++;
-            if (count == index) {
-                break;
-            }
+        ListNode node = new ListNode(val);
+        ListNode prev = head;
+        for (int i = 0; i < index - 1; i++) {
+            prev = prev.next;
         }
-        if (prev != null) {
-            prev.next = new ListNode(val);
-            prev.next.next = prev.next != null ? current : null;
-        }
+        node.next = prev.next;
+        prev.next = node;
+        size++;
     }
     
     public void deleteAtIndex(int index) {
-        if (head == null) {
-            return;
-        }
+        if (index < 0 || index >= size) return;
         if (index == 0) {
             head = head.next;
-            return;
-        }
-        ListNode prev = null;
-        ListNode current = head;
-        int count = 0;
-        while (current != null) {
-            prev = current;
-            current = current.next;
-            count++;
-            if (count == index) {
-                break;
+        } else {
+            ListNode prev = head;
+            for (int i = 0; i < index - 1; i++) {
+                prev = prev.next;
             }
+            prev.next = prev.next.next;
         }
-        prev.next = current != null ? current.next : null;
+        size--;
     }
 
     static class ListNode {
