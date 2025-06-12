@@ -26,7 +26,6 @@ class Solution {
         ListNode rightHead = midNode.next;
         midNode.next = null;
         // sorting both halves by Recursion
-
         leftHead = sortList(leftHead); // TC: log(N), each time the size is reduced by 1/2
         rightHead = sortList(rightHead); // TC: log(N), each time the size is reduced by 1/2
         return mergeSortedLists(leftHead, rightHead); // TC: O(N), SC: O(N)
