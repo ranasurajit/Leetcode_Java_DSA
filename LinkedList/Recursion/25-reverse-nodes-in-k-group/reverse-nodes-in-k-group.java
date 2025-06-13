@@ -12,8 +12,8 @@ class Solution {
     /**
      * Approach : Using Two Pointers Approach
      *
-     * TC: O(K ^ 2)
-     * SC: O(1)
+     * TC: O(K x (N / K))
+     * SC: O(N / K)
      */
     public ListNode reverseKGroup(ListNode head, int k) {
         ListNode prev = null;
