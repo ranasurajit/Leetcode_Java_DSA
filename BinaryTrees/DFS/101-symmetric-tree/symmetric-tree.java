@@ -39,8 +39,11 @@ class Solution {
         if (leftTree == null) {
             return rightTree == null;
         }
+        if (rightTree == null) {
+            return leftTree == null;
+        }
         // Recursion Calls
-        return leftTree != null && rightTree != null && leftTree.val == rightTree.val &&
+        return leftTree.val == rightTree.val &&
             isTreeMirrored(leftTree.left, rightTree.right) &&
             isTreeMirrored(leftTree.right, rightTree.left);
     }
