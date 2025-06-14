@@ -2,6 +2,13 @@ class Solution {
     /**
      * Approach : Using Greedy Approach
      *
+     * Intuition: 
+     * Maximum Number : Find the character from beginning of num which is not equal to 9 and then
+     * replace all it's occurences with '9' to get maximum number
+     *
+     * Minimum Number : Find the 0th index character and replace all it's occurences with '0' to get   
+     * minimum number
+     *
      * TC: O(3 x N) ~ O(N)
      * SC: O(2 x N) ~ O(N)
      */
