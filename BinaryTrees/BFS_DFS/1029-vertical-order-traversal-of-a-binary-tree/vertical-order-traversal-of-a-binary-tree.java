@@ -17,8 +17,8 @@ class Solution {
     /**
      * Approach : Using BFS Approach
      *
-     * TC: O(N x log(K) + K x log(K))
-     * SC: O(2 x N + K) ~ O(N + K)
+     * TC: O(N x log(N) + 2 x N)
+     * SC: O(2 x N) ~ O(N)
      *
      * where K is the Max(columns)
      */
@@ -57,14 +57,14 @@ class Solution {
             }
             return a[0] - b[0];
         }); // TC: O(N x log(N))
-        TreeMap<Integer, ArrayList<Integer>> tmap = 
-            new TreeMap<Integer, ArrayList<Integer>>(); // SC: O(K)
+        int lastCol = Integer.MIN_VALUE;
         for (int[] node : nodes) { // TC: O(N)
-            tmap.computeIfAbsent(node[2], 
-                k -> new ArrayList<Integer>()).add(node[0]); // TC: O(log(K))
-        }
-        for (Integer key : tmap.keySet()) { // TC: O(K)
-            path.add(tmap.get(key)); // TC: O(log(K))
+            int column = node[2];
+            if (column != lastCol) {
+                path.add(new ArrayList<Integer>());
+            }
+            path.get(path.size() - 1).add(node[0]);
+            lastCol = column;
         }
         return path;
     }
