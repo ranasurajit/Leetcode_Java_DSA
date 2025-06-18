@@ -27,10 +27,9 @@ class Solution {
         if (root == null) {
             return path;
         }
-        List<int[]> nodes = new ArrayList<int[]>(); // SC: O(N)
+        List<int[]> nodePair = new ArrayList<int[]>(); // SC: O(N)
         Queue<Pair> queue = new LinkedList<Pair>(); // SC: O(N)
         queue.offer(new Pair(root, 0, 0));
-        int level = 0;
         while (!queue.isEmpty()) { // TC: O(N)
             int size = queue.size();
             for (int i = 0; i < size; i++) {
@@ -38,7 +37,7 @@ class Solution {
                 TreeNode node = current.node;
                 int row = current.row;
                 int col = current.col;
-                nodes.add(new int[] { node.val, row, col });
+                nodePair.add(new int[] { node.val, row, col });
                 if (node.left != null) {
                     queue.offer(new Pair(node.left, row + 1, col - 1));
                 }
@@ -46,25 +45,27 @@ class Solution {
                     queue.offer(new Pair(node.right, row + 1, col + 1));
                 }
             }
-            level++;
         }
-        Collections.sort(nodes, (int[] a, int[] b) -> {
+        // Sort the node pair
+        nodePair.sort((int[] a, int[] b) -> {
             if (a[2] != b[2]) {
+                // column is not same
                 return a[2] - b[2];
             }
             if (a[1] != b[1]) {
+                // row is not same but column is same
                 return a[1] - b[1];
             }
             return a[0] - b[0];
         }); // TC: O(N x log(N))
-        int lastCol = Integer.MIN_VALUE;
-        for (int[] node : nodes) { // TC: O(N)
-            int column = node[2];
-            if (column != lastCol) {
+        int prevCol = Integer.MIN_VALUE;
+        for (int[] node : nodePair) { // TC: O(N)
+            int col = node[2];
+            if (col != prevCol) {
                 path.add(new ArrayList<Integer>());
             }
             path.get(path.size() - 1).add(node[0]);
-            lastCol = column;
+            prevCol = node[2];
         }
         return path;
     }
