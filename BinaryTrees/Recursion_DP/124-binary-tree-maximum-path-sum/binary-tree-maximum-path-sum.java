@@ -15,10 +15,16 @@
  */
 class Solution {
     /**
-     * Approach II : Using Memoization + Recursion Approach
+     * Approach II : Using Recursion + Memoization Approach
+     *
+     * (DP Not needed here as each node is visited once)
+     * 
+     * DP helps only if:
+     * You're recomputing results for overlapping subproblems.
+     * You're solving a top-down problem with heavy subtree reuse.
      *
      * TC: O(N)
-     * SC: O(N)
+     * SC: O(2 x N) ~ O(N)
      */
     public int maxPathSum(TreeNode root) {
         int[] maxSum = { Integer.MIN_VALUE };
