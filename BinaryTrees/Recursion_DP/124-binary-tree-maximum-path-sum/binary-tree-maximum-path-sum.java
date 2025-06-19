@@ -42,6 +42,7 @@ class Solution {
         int rightSum = solveRecursion(node.right, maxSum);
         // Induction
         // compute maxSum assuming if it passed through node else pass the best value to its parent
+        // check if leftSum or rightSum < 0 then do not contribute
         if (leftSum < 0) {
             leftSum = 0;
         }
