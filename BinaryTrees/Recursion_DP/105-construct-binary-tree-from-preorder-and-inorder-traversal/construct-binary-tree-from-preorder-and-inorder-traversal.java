@@ -52,6 +52,7 @@ class Solution {
         TreeNode root = new TreeNode(preorder[index[0]]);
         int idx = inorderMap.get(preorder[index[0]]);
         index[0]++;
+        // Pre Order - Node Left Right
         root.left = solveRecursion(preorder, index, start, idx - 1, inorderMap);
         root.right = solveRecursion(preorder, index, idx + 1, end, inorderMap);
         return root;
