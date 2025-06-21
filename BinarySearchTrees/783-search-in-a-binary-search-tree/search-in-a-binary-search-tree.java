@@ -14,19 +14,22 @@
  * }
  */
 class Solution {
+    /**
+     * Approach : Using property of Binary Search Tree
+     *
+     * TC: O(log(N))
+     * SC: O(log(N))
+     */
     public TreeNode searchBST(TreeNode root, int val) {
-        return helper(root, val);
-    }
-
-    private TreeNode helper(TreeNode node, int val) {
-        if (node == null || node.val == val) {
-            return node;
+        if (root == null) {
+            return null;
         }
-        if (val < node.val) {
-            node = helper(node.left, val);
+        if (root.val == val) {
+            return root;
+        } else if (root.val < val) {
+            return searchBST(root.right, val);
         } else {
-            node = helper(node.right, val);
+            return searchBST(root.left, val);
         }
-        return node;
     }
 }
