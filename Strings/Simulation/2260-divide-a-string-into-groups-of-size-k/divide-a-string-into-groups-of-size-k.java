@@ -2,7 +2,7 @@ class Solution {
     /**
      * Approach : Using String Simulation
      *
-     * TC: O(K + K x (N / K) + N / K) ~ O(N + K)
+     * TC: O(N + K)
      * SC: O(1)
      */
     public String[] divideString(String s, int k, char fill) {
@@ -20,12 +20,6 @@ class Solution {
             }
             list.add(sb.toString());
         }
-        int m = list.size();
-        String[] result = new String[m];
-        int index = 0;
-        for (String val : list) { // TC: O(N / K)
-            result[index++] = val;
-        }
-        return result;
+        return list.toArray(new String[0]);
     }
 }
