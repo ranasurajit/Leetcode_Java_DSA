@@ -14,17 +14,39 @@
  * }
  */
 class Solution {
+    /**
+     * Approach : Using Recursion + BST Property Approach
+     * 
+     * TC: O(N)
+     * SC: O(H)
+     * 
+     * where H = height of BST
+     * H = log(N) for balanced BST
+     * H = N for skewed Tree
+     */
     public boolean isValidBST(TreeNode root) {
-        return helper(root, Long.MIN_VALUE, Long.MAX_VALUE);
-    }
-
-    private boolean helper(TreeNode root, long min, long max) {
         if (root == null) {
             return true;
         }
-        if (root.val <= min || root.val >= max) {
+        return isBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    /**
+     * Using Recursion + BST Property Approach
+     * 
+     * TC: O(N)
+     * SC: O(H)
+     */
+    private boolean isBST(TreeNode root, long start, long end) {
+        // Base Case
+        if (root == null) {
+            return true;
+        }
+        // Range Check for BST Property
+        if (root.val <= start || root.val >= end) {
             return false;
         }
-        return helper(root.left, min, root.val) && helper(root.right, root.val, max);
+        // Recursion
+        return isBST(root.left, start, root.val) && isBST(root.right, root.val, end);
     }
 }
