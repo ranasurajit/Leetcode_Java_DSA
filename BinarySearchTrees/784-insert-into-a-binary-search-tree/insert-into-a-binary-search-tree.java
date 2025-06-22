@@ -14,15 +14,40 @@
  * }
  */
 class Solution {
+    /**
+     * Approach : Using Iteration + BST Property Approach
+     *
+     * TC: O(H)
+     * SC: O(1)
+     *
+     * Where H = height of BST
+     * H = log(N) for balanced BST
+     * H = N for skewed BST
+     */
     public TreeNode insertIntoBST(TreeNode root, int val) {
         if (root == null) {
-            return new TreeNode(val);
+            root = new TreeNode(val);
+            return root;
         }
-        TreeNode node = root;
-        if (val < node.val) {
-            node.left = insertIntoBST(root.left, val);
-        } else {
-            node.right = insertIntoBST(root.right, val);
+        TreeNode current = root;
+        while (true) {
+            if (val < current.val) {
+                // we need to lookup in the left of current node
+                if (current.left != null) {
+                    current = current.left;
+                } else {
+                    current.left = new TreeNode(val);
+                    break;
+                }
+            } else if (val > current.val) {
+                // we need to lookup in the right of current node
+                if (current.right != null) {
+                    current = current.right;
+                } else {
+                    current.right = new TreeNode(val);
+                    break;
+                }
+            }
         }
         return root;
     }
