@@ -1,11 +1,30 @@
 class Solution {
     /**
-     * Approach : Using String Simulation
+     * Approach II : Using String Simulation
      *
      * TC: O(N + K)
      * SC: O(1)
      */
     public String[] divideString(String s, int k, char fill) {
+        StringBuilder sb = new StringBuilder(s);
+        while (sb.length() % k != 0) { // TC: O(K - N % K)
+            sb.append(fill);
+        }
+        int m = sb.length() / k;
+        String[] result = new String[m];
+        for (int i = 0; i < m; i++) { // TC: O(M = N / K)
+            result[i] = sb.substring(i * k, (i + 1) * k);
+        }
+        return result;
+    }
+
+    /**
+     * Approach I : Using String Simulation
+     *
+     * TC: O(N + K)
+     * SC: O(1)
+     */
+    public String[] divideStringApproachI(String s, int k, char fill) {
         int n = s.length();
         int xNeeded = n % k == 0 ? 0 : k - (n % k);
         for (int i = 0; i < xNeeded; i++) { // TC: O(K)
