@@ -14,31 +14,61 @@
  * }
  */
 class Solution {
+    /**
+     * Approach : Using Recursion + BST Property Approach
+     * 
+     * TC: O(H)
+     * SC: O(H)
+     * 
+     * where H = height of BST
+     * H = log(N) for balanced BST
+     * H = N for skewed Tree
+     */
     public TreeNode deleteNode(TreeNode root, int key) {
-        if(root == null) return null;
-        if(root.val > key)
+        if (root == null) {
+            return null;
+        }
+        if (key < root.val) {
+            // look-up to the left of root node
             root.left = deleteNode(root.left, key);
-        else if(root.val < key)
+        } else if (key > root.val) {
+            // look-up to the right of root node
             root.right = deleteNode(root.right, key);
-        else {
-            if(root.left == null) {
+        } else {
+            // we found the key match with root.val
+            if (root.left == null) {
+                // we need to hook the not null node to the parent of target node
                 return root.right;
-            }
-            else if(root.right == null) {
+            } else if (root.right == null) {
+                // we need to hook the not null node to the parent of target node
                 return root.left;
             } else {
-                TreeNode successor = minNodeValue(root.right);
-                root.val = successor.val;
-                root.right = deleteNode(root.right, successor.val);
+                /**
+                 * target node has both left and right children, 
+                 * so we can attach Max(left sub-tree) or Min(right sub-tree)
+                 */
+                // we need to now set the target node value to minValue
+                root.val = getMinValue(root.right); // TC: O(H), SC: O(1)
+                // we need to delete the minValue node from root's right
+                root.right = deleteNode(root.right, root.val);
             }
         }
         return root;
     }
 
-    private TreeNode minNodeValue(TreeNode node) {
-        while (node.left != null) {
-            node = node.left;
+    /**
+     * Using Tree Traversal Approach with Pointers
+     *
+     * TC: O(H)
+     * SC: O(1)
+     */
+    private int getMinValue(TreeNode root) {
+        int minValue = root.val;
+        TreeNode current = root;
+        while (current.left != null) {
+            minValue = current.left.val;
+            current = current.left;
         }
-        return node;
+        return minValue;
     }
 }
