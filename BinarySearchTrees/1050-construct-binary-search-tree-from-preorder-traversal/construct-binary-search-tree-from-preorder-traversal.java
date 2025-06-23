@@ -15,7 +15,45 @@
  */
 class Solution {
     /**
-     * Approach : Using Recursion Approach
+     * Approach II : Using Recursion (Binary Search Tree Property) Approach
+     *
+     * Intuition: pre-order guarantees that root node is at the beginning
+     * any value to the left of root should be < root.val (bound) and to 
+     * the right should be < Integer.MAX_VALUE
+     *
+     * TC: O(N)
+     * SC: O(H) ~ O(N)
+     *
+     * where H = height of BST
+     * H = log(N) for balanced BST
+     * H = N for skewed Tree
+     */
+    public TreeNode bstFromPreorder(int[] preorder) {
+        int[] index = { 0 };
+        return solveRecursionBST(index, preorder, Integer.MAX_VALUE);
+    }
+
+    /**
+     * Using Recursion Approach
+     *
+     * TC: O(3 x N) ~ O(N)
+     * SC: O(H)
+     */
+    private TreeNode solveRecursionBST(int[] index, int[] preorder, int bound) {
+        // Base Case
+        if (index[0] == preorder.length || preorder[index[0]] >= bound) {
+            return null;
+        }
+        // Recursion Calls
+        TreeNode root = new TreeNode(preorder[index[0]]);
+        index[0]++;
+        root.left = solveRecursionBST(index, preorder, root.val);
+        root.right = solveRecursionBST(index, preorder, bound);
+        return root;
+    }
+
+    /**
+     * Approach I : Using Recursion (Binary Tree) Approach
      *
      * Intuition: pre-order guarantees that root node is at the beginning
      * in-order guarantees the left and right sub-tree positions
@@ -23,7 +61,7 @@ class Solution {
      * TC: O(N x log(N) + 2 x N) ~ O(N x log(N))
      * SC: O(2 x N) ~ O(N)
      */
-    public TreeNode bstFromPreorder(int[] preorder) {
+    public TreeNode bstFromPreorderRecursionBT(int[] preorder) {
         int n = preorder.length;
         int[] inorder = preorder.clone(); // SC: O(N)
         Arrays.sort(inorder); // TC: O(N x log(N))
