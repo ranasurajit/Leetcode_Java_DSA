@@ -15,12 +15,43 @@
  */
 class Solution {
     /**
+     * Approach : Using DFS Traversal + Hashing + Recursion Approach
+     *
+     * TC: O(N)
+     * SC: O(2 x N) ~ O(N)
+     */
+    public boolean findTarget(TreeNode root, int k) {
+        Set<Integer> set = new HashSet<Integer>(); // SC: O(N)
+        return solveRecursion(root, k, set);
+    }
+
+    /**
+     * Using DFS Traversal + Hashing + Recursion Approach
+     *
+     * TC: O(N)
+     * SC: O(N)
+     */
+    private boolean solveRecursion(TreeNode root, int k, Set<Integer> set) {
+        // Base Case
+        if (root == null) {
+            return false;
+        }
+        // Induction
+        if (set.contains(k - root.val)) {
+            return true;
+        }
+        set.add(root.val);
+        // Hypothesis
+        return solveRecursion(root.left, k, set) || solveRecursion(root.right, k, set);
+    }
+
+    /**
      * Approach I : Using Inorder Traversal (Left Root Right) + Two Pointers Approach
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(2 x N) ~ O(N)
      */
-    public boolean findTarget(TreeNode root, int k) {
+    public boolean findTargetBruteForce(TreeNode root, int k) {
         List<Integer> inorder = new ArrayList<Integer>(); // SC: O(N)
         dfsBSTTree(root, inorder); // TC: O(N), SC: O(N)
         // By property of BST, inorder of BST is always sorted, so applying Two Pointers Approach
