@@ -14,18 +14,34 @@
  * }
  */
 class Solution {
+    /**
+     * Approach : Using DFS Inorder Traversal Based on K depth Approach
+     *
+     * TC: O(K)
+     * SC: O(2 x K) ~ O(K)
+     */
     public int kthSmallest(TreeNode root, int k) {
-        List<Integer> traversal = new ArrayList<Integer>();
-        inOrderTraversal(root, traversal);
-        return traversal.get(k - 1);
+        List<Integer> result = new ArrayList<Integer>(); // SC: O(K)
+        dfsInorderBST(root, k, result);
+        return result.get(k - 1);
     }
 
-    private void inOrderTraversal(TreeNode node, List<Integer> traversal) {
-        if (node == null) {
+    /**
+     * Using DFS Inorder Traversal Based on K depth Approach
+     *
+     * TC: O(K)
+     * SC: O(K)
+     */
+    private void dfsInorderBST(TreeNode root, int k, List<Integer> result) {
+        // Base Case
+        if (root == null) {
             return;
         }
-        inOrderTraversal(node.left, traversal);
-        traversal.add(node.val);
-        inOrderTraversal(node.right, traversal);
+        if (result.size() == k) {
+            return;
+        }
+        dfsInorderBST(root.left, k, result);
+        result.add(root.val);
+        dfsInorderBST(root.right, k, result);
     }
 }
