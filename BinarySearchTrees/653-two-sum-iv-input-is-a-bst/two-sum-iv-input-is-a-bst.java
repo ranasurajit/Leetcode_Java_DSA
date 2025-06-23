@@ -38,6 +38,7 @@ class Solution {
         }
         // Induction
         if (set.contains(k - root.val)) {
+            set.clear();
             return true;
         }
         set.add(root.val);
