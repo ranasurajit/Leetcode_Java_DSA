@@ -1,5 +1,33 @@
 class Solution {
     /**
+     * Approach IV: Using Space Optimization (Optimized DP)
+     *
+     * TC: O(N) - Each house is processed once
+     *
+     * SC: O(1)
+     *
+     * Accepted (70 / 70 testcases passed)
+     */
+    public int rob(int[] nums) {
+        int n = nums.length;
+        int prev2 = 0;
+        int prev1 = nums[0];
+        for (int i = 1; i < n; i++) {
+            // rob nth house and then try with (n - 2)th house
+            int option1 = nums[i];
+            if (i > 1) {
+                option1 += prev2;
+            }
+            // do not rob nth house so try with (n - 1)th house
+            int option2 = prev1;
+            int current = Math.max(option1, option2);
+            prev2 = prev1;
+            prev1 = current;
+        }
+        return prev1;
+    }
+
+    /**
      * Approach III: Using Tabulation (Bottom-Up DP)
      *
      * TC: O(N) - Each house is processed once
@@ -9,7 +37,7 @@ class Solution {
      *
      * Accepted (70 / 70 testcases passed)
      */
-    public int rob(int[] nums) {
+    public int robTabulation(int[] nums) {
         int n = nums.length;
         int[] dp = new int[n];
         dp[0] = nums[0];
