@@ -3,7 +3,7 @@ class Solution {
      * Approach II : Using Memoization Approach
      *
      * TC: O(N)
-     * SC: O(2 x N) ~ O(N)
+     * SC: O(N + N) ~ O(N)
      *
      * Accepted (45 / 45 testcases passed)
      */
