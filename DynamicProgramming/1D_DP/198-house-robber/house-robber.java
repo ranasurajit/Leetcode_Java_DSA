@@ -3,13 +3,16 @@ class Solution {
      * Approach IV: Using Space Optimization (Optimized DP)
      *
      * TC: O(N) - Each house is processed once
-     *
-     * SC: O(1)
+     * SC: O(1) - - Constant space used (no extra DP array)
      *
      * Accepted (70 / 70 testcases passed)
      */
     public int rob(int[] nums) {
         int n = nums.length;
+        if (n == 1) {
+            // Edge case handled as per constraints, 1 <= nums.length <= 100
+            return nums[0];
+        }
         int prev2 = 0;
         int prev1 = nums[0];
         for (int i = 1; i < n; i++) {
@@ -31,7 +34,6 @@ class Solution {
      * Approach III: Using Tabulation (Bottom-Up DP)
      *
      * TC: O(N) - Each house is processed once
-     *
      * SC: O(N)
      *   - dp[] array of size N
      *
@@ -58,7 +60,6 @@ class Solution {
      * Approach II: Using Memoization (Top-Down DP)
      *
      * TC: O(N) - Each subproblem (index) is solved once
-     *
      * SC: O(N + N)
      *   - O(N) for memo array
      *   - O(N) recursion stack depth in worst case
