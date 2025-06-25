@@ -1,5 +1,62 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     *
+     * TC: O(N)
+     *   - Two subproblems of size (n - 1), each solved in O(N)
+     *   - Array copy takes O(N)
+     *   - Total: O(N)
+     * SC: O(N)
+     *   - O(N) for temporary arrays (nums1, nums2)
+     *   - O(1) extra space for DP
+     *
+     * Accepted (75 / 75 testcases passed)
+     */
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return nums[0];
+        }
+        int[] nums1 = new int[n - 1]; // SC: O(N)
+        int[] nums2 = new int[n - 1]; // SC: O(N)
+        for (int i = 0; i < n - 1; i++) { // TC: O(N)
+            nums1[i] = nums[i];
+            nums2[i] = nums[i + 1];
+        }
+        return Math.max(solveOptimization(nums1),
+            solveOptimization(nums2)); // TC: O(N + N), SC: O(N)
+    }
+
+    /**
+     * Using Space Optimization (Optimized DP)
+     *
+     * TC: O(N) - each house processed once
+     * SC: O(1) - only two variables used
+     */
+    public int solveOptimization(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            // Edge case handled as per constraints, 1 <= nums.length <= 100
+            return nums[0];
+        }
+        int prev2 = 0;
+        int prev1 = nums[0];
+        for (int i = 1; i < n; i++) {
+            // rob nth house and then try with (n - 2)th house
+            int option1 = nums[i];
+            if (i > 1) {
+                option1 += prev2;
+            }
+            // do not rob nth house so try with (n - 1)th house
+            int option2 = prev1;
+            int current = Math.max(option1, option2);
+            prev2 = prev1;
+            prev1 = current;
+        }
+        return prev1;
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      *
      * TC: O(N)
@@ -12,7 +69,7 @@ class Solution {
      *
      * Accepted (75 / 75 testcases passed)
      */
-    public int rob(int[] nums) {
+    public int robTabulation(int[] nums) {
         int n = nums.length;
         if (n == 1) {
             return nums[0];
@@ -55,7 +112,7 @@ class Solution {
     }
 
     /**
-     * Approach II : Using Memoization Approach
+     * Approach II : Using Memoization (Top-Down DP) Approach
      *
      * TC: O(N)
      *   - Two subproblems of size (n - 1), each solved in O(N)
