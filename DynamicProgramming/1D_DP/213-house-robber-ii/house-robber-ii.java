@@ -1,5 +1,60 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     *
+     * TC: O(N)
+     *   - Two subproblems of size (n - 1), each solved in O(N)
+     *   - Array copy takes O(N)
+     *   - Total: O(N)
+     * SC: O(N)
+     *   - O(N) for temporary arrays (nums1, nums2)
+     *   - O(N) for DP array
+     *
+     * Accepted (75 / 75 testcases passed)
+     */
+    public int rob(int[] nums) {
+        int n = nums.length;
+        if (n == 1) {
+            return nums[0];
+        }
+        int[] nums1 = new int[n - 1]; // SC: O(N)
+        int[] nums2 = new int[n - 1]; // SC: O(N)
+        for (int i = 0; i < n - 1; i++) { // TC: O(N)
+            nums1[i] = nums[i];
+            nums2[i] = nums[i + 1];
+        }
+        return Math.max(solveTabulation(nums1),
+            solveTabulation(nums2)); // TC: O(N + N), SC: O(N)
+    }
+
+    /**
+     * Using Tabulation (Bottom-Up DP)
+     *
+     * TC: O(N)
+     *   - Two subproblems of size (n - 1), each solved in O(N)
+     *   - Array copy takes O(N)
+     *   - Total: O(N)
+     * SC: O(N)
+     * - dp[] array of size N
+     */
+    private int solveTabulation(int[] nums) {
+        int len = nums.length;
+        int[] dp = new int[len];
+        dp[0] = nums[0];
+        for (int i = 1; i < len; i++) {
+            // rob nth house and then try with (n - 2)th house
+            int option1 = nums[i];
+            if (i > 1) {
+                option1 += dp[i - 2];
+            }
+            // do not rob nth house so try with (n - 1)th house
+            int option2 = dp[i - 1];
+            dp[i] = Math.max(option1, option2);
+        }
+        return dp[len - 1];
+    }
+
+    /**
      * Approach II : Using Memoization Approach
      *
      * TC: O(N)
@@ -12,7 +67,7 @@ class Solution {
      *
      * Accepted (75 / 75 testcases passed)
      */
-    public int rob(int[] nums) {
+    public int robMemoization(int[] nums) {
         int n = nums.length;
         if (n == 1) {
             return nums[0];
