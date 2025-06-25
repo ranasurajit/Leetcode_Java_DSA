@@ -1,5 +1,23 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation Approach
+     *
+     * TC: O(N)
+     * SC: O(N)
+     *
+     * Accepted (45 / 45 testcases passed)
+     */
+    public int climbStairs(int n) {
+        int[] dp = new int[n + 1]; // SC: O(N)
+        dp[0] = 1; // ways to reach 0th step
+        dp[1] = 1; // ways to reach 1st step
+        for (int i = 2; i < n + 1; i++) { // TC: O(N)
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
+    }
+
+    /**
      * Approach II : Using Memoization Approach
      *
      * TC: O(N)
@@ -7,7 +25,7 @@ class Solution {
      *
      * Accepted (45 / 45 testcases passed)
      */
-    public int climbStairs(int n) {
+    public int climbStairsMemoization(int n) {
         int[] memo = new int[n + 1]; // SC: O(N)
         Arrays.fill(memo, -1);
         return solveMemoization(n, memo); // TC: O(N), SC: O(N)
