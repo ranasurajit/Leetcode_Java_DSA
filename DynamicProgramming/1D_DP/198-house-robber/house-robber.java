@@ -1,5 +1,32 @@
 class Solution {
     /**
+     * Approach III: Using Tabulation (Bottom-Up DP)
+     *
+     * TC: O(N) - Each house is processed once
+     *
+     * SC: O(N)
+     *   - dp[] array of size N
+     *
+     * Accepted (70 / 70 testcases passed)
+     */
+    public int rob(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n];
+        dp[0] = nums[0];
+        for (int i = 1; i < n; i++) {
+            // rob nth house and then try with (n - 2)th house
+            int option1 = nums[i];
+            if (i > 1) {
+                option1 += dp[i - 2];
+            }
+            // do not rob nth house so try with (n - 1)th house
+            int option2 = dp[i - 1];
+            dp[i] = Math.max(option1, option2);
+        }
+        return dp[n - 1];
+    }
+
+    /**
      * Approach II: Using Memoization (Top-Down DP)
      *
      * TC: O(N) - Each subproblem (index) is solved once
@@ -10,7 +37,7 @@ class Solution {
      *
      * Accepted (70 / 70 testcases passed)
      */
-    public int rob(int[] nums) {
+    public int robMemoization(int[] nums) {
         int n = nums.length;
         int[] memo = new int[n];
         Arrays.fill(memo, -1);
