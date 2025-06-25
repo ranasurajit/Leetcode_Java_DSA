@@ -1,66 +1,28 @@
 class Solution {
     /**
-     * Approach IV : Using Space Optimization
+     * Approach II : Using Memoization Approach
      *
      * TC: O(N)
-     * SC: O(1)
+     * SC: O(2 x N) ~ O(N)
+     *
+     * Accepted (45 / 45 testcases passed)
      */
     public int climbStairs(int n) {
-        // Initialization
-        int prev2 = 1;
-        int prev = 1;
-        /**
-         * Iterative Call
-         * replace
-         * dp[i] with current
-         * dp[i - 1] with prev
-         * dp[i - 2] with prev2
-         */
-        for (int i = 2; i < n + 1; i++) { // TC: O(N)
-            int current = prev + prev2;
-            prev2 = prev;
-            prev = current;
-        }
-        return prev;
-    }
-
-    /**
-     * Approach III : Using Tabulation
-     *
-     * TC: O(N)
-     * SC: O(N)
-     */
-    public int climbStairsTabulation(int n) {
-        // Initialization
-        int[] dp = new int[n + 1]; // SC: O(N)
-        dp[0] = 1;
-        dp[1] = 1;
-        // Iterative Call
-        for (int i = 2; i < n + 1; i++) { // TC: O(N)
-            dp[i] = dp[i - 1] + dp[i - 2];
-        }
-        return dp[n];
-    }
-
-    /**
-     * Approach II : Using Memoization
-     *
-     * TC: O(N)
-     * SC: O(N + N) ~ O(N)
-     */
-    public int climbStairsMemoization(int n) {
-        int[] memo = new int[n + 1];
+        int[] memo = new int[n + 1]; // SC: O(N)
         Arrays.fill(memo, -1);
-        return solveMemoization(n, memo);
+        return solveMemoization(n, memo); // TC: O(N), SC: O(N)
     }
 
-    /*
+    /**
+     * Using Recursion Approach
+     *
      * TC: O(N)
      * SC: O(N)
      */
     private int solveMemoization(int n, int[] memo) {
         // Base Case
-        if (n == 0 || n == 1) {
+        if (n == 0) {
+            // number of ways to reach 0th stair from position 0
             return 1;
         }
         // Memoization Check
@@ -68,33 +30,48 @@ class Solution {
             return memo[n];
         }
         // Recursion Calls
-        int xWays = solveMemoization(n - 1, memo);
-        int yWays = solveMemoization(n - 2, memo);
-        return memo[n] = xWays + yWays;
+        // ways to reach nth step can be contributed from ways of reaching (n - 1)th stair and do 1 jump
+        int ways1Step = solveMemoization(n - 1, memo);
+        // ways to reach nth step can be contributed from ways of reaching (n - 2)th stair and do 2 jumps
+        int ways2Step = 0;
+        if (n > 1) {
+            ways2Step = solveMemoization(n - 2, memo);
+        }
+        return memo[n] = ways1Step + ways2Step;
     }
 
     /**
-     * Approach I : Using Recursion
+     * Approach I : Using Recursion Approach
      *
      * TC: O(2 ^ N)
      * SC: O(N)
+     *
+     * Time Limit Exceeded (21 / 45 testcases passed)
      */
     public int climbStairsRecursion(int n) {
         return solveRecursion(n);
     }
 
-    /*
+    /**
+     * Using Recursion Approach
+     *
      * TC: O(2 ^ N)
      * SC: O(N)
      */
     private int solveRecursion(int n) {
         // Base Case
-        if (n == 0 || n == 1) {
+        if (n == 0) {
+            // number of ways to reach 0th stair from position 0
             return 1;
         }
         // Recursion Calls
-        int xWays = solveRecursion(n - 1);
-        int yWays = solveRecursion(n - 2);
-        return xWays + yWays;
+        // ways to reach nth step can be contributed from ways of reaching (n - 1)th stair and do 1 jump
+        int ways1Step = solveRecursion(n - 1);
+        // ways to reach nth step can be contributed from ways of reaching (n - 2)th stair and do 2 jumps
+        int ways2Step = 0;
+        if (n > 1) {
+            ways2Step = solveRecursion(n - 2);
+        }
+        return ways1Step + ways2Step;
     }
 }
