@@ -1,9 +1,12 @@
 class Solution {
     /**
-     * Approach II : Using Memoization Approach
+     * Approach II: Using Memoization (Top-Down DP)
      *
-     * TC: O(N)
+     * TC: O(N) - Each subproblem (index) is solved once
+     *
      * SC: O(N + N)
+     *   - O(N) for memo array
+     *   - O(N) recursion stack depth in worst case
      *
      * Accepted (70 / 70 testcases passed)
      */
