@@ -1,5 +1,24 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     *
+     * Accepted (45 / 45 testcases passed)
+     */
+    public int climbStairs(int n) {
+        int prev1 = 1;
+        int prev2 = 1;
+        for (int i = 2; i < n + 1; i++) { // TC: O(N)
+            int current = prev1 + prev2;
+            prev2 = prev1;
+            prev1 = current;
+        }
+        return prev1;
+    }
+
+    /**
      * Approach III : Using Tabulation Approach
      *
      * TC: O(N)
@@ -7,7 +26,7 @@ class Solution {
      *
      * Accepted (45 / 45 testcases passed)
      */
-    public int climbStairs(int n) {
+    public int climbStairsTabulation(int n) {
         int[] dp = new int[n + 1]; // SC: O(N)
         dp[0] = 1; // ways to reach 0th step
         dp[1] = 1; // ways to reach 1st step
