@@ -1,6 +1,33 @@
 class Solution {
     /**
-     * Approach II : Using Memoization Approach
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     *
+     * TC: O((M x N) + (M + N))
+     * SC: O(M x N)
+     *    - O(M x N) - memoization memory
+     *
+     * Accepted (63 / 63 testcases passed)
+     */
+    public int uniquePaths(int m, int n) {
+        int[][] dp = new int[m][n]; // SC: O(M x N)
+        for (int i = 0; i < m; i++) { // TC: O(M)
+            dp[i][0] = 1;
+        }
+        for (int j = 0; j < n; j++) { // TC: O(N)
+            dp[0][j] = 1;
+        }
+        for (int i = 1; i < m; i++) { // TC: O(M)
+            for (int j = 1; j < n; j++) { // TC: O(M)
+                int upPaths = dp[i - 1][j];
+                int leftPaths = dp[i][j - 1];
+                dp[i][j] = upPaths + leftPaths;
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    /**
+     * Approach II : Using Memoization (Top-Down DP) Approach
      *
      * TC: O(M x N)
      * SC: O(((M - 1) x (N - 1)) + (M - 1) + (N - 1))
@@ -9,7 +36,7 @@ class Solution {
      *
      * Accepted (63 / 63 testcases passed)
      */
-    public int uniquePaths(int m, int n) {
+    public int uniquePathsMemoization(int m, int n) {
         int[][] memo = new int[m][n]; // SC: O(M x N)
         for (int[] mem : memo) {
             Arrays.fill(mem, -1);
