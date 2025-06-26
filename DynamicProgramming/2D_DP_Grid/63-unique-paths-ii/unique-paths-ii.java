@@ -1,5 +1,48 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     *
+     * TC: O((M x N) + N) ~ O(M x N)
+     * SC: O(N) + O(N) ~ O(N)
+     *    - O(N) + O(N) - memoization memory
+     *
+     * Accepted (42 / 42 testcases passed)
+     */
+    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+        int m = obstacleGrid.length;
+        int n = obstacleGrid[0].length;
+        if (obstacleGrid[0][0] == 1) {
+            // when grid cell start (0, 0) has obstacle we can never reach grid[m - 1][n - 1] 
+            return 0;
+        }
+        int[] prev = new int[n]; // SC: O(N)
+        for (int j = 0; j < n; j++) { // TC: O(N)
+            if (obstacleGrid[0][j] == 1) {
+                // if obstacle found we cannot go horizontally right any more
+                prev[j] = 0;
+                break;
+            } else {
+                prev[j] = 1;
+            }
+        }
+        for (int i = 1; i < m; i++) { // TC: O(M)
+            int[] current = new int[n]; // SC: O(N)
+            current[0] = obstacleGrid[i][0] == 1 || prev[0] == 0 ? 0 : 1;
+            for (int j = 1; j < n; j++) { // TC: O(N)
+                if (obstacleGrid[i][j] == 1) {
+                    current[j] = 0;
+                    continue;
+                }
+                int upPaths = prev[j];
+                int leftPaths = current[j - 1];
+                current[j] = upPaths + leftPaths;
+            }
+            prev = current.clone();
+        }
+        return prev[n - 1];
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      *
      * TC: O((M x N) + (M + N))
@@ -8,7 +51,7 @@ class Solution {
      *
      * Accepted (42 / 42 testcases passed)
      */
-    public int uniquePathsWithObstacles(int[][] obstacleGrid) {
+    public int uniquePathsWithObstaclesTabulation(int[][] obstacleGrid) {
         int m = obstacleGrid.length;
         int n = obstacleGrid[0].length;
         if (obstacleGrid[0][0] == 1) {
