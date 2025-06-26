@@ -18,6 +18,7 @@ class Solution {
         int[][] dp = new int[m][n]; // SC: O(M x N)
         for (int i = 0; i < m; i++) { // TC: O(M)
             if (obstacleGrid[i][0] == 1) {
+                // if obstacle found we cannot go vertically down any more
                 dp[i][0] = 0;
                 break;
             } else {
@@ -26,6 +27,7 @@ class Solution {
         }
         for (int j = 0; j < n; j++) { // TC: O(N)
             if (obstacleGrid[0][j] == 1) {
+                // if obstacle found we cannot go horizontally right any more
                 dp[0][j] = 0;
                 break;
             } else {
