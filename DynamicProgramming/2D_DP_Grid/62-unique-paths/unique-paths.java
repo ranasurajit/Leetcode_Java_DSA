@@ -1,14 +1,39 @@
 class Solution {
     /**
-     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
      *
-     * TC: O((M x N) + (M + N))
-     * SC: O(M x N)
-     *    - O(M x N) - memoization memory
+     * TC: O(M x N)
+     * SC: O(N) + O(N) ~ O(N)
+     *    - O(N) - memory
      *
      * Accepted (63 / 63 testcases passed)
      */
     public int uniquePaths(int m, int n) {
+        int[] prev = new int[n]; // SC: O(N)
+        Arrays.fill(prev, 1);
+        for (int i = 1; i < m; i++) { // TC: O(M)
+            int[] current = new int[n]; // SC: O(N)
+            current[0] = 1;
+            for (int j = 1; j < n; j++) { // TC: O(N)
+                int upPaths = prev[j];
+                int leftPaths = current[j - 1];
+                current[j] = upPaths + leftPaths;
+            }
+            prev = current.clone();
+        }
+        return prev[n - 1];
+    }
+
+    /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     *
+     * TC: O((M x N) + (M + N))
+     * SC: O(M x N)
+     *    - O(M x N) - memory
+     *
+     * Accepted (63 / 63 testcases passed)
+     */
+    public int uniquePathsTabulation(int m, int n) {
         int[][] dp = new int[m][n]; // SC: O(M x N)
         for (int i = 0; i < m; i++) { // TC: O(M)
             dp[i][0] = 1;
