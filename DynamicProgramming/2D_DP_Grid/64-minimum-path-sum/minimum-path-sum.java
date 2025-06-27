@@ -20,9 +20,9 @@ class Solution {
         }
         for (int i = 1; i < m; i++) {  // TC: O(M)
             for (int j = 1; j < n; j++) {  // TC: O(N)
-                int pathSumTop = grid[i][j] + dp[i - 1][j];
-                int pathSumLeft = grid[i][j] + dp[i][j - 1];
-                dp[i][j] = Math.min(pathSumTop, pathSumLeft);
+                int pathSumTop = dp[i - 1][j];
+                int pathSumLeft = dp[i][j - 1];
+                dp[i][j] = grid[i][j] + Math.min(pathSumTop, pathSumLeft);
             }
         }
         return dp[m - 1][n - 1];
