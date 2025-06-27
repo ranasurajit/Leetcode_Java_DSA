@@ -1,5 +1,34 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     *
+     * TC: O(M x N + (M + N))
+     * SC: O(M x N)
+     *
+     * Accepted (66 / 66 testcases passed)
+     */
+    public int minPathSum(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        int[][] dp = new int[m][n];
+        dp[0][0] = grid[0][0];
+        for (int i = 1; i < m; i++) { // TC: O(M)
+            dp[i][0] = dp[i - 1][0] + grid[i][0];
+        }
+        for (int j = 1; j < n; j++) { // TC: O(N)
+            dp[0][j] = dp[0][j - 1] + grid[0][j];
+        }
+        for (int i = 1; i < m; i++) {  // TC: O(M)
+            for (int j = 1; j < n; j++) {  // TC: O(N)
+                int pathSumTop = grid[i][j] + dp[i - 1][j];
+                int pathSumLeft = grid[i][j] + dp[i][j - 1];
+                dp[i][j] = Math.min(pathSumTop, pathSumLeft);
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      *
      * TC: O(M x N)
@@ -7,7 +36,7 @@ class Solution {
      *
      * Accepted (66 / 66 testcases passed)
      */
-    public int minPathSum(int[][] grid) {
+    public int minPathSumMemoization(int[][] grid) {
         int m = grid.length;
         int n = grid[0].length;
         int[][] memo = new int[m][n];
