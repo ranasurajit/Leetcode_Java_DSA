@@ -1,5 +1,44 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     *
+     * TC: O(N ^ 2) + O(N) + O(N) ~ O(N ^ 2)
+     * SC: O(N) + O(N)
+     *
+     * - O(N) - dp table memory
+     *
+     * Accepted (52 / 52 testcases passed)
+     */
+    public int minFallingPathSum(int[][] matrix) {
+        int n = matrix.length;
+        int[] next = new int[n]; // SC: O(N x N)
+        for (int j = 0; j < n; j++) { // TC: O(N)
+            next[j] = matrix[n - 1][j];
+        }
+        for (int i = n - 2; i >= 0; i--) { // TC: O(N)
+            int[] current = new int[n];
+            for (int j = 0; j < n; j++) { // TC: O(N)
+                int up = matrix[i][j] + next[j];
+                int leftDiag = (int) 1e9;
+                if (j > 0) {
+                    leftDiag = matrix[i][j] + next[j - 1];
+                }
+                int rightDiag = (int) 1e9;
+                if (j < n - 1) {
+                    rightDiag = matrix[i][j] + next[j + 1];
+                }
+                current[j] = Math.min(up, Math.min(leftDiag, rightDiag));
+            }
+            next = current.clone();
+        }
+        int minSum = Integer.MAX_VALUE;
+        for (int j = 0; j < n; j++) { // TC: O(N)
+            minSum = Math.min(minSum, next[j]);
+        }
+        return minSum;
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      *
      * TC: O(N ^ 2) + O(N) + O(N) ~ O(N ^ 2)
@@ -9,7 +48,7 @@ class Solution {
      *
      * Accepted (52 / 52 testcases passed)
      */
-    public int minFallingPathSum(int[][] matrix) {
+    public int minFallingPathSumTabulation(int[][] matrix) {
         int n = matrix.length;
         int[][] dp = new int[n][n]; // SC: O(N x N)
         for (int j = 0; j < n; j++) { // TC: O(N)
