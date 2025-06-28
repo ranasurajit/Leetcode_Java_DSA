@@ -1,6 +1,33 @@
 class Solution {
     /**
-     * Approach II : Using Memoization Approach
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     *
+     * TC: O(N x M)
+     * SC: O(N x M)
+     *     - O(N x M) - dp table memory
+     *
+     * Accepted (45 / 45 testcases passed)
+     */
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        // we will start from index 0 till we reach the last row (n - 1)
+        int m = triangle.get(n - 1).size();
+        // Initialization
+        int[][] dp = new int[n][m]; // SC: O(N x M)
+        for (int j = 0; j < m; j++) {
+            dp[n - 1][j] = triangle.get(n - 1).get(j);
+        }
+        // Iterative Calls
+        for (int i = n - 2; i >= 0; i--) { // TC: O(N)
+            for (int j = 0; j < triangle.get(i).size(); j++) { // TC: O(M)
+                dp[i][j] = triangle.get(i).get(j) + Math.min(dp[i + 1][j], dp[i + 1][j + 1]);
+            }
+        }
+        return dp[0][0];
+    }
+
+    /**
+     * Approach II : Using Memoization (Top-Down DP) Approach
      *
      * TC: O(N x M)
      * SC: O(N x M) + O(N)
@@ -9,7 +36,7 @@ class Solution {
      *
      * Accepted (45 / 45 testcases passed)
      */
-    public int minimumTotal(List<List<Integer>> triangle) {
+    public int minimumTotalMemoization(List<List<Integer>> triangle) {
         int n = triangle.size();
         // we will start from index 0 till we reach the last row (n - 1)
         int[][] memo = new int[n][triangle.get(n - 1).size()]; // SC: O(N x M)
