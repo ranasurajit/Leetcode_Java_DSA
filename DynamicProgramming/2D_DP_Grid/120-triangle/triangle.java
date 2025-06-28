@@ -1,5 +1,34 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     *
+     * TC: O(N x M)
+     * SC: O(N) + O(N)
+     *     - O(N) - for each next and current memory
+     *
+     * Accepted (45 / 45 testcases passed)
+     */
+    public int minimumTotal(List<List<Integer>> triangle) {
+        int n = triangle.size();
+        // we will start from index 0 till we reach the last row (n - 1)
+        int m = triangle.get(n - 1).size();
+        // Initialization
+        int[] next = new int[m]; // SC: O(N)
+        for (int j = 0; j < m; j++) {
+            next[j] = triangle.get(n - 1).get(j);
+        }
+        // Iterative Calls
+        for (int i = n - 2; i >= 0; i--) { // TC: O(N)
+            int[] current = new int[m]; // SC: O(N)
+            for (int j = 0; j < triangle.get(i).size(); j++) { // TC: O(M)
+                current[j] = triangle.get(i).get(j) + Math.min(next[j], next[j + 1]);
+            }
+            next = current.clone();
+        }
+        return next[0];
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      *
      * TC: O(N x M)
@@ -8,7 +37,7 @@ class Solution {
      *
      * Accepted (45 / 45 testcases passed)
      */
-    public int minimumTotal(List<List<Integer>> triangle) {
+    public int minimumTotalTabulation(List<List<Integer>> triangle) {
         int n = triangle.size();
         // we will start from index 0 till we reach the last row (n - 1)
         int m = triangle.get(n - 1).size();
