@@ -20,9 +20,7 @@ class Solution {
             int min = nums[i];
             int max = target - nums[i];
             if (max >= min) {
-                int leftIndex = i;
-                int rightIndex = upperBound(nums, n, max); // TC: O(log(N))
-                int diff = rightIndex - leftIndex - 1;
+                int diff = upperBound(nums, n, max) - i - 1; // TC: O(log(N))
                 count = (count % MOD + power[diff] % MOD) % MOD;
             }
         }
