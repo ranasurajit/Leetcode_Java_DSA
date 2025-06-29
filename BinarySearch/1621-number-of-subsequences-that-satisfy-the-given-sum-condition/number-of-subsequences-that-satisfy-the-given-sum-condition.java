@@ -2,7 +2,7 @@ class Solution {
     private static final int MOD = (int) 1e9 + 7;
 
     /**
-     * Using Binary Search + Two Pointers + Array Pre-processing Approach
+     * Approach II : Using Binary Search + Two Pointers + Array Pre-processing Approach
      *
      * TC: O(N x log(N)) + O(N) + O(N x log(N)) ~ O(N x log(N))
      * SC: O(N)
@@ -26,8 +26,6 @@ class Solution {
         }
         return count;
     }
-
-
 
     /**
      * Using Binary Search Approach
