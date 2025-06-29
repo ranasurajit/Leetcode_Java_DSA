@@ -21,7 +21,7 @@ class Solution {
         while (left <= right) { // TC: O(N)
             if (nums[left] + nums[right] <= target) {
                 int diff = right - left;
-                count = (count % MOD + power[diff]) % MOD;
+                count = (count + power[diff]) % MOD;
                 left++;
             } else {
                 right--;
