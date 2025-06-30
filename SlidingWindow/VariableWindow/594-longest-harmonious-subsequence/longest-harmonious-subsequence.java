@@ -1,11 +1,33 @@
 class Solution {
     /**
-     * Approach : Using Sorting + Sliding Window (Variable Size) Approach
+     * Approach II : Using Hashing Approach
+     *
+     * TC: O(N) + O(N) ~ O(N)
+     * SC: O(N)
+     */
+    public int findLHS(int[] nums) {
+        int n = nums.length;
+        Map<Integer, Integer> freq = new HashMap<Integer, Integer>(); // SC: O(N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            freq.put(nums[i], freq.getOrDefault(nums[i], 0) + 1);
+        }
+        int maxLength = 0;
+        for (Integer key : freq.keySet()) { // TC: O(N)
+            if (freq.containsKey(key + 1)) {
+                int currentLength = freq.get(key) + freq.get(key + 1);
+                maxLength = Math.max(maxLength, currentLength);
+            }
+        }
+        return maxLength;
+    }
+
+    /**
+     * Approach I : Using Sorting + Sliding Window (Variable Size) Approach
      *
      * TC: O(N x log(N)) + O(N) ~ O(N x log(N))
      * SC: O(N)
      */
-    public int findLHS(int[] nums) {
+    public int findLHSUsingSlidingWindow(int[] nums) {
         int n = nums.length;
         // since we need the subsequence so re-ordering does not matter so we can sort the Array 'nums'
         Arrays.sort(nums); // TC: O(N x log(N))
