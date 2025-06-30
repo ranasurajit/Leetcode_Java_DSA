@@ -1,11 +1,36 @@
 class Solution {
     /**
+     * Approach III : Using Sorting + Sliding Window (Variable Size - No Extra Memory) Approach
+     *
+     * TC: O(N x log(N)) + O(N) ~ O(N x log(N))
+     * SC: O(1)
+     */
+    public int findLHS(int[] nums) {
+        int n = nums.length;
+        // since we need the subsequence so re-ordering does not matter so we can sort the Array 'nums'
+        Arrays.sort(nums); // TC: O(N x log(N))
+        int i = 0;
+        int j = 0;
+        int maxLength = 0;
+        while (j < n) { // TC: O(N)
+            while (nums[j] - nums[i] > 1) {
+                i++;
+            }
+            if (nums[j] - nums[i] == 1) {
+                maxLength = Math.max(maxLength, j - i + 1);
+            }
+            j++;
+        }
+        return maxLength;
+    }
+
+    /**
      * Approach II : Using Hashing Approach
      *
      * TC: O(N) + O(N) ~ O(N)
      * SC: O(N)
      */
-    public int findLHS(int[] nums) {
+    public int findLHSHashing(int[] nums) {
         int n = nums.length;
         Map<Integer, Integer> freq = new HashMap<Integer, Integer>(); // SC: O(N)
         for (int i = 0; i < n; i++) { // TC: O(N)
