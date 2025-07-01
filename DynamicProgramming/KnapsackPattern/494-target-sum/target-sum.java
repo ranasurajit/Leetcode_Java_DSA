@@ -1,64 +1,34 @@
 class Solution {
     /**
-     * Approach II : Using Memoization (Top-Down DP) Approach
-     * 
-     * TC: O(N x S) + O(N)
-     * SC: O(N x S) + O(N)
-     *
-     * Accepted (1111 / 1111 testcases passed)
-     */
-    public int findTargetSumWays(int[] nums, int target) {
-        int n = nums.length;
-        int totalSum = 0;
-        for (int num : nums) { // TC: O(N)
-            totalSum += num;
-        }
-        if (Math.abs(target) > totalSum) {
-            // impossible to have target sum
-            return 0;
-        }
-        // sum can range in [-totalSum, totalSum] so we need to offset the memoized array
-        int[][] memo = new int[n + 1][totalSum * 2 + 1];
-        for (int[] mem : memo) {
-            Arrays.fill(mem, -1);
-        }
-        return solveMemoization(n - 1, nums, 0, target, memo, totalSum);
-    }
-
-    /**
-     * Using Memoization Approach
-     * 
-     * TC: O(N x S)
-     * SC: O(N)
-     */
-    private int solveMemoization(int idx, int[] nums, int currentSum, int target, 
-        int[][] memo, int offset) {
-        // Base Case
-        if (idx < 0) {
-            // we are done exhausing all elements from end to start
-            return currentSum == target ? 1 : 0;
-        }
-        // Memoization Check
-        if (memo[idx][currentSum + offset] != -1) {
-            return memo[idx][currentSum + offset];
-        }
-        // Recursion Calls
-        int option1 = solveMemoization(idx - 1, nums, currentSum + nums[idx], target, memo, offset);
-        int option2 = solveMemoization(idx - 1, nums, currentSum - nums[idx], target, memo, offset);
-        return memo[idx][currentSum + offset] = option1 + option2;
-    }
-
-    /**
      * Approach I : Using Recursion Approach
      * 
      * TC: O(2 ^ N)
      * SC: O(N)
      *
-     * Time Limit Exceeded (141 / 141 testcases passed)
+     * Time Limit Exceeded (1010 / 1111 testcases passed)
      */
-    public int findTargetSumWaysRecursion(int[] nums, int target) {
+    public int findTargetSumWays(int[] nums, int target) {
         int n = nums.length;
-        return solveRecursion(n - 1, nums, 0, target);
+        int total = 0;
+        for (int num : nums) {
+            total += num;
+        }
+        /**
+		 * we have to find two partitions such that: partition 1 has all 
+         * +ve symbol elements and partition 2 has all -ve symbol elements
+		 * |s1 - s2| = target
+		 *  s1 + s2 = total
+		 * so s1 = (d + total) / 2, so the problem 
+		 * reduces to find the count of subsets with target = s1 = (d + total) / 2
+		 */
+        int calculation = target + total;
+        if ((calculation & 1) != 0) {
+            // not possible to get such partition
+            return 0;
+        }
+        // so now target becomes = calculation / 2
+        target = calculation / 2;
+        return solveRecursion(n - 1, nums, target);
     }
 
     /**
@@ -67,15 +37,22 @@ class Solution {
      * TC: O(2 ^ N)
      * SC: O(N)
      */
-    private int solveRecursion(int idx, int[] nums, int currentSum, int target) {
+    private int solveRecursion(int idx, int[] nums, int target) {
         // Base Case
         if (idx < 0) {
-            // we are done exhausing all elements from end to start
-            return currentSum == target ? 1 : 0;
+            return target == 0 ? 1 : 0;
         }
         // Recursion Calls
-        int option1 = solveRecursion(idx - 1, nums, currentSum + nums[idx], target);
-        int option2 = solveRecursion(idx - 1, nums, currentSum - nums[idx], target);
-        return option1 + option2;
+        int pick = 0;
+        int skip = 0;
+        if (nums[idx] <= target) {
+            // we can pick or skip
+            pick = solveRecursion(idx - 1, nums, target - nums[idx]);
+            skip = solveRecursion(idx - 1, nums, target);
+        } else {
+            // we cannot pick at all
+            skip = solveRecursion(idx - 1, nums, target);
+        }
+        return pick + skip;
     }
 }
