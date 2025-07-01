@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
      * 
      * TC: O(N x S) + O(N) + O(N)
      * SC: O(N x S)
@@ -8,6 +8,52 @@ class Solution {
      * Accepted (147 / 147 testcases passed)
      */
     public boolean canPartition(int[] nums) {
+        int n = nums.length;
+        int sum = 0;
+        for (int num : nums) { // TC: O(N)
+            sum += num;
+        }
+        if ((sum & 1) != 0) {
+            // for odd sum, we cannot partition array into two equal sum subsets
+            return false;
+        }
+        // now the problem is reduced to checking if the array has a subset sum of target = sum / 2
+        int target = sum / 2;
+        // Initialization
+        boolean[] prev = new boolean[target + 1]; // SC: O(S)
+        /**
+         * when n == 0, whatever the target value is, we cannot find a valid subset so prev[j] = false 
+         */
+        Arrays.fill(prev, false);
+        /**
+         * when target == 0, we can find a valid subset with no elements, so prev[0] = true 
+         */
+        prev[0] = true;
+        // Iterative Calls
+        for (int i = 1; i < n + 1; i++) { // TC: O(N)
+            boolean[] current = new boolean[target + 1]; // SC: O(S)
+            current[0] = true;
+            for (int j = 1; j < target + 1; j++) { // TC: O(S)
+                if (nums[i - 1] <= j) {
+                    current[j] = prev[j - nums[i - 1]] || prev[j];
+                } else {
+                    current[j] = prev[j];
+                }
+            }
+            prev = current.clone();
+        }
+        return prev[target];
+    }
+
+    /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(N x S) + O(N) + O(N)
+     * SC: O(N x S)
+     *
+     * Accepted (147 / 147 testcases passed)
+     */
+    public boolean canPartitionTabulation(int[] nums) {
         int n = nums.length;
         int sum = 0;
         for (int num : nums) { // TC: O(N)
