@@ -1,5 +1,59 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(N x S) + O(N)
+     * SC: O(N x S)
+     *
+     * Accepted (141 / 141 testcases passed)
+     */
+    public int findTargetSumWays(int[] nums, int target) {
+        int n = nums.length;
+        int total = 0;
+        for (int num : nums) { // TC: O(N)
+            total += num;
+        }
+        /**
+		 * we have to find two partitions such that: partition 1 has all 
+         * +ve symbol elements and partition 2 has all -ve symbol elements
+		 * |s1 - s2| = target
+		 *  s1 + s2 = total
+		 * so s1 = (d + total) / 2, so the problem or s2 = (total - d) / 2
+		 * reduces to find the count of subsets with target = s2 = (total - d) / 2
+		 */
+        // Checking for edge cases - not possible to get such partition
+        if (target > total) {
+            return 0;
+        }
+        if (((total - target) & 1) != 0) {
+            return 0;
+        }
+        // so now target becomes = calculation / 2
+        target = (total - target) / 2;
+        int[][] dp = new int[n][target + 1]; // SC: O(N x S)
+        /**
+         * 2 because we consider both pick and skip for condition target = 0
+         * 1 because nums[0] != 0 so we should only skip
+         */
+        dp[0][0] = nums[0] == 0 ? 2 : 1;
+        if (nums[0] != 0 && nums[0] <= target) {
+            dp[0][nums[0]] = 1; // in case of pick
+        }
+        // Iterative Calls
+        for (int i = 1; i < n; i++) {
+            // target can be zero too, so j should be looped from 0 to (target + 1)
+            for (int j = 0; j < target + 1; j++) {
+                if (nums[i] <= j) {
+                    dp[i][j] = dp[i - 1][j - nums[i]] + dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[n - 1][target];
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(N x S) + O(N)
@@ -7,10 +61,10 @@ class Solution {
      *
      * Accepted (141 / 141 testcases passed)
      */
-    public int findTargetSumWays(int[] nums, int target) {
+    public int findTargetSumWaysMemoization(int[] nums, int target) {
         int n = nums.length;
         int total = 0;
-        for (int num : nums) {
+        for (int num : nums) { // TC: O(N)
             total += num;
         }
         /**
