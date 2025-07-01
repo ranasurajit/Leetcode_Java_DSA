@@ -1,5 +1,61 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     * 
+     * TC: O(N x S) + O(N)
+     * SC: O(S) + O(S) ~ O(S)
+     *
+     * Accepted (141 / 141 testcases passed)
+     */
+    public int findTargetSumWays(int[] nums, int target) {
+        int n = nums.length;
+        int total = 0;
+        for (int num : nums) { // TC: O(N)
+            total += num;
+        }
+        /**
+		 * we have to find two partitions such that: partition 1 has all 
+         * +ve symbol elements and partition 2 has all -ve symbol elements
+		 * |s1 - s2| = target
+		 *  s1 + s2 = total
+		 * so s1 = (d + total) / 2, so the problem or s2 = (total - d) / 2
+		 * reduces to find the count of subsets with target = s2 = (total - d) / 2
+		 */
+        // Checking for edge cases - not possible to get such partition
+        if (target > total) {
+            return 0;
+        }
+        if (((total - target) & 1) != 0) {
+            return 0;
+        }
+        // so now target becomes = calculation / 2
+        target = (total - target) / 2;
+        int[] prev = new int[target + 1]; // SC: O(S)
+        /**
+         * 2 because we consider both pick and skip for condition target = 0
+         * 1 because nums[0] != 0 so we should only skip
+         */
+        prev[0] = nums[0] == 0 ? 2 : 1;
+        if (nums[0] != 0 && nums[0] <= target) {
+            prev[nums[0]] = 1; // in case of pick
+        }
+        // Iterative Calls
+        for (int i = 1; i < n; i++) {
+            int[] current = new int[target + 1]; // SC: O(S)
+            // target can be zero too, so j should be looped from 0 to (target + 1)
+            for (int j = 0; j < target + 1; j++) {
+                if (nums[i] <= j) {
+                    current[j] = prev[j - nums[i]] + prev[j];
+                } else {
+                    current[j] = prev[j];
+                }
+            }
+            prev = current.clone();
+        }
+        return prev[target];
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      * 
      * TC: O(N x S) + O(N)
@@ -7,7 +63,7 @@ class Solution {
      *
      * Accepted (141 / 141 testcases passed)
      */
-    public int findTargetSumWays(int[] nums, int target) {
+    public int findTargetSumWaysTabulation(int[] nums, int target) {
         int n = nums.length;
         int total = 0;
         for (int num : nums) { // TC: O(N)
