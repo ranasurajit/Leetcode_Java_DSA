@@ -1,5 +1,50 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(N x S) + O(N) + O(N)
+     * SC: O(N x S)
+     *
+     * Accepted (147 / 147 testcases passed)
+     */
+    public boolean canPartition(int[] nums) {
+        int n = nums.length;
+        int sum = 0;
+        for (int num : nums) { // TC: O(N)
+            sum += num;
+        }
+        if ((sum & 1) != 0) {
+            // for odd sum, we cannot partition array into two equal sum subsets
+            return false;
+        }
+        // now the problem is reduced to checking if the array has a subset sum of target = sum / 2
+        int target = sum / 2;
+        // Initialization
+        boolean[][] dp = new boolean[n + 1][target + 1]; // SC: O(N x S)
+        /**
+         * when n == 0, whatever the target value is, we cannot find a valid subset so dp[0][j] = false 
+         */
+        Arrays.fill(dp[0], false);
+        /**
+         * when target == 0, we can find a valid subset with no elements, so dp[i][0] = true 
+         */
+        for (int i = 0; i < n + 1; i++) { // TC: O(N)
+            dp[i][0] = true;
+        }
+        // Iterative Calls
+        for (int i = 1; i < n + 1; i++) { // TC: O(N)
+            for (int j = 1; j < target + 1; j++) { // TC: O(S)
+                if (nums[i - 1] <= j) {
+                    dp[i][j] = dp[i - 1][j - nums[i - 1]] || dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[n][target];
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(N x S) + O(N)
@@ -7,7 +52,7 @@ class Solution {
      *
      * Accepted (147 / 147 testcases passed)
      */
-    public boolean canPartition(int[] nums) {
+    public boolean canPartitionMemoization(int[] nums) {
         int n = nums.length;
         int sum = 0;
         for (int num : nums) { // TC: O(N)
