@@ -22,10 +22,10 @@ class Solution {
 		 * reduces to find the count of subsets with target = s2 = (total - d) / 2
 		 */
         // Checking for edge cases - not possible to get such partition
-        if (total - target < 0) {
+        if (target > total) {
             return 0;
         }
-        if ((total - target) % 2 == 1) {
+        if (((total - target) & 1) != 0) {
             return 0;
         }
         // so now target becomes = calculation / 2
