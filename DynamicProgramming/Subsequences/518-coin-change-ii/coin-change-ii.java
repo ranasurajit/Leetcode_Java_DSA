@@ -1,5 +1,36 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(N x T)
+     * SC: O(N x T)
+     * 
+     * - O(N x T) - dp array memory
+     * 
+     * Accepted (30 / 30 testcases passed)
+     */
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int[][] dp = new int[n + 1][amount + 1]; // SC: O(N x T)
+        // Iterative Calls
+        for (int i = 1; i < n + 1; i++) { // TC: O(N)
+            for (int j = 0; j < amount + 1; j++) { // TC: O(T)
+                if (j == 0) {
+                    dp[i][j] = 1;
+                    continue;
+                }
+                int pick = 0;
+                if (coins[i - 1] <= j) {
+                    pick = dp[i][j - coins[i - 1]];
+                }
+                int skip = dp[i - 1][j];
+                dp[i][j] = pick + skip;
+            }
+        }
+        return dp[n][amount];
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(N x T) + O(N x T) ~ O(N x T)
@@ -10,7 +41,7 @@ class Solution {
      * 
      * Accepted (30 / 30 testcases passed)
      */
-    public int change(int amount, int[] coins) {
+    public int changeMemoization(int amount, int[] coins) {
         int n = coins.length;
         int[][] memo = new int[n + 1][amount + 1]; // SC: O(N x T)
         for (int[] mem : memo) { // TC: O(N)
