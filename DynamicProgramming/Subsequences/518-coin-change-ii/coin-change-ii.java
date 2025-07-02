@@ -1,5 +1,39 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     * 
+     * TC: O(N x T)
+     * SC: O(T) + O(T)
+     * 
+     * - O(T) - prev and current array memory
+     * 
+     * Accepted (30 / 30 testcases passed)
+     */
+    public int change(int amount, int[] coins) {
+        int n = coins.length;
+        int[] prev = new int[amount + 1]; // SC: O(T)
+        prev[0] = 1;
+        // Iterative Calls
+        for (int i = 1; i < n + 1; i++) { // TC: O(N)
+            int[] current = new int[amount + 1]; // SC: O(T)
+            for (int j = 0; j < amount + 1; j++) { // TC: O(T)
+                if (j == 0) {
+                    current[j] = 1;
+                    continue;
+                }
+                int pick = 0;
+                if (coins[i - 1] <= j) {
+                    pick = current[j - coins[i - 1]];
+                }
+                int skip = prev[j];
+                current[j] = pick + skip;
+            }
+            prev = current.clone();
+        }
+        return prev[amount];
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      * 
      * TC: O(N x T)
@@ -9,7 +43,7 @@ class Solution {
      * 
      * Accepted (30 / 30 testcases passed)
      */
-    public int change(int amount, int[] coins) {
+    public int changeTabulation(int amount, int[] coins) {
         int n = coins.length;
         int[][] dp = new int[n + 1][amount + 1]; // SC: O(N x T)
         // Iterative Calls
