@@ -1,5 +1,45 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     * 
+     * TC: O(N x T) + O(T)
+     * SC: O(T) + O(T)
+     * 
+     *  - O(T) - prev and current array memory
+     * 
+     * Accepted (189 / 189 testcases passed)
+     */
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        // Initialization
+        int[] prev = new int[amount + 1]; // SC: O(T)
+        prev[0] = 0;
+        for (int j = 1; j < amount + 1; j++) { // TC: O(T)
+            prev[j] = j % coins[0] == 0 ? (j / coins[0]) : (int) 1e9;
+        }
+        // Iterative Calls
+        for (int i = 1; i < n + 1; i++) { // TC: O(N)
+            int[] current = new int[amount + 1]; // SC: O(T)
+            current[0] = 0;
+            for (int j = 0; j < amount + 1; j++) { // TC: O(T)
+                if (j == 0) {
+                    current[j] = 0;
+                    continue;
+                }
+                int skip = prev[j];
+                int pick = (int) 1e9;
+                if (coins[i - 1] <= j) {
+                    pick = 1 + current[j - coins[i - 1]];
+                }
+                current[j] = Math.min(pick, skip);
+            }
+            prev = current.clone();
+        }
+        int result = prev[amount];
+        return result == (int) 1e9 ? -1 : result;
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      * 
      * TC: O(N x T) + O(T)
@@ -9,7 +49,7 @@ class Solution {
      * 
      * Accepted (189 / 189 testcases passed)
      */
-    public int coinChange(int[] coins, int amount) {
+    public int coinChangeTabulation(int[] coins, int amount) {
         int n = coins.length;
         int[][] dp = new int[n + 1][amount + 1]; // SC: O(N x T)
         // Initialization
