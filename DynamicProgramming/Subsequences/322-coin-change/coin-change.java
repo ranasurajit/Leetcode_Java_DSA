@@ -1,5 +1,42 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(N x T) + O(T)
+     * SC: O(N x T)
+     * 
+     *  - O(N x T) - dp array memory
+     * 
+     * Accepted (189 / 189 testcases passed)
+     */
+    public int coinChange(int[] coins, int amount) {
+        int n = coins.length;
+        int[][] dp = new int[n + 1][amount + 1]; // SC: O(N x T)
+        // Initialization
+        dp[0][0] = 0;
+        for (int j = 1; j < amount + 1; j++) { // TC: O(T)
+            dp[0][j] = j % coins[0] == 0 ? (j / coins[0]) : (int) 1e9;
+        }
+        // Iterative Calls
+        for (int i = 1; i < n + 1; i++) { // TC: O(N)
+            for (int j = 0; j < amount + 1; j++) { // TC: O(T)
+                if (j == 0) {
+                    dp[i][j] = 0;
+                    continue;
+                }
+                int skip = dp[i - 1][j];
+                int pick = (int) 1e9;
+                if (coins[i - 1] <= j) {
+                    pick = 1 + dp[i][j - coins[i - 1]];
+                }
+                dp[i][j] = Math.min(pick, skip);
+            }
+        }
+        int result = dp[n][amount];
+        return result == (int) 1e9 ? -1 : result;
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(N x T) + O(N x T)
@@ -8,9 +45,9 @@ class Solution {
      *  - O(N x T) - memoization array memory
      *  - O(N) - recursion stack
      * 
-     * Accepted (99 / 189 testcases passed)
+     * Accepted (189 / 189 testcases passed)
      */
-    public int coinChange(int[] coins, int amount) {
+    public int coinChangeMemoization(int[] coins, int amount) {
         int n = coins.length;
         int[][] memo = new int[n + 1][amount + 1]; // SC: O(N x T)
         for (int[] mem : memo) { // TC: O(N)
