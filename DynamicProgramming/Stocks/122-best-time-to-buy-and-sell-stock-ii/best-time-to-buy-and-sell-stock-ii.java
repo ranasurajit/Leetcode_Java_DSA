@@ -125,7 +125,6 @@ class Solution {
      * Time Limit Exceeded (198 / 202 testcases passed)
      */
     public int maxProfitRecursion(int[] prices) {
-        int n = prices.length;
         // we need to start from index 0 only as we must buy first and then only sell
         return solveRecursion(0, prices, 1); // TC: O(2 ^ N), SC: O(N)
     }
