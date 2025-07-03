@@ -1,13 +1,44 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(N x 2)
+     * SC: O(N x 2)
+     * 
+     *  - O(N x 2) - tabulation memory
+     *
+     * Accepted (202 / 202 testcases passed)
+     */
+    public int maxProfit(int[] prices) {
+        int n = prices.length;
+        int[][] dp = new int[n + 1][2]; // SC: O(N x 2) - buy flag - 0 or 1
+        dp[n][0] = dp[n][1] = 0;
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            for (int j = 0; j < 2; j++) { // TC: O(2)
+                int profit = 0;
+                if (j == 1) {
+                    profit = Math.max(-1 * prices[i] + dp[i + 1][0], dp[i + 1][1]);
+                } else {
+                    profit = Math.max(prices[i] + dp[i + 1][1], dp[i + 1][0]);
+                }
+                dp[i][j] = profit;
+            }
+        }
+        return dp[0][1];
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(N x 2) + O(N x 2) ~ O(N x 2)
      * SC: O(N x 2) + O(N)
      * 
+     *  - O(N x 2) - tabulation memory
+     *  - O(N) - recursion stack
+     *
      * Accepted (202 / 202 testcases passed)
      */
-    public int maxProfit(int[] prices) {
+    public int maxProfitMemoization(int[] prices) {
         int n = prices.length;
         int[][] memo = new int[n + 1][2]; // buy flag - 0 or 1
         for (int[] mem : memo) { // TC: O(N)
@@ -58,7 +89,9 @@ class Solution {
      * 
      * TC: O(2 ^ N)
      * SC: O(N)
-     * 
+     *
+     *  - O(N) - recursion stack
+     *
      * Time Limit Exceeded (198 / 202 testcases passed)
      */
     public int maxProfitRecursion(int[] prices) {
