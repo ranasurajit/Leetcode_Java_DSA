@@ -7,12 +7,12 @@ class Solution {
      */
     public int maxProfit(int[] prices) {
         int n = prices.length;
-        int maxP = Integer.MIN_VALUE;
+        int maxP = 0;
         int minValue = prices[0];
         for (int i = 1; i < n; i++) { // TC: O(N)
             minValue = Math.min(minValue, prices[i - 1]);
             maxP = Math.max(maxP, prices[i] - minValue);
         }
-        return Math.max(0, maxP);
+        return maxP;
     }
 }
