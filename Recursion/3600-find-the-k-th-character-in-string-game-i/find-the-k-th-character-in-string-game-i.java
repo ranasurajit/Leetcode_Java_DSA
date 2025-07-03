@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach II : Using String Simulation Approach
+     * Approach III : Using StringBuilder + Simulation Approach
      *
      * TC: O(K x K)
      * SC: O(K)
@@ -8,6 +8,27 @@ class Solution {
      * Accepted (502 / 502 testcases passed)
      */
     public char kthCharacter(int k) {
+        StringBuilder sb = new StringBuilder("a");
+        while (sb.length() < k) {
+            int size = sb.length();
+            for (int i = 0; i < size; i++) {
+                int offset = ((sb.charAt(i) - 'a') + 1) % 26;
+                char ch = (char) ('a' + offset);
+                sb.append(ch);
+            }
+        }
+        return sb.charAt(k - 1);
+    }
+
+    /**
+     * Approach II : Using String Simulation Approach
+     *
+     * TC: O(K x K)
+     * SC: O(K)
+     *
+     * Accepted (502 / 502 testcases passed)
+     */
+    public char kthCharacterStringSimulation(int k) {
         String s = "a";
         while (s.length() < k) {
             int size = s.length();
