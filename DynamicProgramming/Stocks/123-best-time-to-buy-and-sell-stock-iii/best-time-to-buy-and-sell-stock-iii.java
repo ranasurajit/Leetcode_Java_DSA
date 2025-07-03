@@ -1,146 +1,82 @@
 class Solution {
     /**
-     * Approach IV : Using Space Optimization Approach
+     * Approach II : Using Memoization (Top-Down DP) Approach
+     * 
+     * TC: O(N x 3 x 2) + O(N x 3 x 2) ~ O(N x 6)
+     * SC: O(N x 3 x 2) + O(N)
+     * 
+     * - O(N x 3 x 2) - memoization memory
+     * - O(N) - recursion stack
      *
-     * TC: O(6 x N) ~ O(N)
-     * SC: O(2) ~ O(1)
+     * Accepted (214 / 214 testcases passed)
      */
     public int maxProfit(int[] prices) {
         int n = prices.length;
-        int t = 2;
-        // buy = 1 then you can buy else you can sell
-        int[][] next = new int[2][t + 1]; // SC: O(6) ~ O(1)
-        // Initialization - when k = 0 or index = n return 0 - redundant
-
-        // Iterative Calls
-        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
-            int[][] current = new int[2][t + 1]; // SC: O(6) ~ O(1)
-            for (int buy = 0; buy < 2; buy++) { // TC: O(2)
-                for (int k = 1; k < t + 1; k++) { // TC: O(3)
-                    if (buy == 1) {
-                        // buy
-                        current[buy][k] = Math.max(next[1][k], -1 * prices[i] + next[0][k]);
-                    } else {
-                        // sell
-                        current[buy][k] = Math.max(next[0][k], prices[i] + next[1][k - 1]);
-                    }
-                }
-            }
-            next = current;
-        }
-        // answer will be at buy = 1, k = 2
-        return next[1][2];
-    }
-
-    /**
-     * Approach III : Using Tabulation Approach
-     *
-     * TC: O(6 x N) ~ O(N)
-     * SC: O(6 x N) ~ O(N)
-     */
-    public int maxProfitTabulation(int[] prices) {
-        int n = prices.length;
-        int t = 2;
-        // buy = 1 then you can buy else you can sell
-        int[][][] dp = new int[n + 1][2][t + 1]; // SC: O(6 x N)
-        // Initialization - when k = 0 or index = n return 0
-        for (int i = 0; i < n + 1; i++) { // TC: O(N)
-            for (int j = 0; j < 2; j++) { // TC: O(2)
-                for (int k = 0; k < t + 1; k++) { // TC: O(3)
-                    if (i == n || k == 0) {
-                        dp[i][j][k] = 0;
-                    }
-                }
+        int count = 2;
+        int buy = 1;
+        int[][][] memo = new int[n + 1][count + 1][buy + 1]; // SC: O(N x 3 x 2) buy flag - 0 or 1
+        for (int[][] mem : memo) { // TC: O(N)
+            for (int[] m : mem) { // TC: O(3)
+                Arrays.fill(m, -1); // TC: O(2)
             }
         }
-        // Iterative Calls
-        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
-            for (int buy = 0; buy < 2; buy++) { // TC: O(2)
-                for (int k = 1; k < t + 1; k++) { // TC: O(3)
-                    if (buy == 1) {
-                        // buy
-                        dp[i][buy][k] = Math.max(
-                            dp[i + 1][1][k],
-                            -1 * prices[i] + dp[i + 1][0][k]
-                        );
-                    } else {
-                        // sell
-                        dp[i][buy][k] = Math.max(
-                            dp[i + 1][0][k],
-                            prices[i] + dp[i + 1][1][k - 1]
-                        );
-                    }
-                }
-            }
-        }
-        // answer will be at i = 0, buy = 1, k = 2
-        return dp[0][1][2];
-    }
-
-    /**
-     * Approach II : Using Memoization Approach
-     *
-     * TC: O(6 x N) ~ O(N)
-     * SC: O(6 x N + N) ~ O(N + N)
-     */
-    public int maxProfitMemoization(int[] prices) {
-        int n = prices.length;
-        int k = 2;
-        // buy = 1 then you can buy else you can sell
-        int[][][] memo = new int[n + 1][2][3]; // SC: O(6 x N)
-        for (int[][] memoItem : memo) {
-            for (int[] mem : memoItem) {
-                Arrays.fill(mem, -1);
-            }
-        }
-        return solveMemoization(0, n, prices, 1, k, memo);
+        // we need to start from index 0 only as we must buy first and then only sell
+        return solveMemoization(0, n, prices, 1, count, memo); // TC: O(N x 3 x 2), SC: O(N)
     }
 
     /**
      * Using Memoization Approach
-     *
-     * TC: O(6 x N) ~ O(N)
-     * SC: O(6 x N) ~ O(N)
+     * 
+     * TC: O(N x 3 x 2)
+     * SC: O(N)
      */
-    private int solveMemoization(int index, int n, int[] prices,
-        int buy, int k, int[][][] memo) {
+    private int solveMemoization(int idx, int n, int[] prices, int buy, int count, int[][][] memo) {
         // Base Case
-        if (index == n) {
-            return 0;
-        }
-        if (k == 0) {
+        if (count == 0 || idx == n) {
+            // either the transactions or index exhaused
             return 0;
         }
         // Memoization Check
-        if (memo[index][buy][k] != -1) {
-            return memo[index][buy][k];
+        if (memo[idx][count][buy] != -1) {
+            return memo[idx][count][buy];
         }
         // Recursion Calls
-        int pick = 0;
-        int notpick = 0;
+        int profit = 0;
         if (buy == 1) {
-            // buy
-            pick = -1 * prices[index] + solveMemoization(index + 1, n, prices, 0, k, memo);
-            notpick = solveMemoization(index + 1, n, prices, 1, k, memo);
+            /**
+             * we need to move to next index and if bought, mark buy = 0 and 
+             * count remains same as transaction will be completed only after
+             * selling the stock or we decide not to buy the idx index stock
+             */
+            profit = Math.max(-1 * prices[idx] + solveMemoization(idx + 1, n, prices, 0, count, memo),
+                solveMemoization(idx + 1, n, prices, 1, count, memo));
         } else {
-            // sell
-            pick = prices[index] + solveMemoization(index + 1, n, prices, 1, k - 1, memo);
-            notpick = solveMemoization(index + 1, n, prices, 0, k, memo);
+            /**
+             * we need to move to next index and if sold, mark buy = 1 and 
+             * count = count - 1 as transaction will be completed if sold
+             * or we decide not to sell the idx index stock retaining count as is
+             */
+            profit = Math.max(prices[idx] + solveMemoization(idx + 1, n, prices, 1, count - 1, memo),
+                solveMemoization(idx + 1, n, prices, 0, count, memo));
         }
-        return memo[index][buy][k] = Math.max(pick, notpick);
+        return memo[idx][count][buy] = profit;
     }
 
     /**
      * Approach I : Using Recursion Approach
-     *
+     * 
      * TC: O(2 ^ N)
      * SC: O(N)
+     *
+     * - O(N) - recursion stack
+     *
+     * Time Limit Exceeded (201 / 214 testcases passed)
      */
     public int maxProfitRecursion(int[] prices) {
         int n = prices.length;
-        int k = 2;
-        // buy = 1 then you can buy else you can sell
-        return solveRecursion(0, n, prices, 1, k);
+        int count = 2;
+        // we need to start from index 0 only as we must buy first and then only sell
+        return solveRecursion(0, n, prices, 1, count); // TC: O(2 ^ N), SC: O(N)
     }
 
     /**
@@ -149,26 +85,31 @@ class Solution {
      * TC: O(2 ^ N)
      * SC: O(N)
      */
-    private int solveRecursion(int index, int n, int[] prices, int buy, int k) {
+    private int solveRecursion(int idx, int n, int[] prices, int buy, int count) {
         // Base Case
-        if (index == n) {
-            return 0;
-        }
-        if (k == 0) {
+        if (count == 0 || idx == n) {
+            // either the transactions or index exhaused
             return 0;
         }
         // Recursion Calls
-        int pick = 0;
-        int notpick = 0;
+        int profit = 0;
         if (buy == 1) {
-            // buy
-            pick = -1 * prices[index] + solveRecursion(index + 1, n, prices, 0, k);
-            notpick = solveRecursion(index + 1, n, prices, 1, k);
+            /**
+             * we need to move to next index and if bought, mark buy = 0 and 
+             * count remains same as transaction will be completed only after
+             * selling the stock or we decide not to buy the idx index stock
+             */
+            profit = Math.max(-1 * prices[idx] + solveRecursion(idx + 1, n, prices, 0, count),
+                solveRecursion(idx + 1, n, prices, 1, count));
         } else {
-            // sell
-            pick = prices[index] + solveRecursion(index + 1, n, prices, 1, k - 1);
-            notpick = solveRecursion(index + 1, n, prices, 0, k);
+            /**
+             * we need to move to next index and if sold, mark buy = 1 and 
+             * count = count - 1 as transaction will be completed if sold
+             * or we decide not to sell the idx index stock retaining count as is
+             */
+            profit = Math.max(prices[idx] + solveRecursion(idx + 1, n, prices, 1, count - 1),
+                solveRecursion(idx + 1, n, prices, 0, count));
         }
-        return Math.max(pick, notpick);
+        return profit;
     }
 }
