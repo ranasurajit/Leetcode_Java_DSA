@@ -25,7 +25,6 @@ class Solution {
         }
         for (int i = n - 1; i >= 0; i--) { // TC: O(N)
             for (int j = 1; j < count + 1; j++) { // TC: O(3)
-                int profit = 0;
                 for (int k = 0; k < buy + 1; k++) { // TC: O(N)
                     if (k == 1) {
                         // buy = 1
@@ -67,7 +66,6 @@ class Solution {
         }
         for (int i = n - 1; i >= 0; i--) { // TC: O(N)
             for (int j = 1; j < count + 1; j++) { // TC: O(3)
-                int profit = 0;
                 for (int k = 0; k < buy + 1; k++) { // TC: O(N)
                     if (k == 1) {
                         // buy = 1
