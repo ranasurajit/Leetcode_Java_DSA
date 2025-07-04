@@ -1,5 +1,37 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     * 
+     * TC: O(N x 2)
+     * SC: O(2) + O(2) ~ O(1)
+     * 
+     * - O(2) - next and current array memory
+     *
+     * Accepted (44 / 44 testcases passed)
+     */
+    public int maxProfit(int[] prices, int fee) {
+        int n = prices.length;
+        int buy = 1;
+        int[] next = new int[buy + 1]; // SC: O(2) buy flag - 0 or 1
+        int[] current = new int[buy + 1]; // SC: O(2)
+        next[0] = next[1] = 0;
+        current[0] = current[1] = 0;
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            for (int j = 0; j < 2; j++) { // TC: O(2)
+                if (j == 1) {
+                    // buy
+                    current[j] = Math.max(-1 * prices[i] + next[0], next[1]);
+                } else {
+                    // sell - transaction is counted here
+                    current[j] = Math.max(prices[i] - fee + next[1], next[0]);
+                }
+            }
+            next = current;
+        }
+        return next[1];
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      * 
      * TC: O(N x 2)
@@ -9,7 +41,7 @@ class Solution {
      *
      * Accepted (44 / 44 testcases passed)
      */
-    public int maxProfit(int[] prices, int fee) {
+    public int maxProfitTabulation(int[] prices, int fee) {
         int n = prices.length;
         int buy = 1;
         int[][] dp = new int[n + 1][buy + 1]; // SC: O(N x 2) buy flag - 0 or 1
