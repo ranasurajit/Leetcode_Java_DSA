@@ -1,5 +1,45 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     * 
+     * TC: O(N x K x 2) + O(K x 2) ~ O(N x K)
+     * SC: O(K x 2) + O(K x 2) ~ O(K) + O(K)
+     * 
+     * - O(K) - next and current array memory
+     *
+     * Accepted (210 / 210 testcases passed)
+     */
+    public int maxProfit(int k, int[] prices) {
+        int n = prices.length;
+        int buy = 1;
+        // Initialization
+        int[][] next = new int[k + 1][buy + 1]; // SC: O(K x 2) buy flag - 0 or 1
+        int[][] current = new int[k + 1][buy + 1]; // SC: O(K x 2) buy flag - 0 or 1
+        for (int j = 0; j < k + 1; j++) { // TC: O(K)
+            for (int b = 0; b < buy + 1; b++) { // TC: O(2)
+                if (j == 0) {
+                    next[j][b] = 0;
+                    current[j][b] = 0;
+                }
+            }
+        }
+        // Iterative Calls
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            for (int j = 1; j < k + 1; j++) { // TC: O(K)
+                for (int b = 0; b < buy + 1; b++) { // TC: O(2)
+                    if (b == 1) {
+                        current[j][b] = Math.max(-1 * prices[i] + next[j][0], next[j][1]);
+                    } else {
+                        current[j][b] = Math.max(prices[i] + next[j - 1][1], next[j][0]);
+                    }
+                }
+            }
+            next = current;
+        }
+        return next[k][1];
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      * 
      * TC: O(N x K x 2) + O(K x 2) ~ O(N x K)
@@ -9,7 +49,7 @@ class Solution {
      *
      * Accepted (210 / 210 testcases passed)
      */
-    public int maxProfit(int k, int[] prices) {
+    public int maxProfitTabulation(int k, int[] prices) {
         int n = prices.length;
         int buy = 1;
         // Initialization
