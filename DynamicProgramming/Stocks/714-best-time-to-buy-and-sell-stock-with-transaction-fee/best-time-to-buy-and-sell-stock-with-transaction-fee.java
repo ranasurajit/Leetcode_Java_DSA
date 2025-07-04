@@ -1,5 +1,34 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(N x 2)
+     * SC: O(N x 2)
+     * 
+     * - O(N x 2) - dp array memory
+     *
+     * Accepted (44 / 44 testcases passed)
+     */
+    public int maxProfit(int[] prices, int fee) {
+        int n = prices.length;
+        int buy = 1;
+        int[][] dp = new int[n + 1][buy + 1]; // SC: O(N x 2) buy flag - 0 or 1
+        dp[n][0] = dp[n][1] = 0;
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            for (int j = 0; j < 2; j++) { // TC: O(2)
+                if (j == 1) {
+                    // buy
+                    dp[i][j] = Math.max(-1 * prices[i] + dp[i + 1][0], dp[i + 1][1]);
+                } else {
+                    // sell - transaction is counted here
+                    dp[i][j] = Math.max(prices[i] - fee + dp[i + 1][1], dp[i + 1][0]);
+                }
+            }
+        }
+        return dp[0][1];
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(N x 2) + O(N x 2) ~ O(N x 2)
@@ -10,7 +39,7 @@ class Solution {
      *
      * Accepted (44 / 44 testcases passed)
      */
-    public int maxProfit(int[] prices, int fee) {
+    public int maxProfitMemoization(int[] prices, int fee) {
         int n = prices.length;
         int buy = 1;
         int[][] memo = new int[n + 1][buy + 1]; // SC: O(N x 2) buy flag - 0 or 1
