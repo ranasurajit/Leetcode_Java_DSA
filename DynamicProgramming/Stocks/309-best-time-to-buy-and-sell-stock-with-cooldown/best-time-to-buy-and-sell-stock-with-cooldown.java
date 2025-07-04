@@ -2,11 +2,10 @@ class Solution {
     /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      * 
-     * TC: O(N x 2) + O(N x 2) ~ O(N x 2)
-     * SC: O(N x 2) + O(N)
+     * TC: O(N x 2)
+     * SC: O(N x 2)
      * 
-     * - O(N x 2) - memoization memory
-     * - O(N) - recursion stack
+     * - O(N x 2) - dp array memory
      *
      * Accepted (210 / 210 testcases passed)
      */
