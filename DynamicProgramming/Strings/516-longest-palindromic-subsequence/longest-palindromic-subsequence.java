@@ -1,5 +1,40 @@
 class Solution {
     /**
+     * Approach II : Using Space Optimization Approach
+     * 
+     * TC: O(M x N)
+     * SC: O(N) + O(N)
+     * 
+     * - O(N) - prev and current array memory
+     * 
+     * Accepted (86 / 86 testcases passed)
+     */
+    public int longestPalindromeSubseq(String s) {
+        /**
+         * this problem can be reduced to finding the LCS
+         * of String s and reverse of String s i.e. reverse(s)
+         */
+        String p = reverse(s);
+        int n = s.length();
+        // Using Tabulation Approach
+        // Initialization
+        int[] prev = new int[n + 1]; // SC: O(N)
+        // Iterative Calls
+        for (int i = 1; i < n + 1; i++) { // TC: O(N)
+            int[] current = new int[n + 1]; // SC: O(N)
+            for (int j = 1; j < n + 1; j++) { // TC: O(N)
+                if (s.charAt(i - 1) == p.charAt(j - 1)) {
+                    current[j] = 1 + prev[j - 1];
+                } else {
+                    current[j] = Math.max(prev[j], current[j - 1]);
+                }
+            }
+            prev = current.clone();
+        }
+        return prev[n];
+    }
+
+    /**
      * Approach I : Using Tabulation Approach
      * 
      * TC: O(N x N)
@@ -7,9 +42,9 @@ class Solution {
      * 
      * - O(N x N) - dp array memory
      * 
-     * Accepted (1306 / 1306 testcases passed)
+     * Accepted (86 / 86 testcases passed)
      */
-    public int longestPalindromeSubseq(String s) {
+    public int longestPalindromeSubseqTabulation(String s) {
         /**
          * this problem can be reduced to finding the LCS
          * of String s and reverse of String s i.e. reverse(s)
