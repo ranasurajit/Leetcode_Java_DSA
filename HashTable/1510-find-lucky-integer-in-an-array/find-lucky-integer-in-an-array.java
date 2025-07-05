@@ -1,11 +1,31 @@
 class Solution {
     /**
-     * Approach : Using Hashing Approach
+     * Approach II : Using Frequency Array Approach
+     *
+     * TC: O(N) + O(500) ~ O(N)
+     * SC: O(500) ~ O(1)
+     */
+    public int findLucky(int[] arr) {
+        int n = arr.length;
+        int[] freqMap = new int[501]; // SC: O(500)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            freqMap[arr[i]]++;
+        }
+        for (int i = 500; i >= 1; i--) { // TC: O(500)
+            if (freqMap[i] == i) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * Approach I : Using Hashing Approach
      *
      * TC: O(N) + O(N) ~ O(N)
      * SC: O(N)
      */
-    public int findLucky(int[] arr) {
+    public int findLuckyHashing(int[] arr) {
         int n = arr.length;
         Map<Integer, Integer> freqMap = new HashMap<Integer, Integer>(); // SC: O(N)
         for (int i = 0; i < n; i++) { // TC: O(N)
