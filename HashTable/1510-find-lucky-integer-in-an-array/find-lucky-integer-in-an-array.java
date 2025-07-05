@@ -1,11 +1,33 @@
 class Solution {
     /**
+     * Approach III : Using Bitwise Storage Approach
+     *
+     * TC: O(N) + O(N) ~ O(N)
+     * SC: O(1)
+     */
+    public int findLucky(int[] arr) {
+        int n = arr.length;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            int val = (arr[i] & 65535);
+            if (val >= 1 && val <= n) {
+                arr[val - 1] += (1 << 16);
+            }
+        }
+        for (int val = n; val >= 1; val--) { // TC: O(N)
+            if ((arr[val - 1] >> 16) == val) {
+                return val;
+            }
+        }
+        return -1;
+    }
+
+    /**
      * Approach II : Using Frequency Array Approach
      *
      * TC: O(N) + O(500) ~ O(N)
      * SC: O(500) ~ O(1)
      */
-    public int findLucky(int[] arr) {
+    public int findLuckyFrequencyArray(int[] arr) {
         int[] freqMap = new int[501]; // SC: O(500)
         for (int num : arr) { // TC: O(N)
             freqMap[num]++;
