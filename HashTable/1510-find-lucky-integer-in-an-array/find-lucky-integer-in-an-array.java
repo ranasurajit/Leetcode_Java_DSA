@@ -6,10 +6,9 @@ class Solution {
      * SC: O(500) ~ O(1)
      */
     public int findLucky(int[] arr) {
-        int n = arr.length;
         int[] freqMap = new int[501]; // SC: O(500)
-        for (int i = 0; i < n; i++) { // TC: O(N)
-            freqMap[arr[i]]++;
+        for (int num : arr) { // TC: O(N)
+            freqMap[num]++;
         }
         for (int i = 500; i >= 1; i--) { // TC: O(500)
             if (freqMap[i] == i) {
