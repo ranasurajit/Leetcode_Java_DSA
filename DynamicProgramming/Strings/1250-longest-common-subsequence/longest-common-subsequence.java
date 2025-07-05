@@ -1,5 +1,35 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     * 
+     * TC: O(M x N)
+     * SC: O(N) + O(N) ~ O(N)
+     * 
+     * - O(N) - prev and current array memory
+     *
+     * Accepted (47 / 47 testcases passed)
+     */
+    public int longestCommonSubsequence(String text1, String text2) {
+        int m = text1.length();
+        int n = text2.length();
+        // Initialization
+        int[] prev = new int[n + 1]; // SC: O(N)
+        // Iterative Calls
+        for (int i = 1; i < m + 1; i++) { // TC: O(M)
+            int[] current = new int[n + 1]; // SC: O(N)
+            for (int j = 1; j < n + 1; j++) { // TC: O(N)
+                if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
+                    current[j] = 1 + prev[j - 1];
+                } else {
+                    current[j] = Math.max(prev[j], current[j - 1]);
+                }
+            }
+            prev = current.clone();
+        }
+        return prev[n];
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      * 
      * TC: O(M x N)
@@ -9,11 +39,12 @@ class Solution {
      *
      * Accepted (47 / 47 testcases passed)
      */
-    public int longestCommonSubsequence(String text1, String text2) {
+    public int longestCommonSubsequenceTabulation(String text1, String text2) {
         int m = text1.length();
         int n = text2.length();
         // Initialization
         int[][] dp = new int[m + 1][n + 1]; // SC: O(M x N)
+        // Iterative Calls
         for (int i = 1; i < m + 1; i++) { // TC: O(M)
             for (int j = 1; j < n + 1; j++) { // TC: O(N)
                 if (text1.charAt(i - 1) == text2.charAt(j - 1)) {
