@@ -1,31 +1,27 @@
 /**
  * Approach : Using Hashing Approach
  *
- * TC: O(N1 + N2)
- * SC: O(N1 + N2)
+ * TC: O(N2)
+ * SC: O(N2)
  */
 class FindSumPairs {
 
     int[] nums1;
     int[] nums2;
 
-    Map<Integer, Integer> map1 = new HashMap<Integer, Integer>(); // SC: O(N1)
-    Map<Integer, Integer> map2 = new HashMap<Integer, Integer>(); // SC: O(N2)
+    Map<Integer, Integer> map = new HashMap<Integer, Integer>(); // SC: O(N2)
 
     /**
      * Creating HashMap map1 and map2 from arrays nums1 and nums2 respectively
      *
-     * TC: O(N1 + N2)
-     * SC: O(N1 + N2)
+     * TC: O(N2)
+     * SC: O(1)
      */
     public FindSumPairs(int[] nums1, int[] nums2) {
         this.nums1 = nums1;
         this.nums2 = nums2;
-        for (int num : nums1) { // TC: O(N1)
-            map1.put(num, map1.getOrDefault(num, 0) + 1);
-        }
         for (int num : nums2) { // TC: O(N2)
-            map2.put(num, map2.getOrDefault(num, 0) + 1);
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
     }
     
@@ -37,13 +33,13 @@ class FindSumPairs {
      */
     public void add(int index, int val) {
         int oldValue = nums2[index];
-        map2.put(oldValue, map2.getOrDefault(oldValue, 0) - 1);
-        if (map2.get(oldValue) == 0) {
-            map2.remove(oldValue);
+        map.put(oldValue, map.getOrDefault(oldValue, 0) - 1);
+        if (map.get(oldValue) == 0) {
+            map.remove(oldValue);
         }
         int newValue = oldValue + val;
         nums2[index] = newValue;
-        map2.put(newValue, map2.getOrDefault(newValue, 0) + 1);
+        map.put(newValue, map.getOrDefault(newValue, 0) + 1);
     }
     
     /**
@@ -54,12 +50,10 @@ class FindSumPairs {
      */
     public int count(int tot) {
         int pairs = 0;
-        for (Integer key : map1.keySet()) { // TC: O(N1)
-            int diff = tot - key;
-            if (map2.containsKey(diff)) {
-                int freq1 = map1.get(key);
-                int freq2 = map2.get(diff);
-                pairs += (freq1 * freq2);
+        for (int num : nums1) { // TC: O(N1)
+            int diff = tot - num;
+            if (map.containsKey(diff)) {
+                pairs += map.get(diff);
             }
         }
         return pairs;
