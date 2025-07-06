@@ -54,6 +54,60 @@ class Solution {
     }
 
     /**
+     * Approach II : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(M x N) + O(M + N) ~ O(M x N)
+     * SC: O(M x N) + O(M + N)
+     * 
+     * - O(M x N) - memoization memory
+     * - O(M + N) - StringBuilder memory
+     *
+     * Accepted (50 / 50 testcases passed)
+     */
+    public String shortestCommonSupersequenceTabulation(String str1, String str2) {
+        int m = str1.length();
+        int n = str2.length();
+        int[][] dp = new int[m + 1][n + 1];   // SC: O(M x N)
+        for (int i = 1; i < m + 1; i++) {     // TC: O(M)
+            for (int j = 1; j < n + 1; j++) { // TC: O(N)
+                if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                    dp[i][j] = 1 + dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1]);
+                }
+            }
+        }
+        StringBuilder sb = new StringBuilder(); // SC: O(M + N)
+        // Using Two Pointers Approach
+        int i = m;
+        int j = n;
+        while (i > 0 && j > 0) { // TC: O(M + N)
+            if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
+                sb.append(str1.charAt(i - 1));
+                i--;
+                j--;
+            } else {
+                if (dp[i][j - 1] > dp[i - 1][j]) {
+                    sb.append(str2.charAt(j - 1));
+                    j--;
+                } else {
+                    sb.append(str1.charAt(i - 1));
+                    i--;
+                }
+            } 
+        }
+        while (i > 0) {
+            sb.append(str1.charAt(i - 1));
+            i--;
+        }
+        while (j > 0) {
+            sb.append(str2.charAt(j - 1));
+            j--;
+        }
+        return sb.reverse().toString();
+    }
+
+    /**
      * Approach I : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(M x N) + O(M x N) + O(M + N) ~ O(M x N)
