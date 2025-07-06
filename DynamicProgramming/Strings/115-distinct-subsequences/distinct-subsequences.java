@@ -1,5 +1,40 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(M x N) + O(M) + O(N) ~ O(M x N)
+     * SC: O(M x N)
+     * 
+     * - O(M x N) - dp array memory
+     *
+     * Accepted (66 / 66 testcases passed)
+     */
+    public int numDistinct(String s, String t) {
+        int m = s.length();
+        int n = t.length();
+        // Initialization
+        int[][] dp = new int[m + 1][n + 1];    // SC: O(M x N)
+        for (int i = 0; i < m + 1; i++) {      // TC: O(M)
+            dp[i][0] = 1;
+        }
+        for (int j = 0; j < n + 1; j++) {      // TC: O(N)
+            dp[0][j] = 0;
+        }
+        dp[0][0] = 1;
+        // Iterative Calls
+        for (int i = 1; i < m + 1; i++) {      // TC: O(M)
+            for (int j = 1; j < n + 1; j++) {  // TC: O(N)
+                if (s.charAt(i - 1) == t.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1] + dp[i - 1][j];
+                } else {
+                    dp[i][j] = dp[i - 1][j];
+                }
+            }
+        }
+        return dp[m][n];
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(M x N) + O(M x N) ~ O(M x N)
@@ -10,7 +45,7 @@ class Solution {
      *
      * Accepted (66 / 66 testcases passed)
      */
-    public int numDistinct(String s, String t) {
+    public int numDistinctMemoization(String s, String t) {
         int m = s.length();
         int n = t.length();
         int[][] memo = new int[m + 1][n + 1]; // SC: O(M x N)
