@@ -1,5 +1,42 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     * 
+     * TC: O(M x N)
+     * SC: O(N) + O(N) ~ O(N)
+     * 
+     * - O(N) - prev and current array memory
+     *
+     * Accepted (1811 / 1811 testcases passed)
+     */
+    public boolean isMatch(String s, String p) {
+        int m = s.length();
+        int n = p.length();
+        // Initialization
+        boolean[] prev = new boolean[n + 1]; // SC: O(N)
+        prev[0] = true;
+        for (int j = 1; j < n + 1; j++) { // TC: O(N)
+            prev[j] = isAllStars(p, j); // TC: O(N)
+        }
+        // Iterative Calls
+        for (int i = 1; i < m + 1; i++) { // TC: O(M)
+            boolean[] current = new boolean[n + 1]; // SC: O(N)
+            current[0] = false;
+            for (int j = 1; j < n + 1; j++) { // TC: O(N)
+                current[j] = false;
+                if (s.charAt(i - 1) == p.charAt(j - 1) || p.charAt(j - 1) == '?') {
+                    current[j] = prev[j - 1];
+                }
+                if (p.charAt(j - 1) == '*') {
+                    current[j] = current[j - 1] || prev[j];
+                }
+            }
+            prev = current.clone();
+        }
+        return prev[n];
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      * 
      * TC: O(M x N) + O(N x N) + O(M)
@@ -9,7 +46,7 @@ class Solution {
      *
      * Accepted (1811 / 1811 testcases passed)
      */
-    public boolean isMatch(String s, String p) {
+    public boolean isMatchTabulation(String s, String p) {
         int m = s.length();
         int n = p.length();
         // Initialization
