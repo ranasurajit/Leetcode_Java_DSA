@@ -2,10 +2,10 @@ class Solution {
     /**
      * Approach IV : Using Space Optimization (Optimized DP) Approach
      * 
-     * TC: O(M x N) + O(M) + O(N) ~ O(M x N)
-     * SC: O(M x N)
+     * TC: O(M x N) + O(N) ~ O(M x N)
+     * SC: O(N) + O(N) ~ O(N)
      * 
-     * - O(M x N) - dp table memory
+     * - O(N) - prev and current array memory
      *
      * Accepted (1147 / 1147 testcases passed)
      */
