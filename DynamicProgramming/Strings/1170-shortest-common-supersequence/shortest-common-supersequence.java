@@ -1,34 +1,26 @@
 class Solution {
     /**
-     * Using Tabulation and Two Pointers Approach
+     * Approach I : Using Memoization (Top-Down DP) Approach
+     * 
+     * TC: O(M x N) + O(M x N) + O(M + N) ~ O(N x M)
+     * SC: O(M x N) + O(M + N) + O(M + N)
+     * 
+     * - O(M x N) - memoization memory
+     * - O(M + N) - recursion stack
+     * - O(M + N) - StringBuilder memory
      *
-     * TC: O((M x N) + (M + N))
-     * SC: O((M x N) + (M + N))
+     * Accepted (30 / 30 testcases passed)
      */
     public String shortestCommonSupersequence(String str1, String str2) {
         int m = str1.length();
         int n = str2.length();
-        int[][] dp = new int[m + 1][n + 1];
-        // initialization
-        for (int i = 0; i < m + 1; i++) {
-            for (int j = 0; j < n + 1; j++) {
-                if (i == 0 || j == 0) {
-                    dp[i][j] = i + j;
-                }
-            }
+        int[][] memo = new int[m + 1][n + 1]; // SC: O(M x N)
+        for (int[] mem : memo) {  // TC: O(M)
+            Arrays.fill(mem, -1); // TC: O(N)
         }
-        // iterative call
-        for (int i = 1; i < m + 1; i++) {
-            for (int j = 1; j < n + 1; j++) {
-                if (str1.charAt(i - 1) == str2.charAt(j - 1)) {
-                    dp[i][j] = 1 + dp[i - 1][j - 1];
-                } else {
-                    dp[i][j] = 1 + Math.min(dp[i - 1][j], dp[i][j - 1]);
-                }
-            }
-        }
-        // Using Two Pointers to print the Shortest Common Supersequence
-        StringBuilder sb = new StringBuilder();
+        solveMemoization(str1, str2, m, n, memo); // TC: O(M x N), SC: O(M + N)
+        StringBuilder sb = new StringBuilder(); // SC: O(M + N)
+        // Using Two Pointers Approach
         int i = m;
         int j = n;
         while (i > 0 && j > 0) { // TC: O(M + N)
@@ -37,16 +29,15 @@ class Solution {
                 i--;
                 j--;
             } else {
-                if (dp[i - 1][j] < dp[i][j - 1]) {
-                    sb.append(str1.charAt(i - 1));
-                    i--;
-                } else {
+                if (memo[i][j - 1] > memo[i - 1][j]) {
                     sb.append(str2.charAt(j - 1));
                     j--;
+                } else {
+                    sb.append(str1.charAt(i - 1));
+                    i--;
                 }
             }
         }
-        // possibility that i > 0 or j > 0
         while (i > 0) {
             sb.append(str1.charAt(i - 1));
             i--;
@@ -56,5 +47,31 @@ class Solution {
             j--;
         }
         return sb.reverse().toString();
+    }
+
+    /**
+     * Using Memoization Approach
+     *
+     * TC: O(M x N)
+     * SC: O(M + N)
+     */
+    private int solveMemoization(String str1, String str2, int m, int n, int[][] memo) {
+        // Base Case
+        if (m == 0 || n == 0) {
+            return 0;
+        }
+        // Memoization Check
+        if (memo[m][n] != -1) {
+            return memo[m][n];
+        }
+        // Recursion Calls
+        if (str1.charAt(m - 1) == str2.charAt(n - 1)) {
+            return memo[m][n] = 1 + solveMemoization(str1, str2, m - 1, n - 1, memo);
+        } else {
+            return memo[m][n] = Math.max(
+                solveMemoization(str1, str2, m - 1, n, memo),
+                solveMemoization(str1, str2, m, n - 1, memo)
+            );
+        }
     }
 }
