@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
      * 
      * TC: O(M x N) + O(M) + O(N) ~ O(M x N)
      * SC: O(M x N)
@@ -10,6 +10,40 @@ class Solution {
      * Accepted (1147 / 1147 testcases passed)
      */
     public int minDistance(String word1, String word2) {
+        int m = word1.length();
+        int n = word2.length();
+        // Initialization
+        int[] prev = new int[n + 1];          // SC: O(N)
+        for (int j = 0; j < n + 1; j++) {     // TC: O(N)
+            prev[j] = j;
+        }
+        // Iterative Calls
+        for (int i = 1; i < m + 1; i++) {     // TC: O(M)
+            int[] current = new int[n + 1];   // SC: O(N)
+            current[0] = i;
+            for (int j = 1; j < n + 1; j++) { // TC: O(N)
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    current[j] = prev[j - 1];
+                } else {
+                    current[j] = 1 + Math.min(prev[j - 1], Math.min(prev[j], current[j - 1]));
+                }
+            }
+            prev = current.clone();
+        }
+        return prev[n];
+    }
+
+    /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(M x N) + O(M) + O(N) ~ O(M x N)
+     * SC: O(M x N)
+     * 
+     * - O(M x N) - dp table memory
+     *
+     * Accepted (1147 / 1147 testcases passed)
+     */
+    public int minDistanceTabulation(String word1, String word2) {
         int m = word1.length();
         int n = word2.length();
         // Initialization
