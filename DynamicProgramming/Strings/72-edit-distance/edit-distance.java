@@ -1,5 +1,39 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(M x N) + O(M) + O(N) ~ O(M x N)
+     * SC: O(M x N)
+     * 
+     * - O(M x N) - dp table memory
+     *
+     * Accepted (1147 / 1147 testcases passed)
+     */
+    public int minDistance(String word1, String word2) {
+        int m = word1.length();
+        int n = word2.length();
+        // Initialization
+        int[][] dp = new int[m + 1][n + 1];   // SC: O(M x N)
+        for (int i = 0; i < m + 1; i++) {     // TC: O(M)
+            dp[i][0] = i;
+        }
+        for (int j = 0; j < n + 1; j++) {     // TC: O(N)
+            dp[0][j] = j;
+        }
+        // Iterative Calls
+        for (int i = 1; i < m + 1; i++) {     // TC: O(M)
+            for (int j = 1; j < n + 1; j++) { // TC: O(N)
+                if (word1.charAt(i - 1) == word2.charAt(j - 1)) {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else {
+                    dp[i][j] = 1 + Math.min(dp[i - 1][j - 1], Math.min(dp[i - 1][j], dp[i][j - 1]));
+                }
+            }
+        }
+        return dp[m][n];
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(M x N) + O(M x N) ~ O(M x N)
@@ -10,7 +44,7 @@ class Solution {
      *
      * Accepted (1147 / 1147 testcases passed)
      */
-    public int minDistance(String word1, String word2) {
+    public int minDistanceMemoization(String word1, String word2) {
         int m = word1.length();
         int n = word2.length();
         int[][] memo = new int[m][n]; // SC: O(M x N)
