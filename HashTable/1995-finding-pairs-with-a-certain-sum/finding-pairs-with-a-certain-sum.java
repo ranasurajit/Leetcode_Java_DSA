@@ -1,9 +1,16 @@
+/**
+ * Approach : Using Hashing Approach
+ *
+ * TC: O(N1 + N2)
+ * SC: O(N1 + N2)
+ */
 class FindSumPairs {
 
-    Map<Integer, Integer> map1 = null;
-    Map<Integer, Integer> map2 = null;
     int[] nums1;
     int[] nums2;
+
+    Map<Integer, Integer> map1 = new HashMap<Integer, Integer>(); // SC: O(N1)
+    Map<Integer, Integer> map2 = new HashMap<Integer, Integer>(); // SC: O(N2)
 
     /**
      * Creating HashMap map1 and map2 from arrays nums1 and nums2 respectively
@@ -14,15 +21,11 @@ class FindSumPairs {
     public FindSumPairs(int[] nums1, int[] nums2) {
         this.nums1 = nums1;
         this.nums2 = nums2;
-        map1 = new HashMap<Integer, Integer>(); // SC: O(N1)
-        map2 = new HashMap<Integer, Integer>(); // SC: O(N2)
-        int n1 = nums1.length;
-        int n2 = nums2.length;
-        for (int i = 0; i < n1; i++) { // TC: O(N1)
-            map1.put(nums1[i], map1.getOrDefault(nums1[i], 0) + 1);
+        for (int num : nums1) { // TC: O(N1)
+            map1.put(num, map1.getOrDefault(num, 0) + 1);
         }
-        for (int i = 0; i < n2; i++) { // TC: O(N2)
-            map2.put(nums2[i], map2.getOrDefault(nums2[i], 0) + 1);
+        for (int num : nums2) { // TC: O(N2)
+            map2.put(num, map2.getOrDefault(num, 0) + 1);
         }
     }
     
