@@ -34,9 +34,6 @@ class FindSumPairs {
     public void add(int index, int val) {
         int oldValue = nums2[index];
         map.put(oldValue, map.getOrDefault(oldValue, 0) - 1);
-        if (map.get(oldValue) == 0) {
-            map.remove(oldValue);
-        }
         int newValue = oldValue + val;
         nums2[index] = newValue;
         map.put(newValue, map.getOrDefault(newValue, 0) + 1);
