@@ -1,5 +1,51 @@
 class Solution {
     /**
+     * Approach VI : Using Binary Search (Most Optimized) Approach
+     * 
+     * TC: O(N x log(N))
+     * SC: O(N)
+     * 
+     * - O(N) - sorted ArrayList 'track' memory
+     *
+     * Accepted (55 / 55 testcases passed)
+     */
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        List<Integer> track = new ArrayList<Integer>(); // SC: O(N) - sorted ArrayList
+        track.add(nums[0]);
+        for (int i = 1; i < n; i++) { // TC: O(N)
+            if (nums[i] > track.get(track.size() - 1)) {
+                track.add(nums[i]);
+            } else {
+                // we need to substitute the nums[i] at the right position in sorted ArrayList 'track'
+                int idx = lowerBound(track, nums[i]); // TC: O(log(N)), SC: O(1)
+                track.set(idx, nums[i]);
+            }
+        }
+        return track.size();
+    }
+
+    /**
+     * Using Binary Search to find Lower Bound Approach
+     *
+     * TC: O(log(N))
+     * SC: O(1)
+     */
+    private int lowerBound(List<Integer> track, int x) {
+        int low = 0;
+        int high = track.size() - 1;
+        while (low <= high) { // TC: O(log(N))
+            int mid = low + (high - low) / 2;
+            if (track.get(mid) >= x) {
+                high = mid - 1;
+            } else {
+                low = mid + 1;
+            }
+        }
+        return low;
+    }
+
+    /**
      * Approach V : Using Tabulation (Bottom-Up DP) + Optimized Approach
      * 
      * TC: O(N x N)
@@ -9,7 +55,7 @@ class Solution {
      *
      * Accepted (55 / 55 testcases passed)
      */
-    public int lengthOfLIS(int[] nums) {
+    public int lengthOfLISOptimalTabulation(int[] nums) {
         int n = nums.length;
         int[] dp = new int[n + 1];     // SC: O(N)
         Arrays.fill(dp, 1);
