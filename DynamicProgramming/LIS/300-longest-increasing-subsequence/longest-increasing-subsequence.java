@@ -1,5 +1,31 @@
 class Solution {
     /**
+     * Approach V : Using Tabulation (Bottom-Up DP) + Optimized Approach
+     * 
+     * TC: O(N x N)
+     * SC: O(N)
+     * 
+     * - O(N) - dp array memory
+     *
+     * Accepted (55 / 55 testcases passed)
+     */
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] dp = new int[n + 1];     // SC: O(N)
+        Arrays.fill(dp, 1);
+        int maxLength = 1;
+        for (int i = 1; i < n; i++) { // TC: O(N)
+            for (int prev = 0; prev < i; prev++) { // TC: O(N)
+                if (nums[prev] < nums[i]) {
+                    dp[i] = Math.max(dp[i], 1 + dp[prev]);
+                }
+            }
+            maxLength = Math.max(maxLength, dp[i]);
+        }
+        return maxLength;
+    }
+
+    /**
      * Approach IV : Using Space Optimization (Optimized DP) Approach
      * 
      * TC: O(N x N)
@@ -9,7 +35,7 @@ class Solution {
      *
      * Accepted (55 / 55 testcases passed)
      */
-    public int lengthOfLIS(int[] nums) {
+    public int lengthOfLISSpaceOptimization(int[] nums) {
         int n = nums.length;
         int[] next = new int[n + 1];            // SC: O(N)
         for (int i = n - 1; i >= 0; i--) {      // TC: O(N)
