@@ -1,127 +1,44 @@
 class Solution {
     /**
-     * Approach III : Using Tabulation Approach
-     *
-     * TC: O(N x log(N) + N + N ^ 2) ~ O(N ^ 2)
-     * SC: O(N)
-     *
-     * Accepted (49 / 49 testcases passed), Beats ~ 70%
+     * Approach : Using LIS and Previous Index Tracking Array Approach
+     * 
+     * TC: O(N x log(N)) + O(N) + O(N) + O(N) ~ O(N x log(N))
+     * SC: O(N) + O(N) ~ O(N)
      */
     public List<Integer> largestDivisibleSubset(int[] nums) {
         int n = nums.length;
-        List<Integer> lds = new ArrayList<Integer>();
-
-        // Sort the array and find the length of Longest Divisible Subset (LDS)
+        /**
+         * here the order does not matter as we are looking for 
+         * answer[i] % answer[j] == 0, or
+         * answer[j] % answer[i] == 0
+         */
         Arrays.sort(nums); // TC: O(N x log(N))
-        int lis = 1;
+        List<Integer> lis = new ArrayList<Integer>();
         int[] dp = new int[n]; // SC: O(N)
-        Arrays.fill(dp, 1);
-        
-        for (int i = 1; i < n; i++) { // TC: O(N)
-            for (int j = 0; j < i; j++) { // TC: O(N)
-                if (nums[i] % nums[j] == 0 && 1 + dp[j] > dp[i]) {
-                    dp[i] = 1 + dp[j];
-                    if (lis < dp[i]) {
-                        lis = dp[i];
-                    }
+        Arrays.fill(dp, 1); // minimum length of subset is 1
+        int maxLength = 1;
+        // to track the LIS
+        List<Integer> track = new ArrayList<Integer>(); // SC: O(N)
+        int lastIndex = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            track.add(i);
+            for (int prev = 0; prev < i; prev++) {
+                if (nums[i] % nums[prev] == 0 && dp[prev] + 1 > dp[i]) {
+                    dp[i] = dp[prev] + 1;
+                    track.set(i, prev);
                 }
             }
-        }
-
-        // Find one of the possible Longest Divisible Subset (LDS)
-        int prev = -1;
-        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
-            if (dp[i] == lis && (prev == -1 || prev % nums[i] == 0)) {
-                lds.add(nums[i]);
-                lis--;
-                prev = nums[i];
+            if (maxLength < dp[i]) {
+                maxLength = dp[i];
+                lastIndex = i;
             }
         }
-        return lds;
-    }
-
-    /**
-     * Approach II : Using Memoization Approach (Hashing Appproach)
-     *
-     * TC: O(N x log(N) + 2 ^ N) ~ O(2 ^ N)
-     * SC: O(N)
-     *
-     * Accepted (40 / 49 testcases passed), Beats < 10%
-     */
-    public List<Integer> largestDivisibleSubsetMemoization(int[] nums) {
-        int n = nums.length;
-        Arrays.sort(nums); // TC: O(N x log(N))
-        Map<String, List<Integer>> memo = new HashMap<String, List<Integer>>();
-        return solveMemoization(0, -1, n, nums, memo); // TC: O(2 ^ N), SC: O(N)
-    }
-
-    /**
-     * Using Memoization Approach
-     *
-     * TC: O(2 ^ N)
-     * SC: O(N)
-     */
-    private List<Integer> solveMemoization(int index, int prevIndex, 
-        int n, int[] nums, Map<String, List<Integer>> memo) {
-        // Base Case
-        if (index == n) {
-            return new ArrayList<Integer>();
+        lis.add(nums[lastIndex]);
+        while (track.get(lastIndex) != lastIndex) { // TC: O(N)
+            lastIndex = track.get(lastIndex);
+            lis.add(nums[lastIndex]);
         }
-        String key = index + "-" + prevIndex;
-        // Memoization Check
-        if (memo.containsKey(key)) {
-            return memo.get(key);
-        }
-        // Recursion Calls
-        // nottake
-        List<Integer> nottake = 
-            solveMemoization(index + 1, prevIndex, n, nums, memo); // explore possibilities
-        // take
-        List<Integer> take = new ArrayList<Integer>();
-        if (prevIndex == -1 || nums[index] % nums[prevIndex] == 0) { // divisible subset condition
-            take.add(nums[index]);
-            take.addAll(solveMemoization(index + 1, index, n, nums, memo));
-        }
-        List<Integer> result = take.size() > nottake.size() ? take : nottake;
-        memo.put(key, result);
-        return result;
-    }
-
-    /**
-     * Approach I : Using Recursion Approach
-     *
-     * TC: O(N x log(N) + 2 ^ N) ~ O(2 ^ N)
-     * SC: O(N)
-     *
-     * Time Limit Exceeded (47 / 49 testcases passed)
-     */
-    public List<Integer> largestDivisibleSubsetRecursion(int[] nums) {
-        int n = nums.length;
-        Arrays.sort(nums); // TC: O(N x log(N))
-        return solveRecursion(0, -1, n, nums); // TC: O(2 ^ N), SC: O(N)
-    }
-
-    /**
-     * Using Recursion Approach
-     *
-     * TC: O(2 ^ N)
-     * SC: O(N)
-     */
-    private List<Integer> solveRecursion(int index, int prevIndex, int n, int[] nums) {
-        // Base Case
-        if (index == n) {
-            return new ArrayList<Integer>();
-        }
-        // Recursion Calls
-        // nottake
-        List<Integer> nottake = 
-            solveRecursion(index + 1, prevIndex, n, nums); // explore possibilities
-        // take
-        List<Integer> take = new ArrayList<Integer>();
-        if (prevIndex == -1 || nums[index] % nums[prevIndex] == 0) { // divisible subset condition
-            take.add(nums[index]);
-            take.addAll(solveRecursion(index + 1, index, n, nums));
-        }
-        return take.size() > nottake.size() ? take : nottake;
+        Collections.reverse(lis); // TC: O(N)
+        return lis;
     }
 }
