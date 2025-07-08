@@ -1,5 +1,37 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     *
+     * TC: O(N x K) + O(2 x N x log(N)) ~ (N x K)
+     * SC: O(N x K) + O(N)
+     *
+     * - O(N x K) - dp table array memory
+     * - O(N) -  prevIndexData array memory
+     *
+     * Accepted (69 / 69 testcases passed)
+     */
+    public int maxValue(int[][] events, int k) {
+        int n = events.length;
+        Arrays.sort(events, (a, b) -> a[0] - b[0]); // TC: O(N x log(N))
+        int[] prevIndexData = new int[n]; // SC: O(N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            prevIndexData[i] = getNextValidEventIndex(i + 1, n, events[i][1], events); // TC: O(log(N))
+        }
+        // Initialization
+        int[][] dp = new int[n + 1][k + 1]; // SC: O(N x K)
+        dp[n][0] = 0;
+        // Iterative Calls
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            for (int j = 1; j < k + 1; j++) { // TC: O(K)
+                int skip = dp[i + 1][j];
+                int pick = events[i][2] + dp[prevIndexData[i]][j - 1];
+                dp[i][j] = Math.max(pick, skip);
+            }
+        }
+        return dp[0][k];
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      *
      * TC: O(N x K) + O(N x K) + O(2 x N x log(N)) ~ (N x K)
@@ -10,7 +42,7 @@ class Solution {
      *
      * Accepted (69 / 69 testcases passed)
      */
-    public int maxValue(int[][] events, int k) {
+    public int maxValueMemoization(int[][] events, int k) {
         int n = events.length;
         Arrays.sort(events, (a, b) -> a[0] - b[0]); // TC: O(N x log(N))
         int[][] memo = new int[n + 1][k + 1]; // SC: O(N x K)
