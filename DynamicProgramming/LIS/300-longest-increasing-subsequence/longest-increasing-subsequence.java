@@ -1,5 +1,31 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(N x N)
+     * SC: O(N x N)
+     * 
+     * - O(N x N) - dp array memory
+     *
+     * Accepted (55 / 55 testcases passed)
+     */
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[][] dp = new int[n + 1][n + 1];     // SC: O(N x N)
+        for (int i = n - 1; i >= 0; i--) {      // TC: O(N)
+            for (int j = i - 1; j >= -1; j--) { // TC: O(N)
+                int skip = dp[i + 1][j + 1]; // j + 1 is used instead of j as j can be -1 too
+                int pick = 0;
+                if (j == -1 || nums[i] > nums[j]) {
+                    pick = 1 + dp[i + 1][i + 1]; // i + 1 is used instead of i as j can be -1 too
+                }
+                dp[i][j + 1]  = Math.max(pick, skip);
+            }
+        }
+        return dp[0][0];
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(N x N) + O(N x N) ~ O(N x N)
@@ -10,7 +36,7 @@ class Solution {
      *
      * Accepted (55 / 55 testcases passed)
      */
-    public int lengthOfLIS(int[] nums) {
+    public int lengthOfLISMemoization(int[] nums) {
         int n = nums.length;
         int[][] memo = new int[n + 1][n + 1]; // SC: O(N x N)
         for (int[] mem : memo) {  // TC: O(N)
