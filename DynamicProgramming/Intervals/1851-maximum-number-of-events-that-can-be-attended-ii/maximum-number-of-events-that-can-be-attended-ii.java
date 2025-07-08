@@ -2,7 +2,7 @@ class Solution {
     /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      *
-     * TC: O(N x K) + O(N x K x log(N))
+     * TC: O(N x K) + O(N x K) + O(2 x N x log(N)) ~ (N x K)
      * SC: O(N x K) + O(N)
      *
      * - O(N x K) - memoization array memory
@@ -17,16 +17,21 @@ class Solution {
         for (int[] mem : memo) { // TC: O(N)
             Arrays.fill(mem, -1); // TC: O(K)
         }
-        return solveMemoization(0, n, events, k, memo); // TC: O(N x K x log(N)), SC: O(N)
+        int[] prevIndexData = new int[n]; // SC: O(N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            prevIndexData[i] = getNextValidEventIndex(i + 1, n, events[i][1], events); // TC: O(log(N))
+        }
+        return solveMemoization(0, n, events, k, prevIndexData, memo); // TC: O(N x K), SC: O(N)
     }
 
     /**
      * Using Memoization Approach
      *
-     * TC: O(N x K x log(N))
+     * TC: O(N x K)
      * SC: O(N)
      */
-    private int solveMemoization(int idx, int n, int[][] events, int k, int[][] memo) {
+    private int solveMemoization(int idx, int n, int[][] events, int k,
+        int[] prevIndexData, int[][] memo) {
         // Base Case
         if (idx == n || k == 0) {
             return 0;
@@ -38,9 +43,9 @@ class Solution {
         // Recursion Calls
         // we have option to pick or skip an event at index 'idx'
         // skip
-        int skip = solveMemoization(idx + 1, n, events, k, memo);
-        int nextValidIndex = getNextValidEventIndex(idx + 1, n, events[idx][1], events); // TC: O(log(N))
-        int pick = events[idx][2] + solveMemoization(nextValidIndex, n, events, k - 1, memo);
+        int skip = solveMemoization(idx + 1, n, events, k, prevIndexData, memo);
+        int pick = events[idx][2] + 
+            solveMemoization(prevIndexData[idx], n, events, k - 1, prevIndexData, memo);
         return memo[idx][k] = Math.max(pick, skip);
     }
 
