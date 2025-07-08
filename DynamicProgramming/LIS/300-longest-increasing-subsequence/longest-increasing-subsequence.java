@@ -1,5 +1,33 @@
 class Solution {
     /**
+     * Approach IV : Using Space Optimization (Optimized DP) Approach
+     * 
+     * TC: O(N x N)
+     * SC: O(N) + O(N)
+     * 
+     * - O(N) - next and current array memory
+     *
+     * Accepted (55 / 55 testcases passed)
+     */
+    public int lengthOfLIS(int[] nums) {
+        int n = nums.length;
+        int[] next = new int[n + 1];            // SC: O(N)
+        for (int i = n - 1; i >= 0; i--) {      // TC: O(N)
+            int[] current = new int[n + 1];     // SC: O(N)
+            for (int j = i - 1; j >= -1; j--) { // TC: O(N)
+                int skip = next[j + 1]; // j + 1 is used instead of j as j can be -1 too
+                int pick = 0;
+                if (j == -1 || nums[i] > nums[j]) {
+                    pick = 1 + next[i + 1]; // i + 1 is used instead of i as j can be -1 too
+                }
+                current[j + 1]  = Math.max(pick, skip);
+            }
+            next = current.clone();
+        }
+        return next[0];
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      * 
      * TC: O(N x N)
@@ -9,7 +37,7 @@ class Solution {
      *
      * Accepted (55 / 55 testcases passed)
      */
-    public int lengthOfLIS(int[] nums) {
+    public int lengthOfLISTabulation(int[] nums) {
         int n = nums.length;
         int[][] dp = new int[n + 1][n + 1];     // SC: O(N x N)
         for (int i = n - 1; i >= 0; i--) {      // TC: O(N)
