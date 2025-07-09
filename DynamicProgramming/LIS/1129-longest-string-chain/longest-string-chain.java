@@ -1,5 +1,34 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     * 
+     * TC: O(N x N x L) + O(N x log(N)) ~ O(N x N x L)
+     * SC: O(N x N)
+     * 
+     * - O(N x N) - dp array memory
+     * where L = Max(words)
+     *
+     * Accepted (86 / 86 testcases passed)
+     */
+    public int longestStrChain(String[] words) {
+        int n = words.length;
+        // Sorting is needed so that we can form the chain
+        Arrays.sort(words, (a, b) -> a.length() - b.length()); // TC: O(N x log(N))
+        int[][] dp = new int[n + 1][n + 1]; // SC: O(N x N)
+        for (int i = n - 1; i >= 0; i--) {  // TC: O(N)
+            for (int prevIdx = i - 1; prevIdx >= -1; prevIdx--) { // TC: O(N)
+                int skip = dp[i + 1][prevIdx + 1];
+                int pick = 0;
+                if (prevIdx == -1 || isPredecessor(words[i], words[prevIdx])) { // TC: O(L)
+                    pick = 1 + dp[i + 1][i + 1];
+                }
+                dp[i][prevIdx + 1] = Math.max(pick, skip);
+            }
+        }
+        return dp[0][0];
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(N x log(N)) + O(L x N x N) + O(N x N) ~ O(L x N x N)
@@ -11,7 +40,7 @@ class Solution {
      *
      * Accepted (86 / 86 testcases passed)
      */
-    public int longestStrChain(String[] words) {
+    public int longestStrChainMemoization(String[] words) {
         int n = words.length;
         // Sorting is needed so that we can form the chain
         Arrays.sort(words, (a, b) -> a.length() - b.length()); // TC: O(N x log(N))
