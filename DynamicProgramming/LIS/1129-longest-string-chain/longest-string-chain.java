@@ -1,5 +1,34 @@
 class Solution {
     /**
+     * Approach V : Using Tabulation (Bottom-Up DP) Optimized Approach
+     * 
+     * TC: O(N x N x L) + O(N x log(N)) ~ O(N x N x L)
+     * SC: O(N)
+     * 
+     * - O(N) - dp array memory
+     * where L = Max(words)
+     *
+     * Accepted (86 / 86 testcases passed)
+     */
+    public int longestStrChain(String[] words) {
+        int n = words.length;
+        // Sorting is needed so that we can form the chain
+        Arrays.sort(words, (a, b) -> a.length() - b.length()); // TC: O(N x log(N))
+        int[] dp = new int[n]; // SC: O(N)
+        Arrays.fill(dp, 1); // minimum possible length of String Chain 
+        int maxLength = 1;
+        for (int i = 1; i < n; i++) {  // TC: O(N)
+            for (int prevIdx = 0; prevIdx < i; prevIdx++) { // TC: O(N)
+                if (isPredecessor(words[i], words[prevIdx]) && dp[prevIdx] + 1 > dp[i]) { // TC: O(L)
+                    dp[i] = dp[prevIdx] + 1;
+                }
+            }
+            maxLength = Math.max(maxLength, dp[i]);
+        }
+        return maxLength;
+    }
+
+    /**
      * Approach IV : Using Space Optimization (Optimized DP) Approach
      * 
      * TC: O(N x N x L) + O(N x log(N)) ~ O(N x N x L)
@@ -10,7 +39,7 @@ class Solution {
      *
      * Accepted (86 / 86 testcases passed)
      */
-    public int longestStrChain(String[] words) {
+    public int longestStrChainSpaceOptimization(String[] words) {
         int n = words.length;
         // Sorting is needed so that we can form the chain
         Arrays.sort(words, (a, b) -> a.length() - b.length()); // TC: O(N x log(N))
