@@ -1,105 +1,54 @@
 class Solution {
     /**
-     * Approach II : Using Heaps (PriorityQueue) Approach
+     * Approach : Using Min-Heap (PriorityQueue) Approach
      *
-     * TC: O(M x log(N) + M x log(M) + N x log(N) + 2 x N) ~ 
-     *     O(M x log(N) + M x log(M) + N x log(N))
-     * SC: O(3 x N) ~ O(N)
+     * TC: O(M x log(M)) + O(N x log(N)) + O(M x log(N)) + O(N) ~ O(M x log(M) + (M + N) x log(N))
+     * SC: O(N) + O(N) + O(N) ~ O(N)
      */
     public int mostBooked(int n, int[][] meetings) {
-        // sort the meetings with respect to increasing order of start time of meeting
         Arrays.sort(meetings, (a, b) -> a[0] - b[0]); // TC: O(M x log(M))
-        // Min-Heap to store used rooms { endTime, index }
-        PriorityQueue<long[]> usedRooms = new PriorityQueue<long[]>((p, q) -> {
+        // we need a Min-Heap (PriorityQueue) to store unused rooms
+        PriorityQueue<int[]> usedRooms = new PriorityQueue<int[]>((p, q) -> {
             if (p[0] == q[0]) {
-                return Long.compare(p[1], q[1]);
+                return p[1] - q[1];
             }
-            return Long.compare(p[0], q[0]);
+            return p[0] - q[0];
         }); // SC: O(N)
-        // Min-Heap to store available rooms { index }
+        // we need a Min-Heap (PriorityQueue) to store available rooms
         PriorityQueue<Integer> availableRooms = new PriorityQueue<Integer>(); // SC: O(N)
-        // Initially all rooms are available
+        // filling up all the available room to start the process
         for (int i = 0; i < n; i++) { // TC: O(N)
-            availableRooms.offer(i);
+            availableRooms.offer(i); // TC: O(log(N))
         }
-        int[] roomUsageCount = new int[n];
-        for (int[] meeting : meetings) { // TC: O(M)
-            int start = meeting[0];
-            int end = meeting[1];
+        int[] usage = new int[n]; // SC: O(N)
+        for (int[] event : meetings) { // TC: O(M)
+            int start = event[0];
+            int end = event[1];
             int duration = end - start;
             while (!usedRooms.isEmpty() && usedRooms.peek()[0] <= start) {
-                long[] roomDetail = usedRooms.poll();
-                availableRooms.offer((int) roomDetail[1]); // TC: O(log(N))
+                availableRooms.offer(usedRooms.poll()[1]); // TC: O(log(N))
             }
             if (!availableRooms.isEmpty()) {
-                int roomIndex = availableRooms.poll();
-                usedRooms.offer(new long[] { end, roomIndex }); // TC: O(log(N))
-                roomUsageCount[roomIndex]++;
+                int roomIdx = availableRooms.poll();
+                usage[roomIdx]++;
+                usedRooms.offer(new int[] { end, roomIdx }); // TC: O(log(N))
             } else {
-                long[] earlyUsedRoom = usedRooms.poll();
-                usedRooms.offer(new long[] { 
+                int[] earlyUsedRoom = usedRooms.poll();
+                usedRooms.offer(new int[] { 
                     earlyUsedRoom[0] + duration,
                     earlyUsedRoom[1]
                 }); // TC: O(log(N))
-                roomUsageCount[(int) earlyUsedRoom[1]]++;
+                usage[earlyUsedRoom[1]]++;
             }
         }
         int maxUsage = 0;
-        int result = -1;
+        int roomIndex = -1;
         for (int room = 0; room < n; room++) { // TC: O(N)
-            if (roomUsageCount[room] > maxUsage) {
-                maxUsage = roomUsageCount[room];
-                result = room;
+            if (maxUsage < usage[room]) {
+                maxUsage = usage[room];
+                roomIndex = room;
             }
         }
-        return result;
-    }
-
-    /**
-     * Approach I : Using Sorting Approach
-     *
-     * TC: O(M x N + M x log(M))
-     * SC: O(2 x N) ~ O(N)
-     */
-    public int mostBookedApproachI(int n, int[][] meetings) {
-        // sort the meetings with respect to increasing order of start time of meeting
-        Arrays.sort(meetings, (a, b) -> a[0] - b[0]); // TC: O(M x log(M))
-        long[] roomsFreeAt = new long[n]; // SC: O(N)
-        int[] roomsUsedCount = new int[n]; // SC: O(N)
-        for (int[] meeting : meetings) { // TC: O(M)
-            int start = meeting[0];
-            int end = meeting[1];
-            long minTime = Long.MAX_VALUE;
-            int roomIndexFree = -1;
-            boolean found = false;
-            for (int room = 0; room < n; room++) { // TC: O(N)
-                if (start >= roomsFreeAt[room]) {
-                    // room was found free when the meeting started
-                    roomsFreeAt[room] = (long) end;
-                    roomsUsedCount[room]++;
-                    found = true;
-                    break;
-                }
-                // room was not free, capture the minimum time at which any room will be free
-                if (roomsFreeAt[room] < minTime) {
-                    minTime = roomsFreeAt[room];
-                    roomIndexFree = room;
-                }
-            }
-            if (!found) {
-                int diff = end - start;
-                roomsFreeAt[roomIndexFree] += diff;
-                roomsUsedCount[roomIndexFree]++;
-            }
-        }
-        int maximumUsage = 0;
-        int result = -1;
-        for (int room = 0; room < n; room++) { // TC: O(N)
-            if (maximumUsage < roomsUsedCount[room]) {
-                maximumUsage = roomsUsedCount[room];
-                result = room;
-            }
-        }
-        return result;
+        return roomIndex;
     }
 }
