@@ -6,7 +6,11 @@ class Solution {
      * SC: O(V + E) + O(V) + O(V) + O(V) ~ O(V + E)
      */
     public boolean canFinish(int numCourses, int[][] prerequisites) {
-        Map<Integer, ArrayList<Integer>> adj = createGraph(prerequisites); // TC: O(E), SC: O(V + E)
+        // creating Adjacency List
+        Map<Integer, ArrayList<Integer>> adj = new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V + E)
+        for (int[] edge : prerequisites) { // TC: O(E)
+            adj.computeIfAbsent(edge[0], k -> new ArrayList<Integer>()).add(edge[1]);
+        }
         /**
          * we can finish all courses if and only if there's no cyclic dependency, 
          * so we need to check, if this Directed Graph is cyclic in nature
@@ -42,19 +46,5 @@ class Solution {
         }
         inRecursion[u] = false;
         return false;
-    }
-
-    /**
-     * Using Hashing Approach
-     * 
-     * TC: O(E)
-     * SC: O(V + E)
-     */
-    private Map<Integer, ArrayList<Integer>> createGraph(int[][] edges) {
-        Map<Integer, ArrayList<Integer>> adj = new HashMap<Integer, ArrayList<Integer>>();
-        for (int[] edge : edges) {
-            adj.computeIfAbsent(edge[0], k -> new ArrayList<Integer>()).add(edge[1]);
-        }
-        return adj;
     }
 }
