@@ -1,11 +1,56 @@
 class Solution {
     /**
+     * Approach II : Using BFS (Kahn's Algorithm) Approach
+     * 
+     * TC: O(E) + O(V + E) + O(V) + O(V + E) ~ O(V + E)
+     * SC: O(V) + O(V + E) + O(V) + O(V) ~ O(V + E)
+     */
+    public int[] findOrder(int numCourses, int[][] prerequisites) {
+        // creating Adjacency List
+        int[] indegrees = new int[numCourses]; // SC: O(V)
+        Map<Integer, ArrayList<Integer>> adj = new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V + E)
+        for (int[] edge : prerequisites) { // TC: O(E)
+            adj.computeIfAbsent(edge[1], k -> new ArrayList<Integer>()).add(edge[0]);
+            indegrees[edge[0]]++;
+        }
+        /**
+         * we can finish all courses if and only if there's no cyclic dependency, 
+         * so we need to check, if this Directed Graph is cyclic in nature
+         */
+        // using DFS Approach to find if Graph has cycle
+        boolean hasCycle = doesGraphHasCycle(adj, numCourses); // TC: O(V + E), SC: O(V)
+        if (hasCycle) {
+            return new int[] {};
+        }
+        // using BFS Approach to get the topological sorted array of courses
+        Queue<Integer> queue = new LinkedList<Integer>(); // SC: O(V)
+        for (int i = 0; i < numCourses; i++) { // TC: O(V)
+            if (indegrees[i] == 0) {
+                queue.offer(i);
+            }
+        }
+        int[] order = new int[numCourses];
+        int index = 0;
+        while (!queue.isEmpty()) { // TC: O(V)
+            Integer u = queue.poll();
+            order[index++] = u;
+            for (Integer v : adj.getOrDefault(u, new ArrayList<Integer>())) { // TC: O(E)
+                indegrees[v]--;
+                if (indegrees[v] == 0) {
+                    queue.offer(v);
+                }
+            }
+        }
+        return order;
+    }
+
+    /**
      * Approach I : Using DFS Approach
      * 
      * TC: O(E) + O(V + E) + O(2 x V + E) + O(V) ~ O(V + E)
      * SC: O(V + E) + O(V) + O(V) + O(V) ~ O(V + E)
      */
-    public int[] findOrder(int numCourses, int[][] prerequisites) {
+    public int[] findOrderUsingDFS(int numCourses, int[][] prerequisites) {
         // creating Adjacency List
         Map<Integer, ArrayList<Integer>> adj = new HashMap<Integer, ArrayList<Integer>>(); // SC: O(V + E)
         for (int[] edge : prerequisites) { // TC: O(E)
