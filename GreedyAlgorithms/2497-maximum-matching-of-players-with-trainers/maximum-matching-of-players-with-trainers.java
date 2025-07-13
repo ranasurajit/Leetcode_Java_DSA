@@ -14,14 +14,11 @@ class Solution {
         int t = n - 1; // pointer at the end of array 'trainers'
         int count = 0;
         while (p >= 0 && t >= 0) { // TC: O(Min(M, N))
-            if (trainers[t] < players[p]) {
-                p--;
-            } else {
-                // trainers[t] >= players[p]
-                p--;
+            if (trainers[t] >= players[p]) {
                 t--;
                 count++;
             }
+            p--;
         }
         return count;
     }
