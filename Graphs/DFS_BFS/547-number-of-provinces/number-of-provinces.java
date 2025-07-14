@@ -1,11 +1,46 @@
 class Solution {
     /**
-     * Approach : Using DFS Approach
+     * Approach II : Using DFS Approach
+     *
+     * TC: O(M x N) + O(M x N) ~ O(M x N)
+     * SC: O(M x N) + O(N)
+     */
+    public int findCircleNum(int[][] isConnected) {
+        int m = isConnected.length;
+        int n = isConnected[0].length;
+        boolean[] visited = new boolean[n]; // SC: O(N)
+        int provinces = 0;
+        for (int i = 0; i < m; i++) { // TC: O(M)
+            if (!visited[i]) {
+                dfsMatrixGraph(i, visited, isConnected, n); // TC: O(N ^ 2), SC: O(N)
+                provinces++;
+            }
+        }
+        return provinces;
+    }
+
+    /**
+     * Using DFS Approach
+     *
+     * TC: O(N ^ 2)
+     * SC: O(N)
+     */
+    private void dfsMatrixGraph(int u, boolean[] visited, int[][] isConnected, int n) {
+        visited[u] = true;
+        for (int v = 0; v < n; v++) { // TC: O(N)
+            if (u != v && isConnected[u][v] == 1 && !visited[v]) {
+                dfsMatrixGraph(v, visited, isConnected, n);
+            }
+        }
+    }
+
+    /**
+     * Approach I : Using DFS Approach
      *
      * TC: O(N ^ 2) + O(N ^ 2) ~ O(N ^ 2)
      * SC: O(N ^ 2) + O(N)
      */
-    public int findCircleNum(int[][] isConnected) {
+    public int findCircleNumUsingDFS(int[][] isConnected) {
         int n = isConnected.length;
         Map<Integer, ArrayList<Integer>> adj = createGraph(isConnected, n); // TC: O(N ^ 2), SC: O(N ^ 2)
         boolean[] visited = new boolean[n]; // SC: O(N)
