@@ -9,28 +9,28 @@
  * }
  */
 class Solution {
+    /**
+     * Approach : Using LinkedList Traversal Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
     public int getDecimalValue(ListNode head) {
-        ListNode current = reverse(head);
-        int count = 0;
-        double number = 0;
-        while (current != null) {
-            // current bit value * 2 ^ (bit place) 
-            number += current.val * Math.pow(2, count);
-            current = current.next;
-            count++;
-        }
-        return (int) number;
-    }
-
-    private ListNode reverse(ListNode head) {
-        ListNode prev = null;
+        // we need to find the length of the LinkedList
+        int length = 0;
         ListNode current = head;
-        while (current != null) {
-            ListNode temp = current.next;
-            current.next = prev;
-            prev = current;
-            current = temp;
+        while (current != null) { // TC: O(N)
+            length++;
+            current = current.next;
         }
-        return prev;
+        // now we need to traverse in the LinkedList to calculate the decimal number
+        int decNum = 0;
+        current = head;
+        while (current != null) { // TC: O(N)
+            decNum += current.val * (1 << (length - 1));
+            current = current.next;
+            length--;
+        }
+        return decNum;
     }
 }
