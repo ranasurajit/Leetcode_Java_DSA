@@ -4,22 +4,22 @@ class Solution {
     /**
      * Approach : Using BFS Approach (BFS approach as we need nearest/shortest distance)
      *
-     * TC: O(M x N) + O(M x N) + O(M x N) + O(M x N) ~ O(M x N)
+     * TC: O(M x N) + O(M x N) ~ O(M x N)
      * SC: O(M x N)
      */
     public int[][] updateMatrix(int[][] mat) {
         int m = mat.length;
         int n = mat[0].length;
         int[][] result = new int[m][n];
-        for (int[] row : result) { // TC: O(M)
-            Arrays.fill(row, -1);  // TC: O(N)
-        }
         // we will be storing { row, col, distance } in the Queue
         Queue<int[]> queue = new LinkedList<int[]>(); // SC: O(M x N)
         for (int i = 0; i < m; i++) {     // TC: O(M)
             for (int j = 0; j < n; j++) { // TC: O(N)
                 if (mat[i][j] == 0) {
                     queue.offer(new int[] { i, j, 0});
+                    result[i][j] = 0;
+                } else {
+                    result[i][j] = -1;
                 }
             }
         }
@@ -36,13 +36,6 @@ class Solution {
                     // result[effRow][effCol] == -1 means it is not yet visited
                     result[effRow][effCol] = mat[effRow][effCol] == 0 ? 0 : dist + 1;
                     queue.offer(new int[] { effRow, effCol, dist + 1 });
-                }
-            }
-        }
-        for (int i = 0; i < m; i++) {     // TC: O(M)
-            for (int j = 0; j < n; j++) { // TC: O(N)
-                if (result[i][j] == -1) {
-                    result[i][j] = 0;
                 }
             }
         }
