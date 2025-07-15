@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach : Using DFS Approach
+     * Approach I : Using DFS Approach
      *
      * TC: O(2 x V + E) ~ O(V + E)
      * SC: O(V) + O(V)
