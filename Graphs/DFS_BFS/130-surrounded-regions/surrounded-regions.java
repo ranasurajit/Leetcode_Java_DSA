@@ -4,10 +4,15 @@ class Solution {
     private static final int[][] directions = { { 1, 0 }, { -1, 0 }, { 0, 1 }, { 0, -1 } };
 
     /**
-     * Approach : Using DFS Approach
+     * Approach: DFS from border 'O's
      *
      * TC: O(M x N) + O(M x N) ~ O(M x N)
+     *   - Each cell is visited at most once during DFS.
+     *   - Second pass also touches each cell once.
+     *
      * SC: O(M x N) + O(M x N) ~ O(M x N)
+     *   - visited array
+     *   - recursion stack in worst case (all 'O's connected)
      */
     public void solve(char[][] board) {
         m = board.length;
