@@ -1,11 +1,57 @@
 class Solution {
     /**
-     * Approach I : Using DFS Approach
+     * Approach II : Using BFS Approach
      *
      * TC: O(2 x V + E) ~ O(V + E)
      * SC: O(V) + O(V)
      */
     public boolean isBipartite(int[][] graph) {
+        int n = graph.length;
+        int[] colors = new int[n]; // SC: O(V)
+        Arrays.fill(colors, -1); // initially no color is assigned
+        for (int i = 0; i < n; i++) { // TC: O(V)
+            // say we have two colors 0 and 1 and we start with 0
+            if (colors[i] == -1 && !bfsGraph(i, graph, colors, 0)) { // TC: O(V + E), SC: O(V)
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Using BFS Approach
+     *
+     * TC: O(V + E)
+     * SC: O(V)
+     */
+    private boolean bfsGraph(int src, int[][] graph, int[] colors, int currentColor) {
+        // we will be storing { node, color } in Queue
+        Queue<int[]> queue = new LinkedList<int[]>(); // SC: O(V)
+        queue.offer(new int[] { src, currentColor });
+        while (!queue.isEmpty()) { // TC: O(V)
+            int[] current = queue.poll();
+            int u = current[0];
+            int color = current[1];
+            colors[u] = color;
+            for (int v : graph[u]) { // TC: O(E)
+                if (colors[v] == colors[u]) {
+                    return false;
+                }
+                if (colors[v] == -1) {
+                    queue.offer(new int[] { v, 1 - color});
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Approach I : Using DFS Approach
+     *
+     * TC: O(2 x V + E) ~ O(V + E)
+     * SC: O(V) + O(V)
+     */
+    public boolean isBipartiteDFS(int[][] graph) {
         int v = graph.length;
         int[] colors = new int[v]; // SC: O(V)
         Arrays.fill(colors, -1); // initially no color is assigned
