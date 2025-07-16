@@ -1,5 +1,52 @@
 class Solution {
     /**
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
+     *
+     * TC: O(N) + O(N)
+     * SC: O(N)
+     *
+     * Accepted (951 / 951 testcases passed)
+     */
+    public int maximumLength(int[] nums) {
+        int n = nums.length;
+        /**
+         * To satisfy the condition: 
+         * (sub[0] + sub[1]) % 2 == (sub[1] + sub[2]) % 2 == ... == (sub[x - 2] + sub[x - 1]) % 2,
+         * we need to have sub-sequences with 
+         * 1. (even + even) + (even + even) .... or,
+         * 2. (odd + odd) + (odd + odd) .....    or,
+         * 3. (odd + even) + (odd + even) ... (odd <--> even is swapable)
+         *
+         * so we need to achieve a parity check
+         */
+        int[][][] dp = new int[n + 1][2][2]; // SC: O(N x 2 x 2) ~ O(N)
+        for (int i = n - 1; i >= 0; i--) { // TC: O(N)
+            for (int prevParity = 0; prevParity < 2; prevParity++) {  // TC: O(2)
+                for (int targetParity = 0; targetParity < 2; targetParity++) {  // TC: O(2)
+                    int currentParity = nums[i] % 2;
+                    int take = 0;
+                    int skip = 0;
+                    if ((prevParity + currentParity) % 2 == targetParity) {
+                        // we can choose to take or skip
+                        take = 1 + dp[i + 1][currentParity][targetParity];
+                        skip = dp[i + 1][prevParity][targetParity];
+                    } else {
+                        // we cannot take it
+                        skip = dp[i + 1][prevParity][targetParity];
+                    }
+                    dp[i][prevParity][targetParity] = Math.max(take, skip);
+                }
+            }
+        }
+        int maxLength = Integer.MIN_VALUE;
+        for (int i = 0; i < n - 1; i++) { // TC: O(N)
+            maxLength = Math.max(maxLength, 1 + dp[i + 1][nums[i] % 2][0]);
+            maxLength = Math.max(maxLength, 1 + dp[i + 1][nums[i] % 2][1]);
+        }
+        return maxLength;
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      *
      * TC: O(N x N)
@@ -7,7 +54,7 @@ class Solution {
      *
      * Accepted (951 / 951 testcases passed)
      */
-    public int maximumLength(int[] nums) {
+    public int maximumLengthMemoization(int[] nums) {
         int n = nums.length;
         /**
          * To satisfy the condition: 
