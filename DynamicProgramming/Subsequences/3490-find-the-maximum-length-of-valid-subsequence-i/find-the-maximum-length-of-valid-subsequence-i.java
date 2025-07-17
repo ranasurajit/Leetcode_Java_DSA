@@ -1,5 +1,47 @@
 class Solution {
     /**
+     * Approach IV : Using Parity Comparison Approach
+     *
+     * TC: O(N) + O(N)
+     * SC: O(1)
+     *
+     * Accepted (951 / 951 testcases passed)
+     */
+    public int maximumLength(int[] nums) {
+        int n = nums.length;
+        /**
+         * To satisfy the condition: 
+         * (sub[0] + sub[1]) % 2 == (sub[1] + sub[2]) % 2 == ... == (sub[x - 2] + sub[x - 1]) % 2,
+         * we need to have sub-sequences with 
+         * 1. (even + even) + (even + even) .... or,
+         * 2. (odd + odd) + (odd + odd) .....    or,
+         * 3. (odd + even) + (odd + even) ... (odd <--> even is swapable)
+         *
+         * so we need to achieve a parity check
+         */
+        int countEvens = 0;
+        int countOdds = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            if ((nums[i] & 1) == 0) {
+                // even
+                countEvens++;
+            } else {
+                countOdds++;
+            }
+        }
+        // also we need to calculate alternating parities
+        int prevParity = (nums[0] & 1);
+        int countAlternatives = 1;
+        for (int i = 1; i < n; i++) { // TC: O(N)
+            if ((nums[i] & 1) == 1 - prevParity) {
+                countAlternatives++;
+                prevParity = (nums[i] & 1);
+            }
+        }
+        return Math.max(countAlternatives, Math.max(countEvens, countOdds));
+    }
+
+    /**
      * Approach III : Using Tabulation (Bottom-Up DP) Approach
      *
      * TC: O(N) + O(N)
@@ -7,7 +49,7 @@ class Solution {
      *
      * Accepted (951 / 951 testcases passed)
      */
-    public int maximumLength(int[] nums) {
+    public int maximumLengthTabulation(int[] nums) {
         int n = nums.length;
         /**
          * To satisfy the condition: 
