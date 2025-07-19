@@ -32,6 +32,9 @@ class Solution {
         TrieNode crawler = root;
         // as folder[i] always starts with the character '/' so index 'i' starts with 1
         for (int i = 1; i < folders.length; i++) { // TC: O(L)
+            if (folders[i] == "") {
+                continue;
+            }
             if (crawler.isEnd) {
                 // we have crossed a parent and folders[i] is one of its child
                 return false;
