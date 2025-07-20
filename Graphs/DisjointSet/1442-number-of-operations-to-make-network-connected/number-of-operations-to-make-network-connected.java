@@ -1,82 +1,72 @@
 class Solution {
     /**
-     * Using DSU Approach
-     *
-     * TC: O(2 x V + E) ~ O(V + E)
-     * SC: O(3 x V) ~ O(V)
+     * Approach : Using Disjoint-Set (Union By Rank and Find By Path Compression)
      * 
-     * @param n
-     * @param connections
-     * @return
+     * TC: O(V) + O(V + E x α(V)) ~ O(V + E x α(V))
+     * SC: O(V) + O(V) + O(V) ~ O(V)
      */
     public int makeConnected(int n, int[][] connections) {
-        int k = connections.length;
-        if (k < n - 1) {
-            // noway we can have all computers connected
+        int e = connections.length;
+        if (e < n - 1) {
+            // we need atleast (V - 1) edges to connect V nodes / computers
             return -1;
         }
-        int[] rank = new int[n];         // SC: O(V)
-        Arrays.fill(rank, 1);
-        int[] parent = new int[n];       // SC: O(V)
-        // initially all nodes are parent itself
-        for (int i = 0; i < n; i++) {    // TC: O(V)
-            parent[i] = i;
+        /**
+         * we will be using DSU Approach to solve this
+         * this problem is similar to finding out disconnected components 
+         * which needs (disconected components - 1) edges to connect all
+         */
+        int[] parents = new int[n];
+        for (int i = 0; i < n; i++) {
+            parents[i] = i;
         }
-        int[] components = { n };
+        int[] rank = new int[n];
+        int components = n;
         for (int[] edge : connections) { // TC: O(E)
-            // create connections between edge nodes and decrease components
-            union(parent, rank, edge[0], edge[1], components); // TC: O(V), SC: O(V)
+            int uParent = find(parents, edge[0]); // TC: O(α(V)), SC: O(V)
+            int vParent = find(parents, edge[1]); // TC: O(α(V)), SC: O(V)
+            if (uParent == vParent) {
+                // having same parent
+                continue;
+            }
+            unionByRank(uParent, vParent, parents, rank); // TC: O(1), SC: O(1)
+            components--;
         }
-        // number of edges needed to alter/add
-        return components[0] - 1;
+        // so we have the count stored in components = number of disconnected components
+        return components - 1;
     }
 
     /**
-     * DSU - Find Path by Compression Approach
+     * Using Find By Path Compression
      * 
-     * TC: O(V)
+     * TC: O(α(V))
      * SC: O(V)
-     * 
-     * @param parent
-     * @param x
-     * @return
      */
-    private int find(int[] parent, int x) {
-        if (x == parent[x]) {
+    private int find(int[] parents, int x) {
+        if (x == parents[x]) {
             return x;
         }
-        return parent[x] = find(parent, parent[x]);
+        return parents[x] = find(parents, parents[x]);
     }
 
     /**
-     * DSU - Union By Rank Approach
-     *
-     * TC: O(V)
-     * SC: O(V)
+     * Using Union By Rank
      * 
-     * @param parent
-     * @param rank
-     * @param x
-     * @param y
+     * TC: O(1)
+     * SC: O(1)
      */
-    private void union(int[] parent, int[] rank, int x, int y, int[] components) {
-        int xParent = find(parent, x); // TC: O(V)
-        int yParent = find(parent, y); // TC: O(V)
-        if (xParent == yParent) {
-            // nodes are already in same set so no need to do anything
-            return;
-        }
-        if (rank[xParent] > rank[yParent]) {
+    private void unionByRank(int x, int y, int[] parents, int[] rank) {
+        if (rank[x] > rank[y]) {
             // make x as parent of y
-            parent[yParent] = xParent;
-        } else if (rank[xParent] < rank[yParent]) {
+            parents[y] = x;
+        } else if (rank[y] > rank[x]) {
             // make y as parent of x
-            parent[xParent] = yParent;
+            parents[x] = y;
         } else {
-            // make anyone as parent and increase it's rank
-            parent[yParent] = xParent;
-            rank[xParent]++;
+            // make anyone as parent increasing the rank of parent
+            // make x as parent of y
+            parents[y] = x;
+            rank[x]++;
         }
-        components[0]--;
     }
 }
