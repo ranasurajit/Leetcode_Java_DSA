@@ -2,7 +2,7 @@ class Solution {
     /**
      * Approach : Using Disjoint-Set (Union By Rank and Find By Path Compression)
      * 
-     * TC: O(V) + O(V + E x α(V)) ~ O(V + E x α(V))
+     * TC: O(V) + O(E x α(V)) ~ O(V + E x α(V))
      * SC: O(V) + O(V) + O(V) ~ O(V)
      */
     public int makeConnected(int n, int[][] connections) {
@@ -16,11 +16,11 @@ class Solution {
          * this problem is similar to finding out disconnected components 
          * which needs (disconected components - 1) edges to connect all
          */
-        int[] parents = new int[n];
-        for (int i = 0; i < n; i++) {
+        int[] parents = new int[n]; // SC: O(V)
+        for (int i = 0; i < n; i++) { // TC: O(V)
             parents[i] = i;
         }
-        int[] rank = new int[n];
+        int[] rank = new int[n]; // SC: O(V)
         int components = n;
         for (int[] edge : connections) { // TC: O(E)
             int uParent = find(parents, edge[0]); // TC: O(α(V)), SC: O(V)
