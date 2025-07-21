@@ -11,7 +11,7 @@ class Solution {
             return s;
         }
         StringBuilder sb = new StringBuilder(); // SC: O(N)
-        sb.append(s.substring(0, 2));
+        sb.append(s.charAt(0)).append(s.charAt(1));
         for (int i = 2; i < n; i++) { // TC: O(N)
             if (s.charAt(i - 2) == s.charAt(i - 1) && s.charAt(i) == s.charAt(i - 1)) {
                 continue;
