@@ -1,17 +1,23 @@
 class Solution {
     /**
-     * Approach II : Using String Simulation (Cleaner) Approach
+     * Approach II : Using String Simulation + Array Conversion Approach
      *
      * TC: O(N)
      * SC: O(N)
      */
     public String makeFancyString(String s) {
+        int n = s.length();
+        if (n < 3) {
+            return s;
+        }
         StringBuilder sb = new StringBuilder(); // SC: O(N)
-        for (char ch : s.toCharArray()) { // TC: O(N)
-            int n = sb.length();
-            if (n < 2 || !(ch == sb.charAt(n - 2) && ch == sb.charAt(n - 1))) {
-                sb.append(ch);
+        char[] sch = s.toCharArray(); // SC: O(N)
+        sb.append(sch[0]).append(sch[1]);
+        for (int i = 2; i < n; i++) { // TC: O(N)
+            if (sch[i - 2] == sch[i - 1] && sch[i] == sch[i - 1]) {
+                continue;
             }
+            sb.append(sch[i]);
         }
         return sb.toString();
     }
