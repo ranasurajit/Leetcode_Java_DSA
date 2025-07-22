@@ -21,9 +21,7 @@ class Solution {
                 i++;
             }
             set.add(nums[j]);
-            if (j - i + 1 == set.size()) {
-                maxSum = Math.max(maxSum, sum);
-            }
+            maxSum = Math.max(maxSum, sum);
             j++;
         }
         return maxSum;
