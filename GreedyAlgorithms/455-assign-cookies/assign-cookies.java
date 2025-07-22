@@ -2,7 +2,7 @@ class Solution {
     /**
      * Approach : Using Greedy + Two Pointers Approach
      *
-     * TC: O(M x log(M)) + O(N x log(N)) + O(Min(M, N))
+     * TC: O(M x log(M)) + O(N x log(N)) + O(M) ~ O(M x log(M) + O(N x log(N))
      * SC: O(1)
      */
     public int findContentChildren(int[] g, int[] s) {
@@ -19,7 +19,7 @@ class Solution {
         int p = m - 1; // pointer at the end of array 'g'
         int q = n - 1; // pointer at the end of array 's'
         int contentedChildCount = 0;
-        while (p >= 0 && q >= 0) { // TC: O(Min(M, N))
+        while (p >= 0 && q >= 0) { // TC: O(M)
             if (g[p] <= s[q]) {
                 contentedChildCount++;
                 q--;
