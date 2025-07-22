@@ -1,11 +1,41 @@
 class Solution {
     /**
-     * Approach : Using Sliding Window (Variable Size) Approach
+     * Approach II : Using Sliding Window (Variable Size) (Cleaner) Approach
      *
      * TC: O(N)
      * SC: O(N)
      */
     public int maximumUniqueSubarray(int[] nums) {
+        int n = nums.length;
+        int i = 0; // start pointer of sliding window
+        int j = 0; // end pointer of sliding window
+        int sum = 0;
+        Set<Integer> set = new HashSet<Integer>(); // SC: O(N)
+        int maxSum = 0;
+        while (j < n) { // TC: O(N)
+            sum += nums[j];
+            while (i < n && set.contains(nums[j])) {
+                // remove computation from index 'i'
+                sum -= nums[i];
+                set.remove(nums[i]);
+                i++;
+            }
+            set.add(nums[j]);
+            if (j - i + 1 == set.size()) {
+                maxSum = Math.max(maxSum, sum);
+            }
+            j++;
+        }
+        return maxSum;
+    }
+
+    /**
+     * Approach I : Using Sliding Window (Variable Size) Approach
+     *
+     * TC: O(N)
+     * SC: O(N)
+     */
+    public int maximumUniqueSubarrayHashMapApproach(int[] nums) {
         int n = nums.length;
         int i = 0; // start pointer of sliding window
         int j = 0; // end pointer of sliding window
