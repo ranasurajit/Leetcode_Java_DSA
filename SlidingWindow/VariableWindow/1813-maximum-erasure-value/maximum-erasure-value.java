@@ -21,6 +21,7 @@ class Solution {
                 i++;
             }
             set.add(nums[j]);
+            // set guarantees for unique elements
             maxSum = Math.max(maxSum, sum);
             j++;
         }
