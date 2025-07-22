@@ -22,11 +22,9 @@ class Solution {
         while (p >= 0 && q >= 0) { // TC: O(Min(M, N))
             if (g[p] <= s[q]) {
                 contentedChildCount++;
-                p--;
                 q--;
-            } else if (s[q] < g[p]) {
-                p--;
             }
+            p--;
         }
         return contentedChildCount;
     }
