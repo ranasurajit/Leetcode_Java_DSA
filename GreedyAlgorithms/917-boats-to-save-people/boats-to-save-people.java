@@ -15,11 +15,10 @@ class Solution {
             if (people[p] + people[q] <= limit) {
                 ships++;
                 p++;
-                q--;
             } else if (people[q] <= limit) {
                 ships++;
-                q--;
             }
+            q--;
         }
         return ships;
     }
