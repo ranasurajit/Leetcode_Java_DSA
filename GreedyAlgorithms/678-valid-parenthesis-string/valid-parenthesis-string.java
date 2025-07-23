@@ -1,5 +1,48 @@
 class Solution {
     /**
+     * Approach III : Using Greedy Approach
+     * 
+     * TC: O(N)
+     * SC: O(1)
+     *
+     * Accepted (83 / 83 testcases passed)
+     */
+    public boolean checkValidString(String s) {
+        int n = s.length();
+        // created a range to explore the result of all possibilities
+        int min = 0;
+        int max = 0;
+
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            if (s.charAt(i) == '(') {
+                min = min + 1;
+                max = max + 1;
+            } else if (s.charAt(i) == ')') {
+                min = min - 1;
+                max = max - 1;
+            } else {
+                /**
+                 * we have an asterisk - we can have three possibilities
+                 * -1 if * is replaced by ')'
+                 *  0 if * is replaced by ''
+                 * +1 if * is replaced by '('
+                 */
+                min = min - 1;
+                max = max + 1;
+            }
+            if (max < 0) {
+                // count < 0 is not possible which indicates s has started or has ')' in the beginning
+                return false;
+            }
+            if (min < 0) {
+                // if min becomes negative then we reset it to 0
+                min = 0;
+            }
+        }
+        return min == 0;
+    }
+
+    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      * 
      * TC: O(N x N) + O(N x N) ~ O(N x N)
@@ -10,7 +53,7 @@ class Solution {
      *
      * Accepted (83 / 83 testcases passed)
      */
-    public boolean checkValidString(String s) {
+    public boolean checkValidStringMemoization(String s) {
         int n = s.length();
         int[] count = { 0 };
         // index and count are the states that we need to memoize
