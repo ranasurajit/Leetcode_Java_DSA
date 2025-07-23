@@ -1,12 +1,11 @@
 class Solution {
     /**
-     * Approach : Using Greedy Algorithm + Stack Approach
+     * Approach I : Using Greedy Algorithm + Stack Approach
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(N), same memory will be reused
      */
     public int maximumGain(String s, int x, int y) {
-        int n = s.length();
         int[] maxScore = { 0 };
         char[] chars = s.toCharArray();
         char[] subAB = { 'a', 'b' };
