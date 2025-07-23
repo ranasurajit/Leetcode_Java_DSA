@@ -6,10 +6,8 @@ class Solution {
      * SC: O(1)
      */
     public boolean lemonadeChange(int[] bills) {
-        int n = bills.length;
         int fives = 0;
         int tens = 0;
-        int twenties = 0;
         for (int bill : bills) { // TC: O(N)
             if (bill == 5) {
                 // no change needed so possible
