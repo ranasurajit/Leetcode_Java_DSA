@@ -1,31 +1,44 @@
 class Solution {
+    /**
+     * Approach : Using Greedy Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
     public boolean lemonadeChange(int[] bills) {
-        int five = 0;
-        int ten = 0;
-        for (int bill : bills) {
+        int n = bills.length;
+        int fives = 0;
+        int tens = 0;
+        int twenties = 0;
+        for (int bill : bills) { // TC: O(N)
             if (bill == 5) {
-                // increment 5
-                five++;
+                // no change needed so possible
+                fives++;
             } else if (bill == 10) {
-                if (five > 0) {
-                    // decrement 5 as change given back to customer
-                    five--;
-                    // increment 10
-                    ten++;
+                // atleast one 5's change is needed
+                if (fives > 0) {
+                    tens++;
+                    fives--;
                 } else {
-                    // no change left
+                    // not possible to return change value
                     return false;
                 }
-            } else if (bill == 20) {
-                if (five > 0 && ten > 0) {
-                    // both 5 and 10 changes left
-                    ten--;
-                    five--;
-                } else if (five >= 3 && ten == 0) {
-                    // 5 changes >= 3 and 10 changes not left
-                    five -= 3;
+            } else {
+                // bill == 20
+                if (tens > 0) {
+                    // atleast one 10's change is needed
+                    if (fives > 0) {
+                        // atleast one 5's change is needed
+                        tens--;
+                        fives--;
+                    } else {
+                        // not possible to return change value
+                        return false;
+                    }
+                } else if (fives >= 3) {
+                    // atleast three 5's change is needed
+                    fives -= 3;
                 } else {
-                    // no change left
                     return false;
                 }
             }
