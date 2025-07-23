@@ -9,14 +9,16 @@ class Solution {
         int n = s.length();
         int[] maxScore = { 0 };
         char[] chars = s.toCharArray();
+        char[] subAB = { 'a', 'b' };
+        char[] subBA = { 'b', 'a' };
         if (x > y) {
             // we should remove "ab" first and then "ba"
-            char[] result = removeSubstrings(chars, 'a', 'b', maxScore, x); // TC: O(N), SC: O(N)
-            removeSubstrings(result, 'b', 'a', maxScore, y); // TC: O(N), SC: O(N)
+            char[] result = removeSubstrings(chars, subAB, maxScore, x); // TC: O(N), SC: O(N)
+            removeSubstrings(result, subBA, maxScore, y); // TC: O(N), SC: O(N)
         } else {
             // we should remove "ba" first and then "ab"
-            char[] result = removeSubstrings(chars, 'b', 'a', maxScore, y); // TC: O(N), SC: O(N)
-            removeSubstrings(result, 'a', 'b', maxScore, x); // TC: O(N), SC: O(N)
+            char[] result = removeSubstrings(chars, subBA, maxScore, y); // TC: O(N), SC: O(N)
+            removeSubstrings(result, subAB, maxScore, x); // TC: O(N), SC: O(N)
         }
         return maxScore[0];
     }
@@ -27,10 +29,10 @@ class Solution {
      * TC: O(2 x N) ~ O(N)
      * SC: O(N)
      */
-    private char[] removeSubstrings(char[] chars, char first, char second, int[] maxScore, int points) {
+    private char[] removeSubstrings(char[] chars, char[] sub, int[] maxScore, int points) {
         Stack<Character> st = new Stack<Character>(); // SC: O(N)
         for (char ch : chars) { // TC: O(N)
-            if (!st.isEmpty() && ch == second && st.peek() == first) {
+            if (!st.isEmpty() && ch == sub[1] && st.peek() == sub[0]) {
                 maxScore[0] += points;
                 st.pop();
                 continue;
