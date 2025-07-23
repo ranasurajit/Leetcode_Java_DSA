@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Using Greedy Algorithm + Stack Approach
+     * Approach : Using Greedy Algorithm + Stack Approach
      *
      * TC: O(2 x N) ~ O(N)
      * SC: O(N), same memory will be reused
