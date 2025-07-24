@@ -1,19 +1,22 @@
 class Solution {
     /**
-     * Using Greedy Approach
+     * Approach : Using Greedy Approach
      *
      * TC: O(N)
      * SC: O(1)
      */
     public boolean canJump(int[] nums) {
         int n = nums.length;
-        int maxIndex = 0;
+        int maxPosition = 0;
         for (int i = 0; i < n; i++) { // TC: O(N)
-            if (maxIndex < i) {
-                // cannot move further
+            if (i > maxPosition) {
                 return false;
             }
-            maxIndex = Math.max(maxIndex, i + nums[i]);
+            // for any index 'i', we can jump from (i + 1) to (i + nums[i]) position
+            maxPosition = Math.max(maxPosition, i + nums[i]);
+            if (maxPosition >= n - 1) {
+                return true;
+            }
         }
         return true;
     }
