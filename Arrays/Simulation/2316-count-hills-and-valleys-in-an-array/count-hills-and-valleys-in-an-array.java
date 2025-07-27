@@ -18,10 +18,13 @@ class Solution {
         int hills = 0;
         int valleys = 0;
         for (int i = 1; i < m - 1; i++) { // TC: O(N)
-            if (list.get(i) > list.get(i - 1) && list.get(i) > list.get(i + 1)) {
+            int current = list.get(i);
+            int prev = list.get(i - 1);
+            int next = list.get(i + 1);
+            if (current > prev && current > next) {
                 hills++;
             }
-            if (list.get(i) < list.get(i - 1) && list.get(i) < list.get(i + 1)) {
+            if (current < prev && current < next) {
                 valleys++;
             }
         }
