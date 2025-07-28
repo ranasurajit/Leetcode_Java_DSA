@@ -1,11 +1,42 @@
 class Solution {
     /**
-     * Approach II : Using Memoization (Top-Down DP) Approach
+     * Approach III : Using Tabulation (Bottom-Up DP) Approach
      * 
-     * TC: O(N x R) + O(N x R) ~ O(N x R)
-     * SC: O(N x R) + O(N)
+     * TC: O(N) + O(N x R) ~ O(N x R)
+     * SC: O(N x R)
      */
     public int countMaxOrSubsets(int[] nums) {
+        int n = nums.length;
+        /**
+         * maximum possible bitwise OR of nums will be bitwise OR of all elements
+         */
+        int maxOR = 0;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            maxOR |= nums[i];
+        }
+        // Using Recursion + Memoization to find the number of subsets that matches maxOR
+        // states are idx and currentXOR ranges from (0 to N - 1) and (0 to maxOR)
+        int[][] dp = new int[n + 1][maxOR + 1]; // SC: O(N x R)
+        dp[0][0] = 1; // ways only to make currentOR = 0 by using 0 elements = 1
+        for (int i = 1; i < n + 1; i++) {         // TC: O(N)
+            for (int j = 0; j < maxOR + 1; j++) { // TC: O(R)
+                if (dp[i - 1][j] > 0) {
+                    dp[i][j] += dp[i - 1][j]; // skip
+                    int newOR = (nums[i - 1] | j); // pick
+                    dp[i][newOR] += dp[i - 1][j];
+                }
+            }
+        }
+        return dp[n][maxOR];
+    }
+
+    /**
+     * Approach II : Using Memoization (Top-Down DP) Approach
+     * 
+     * TC: O(N) + O(N x R) + O(N x R) ~ O(N x R)
+     * SC: O(N x R) + O(N)
+     */
+    public int countMaxOrSubsetsMemoization(int[] nums) {
         int n = nums.length;
         /**
          * maximum possible bitwise OR of nums will be bitwise OR of all elements
