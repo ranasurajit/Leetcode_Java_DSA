@@ -1,11 +1,50 @@
 class Solution {
     /**
+     * Approach III : Using Slope Approach (Optimal Approach)
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public int candy(int[] ratings) {
+        int n = ratings.length;
+        int i = 1;
+        int totalCandies = 1;
+        while (i < n) { // TC: O(N)
+            // processing the valleys
+            while (i < n && ratings[i] == ratings[i - 1]) {
+                totalCandies += 1;
+                i++;
+                continue;
+            }
+            // processing the rise of peaks
+            int peaks = 1;
+            while (i < n && ratings[i] > ratings[i - 1]) {
+                peaks++;
+                totalCandies += peaks;
+                i++;
+            }
+            // processing the decline of peaks
+            int valleys = 1;
+            while (i < n && ratings[i] < ratings[i - 1]) {
+                totalCandies += valleys;
+                valleys++;
+                i++;
+            }
+            if (valleys > peaks) {
+                // we need to adjust the totalCadies with difference of peaks and valleys
+                totalCandies += (valleys - peaks);
+            }
+        }
+        return totalCandies;
+    }
+
+    /**
      * Approach II : Using Greedy + Array Pre-processing (Better Approach / Less Memory) Approach
      *
      * TC: O(N) + O(N) ~ O(N)
      * SC: O(N)
      */
-    public int candy(int[] ratings) {
+    public int candyBetterApproach(int[] ratings) {
         int n = ratings.length;
         // pre-processing candy allocation from left to right
         int[] leftAlloc = new int[n];      // SC: O(N)
@@ -39,7 +78,7 @@ class Solution {
      * TC: O(N) + O(N) + O(N) ~ O(N)
      * SC: O(N) + O(N) ~ O(N)
      */
-    public int candyBruteForce(int[] ratings) {
+    public int candyBruteForceApproach(int[] ratings) {
         int n = ratings.length;
         // pre-processing candy allocation from left to right
         int[] leftAlloc = new int[n];      // SC: O(N)
