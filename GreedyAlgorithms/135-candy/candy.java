@@ -1,69 +1,37 @@
 class Solution {
     /**
-     * Approach II : Using Greedy (Space Efficient) Approach
+     * Approach I : Using Greedy + Array Pre-processing Approach
      *
-     * TC: O(2 x N) ~ O(N)
-     * SC: O(N)
+     * TC: O(N) + O(N) + O(N) ~ O(N)
+     * SC: O(N) + O(N) ~ O(N)
      */
     public int candy(int[] ratings) {
         int n = ratings.length;
-        // calculating the assignment of candies from left to right
-        int[] leftAssignment = new int[n]; // SC: O(N)
-        leftAssignment[0] = 1;
-        for (int i = 1; i < n; i++) { // TC: O(N)
+        // pre-processing candy allocation from left to right
+        int[] leftAlloc = new int[n];      // SC: O(N)
+        leftAlloc[0] = 1;
+        for (int i = 1; i < n; i++) {      // TC: O(N)
             if (ratings[i] > ratings[i - 1]) {
-                leftAssignment[i] = leftAssignment[i - 1] + 1;
+                leftAlloc[i] = 1 + leftAlloc[i - 1];
             } else {
-                leftAssignment[i] = 1;
+                leftAlloc[i] = 1;
             }
         }
-        // calculating the assignment of candies from right to left and calculate minimum candies also
-        int rightAssignment = 1;
-        int minimumCandies = Math.max(1, leftAssignment[n - 1]);
+        // pre-processing candy allocation from right to left
+        int[] rightAlloc = new int[n];     // SC: O(N)
+        rightAlloc[n - 1] = 1;
         for (int i = n - 2; i >= 0; i--) { // TC: O(N)
             if (ratings[i] > ratings[i + 1]) {
-                rightAssignment = rightAssignment + 1;
+                rightAlloc[i] = 1 + rightAlloc[i + 1];
             } else {
-                rightAssignment = 1;
-            }
-            minimumCandies += Math.max(leftAssignment[i], rightAssignment);
-        }
-        return minimumCandies;
-    }
-
-    /**
-     * Approach I : Using Greedy Approach
-     *
-     * TC: O(3 x N) ~ O(N)
-     * SC: O(2 x N) ~ O(N)
-     */
-    public int candyGreedyApproach(int[] ratings) {
-        int n = ratings.length;
-        // calculating the assignment of candies from left to right
-        int[] leftAssignment = new int[n]; // SC: O(N)
-        leftAssignment[0] = 1;
-        for (int i = 1; i < n; i++) { // TC: O(N)
-            if (ratings[i] > ratings[i - 1]) {
-                leftAssignment[i] = leftAssignment[i - 1] + 1;
-            } else {
-                leftAssignment[i] = 1;
+                rightAlloc[i] = 1;
             }
         }
-        // calculating the assignment of candies from right to left
-        int[] rightAssignment = new int[n]; // SC: O(N)
-        rightAssignment[n - 1] = 1;
-        for (int i = n - 2; i >= 0; i--) { // TC: O(N)
-            if (ratings[i] > ratings[i + 1]) {
-                rightAssignment[i] = rightAssignment[i + 1] + 1;
-            } else {
-                rightAssignment[i] = 1;
-            }
-        }
-        // to satisfy both left and right assignments we need to take the maximum from both sides
-        int minimumCandies = 0;
+        int totalCandies = 0;
+        // summing up all candies
         for (int i = 0; i < n; i++) { // TC: O(N)
-            minimumCandies += Math.max(leftAssignment[i], rightAssignment[i]);
+            totalCandies += Math.max(leftAlloc[i], rightAlloc[i]);
         }
-        return minimumCandies;
+        return totalCandies;
     }
 }
