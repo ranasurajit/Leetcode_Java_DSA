@@ -1,11 +1,23 @@
 class Solution {
     /**
-     * Approach : Using PriorityQueue (Min-Heap) Approach
+     * Approach II : Using Sorting Approach
+     *
+     * TC: O(N x log(N))
+     * SC: O(1)
+     */
+    public int findKthLargest(int[] nums, int k) {
+        int n = nums.length;
+        Arrays.sort(nums); // TC: O(N x log(N))
+        return nums[n - k];
+    }
+
+    /**
+     * Approach I : Using PriorityQueue (Min-Heap) Approach
      *
      * TC: O(N x log(N))
      * SC: O(K)
      */
-    public int findKthLargest(int[] nums, int k) {
+    public int findKthLargestUsingHeaps(int[] nums, int k) {
         int n = nums.length;
         // we will insert elements to Min-Heap (PriorityQueue)
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(); // SC: O(K)
