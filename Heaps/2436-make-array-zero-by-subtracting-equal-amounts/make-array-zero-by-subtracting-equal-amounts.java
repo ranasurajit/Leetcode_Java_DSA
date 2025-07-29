@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach : Using Min Heaps (PriorityQueues) Approach
+     * Approach I : Using Min Heaps (PriorityQueues) Approach
      *
      * TC: O(N x log(N)) + O(N x N x log(N)) ~ O((N ^ 2 x log(N))
      * SC: O(N)
@@ -8,12 +8,10 @@ class Solution {
     public int minimumOperations(int[] nums) {
         int n = nums.length;
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(); // SC: O(N)
-        int sum = 0;
         for (int i = 0; i < n; i++) {     // TC: O(N)
             if (nums[i] > 0) {
                 pq.offer(nums[i]);        // TC: O(log(N))
             }
-            sum += nums[i];
         }
         int count = 0;
         while (!pq.isEmpty()) {           // TC: O(N)
