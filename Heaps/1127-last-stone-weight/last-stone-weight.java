@@ -24,6 +24,9 @@ class Solution {
                 pq.offer(first - second); // TC: O(log(N))
             }
         }
-        return pq.isEmpty() ? 0 : pq.peek();
+        if (pq.size() == 1) {
+            return pq.peek();
+        }
+        return 0; 
     }
 }
