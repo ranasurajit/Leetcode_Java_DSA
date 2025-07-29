@@ -1,11 +1,32 @@
 class Solution {
     /**
+     * Approach II : Using Hashing Approach
+     *
+     * TC: O(N)
+     * SC: O(N)
+     */
+    public int minimumOperations(int[] nums) {
+        int n = nums.length;
+        /**
+         * Minimum operations needed to make array elements zero
+         * = number of non-zero unique elements
+         */
+        Set<Integer> set = new HashSet<Integer>(); // SC: O(N)
+        for (int i = 0; i < n; i++) {              // TC: O(N)
+            if (nums[i] > 0) {
+                set.add(nums[i]);
+            }
+        }
+        return set.size();
+    }
+
+    /**
      * Approach I : Using Min Heaps (PriorityQueues) Approach
      *
      * TC: O(N x log(N)) + O(N x N x log(N)) ~ O((N ^ 2 x log(N))
      * SC: O(N)
      */
-    public int minimumOperations(int[] nums) {
+    public int minimumOperationsUsingHeaps(int[] nums) {
         int n = nums.length;
         PriorityQueue<Integer> pq = new PriorityQueue<Integer>(); // SC: O(N)
         for (int i = 0; i < n; i++) {     // TC: O(N)
