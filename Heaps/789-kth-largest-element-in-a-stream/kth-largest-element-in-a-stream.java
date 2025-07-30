@@ -1,31 +1,43 @@
+/**
+ * Approach : Using Min Heap (PriorityQueues) Approach
+ * TC: O(N x log(K)) + O(P x log(K))
+ * SC: O(K)
+ *
+ * where P = total number of 'add' operations
+ */
 class KthLargest {
+    PriorityQueue<Integer> pq = null;
+    private int k;
 
-    PriorityQueue<Integer> pq;
-    int k;
-    int kthElement;
-
+    /**
+     * TC: O(N x log(K))
+     * SC: O(1)
+     */
     public KthLargest(int k, int[] nums) {
-        // we will maintain only k elements in the p\PriorityQueue
-        this.pq = new PriorityQueue<Integer>();
         this.k = k;
-        for (int it : nums) {
-            pq.offer(it);
-        }
-        while (this.pq.size() > k) {
-            this.pq.poll();
+        pq = new PriorityQueue<Integer>();      // SC: O(K)
+        for (int i = 0; i < nums.length; i++) { // TC: O(N)
+            if (pq.size() < k) {
+                pq.offer(nums[i]);              // TC: O(log(K))
+            } else {
+                if (nums[i] > pq.peek()) {
+                    pq.poll();
+                    pq.offer(nums[i]);          // TC: O(log(K))
+                }
+            }
         }
     }
     
+    /**
+     * TC: O(log(K))
+     * SC: O(1)
+     */
     public int add(int val) {
-        if (this.pq.size() < k || val > this.pq.peek()) {
-            // add the val to the Priority Queue
-            this.pq.offer(val);
-            // remove extra elements from PriorityQueue if greater than k
-            if (this.pq.size() > k) {
-                this.pq.poll();
-            }
+        pq.offer(val); // TC: O(log(K))
+        if (pq.size() > k) {
+            pq.poll();
         }
-        return this.pq.peek();
+        return pq.peek();
     }
 }
 
