@@ -1,29 +1,37 @@
 class Solution {
+    /**
+     * Approach : Using Min Heap (PriorityQueues) + Hashing Approach
+     *
+     * TC: O(N) + O(N x log(K)) + O(K) ~ O(N + K + N x log(K))
+     * SC: O(N) + O(K) ~ O(N + K)
+     */
     public int[] topKFrequent(int[] nums, int k) {
-        Map<Integer, Integer> hm = new HashMap<Integer, Integer>();
-        PriorityQueue<Pair> pq = new PriorityQueue<Pair>((Pair p, Pair q) -> q.frequency - p.frequency);
-        for (int i = 0; i < nums.length; i++) {
-            hm.put(nums[i], hm.getOrDefault(nums[i], 0) + 1);
+        int n = nums.length;
+        Map<Integer, Integer> freqMap = new HashMap<Integer, Integer>(); // SC: O(N)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            freqMap.put(nums[i], freqMap.getOrDefault(nums[i], 0) + 1);
         }
-        for (Integer key : hm.keySet()) {
-            pq.add(new Pair(key, hm.get(key)));
+        /**
+         * we will be inserting values from HashMap to Min-Heap to 
+         * order based upon frequency and will store only k elements
+         * only
+         */
+        PriorityQueue<int[]> pq = new PriorityQueue<int[]>((p, q) -> p[1] - q[1]); // SC: O(K)
+        for (Integer key : freqMap.keySet()) { // TC: O(N)
+            if (pq.size() < k) {
+                pq.offer(new int[] { key, freqMap.get(key) });     // TC: O(log(K))
+            } else {
+                if (freqMap.get(key) > pq.peek()[1]) {
+                    pq.poll();
+                    pq.offer(new int[] { key, freqMap.get(key) }); // TC: O(log(K))
+                }
+            }
         }
-        int[] top = new int[k];
-        int index = 0;
-        while (!pq.isEmpty() && index < k) {
-            Pair current = pq.remove();
-            top[index++] = current.digit;
+        int index = k - 1;
+        int[] topKArr = new int[k];
+        while (!pq.isEmpty()) { // TC: O(K)
+            topKArr[index--] = pq.poll()[0];
         }
-        return top;
-    }
-
-    class Pair {
-        int digit;
-        int frequency;
-
-        public Pair(int digit, int frequency) {
-            this.digit = digit;
-            this.frequency = frequency;
-        }
+        return topKArr;
     }
 }
