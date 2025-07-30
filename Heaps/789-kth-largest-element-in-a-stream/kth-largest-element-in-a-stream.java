@@ -15,15 +15,11 @@ class KthLargest {
      */
     public KthLargest(int k, int[] nums) {
         this.k = k;
-        pq = new PriorityQueue<Integer>();      // SC: O(K)
-        for (int i = 0; i < nums.length; i++) { // TC: O(N)
-            if (pq.size() < k) {
-                pq.offer(nums[i]);              // TC: O(log(K))
-            } else {
-                if (nums[i] > pq.peek()) {
-                    pq.poll();
-                    pq.offer(nums[i]);          // TC: O(log(K))
-                }
+        pq = new PriorityQueue<Integer>(); // SC: O(K)
+        for (int num : nums) { // TC: O(N)
+            pq.offer(num); // TC: O(log(K))
+            if (pq.size() > k) {
+                pq.poll();
             }
         }
     }
