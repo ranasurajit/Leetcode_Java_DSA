@@ -5,23 +5,22 @@ class Solution {
      * TC: O(N x 32) ~ O(N)
      * SC: O(N x 32) ~ O(N)
      *
-     * Time Limit Exceeded (75 / 85 testcases passed)
+     * Accepted (85 / 85 testcases passed)
      */
     public int subarrayBitwiseORs(int[] arr) {
         int n = arr.length;
-        Set<Integer> set = new HashSet<Integer>(); // SC: O(N ^ 2)
+        Set<Integer> result = new HashSet<Integer>(); // SC: O(N ^ 2)
         Set<Integer> prev = new HashSet<Integer>();
-        
         for (int i = 0; i < n; i++) { // TC: O(N)
             Set<Integer> current = new HashSet<Integer>();
             current.add(arr[i]);
             for (int val : prev) {
-                current.add((val | arr[i]));
+                current.add(val | arr[i]);
             }
-            set.addAll(current);
             prev = current; // move to next index
+            result.addAll(current);
         }
-        return set.size();
+        return result.size();
     }
 
     /**
