@@ -1,6 +1,6 @@
 class Solution {
     /**
-     * Approach II : Using 2 Min Heaps (PriorityQueues) Approach
+     * Approach II : Using 2 Min Heaps (PriorityQueues) + Two Pointers Approach
      *
      * TC: O((K + C) x log(C))
      * SC: O(2 x C) ~ O(C)
