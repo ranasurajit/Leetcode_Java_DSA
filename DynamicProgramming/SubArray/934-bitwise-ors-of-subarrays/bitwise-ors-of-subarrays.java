@@ -14,6 +14,10 @@ class Solution {
             set.add(arr[i]);
             for (int j = i - 1; j >= 0; j--) { // TC: O(N)
                 if (arr[j] == (arr[j] | arr[i])) {
+                    /**
+                     * The value at arr[j] already has all the bits set
+                     * that arr[i] has so early break is essential
+                     */
                     break;
                 }
                 arr[j] = (arr[j] | arr[i]);
