@@ -1,5 +1,29 @@
 class Solution {
     /**
+     * Approach V : Using Simulation Approach
+     *
+     * TC: O(N ^ 2)
+     * SC: O(N ^ 2)
+     *
+     * Accepted (85 / 85 testcases passed)
+     */
+    public int subarrayBitwiseORs(int[] arr) {
+        int n = arr.length;
+        Set<Integer> set = new HashSet<Integer>(); // SC: O(N ^ 2)
+        for (int i = 0; i < n; i++) {     // TC: O(N)
+            set.add(arr[i]);
+            for (int j = i - 1; j >= 0; j--) { // TC: O(N)
+                if (arr[j] == (arr[j] | arr[i])) {
+                    break;
+                }
+                arr[j] = (arr[j] | arr[i]);
+                set.add(arr[j]);
+            }
+        }
+        return set.size();
+    }
+
+    /**
      * Approach IV : Using Optimized DP Approach
      *
      * TC: O(N x 32) ~ O(N)
@@ -7,7 +31,7 @@ class Solution {
      *
      * Accepted (85 / 85 testcases passed)
      */
-    public int subarrayBitwiseORs(int[] arr) {
+    public int subarrayBitwiseORsOptimizedDP(int[] arr) {
         int n = arr.length;
         Set<Integer> result = new HashSet<Integer>(); // SC: O(N ^ 2)
         Set<Integer> prev = new HashSet<Integer>();
