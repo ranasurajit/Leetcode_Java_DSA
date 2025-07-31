@@ -13,10 +13,12 @@ class Solution {
             pq.offer((long) nums[i]); // TC: O(log(N))
         }
         int operations = 0;
+        long x = 0L;
+        long y = 0L;
         while (!pq.isEmpty() && pq.peek() < k) { // TC: O(N)
             if (pq.size() >= 2 && pq.peek() < k) {
-                long x = pq.poll();
-                long y = pq.poll();
+                x = pq.poll();
+                y = pq.poll();
                 pq.offer((2 * x) + y); // // TC: O(log(N))
                 operations++;
             } else {
