@@ -1,86 +1,86 @@
 class Solution {
+    private TrieNode root = new TrieNode();
+
     /**
-     * TC: O(N x L + M x L)
-     * SC: O(N x L + M x L)
-     * where 
-     * N = number of words in dictionary
-     * L = average length of words
-     * M = number of words in sentence
+     * Approach : Using Trie Approach
+     *
+     * TC: O(N x D) + O(W x D)
+     * SC: O(26 x D)
+     *
+     * where
+     * N = Number of root words in List 'dictionary'
+     * D = Max(dictionary[i])
+     * W = Number of words in String 'sentence'
      */
     public String replaceWords(List<String> dictionary, String sentence) {
-        Trie trie = new Trie();
-        for (String rootWords : dictionary) {     // TC: O(N)
-            trie.insert(rootWords);               // TC: O(L)
+        Set<String> dict = new HashSet<String>(dictionary);
+        for (String prefix : dictionary) { // TC: O(N)
+            insert(prefix); // TC: O(D), SC: O(D)
         }
-        String[] words = sentence.split(" ");
+        String[] words = sentence.split(" ");    // SC: O(W)
         StringBuilder sb = new StringBuilder();
-        for (String word : words) {               // TC: O(M)
-            sb.append(trie.getReplacement(word)); // TC: O(L)
-            sb.append(" ");
+        for (int i = 0; i < words.length; i++) { // TC: O(W)
+            String root = getRoot(words[i]);
+            if (dict.contains(root)) {           // TC: O(D), SC: O(1)
+                words[i] = root;
+            }
+            sb.append(words[i]).append(" ");
         }
-        sb.setLength(sb.length() - 1);
-        return sb.toString();
+        return sb.toString().substring(0, sb.length() - 1);
     }
 
-    class Trie {
+    /**
+     * Using Trie Approach
+     *
+     * TC: O(D)
+     * SC: O(26 x D)
+     *
+     * where D = Max(dictionary[i])
+     */
+    private void insert(String prefix) {
+        TrieNode crawler = root;
+        for (int i = 0; i < prefix.length(); i++) { // TC: O(D)
+            int idx = prefix.charAt(i) - 'a';
+            if (crawler.children[idx] == null) {
+                crawler.children[idx] = new TrieNode();
+            }
+            crawler = crawler.children[idx];
+        }
+        crawler.isEnd = true;
+    }
 
-        TrieNode root;
-
-        class TrieNode {
-            boolean isEndOfWord;
-            TrieNode[] children;
-
-            public TrieNode() {
-                isEndOfWord = false;
-                children = new TrieNode[26];
+    /**
+     * Using Trie Approach
+     *
+     * TC: O(D)
+     * SC: O(1)
+     *
+     * where D = Max(dictionary[i])
+     */
+    private String getRoot(String s) {
+        TrieNode crawler = root;
+        int count = 0;
+        for (int i = 0; i < s.length(); i++) { // TC: O(D)
+            int idx = s.charAt(i) - 'a';
+            if (crawler.children[idx] == null) {
+                break;
+            }
+            crawler = crawler.children[idx];
+            count++;
+            if (crawler.isEnd) {
+                return s.substring(0, count);
             }
         }
+        return "";
+    }
 
-        public Trie() {
-            root = new TrieNode();
-        }
+    class TrieNode {
+        TrieNode[] children;
+        boolean isEnd;
 
-        private TrieNode createNode() {
-            return new TrieNode();
-        }
-
-        /**
-         * TC: O(N)
-         * SC: O(26 x N) ~ O(N)
-         */
-        public void insert(String word) {
-            int n = word.length();
-            TrieNode crawler = root;
-            for (int i = 0; i < n; i++) { // TC: O(N)
-                int idx = word.charAt(i) - 'a';
-                if (crawler.children[idx] == null) {
-                    crawler.children[idx] = createNode();
-                }
-                crawler = crawler.children[idx];
-            }
-            crawler.isEndOfWord = true;
-        }
-
-        /**
-         * TC: O(N)
-         * SC: O(1)
-         */
-        public String getReplacement(String word) {
-            int n = word.length();
-            TrieNode crawler = root;
-            int count = 0;
-            for (int i = 0; i < n; i++) { // TC: O(N)
-                int idx = word.charAt(i) - 'a';
-                if (crawler.children[idx] == null) {
-                    return word;
-                }
-                crawler = crawler.children[idx];
-                if (crawler.isEndOfWord) {
-                    return word.substring(0, count + 1);
-                }
-                count++;
-            }
-            return word;
+        public TrieNode() {
+            this.children = new TrieNode[26];
+            isEnd = false;
         }
     }
 }
