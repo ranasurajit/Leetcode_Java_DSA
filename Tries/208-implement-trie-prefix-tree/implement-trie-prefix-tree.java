@@ -1,3 +1,11 @@
+/**
+ * Approach : Using Trie Approach
+ * 
+ * TC: O(L x N)
+ * SC: O(L)
+ *
+ * where N = number of queries, L = Max(words) sent as parameter
+ */
 class Trie {
     TrieNode root;
 
@@ -5,10 +13,18 @@ class Trie {
         root = new TrieNode();
     }
     
+    /**
+     * Using Trie Approach
+     * 
+     * TC: O(L)
+     * SC: O(L)
+     *
+     * where L = Max(words) sent as parameter
+     */
     public void insert(String word) {
         TrieNode crawler = root;
-        for (char ch : word.toCharArray()) {
-            int idx = ch - 'a';
+        for (int i = 0; i < word.length(); i++) { // TC: O(L)
+            int idx = word.charAt(i) - 'a';
             if (crawler.children[idx] == null) {
                 crawler.children[idx] = new TrieNode();
             }
@@ -17,10 +33,18 @@ class Trie {
         crawler.isEnd = true;
     }
     
+    /**
+     * Using Trie Approach
+     * 
+     * TC: O(L)
+     * SC: O(1)
+     *
+     * where L = Max(words) sent as parameter
+     */
     public boolean search(String word) {
         TrieNode crawler = root;
-        for (char ch : word.toCharArray()) {
-            int idx = ch - 'a';
+        for (int i = 0; i < word.length(); i++) { // TC: O(L)
+            int idx = word.charAt(i) - 'a';
             if (crawler.children[idx] == null) {
                 return false;
             }
@@ -29,10 +53,18 @@ class Trie {
         return crawler.isEnd;
     }
     
+    /**
+     * Using Trie Approach
+     * 
+     * TC: O(L)
+     * SC: O(1)
+     *
+     * where L = Max(words) sent as parameter
+     */
     public boolean startsWith(String prefix) {
         TrieNode crawler = root;
-        for (char ch : prefix.toCharArray()) {
-            int idx = ch - 'a';
+        for (int i = 0; i < prefix.length(); i++) { // TC: O(L)
+            int idx = prefix.charAt(i) - 'a';
             if (crawler.children[idx] == null) {
                 return false;
             }
@@ -45,9 +77,9 @@ class Trie {
         boolean isEnd;
         TrieNode[] children;
 
-        public TrieNode() {
-            isEnd = false;
-            children = new TrieNode[26];
+        public TrieNode () {
+            this.isEnd = false;
+            this.children = new TrieNode[26];
         }
     }
 }
