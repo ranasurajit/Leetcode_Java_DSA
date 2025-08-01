@@ -1,55 +1,54 @@
 class Trie {
-
     TrieNode root;
-
-    class TrieNode {
-        boolean isEnd;
-        TrieNode[] children;
-
-        public TrieNode () {
-            isEnd = false;
-            children = new TrieNode[26];
-        }
-    }
 
     public Trie() {
         root = new TrieNode();
     }
     
     public void insert(String word) {
-        TrieNode crawl = root;
+        TrieNode crawler = root;
         for (char ch : word.toCharArray()) {
             int idx = ch - 'a';
-            if (crawl.children[idx] == null) {
-                crawl.children[idx] = new TrieNode();
+            if (crawler.children[idx] == null) {
+                crawler.children[idx] = new TrieNode();
             }
-            crawl = crawl.children[idx];
+            crawler = crawler.children[idx];
         }
-        crawl.isEnd = true;
+        crawler.isEnd = true;
     }
     
     public boolean search(String word) {
-        TrieNode crawl = root;
+        TrieNode crawler = root;
         for (char ch : word.toCharArray()) {
             int idx = ch - 'a';
-            if (crawl.children[idx] == null) {
+            if (crawler.children[idx] == null) {
                 return false;
             }
-            crawl = crawl.children[idx];
+            crawler = crawler.children[idx];
         }
-        return crawl.isEnd;
+        return crawler.isEnd;
     }
     
     public boolean startsWith(String prefix) {
-        TrieNode crawl = root;
+        TrieNode crawler = root;
         for (char ch : prefix.toCharArray()) {
             int idx = ch - 'a';
-            if (crawl.children[idx] == null) {
+            if (crawler.children[idx] == null) {
                 return false;
             }
-            crawl = crawl.children[idx];
+            crawler = crawler.children[idx];
         }
-        return crawl != null;
+        return true;
+    }
+
+    class TrieNode {
+        boolean isEnd;
+        TrieNode[] children;
+
+        public TrieNode() {
+            isEnd = false;
+            children = new TrieNode[26];
+        }
     }
 }
 
