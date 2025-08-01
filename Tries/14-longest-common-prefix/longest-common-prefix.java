@@ -1,78 +1,68 @@
 class Solution {
+
+    TrieNode root = new TrieNode();
+
     /**
-     * TC: O(N + N ^ 2) ~ O(N ^ 2)
-     * SC: O(N)
+     * Approach : Using Trie Approach
+     *
+     * TC: O(L) + O(N x L) ~ O(N x L)
+     * SC: O(L)
      */
     public String longestCommonPrefix(String[] strs) {
         int n = strs.length;
         if (n == 1) {
             return strs[0];
         }
-        Trie trie = new Trie();
-        trie.insert(strs[0]); // TC: O(N), SC: O(N)
+        insert(strs[0]); // TC: O(L), SC: O(L)
         int minLength = Integer.MAX_VALUE;
         for (int i = 1; i < n; i++) { // TC: O(N)
-            minLength = Math.min(minLength, trie.searchCommon(strs[i])); // TC: O(N)
+            minLength = Math.min(minLength, searchPrefix(strs[i])); // TC: O(L), SC: O(1)
         }
         return strs[0].substring(0, minLength);
     }
 
-    class Trie {
-
-        TrieNode root;
-
-        class TrieNode {
-            boolean isEndOfWord;
-            TrieNode[] children;
-
-            public TrieNode() {
-                isEndOfWord = false;
-                children = new TrieNode[26];
+    /**
+     * Using Trie Approach
+     *
+     * TC: O(L)
+     * SC: O(L)
+     */
+    private void insert(String word) {
+        TrieNode crawler = root;
+        for (int i = 0; i < word.length(); i++) { // TC: O(L)
+            int idx = word.charAt(i) - 'a';
+            if (crawler.children[idx] == null) {
+                crawler.children[idx] = new TrieNode();
             }
+            crawler = crawler.children[idx];
         }
+    }
 
-        public Trie() {
-            root = new TrieNode();
-        }
-
-        private TrieNode createNode() {
-            return new TrieNode();
-        }
-
-        /**
-         * TC: O(N)
-         * SC: O(26 x N) ~ O(N)
-         */
-        public void insert(String word) {
-            TrieNode crawler = root;
-            int n = word.length();
-            for (int i = 0; i < n; i++) { // TC: O(N)
-                int idx = word.charAt(i) - 'a';
-                if (crawler.children[idx] == null) {
-                    crawler.children[idx] = createNode();
-                }
-                crawler = crawler.children[idx];
+    /**
+     * Using Trie Approach
+     *
+     * TC: O(L)
+     * SC: O(1)
+     */
+    private int searchPrefix(String word) {
+        TrieNode crawler = root;
+        int count = 0;
+        for (int i = 0; i < word.length(); i++) { // TC: O(L)
+            int idx = word.charAt(i) - 'a';
+            if (crawler.children[idx] == null) {
+                return count;
             }
-            crawler.isEndOfWord = true;
+            crawler = crawler.children[idx];
+            count++;
         }
+        return count;
+    }
 
-        /**
-         * TC: O(N)
-         * SC: O(1)
-         */
-        public int searchCommon(String word) {
-            TrieNode crawler = root;
-            int n = word.length();
-            int count = 0;
-            for (int i = 0; i < n; i++) { // TC: O(N)
-                int idx = word.charAt(i) - 'a';
-                if (crawler.children[idx] == null) {
-                    return count;
-                }
-                crawler = crawler.children[idx];
-                count++;
-            }
-            return count;
+    class TrieNode {
+        TrieNode[] children;
+
+        public TrieNode() {
+            this.children = new TrieNode[26];
         }
     }
 }
