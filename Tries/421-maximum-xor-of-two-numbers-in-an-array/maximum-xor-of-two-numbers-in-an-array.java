@@ -1,110 +1,86 @@
 class Solution {
+    BitTrieNode root = new BitTrieNode();
+
     /**
-     * Optimal Approach - Using Trie
-     * 
-     * TC: O(2 x N) ~ O(N)
+     * Approach : Using Bit-Trie Approach
+     *
+     * TC: O(32 x N) + O(32 x N) ~ O(N)
      * SC: O(1)
      */
     public int findMaximumXOR(int[] nums) {
         int n = nums.length;
-        BitTrie trie = new BitTrie();
         for (int i = 0; i < n; i++) { // TC: O(N)
-            trie.insert(nums[i]);
+            insert(nums[i]); // TC: O(32)
         }
-        // it's time to compare and get the maximum XOR
-        int maxXOR = 0;
-        for (int i = 0; i < n; i++) {
-            maxXOR = Math.max(maxXOR, trie.getMaxXORPossible(nums[i]));
+        int maxValue = Integer.MIN_VALUE;
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            maxValue = Math.max(maxValue, getMaxValueFromTrie(nums[i])); // TC: O(32)
         }
-        return maxXOR;
-    }
-
-    class BitTrie {
-
-        BitTrieNode root;
-
-        class BitTrieNode {
-            BitTrieNode left; // store 0 bit
-            BitTrieNode right; // store 1 bit
-        }
-
-        public BitTrie() {
-            root = new BitTrieNode();
-        }
-
-        /**
-         * TC: O(32) ~ O(1)
-         * SC: O(1)
-         */
-        public void insert(int digit) {
-            BitTrieNode crawler = root;
-            // loop from most significant bit (left to right i.e. index 31 to 0)
-            for (int i = 31; i >= 0; i--) {
-                int ithBit = (digit >> i) & 1;
-                if (ithBit == 0) {
-                    // move to left child of BitTrie
-                    if (crawler.left == null) {
-                        crawler.left = new BitTrieNode();
-                    }
-                    crawler = crawler.left;
-                } else {
-                    // move to right child of BitTrie
-                    if (crawler.right == null) {
-                        crawler.right = new BitTrieNode();
-                    }
-                    crawler = crawler.right;
-                }
-            }
-        }
-
-        /**
-         * TC: O(32) ~ O(1)
-         * SC: O(1)
-         */
-        public int getMaxXORPossible(int digit) {
-            BitTrieNode crawler = root;
-            int maxXOR = 0;
-            // loop from most significant bit (left to right i.e. index 31 to 0)
-            for (int i = 31; i >= 0; i--) {
-                int ithBit = (digit >> i) & 1;
-                if (ithBit == 0) {
-                    // we can get max XOR if we perform XOR with bit 1 so move right
-                    if (crawler.right != null) {
-                        maxXOR += (int) Math.pow(2, i);
-                        crawler = crawler.right;
-                    } else {
-                        // we have no option but to move left
-                        crawler = crawler.left;
-                    }
-                } else {
-                    // we can get max XOR if we perform XOR with bit 0 so move left
-                    if (crawler.left != null) {
-                        maxXOR += (int) Math.pow(2, i);
-                        crawler = crawler.left;
-                    } else {
-                        // we have no option but to move right
-                        crawler = crawler.right;
-                    }
-                }
-            }
-            return maxXOR;
-        }
+        return maxValue;
     }
 
     /**
-     * Brute-Force Approach
+     * Using Bit-Trie Approach
      *
-     * TC: O(N ^ 2)
+     * TC: O(32)
      * SC: O(1)
      */
-    public int findMaximumXORBruteForce(int[] nums) {
-        int n = nums.length;
+    private int getMaxValueFromTrie(int num) {
         int maxXOR = 0;
-        for (int i = 0; i < n; i++) {         // TC: O(N)
-            for (int j = i + 1; j < n; j++) { // TC: O(N)
-                maxXOR = Math.max(maxXOR, nums[i] ^ nums[j]);
+        BitTrieNode crawl = root;
+        for (int i = 31; i >= 0; i--) {
+            int ithBit = ((num >> i) & 1);
+            // if ithBit = 0 we will try to XOR it with 1, else with 0
+            if (ithBit == 0) {
+                // we would like to look for right child
+                if (crawl.right != null) {
+                    maxXOR += (1 << i);
+                    crawl = crawl.right;
+                } else {
+                    crawl = crawl.left;
+                }
+            } else {
+                // we would like to look for left child
+                if (crawl.left != null) {
+                    crawl = crawl.left;
+                    maxXOR += (1 << i);
+                } else {
+                    crawl = crawl.right;
+                }
             }
         }
         return maxXOR;
+    }
+
+    /**
+     * Using Bit-Trie Approach
+     *
+     * TC: O(32)
+     * SC: O(1)
+     */
+    private void insert(int num) {
+        BitTrieNode crawl = root;
+        for (int i = 31; i >= 0; i--) { // TC: O(32)
+            // check if ith bit is set or not set
+            int ithBit = ((num >> i) & 1);
+            if (ithBit == 0) {
+                // move to left child
+                if (crawl.left == null) {
+                    crawl.left = new BitTrieNode();
+                }
+                crawl = crawl.left;
+            } else {
+                // move to right child
+                if (crawl.right == null) {
+                    crawl.right = new BitTrieNode();
+                }
+                crawl = crawl.right;
+            }
+        }
+    }
+
+    class BitTrieNode {
+        BitTrieNode left;
+        BitTrieNode right;
     }
 }
