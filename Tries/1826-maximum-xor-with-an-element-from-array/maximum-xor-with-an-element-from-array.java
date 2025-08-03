@@ -76,6 +76,9 @@ class Solution {
             BitTrieNode crawler = root;
             for (int i = 31; i >= 0; i--) { // TC: O(32)
                 int ithBit = ((num >> i) & 1);
+                if (crawler == null) {
+                    break;
+                }
                 if (ithBit == 0) {
                     // we will try to XOR with 1 i.e. right child
                     if (crawler.right != null) {
