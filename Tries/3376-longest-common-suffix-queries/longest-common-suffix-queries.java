@@ -1,99 +1,93 @@
 class Solution {
     /**
-     * Using Tries Approach
-     * 
-     * TC: O(N x L + Q x L)
-     * SC: O(1)
-     * 
-     * @param wordsContainer
-     * @param wordsQuery
-     * @return
+     * Approach : Using Trie Approach
+     *
+     * TC: O(N x L) + O(Q x L) ~ O(L x (N + Q))
+     * SC: O(N x 32) ~ O(N)
      */
     public int[] stringIndices(String[] wordsContainer, String[] wordsQuery) {
         int n = wordsContainer.length;
-        TrieNode root = getNode(0);
+        int q = wordsQuery.length;
+        Trie trie = new Trie();
+        TrieNode root = trie.getNode(0); // TC: O(1)
+
         for (int i = 0; i < n; i++) { // TC: O(N)
             if (wordsContainer[root.idx].length() > wordsContainer[i].length()) {
                 root.idx = i;
             }
-            insert(root, wordsContainer, i); // TC: O(L), SC: O(1)
+            trie.insert(root, i, wordsContainer);         // TC: O(L), SC: O(1)
         }
-        int q = wordsQuery.length;
-        int[] indices = new int[q];
+        int[] result = new int[q];
         for (int i = 0; i < q; i++) { // TC: O(Q)
-            indices[i] = search(root, wordsQuery[i]); // TC: O(L), SC: O(1)
+            result[i] = trie.search(root, wordsQuery[i]); // TC: O(L), SC: O(1)
         }
-        return indices;
+        return result;
+    }
+
+    class Trie {
+        /**
+         * Using Trie Approach
+         *
+         * TC: O(26) ~ O(1)
+         * SC: O(1)
+         */
+        private TrieNode getNode(int idx) {
+            TrieNode node = new TrieNode(idx);
+            for (int i = 0; i < 26; i++) {
+                node.children[i] = null;
+            }
+            return node;
+        }
+
+        /**
+         * Using Trie Approach
+         *
+         * TC: O(L)
+         * SC: O(1)
+         */
+        private void insert(TrieNode crawler, int idx, String[] words) {
+            String word = words[idx];
+            int n = word.length();
+            for (int i = n - 1; i >= 0; i--) { // TC: O(L)
+                int chIdx = word.charAt(i) - 'a';
+                if (crawler.children[chIdx] == null) {
+                    crawler.children[chIdx] = getNode(idx);
+                }
+                crawler = crawler.children[chIdx];
+                if (words[crawler.idx].length() > n) {
+                    crawler.idx = idx;
+                }
+            }
+        }
+
+        /**
+         * Using Trie Approach
+         *
+         * TC: O(L)
+         * SC: O(1)
+         */
+        private int search(TrieNode crawler, String word) {
+            int resultIdx = crawler.idx;
+            int n = word.length();
+            for (int i = n - 1; i >= 0; i--) { // TC: O(L)
+                int chIdx = word.charAt(i) - 'a';
+                if (crawler.children[chIdx] == null) {
+                    return resultIdx;
+                }
+                crawler = crawler.children[chIdx];
+                resultIdx = crawler.idx;
+            }
+            return resultIdx;
+        }
     }
 
     class TrieNode {
         int idx;
         TrieNode[] children;
 
-        public TrieNode() {
-            idx = -1;
+        public TrieNode (int idx) {
+            this.idx = idx;
             children = new TrieNode[26];
         }
-    }
-
-    /**
-     * TC: O(26) ~ O(1)
-     * SC: O(1)
-     * 
-     * @param idx
-     * @return
-     */
-    public TrieNode getNode(int idx) {
-        TrieNode node = new TrieNode();
-        node.idx = idx;
-        for (int i = 0; i < 26; i++) {
-            node.children[i] = null;
-        }
-        return node;
-    }
-
-    /**
-     * TC: O(L)
-     * SC: O(1)
-     * 
-     * @param crawler
-     * @param wordsContainer
-     * @param idx
-     */
-    public void insert(TrieNode crawler, String[] wordsContainer, int idx) {
-        String word = wordsContainer[idx];
-        int n = word.length();
-        for (int i = n - 1; i >= 0; i--) {
-            int chIdx = word.charAt(i) - 'a';
-            if (crawler.children[chIdx] == null) {
-                crawler.children[chIdx] = getNode(idx);
-            }
-            crawler = crawler.children[chIdx];
-            if (wordsContainer[crawler.idx].length() > n) {
-                crawler.idx = idx;
-            }
-        }
-    }
-
-    /**
-     * TC: O(L)
-     * SC: O(1)
-     * 
-     * @param crawler
-     * @param word
-     * @return
-     */
-    public int search(TrieNode crawler, String word) {
-        int resultIdx = crawler.idx;
-        int n = word.length();
-        for (int i = n - 1; i >= 0; i--) {
-            int chIdx = word.charAt(i) - 'a';
-            if (crawler.children[chIdx] == null) {
-                return resultIdx;
-            }
-            crawler = crawler.children[chIdx];
-            resultIdx = crawler.idx;
-        }
-        return resultIdx;
     }
 }
