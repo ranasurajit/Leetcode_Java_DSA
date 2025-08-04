@@ -8,11 +8,8 @@ class Solution {
     public int reverse(int x) {
         long rev = 0L;
         int rem = 0;
-        boolean isNegative = false;
-        if (x < 0) {
-            x = -1 * x;
-            isNegative = true;
-        }
+        int neg = x < 0 ? -1 : 1;
+        x = x * neg;
         while (x > 0) {  // TC: O(log(N) Base 10)
             rem = x % 10;
             rev = rev * 10 + rem;
@@ -21,10 +18,6 @@ class Solution {
         if (rev > Integer.MAX_VALUE) {
             return 0;
         }
-        int result = (int) rev;
-        if (isNegative) {
-            return -1 * result;
-        }
-        return result;
+        return (int) rev * neg;
     }
 }
