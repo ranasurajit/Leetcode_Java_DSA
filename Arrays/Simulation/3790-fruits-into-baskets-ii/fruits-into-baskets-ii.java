@@ -18,6 +18,7 @@ class Solution {
                     fruits[i] = -1;
                     baskets[j] = -1;
                     notset = 0;
+                    break;
                 }
             }
             countUnplaced += notset;
