@@ -13,8 +13,10 @@ class Solution {
             primes[1] = 0;
         }
         for (int i = 2; i * i <= n; i++) { // TC: O(N x log(log(N)))
-            for (int j = i * i; j <= n; j += i) {
-                primes[j] = 0;
+            if (primes[i] == 1) {
+                for (int j = i * i; j <= n; j += i) {
+                    primes[j] = 0;
+                }
             }
         }
         int count = 0;
