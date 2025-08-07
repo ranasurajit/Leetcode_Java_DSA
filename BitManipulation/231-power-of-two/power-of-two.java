@@ -1,11 +1,30 @@
 class Solution {
     /**
-     * Approach : Using Bit-Manipulation Approach
+     * Approach II : Using Bit-Manipulation (Cleaner) Approach
+     * 
+     * TC: O(32)
+     * SC: O(1)
+     */
+    public boolean isPowerOfTwo(int n) {
+        if (n < 0) {
+            return false;
+        }
+        int countSetBits = 0;
+        while (n > 0) { // TC: O(32)
+            countSetBits += (n & 1);
+            n = n >> 1;
+        }
+        // for a number to be power of 2 it should have exactly 1 set bit
+        return countSetBits == 1;
+    }
+
+    /**
+     * Approach I : Using Bit-Manipulation Approach
      * 
      * TC: O(32) ~ O(1)
      * SC: O(1)
      */
-    public boolean isPowerOfTwo(int n) {
+    public boolean isPowerOfTwoCheckingAllBits(int n) {
         if (n < 0) {
             return false;
         }
