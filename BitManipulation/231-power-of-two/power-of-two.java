@@ -1,11 +1,28 @@
 class Solution {
     /**
+     * Approach III : Using Bit-Manipulation (Shortcut) Approach
+     * 
+     * TC: O(1)
+     * SC: O(1)
+     */
+    public boolean isPowerOfTwo(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        /**
+         * if n is a power of 2 then it will be form 00010000 
+         * and (n - 1) will be 00001000 so (n & (n - 1)) = 0
+         */
+        return (n & (n - 1)) == 0;
+    }
+
+    /**
      * Approach II : Using Bit-Manipulation (Cleaner) Approach
      * 
      * TC: O(32)
      * SC: O(1)
      */
-    public boolean isPowerOfTwo(int n) {
+    public boolean isPowerOfTwoApproachII(int n) {
         if (n < 0) {
             return false;
         }
@@ -24,7 +41,7 @@ class Solution {
      * TC: O(32) ~ O(1)
      * SC: O(1)
      */
-    public boolean isPowerOfTwoCheckingAllBits(int n) {
+    public boolean isPowerOfTwoApproachI(int n) {
         if (n < 0) {
             return false;
         }
