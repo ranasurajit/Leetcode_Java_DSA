@@ -1,20 +1,20 @@
 class Solution {
+    /**
+     * Approach : Using Bit-Manipulation Approach
+     * 
+     * TC: O(32) ~ O(1)
+     * SC: O(1)
+     */
     public int minBitFlips(int start, int goal) {
-        /** 
-         * the number of bit flips needed can be found by doing XOR of 
-         * start and goal then it would be having set bits 1 for whichever
-         * bit is different for start and goal numbers
-         */
-        int result = start ^ goal;
-        int count1Bits = 0;
-        // in all 32 bits get the count of each set (1) bit
-        for (int i = 0; i < 32; i++) {
-            if ((result & 1) == 1) {
-                count1Bits++;
+        int flip = 0;
+        for (int i = 0; i < 32; i++) { // TC: O(32)
+            int siBit = ((start >> i) & 1);
+            int giBit = ((goal >> i) & 1);
+            if (siBit != giBit) {
+                // we need to flip
+                flip++;
             }
-            // removing bits to right to check if last bit is set
-            result = result >> 1;
         }
-        return count1Bits;
+        return flip;
     }
 }
