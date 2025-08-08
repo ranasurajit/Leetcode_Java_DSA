@@ -1,15 +1,18 @@
 class Solution {
     /**
-     * Approach : Using Bit-Manipulation Approach
-     *
+     * Approach : Using Bit-Manipulation (Brute-Force) Approach
+     * 
      * TC: O(N)
      * SC: O(1)
      */
     public int singleNumber(int[] nums) {
-        int result = 0;
-        for (int item : nums) { // TC: O(N)
-            result ^= item;
+        /**
+         * we know that if we do XOR of same numbers we cancel it to zero
+         */
+        int xor = 0;
+        for (int num : nums) { // TC: O(N)
+            xor = xor ^ num;
         }
-        return result;
+        return xor;
     }
 }
