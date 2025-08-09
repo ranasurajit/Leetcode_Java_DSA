@@ -1,6 +1,23 @@
 class Solution {
     /**
-     * Approach : Using Bit-Manipulation Approach
+     * Approach II : Using Bit-Manipulation (Optimal) Approach
+     *
+     * 16 is a Power of Two - Binary -> 10000
+     * 15 -> 01111
+     * if we do AND operation 16 & 15 we get 0
+     *
+     * TC: O(1)
+     * SC: O(1)
+     */
+    public boolean isPowerOfTwo(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        return (n & (n - 1)) == 0;
+    }
+
+    /**
+     * Approach I : Using Bit-Manipulation (Better) Approach
      *
      * 16 is a Power of Two - Binary -> 10000
      * 32 is a Power of Two - Binary -> 100000
@@ -11,7 +28,7 @@ class Solution {
      * TC: O(32) ~ O(1)
      * SC: O(1)
      */
-    public boolean isPowerOfTwo(int n) {
+    public boolean isPowerOfTwoBetterApproach(int n) {
         if (n <= 0) {
             return false;
         }
