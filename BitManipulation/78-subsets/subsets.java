@@ -25,21 +25,21 @@ class Solution {
     /**
      * Approach I : Using Recursion Approach
      *
-     * TC: O(N x 2 ^ N)
+     * TC: O(2 ^ N)
      * SC: O(N) + O(N) ~ O(N)
      */
     public List<List<Integer>> subsetsRecursion(int[] nums) {
         int n = nums.length;
         List<Integer> current = new ArrayList<Integer>(); // SC: O(N)
         List<List<Integer>> result = new ArrayList<List<Integer>>();
-        solveRecursion(0, n, nums, current, result); // TC: O(N x 2 ^ N), SC: O(N)
+        solveRecursion(0, n, nums, current, result); // TC: O(2 ^ N), SC: O(N)
         return result;
     }
 
     /**
      * Using Recursion Approach
      *
-     * TC: O(N x 2 ^ N)
+     * TC: O(2 ^ N)
      * SC: O(N)
      */
     private void solveRecursion(int idx, int n, int[] nums, List<Integer> current,
