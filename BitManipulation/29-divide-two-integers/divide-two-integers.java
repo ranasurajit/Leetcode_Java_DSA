@@ -21,7 +21,6 @@ class Solution {
         }
         long dvd = dividend < 0 ? -1 * (long) dividend : (long) dividend;
         long dvs = divisor < 0 ? -1 * (long) divisor : (long) divisor;
-        long sum = 0L;
         long result = 0L;
         while (dvd >= dvs) { // TC: O(log(D))
             int pow = 0;
