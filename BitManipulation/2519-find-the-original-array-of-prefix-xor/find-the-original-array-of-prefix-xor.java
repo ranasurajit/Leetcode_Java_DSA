@@ -7,7 +7,6 @@ class Solution {
      */
     public int[] findArray(int[] pref) {
         int n = pref.length;
-        int cummXOR = 0;
         int[] arr = new int[n];
         arr[0] = pref[0];
         for (int i = 1; i < n; i++) { // TC: O(N)
