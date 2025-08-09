@@ -1,22 +1,45 @@
 class Solution {
     /**
-     * Approach : Using Recursion Approach
+     * Approach II : Using PowerSet Approach
      *
-     * TC: O(2 ^ N)
-     * SC: O(N) + O(N) ~ O(N)
+     * TC: O(N x 2 ^ N)
+     * SC: O(N)
      */
     public List<List<Integer>> subsets(int[] nums) {
         int n = nums.length;
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        int combinations = (int) Math.pow(2, n); // number of possible subsets
+        for (int i = 0; i < combinations; i++) { // TC: O(2 ^ N)
+            List<Integer> current = new ArrayList<Integer>(); // SC: O(N)
+            for (int j = 0; j < n; j++) { // TC: O(N)
+                if (((i >> j) & 1) == 1) {
+                    // jth bit is set in Integer i
+                    current.add(nums[j]);
+                }
+            }
+            result.add(current);
+        }
+        return result;
+    }
+
+    /**
+     * Approach I : Using Recursion Approach
+     *
+     * TC: O(N x 2 ^ N)
+     * SC: O(N) + O(N) ~ O(N)
+     */
+    public List<List<Integer>> subsetsRecursion(int[] nums) {
+        int n = nums.length;
         List<Integer> current = new ArrayList<Integer>(); // SC: O(N)
         List<List<Integer>> result = new ArrayList<List<Integer>>();
-        solveRecursion(0, n, nums, current, result); // TC: O(2 ^ N), SC: O(N)
+        solveRecursion(0, n, nums, current, result); // TC: O(N x 2 ^ N), SC: O(N)
         return result;
     }
 
     /**
      * Using Recursion Approach
      *
-     * TC: O(2 ^ N)
+     * TC: O(N x 2 ^ N)
      * SC: O(N)
      */
     private void solveRecursion(int idx, int n, int[] nums, List<Integer> current,
