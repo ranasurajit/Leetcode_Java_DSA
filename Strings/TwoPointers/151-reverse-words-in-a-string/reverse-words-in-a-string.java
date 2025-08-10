@@ -1,27 +1,24 @@
 class Solution {
     /**
-     * Using Two Pointers
+     * Approach : Using Two Pointers Approach
      *
-     * TC: O(N)
+     * TC: O(N) + O(N) ~ O(N)
      * SC: O(N)
      */
     public String reverseWords(String s) {
+        int n = s.length();
         char[] chars = s.toCharArray(); // SC: O(N)
-        int n = chars.length;
-        // reverse the entire String
         reverse(chars, 0, n - 1); // TC: O(N)
-        int i = 0;
+        int i = 0; // pointer to iterate over char[] chars
+        // Using Two Pointers
         int left = 0;
         int right = 0;
-        while (i < n) { // TC: O(2 x N)
+        while (i < n) { // TC: O(M)
             while (i < n && chars[i] != ' ') {
-                chars[right] = chars[i];
-                right++;
-                i++;
+                chars[right++] = chars[i++];
             }
-            // reverse the word between left and right
             if (left < right) {
-                reverse(chars, left, right - 1);
+                reverse(chars, left, right - 1); // TC: O(R - L)
                 if (right < n) {
                     chars[right] = ' ';
                 }
@@ -34,38 +31,18 @@ class Solution {
     }
 
     /**
-     * TC: O(end - start)
+     * Using Two Pointers Approach
+     *
+     * TC: O(N)
      * SC: O(1)
      */
-    private String reverse(char[] chars, int start, int end) {
-        while (start < end) {
-            char temp = chars[start];
-            chars[start] = chars[end];
-            chars[end] = temp;
-            start++;
-            end--;
+    private void reverse(char[] chars, int p, int q) {
+        while (p < q) {
+            char temp = chars[q];
+            chars[q] = chars[p];
+            chars[p] = temp;
+            p++;
+            q--;
         }
-        return String.valueOf(chars);
-    }
-
-    /**
-     * Using Stack
-     *
-     * TC: O(2 x N) ~ O(N)
-     * SC: O(2 x N) ~ O(N)
-     */
-    public String reverseWordsUsingStack(String s) {
-        String[] words = s.split(" ");
-        Stack<String> st = new Stack<String>(); // SC: O(N)
-        StringBuilder sb = new StringBuilder(); // SC: O(N)
-        for (String word : words) { // TC: O(N)
-            if (word != "") {
-                st.push(word);
-            }
-        }
-        while (!st.isEmpty()) { // TC: O(N)
-            sb.append(st.pop() + " ");
-        }
-        return String.valueOf(sb).trim();
     }
 }
