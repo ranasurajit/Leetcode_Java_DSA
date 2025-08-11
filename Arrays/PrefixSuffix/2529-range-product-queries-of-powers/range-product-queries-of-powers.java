@@ -1,13 +1,19 @@
 class Solution {
     private static int MOD = (int) 1e9 + 7;
 
+    /**
+     * Approach : Using Prefix-Array + Bit-Manipulation Approach
+     *
+     * TC: O(Q x MaxRange ~ 32) ~ O(Q)
+     * SC: O(32) ~ O(1)
+     */
     public int[] productQueries(int n, int[][] queries) {
         int total = n;
         /**
          * n is nothing but the sum of Binary Representation of n
          */
-        List<Long> numList = new ArrayList<Long>();
-        for (int i = 0; i < 32; i++) {
+        List<Long> numList = new ArrayList<Long>(); // SC: O(32)
+        for (int i = 0; i < 32; i++) { // TC: O(32)
             if ((n & (1 << i)) != 0) {
                 numList.add((long) 1 << i);
             }
@@ -18,7 +24,7 @@ class Solution {
             int start = queries[i][0];
             int end = queries[i][1];
             long prod = 1;
-            for (int j = start; j <= end; j++) {
+            for (int j = start; j <= end; j++) { // TC: O(R)
                 prod = (prod * numList.get(j)) % MOD;
             }
             result[i] = (int) prod;
