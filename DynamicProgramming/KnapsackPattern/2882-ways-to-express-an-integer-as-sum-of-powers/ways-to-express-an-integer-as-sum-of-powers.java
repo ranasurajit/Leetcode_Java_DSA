@@ -2,66 +2,6 @@ class Solution {
     private static final int MOD = (int) 1e9 + 7;
 
     /**
-     * Approach IV : Using Space Optimization (Optimized DP) Approach
-     *
-     * TC: O(N x N)
-     * SC: O(N) + O(N) ~ O(N)
-     *
-     * Accepted (1502 / 1502 testcases passed)
-     */
-    public int numberOfWays(int n, int x) {
-        // states / parameters changing are start and sum
-        // Initialization
-        int[] next = new int[n + 1]; // SC: O(N)
-        next[0] = 1;
-        // Iterative Calls
-        for (int i = n; i >= 1; i--) { // TC: O(N)
-            int[] current = new int[n + 1]; // SC: O(N)
-            current[0] = 1;
-            for (int j = 1; j < n + 1; j++) { // TC: O(N)
-                if (j - (int) Math.pow(i, x) >= 0) {
-                    current[j] = (next[j - (int) Math.pow(i, x)] + next[j]) % MOD;
-                } else {
-                    current[j] = next[j] % MOD;
-                }
-            }
-            next = current.clone();
-        }
-        return next[n] % MOD;
-    }
-
-    /**
-     * Approach III : Using Tabulation (Bottom-Up DP) Approach
-     *
-     * TC: O(N x N)
-     * SC: O(N x N)
-     *
-     * - O(N x N) - dp array memory
-     *
-     * Accepted (1502 / 1502 testcases passed)
-     */
-    public int numberOfWaysTabulation(int n, int x) {
-        // states / parameters changing are start and sum
-        // Initialization
-        int[][] dp = new int[n + 2][n + 1]; // SC: O(N x N)
-        for (int i = 0; i < n + 2; i++) {
-            // for any start if sum = 0, we have one way
-            dp[i][0] = 1;
-        }
-        // Iterative Calls
-        for (int i = n; i >= 1; i--) { // TC: O(N)
-            for (int j = 1; j < n + 1; j++) { // TC: O(N)
-                if (j - (int) Math.pow(i, x) >= 0) {
-                    dp[i][j] = (dp[i + 1][j - (int) Math.pow(i, x)] + dp[i + 1][j]) % MOD;
-                } else {
-                    dp[i][j] = dp[i + 1][j] % MOD;
-                }
-            }
-        }
-        return dp[1][n] % MOD;
-    }
-
-    /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      *
      * TC: O(N x N)
@@ -72,7 +12,7 @@ class Solution {
      *
      * Accepted (1502 / 1502 testcases passed)
      */
-    public int numberOfWaysMemoization(int n, int x) {
+    public int numberOfWays(int n, int x) {
         // states / parameters changing are start and sum 
         int[][] memo = new int[n + 1][n + 1]; // SC: O(N x N)
         for (int[] mem : memo) {
@@ -95,7 +35,7 @@ class Solution {
         if (sum == 0) {
             return 1;
         }
-        if (start > n) {
+        if ((int) Math.pow(start, x) > n) {
             return 0;
         }
         // Memoization Check
@@ -125,7 +65,7 @@ class Solution {
      * TC: O(2 ^ N)
      * SC: O(N)
      *
-     * Time Limit Exceeded (377 / 1502 testcases passed)
+     * Time Limit Exceeded (352 / 1502 testcases passed)
      */
     public int numberOfWaysRecursion(int n, int x) {
         return solveRecursion(1, n, x, n); // TC: O(2 ^ N), SC: O(N)
@@ -145,7 +85,7 @@ class Solution {
         if (sum == 0) {
             return 1;
         }
-        if (start > n) {
+        if ((int) Math.pow(start, x) > n) {
             return 0;
         }
         // Recursion Calls
