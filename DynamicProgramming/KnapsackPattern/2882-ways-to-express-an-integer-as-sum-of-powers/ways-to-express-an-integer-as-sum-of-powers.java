@@ -1,6 +1,29 @@
 class Solution {
     private static final int MOD = (int) 1e9 + 7;
     /**
+     * Approach V : Using Better Space Optimization (Optimized DP) Approach
+     *
+     * TC: O(N x N)
+     * SC: O(N)
+     *
+     * Accepted (1502 / 1502 testcases passed)
+     */
+    public int numberOfWays(int n, int x) {
+        // states / parameters changing are start and sum
+        // Initialization
+        int[] dp = new int[n + 1]; // SC: O(N)
+        dp[0] = 1;
+        // Iterative Calls
+        for (int i = 1; (int) Math.pow(i, x) <= n; i++) { // TC: O(N)
+            int power = (int) Math.pow(i, x);
+            for (int j = n; j >= power; j--) { // TC: O(N)
+                dp[j] = (dp[j] + dp[j - power]) % MOD;
+            }
+        }
+        return dp[n] % MOD;
+    }
+
+    /**
      * Approach IV : Using Space Optimization (Optimized DP) Approach
      *
      * TC: O(N x N)
@@ -8,7 +31,7 @@ class Solution {
      *
      * Accepted (1502 / 1502 testcases passed)
      */
-    public int numberOfWays(int n, int x) {
+    public int numberOfWaysSpaceOptimization(int n, int x) {
         // states / parameters changing are start and sum
         // Initialization
         int[] next = new int[n + 1]; // SC: O(N)
