@@ -1,11 +1,28 @@
 class Solution {
     /**
-     * Approach II : Using Sliding Window Approach
+     * Approach III : Using String Simulation (Optimal) Approach
      *
      * TC: O(N)
      * SC: O(1)
      */
     public String largestGoodInteger(String num) {
+        int n = num.length();
+        String[] strList = { "999", "888", "777", "666", "555", "444", "333", "222", "111", "000" };
+        for (String s : strList) { // TC: O(10)
+            if (num.contains(s)) { // TC: O(N)
+                return s;
+            }
+        }
+        return "";
+    }
+
+    /**
+     * Approach II : Using String Simulation Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public String largestGoodIntegerStringSimulation(String num) {
         int n = num.length();
         String maxValue = "-1";
         for (int i = 2; i < n; i++) { // TC: O(N)
