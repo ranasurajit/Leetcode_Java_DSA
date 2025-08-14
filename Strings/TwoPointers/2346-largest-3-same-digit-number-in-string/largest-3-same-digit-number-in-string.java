@@ -1,11 +1,33 @@
 class Solution {
     /**
-     * Approach : Using Sliding Window Approach
+     * Approach II : Using Sliding Window Approach
      *
      * TC: O(N)
      * SC: O(1)
      */
     public String largestGoodInteger(String num) {
+        int n = num.length();
+        String maxValue = "-1";
+        for (int i = 2; i < n; i++) { // TC: O(N)
+            if (num.charAt(i) == num.charAt(i - 1) && num.charAt(i) == num.charAt(i - 2)) {
+                if (Integer.valueOf(num.substring(i - 2, i + 1)) > Integer.valueOf(maxValue)) {
+                    maxValue = num.substring(i - 2, i + 1);
+                }
+            }
+        }
+        if (maxValue == "-1") {
+            return "";
+        }
+        return maxValue;
+    }
+
+    /**
+     * Approach I : Using Sliding Window Approach
+     *
+     * TC: O(N)
+     * SC: O(1)
+     */
+    public String largestGoodIntegerSlidingWindow(String num) {
         int n = num.length();
         // HashMap can have only size upto 10 (digits 0 - 9)
         Map<Integer, Integer> map = new HashMap<Integer, Integer>(); // SC: O(10) ~ O(1)
