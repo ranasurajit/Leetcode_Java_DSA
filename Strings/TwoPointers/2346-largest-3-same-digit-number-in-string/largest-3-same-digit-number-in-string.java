@@ -6,7 +6,6 @@ class Solution {
      * SC: O(1)
      */
     public String largestGoodInteger(String num) {
-        int n = num.length();
         String[] strList = { "999", "888", "777", "666", "555", "444", "333", "222", "111", "000" };
         for (String s : strList) { // TC: O(10)
             if (num.contains(s)) { // TC: O(N)
