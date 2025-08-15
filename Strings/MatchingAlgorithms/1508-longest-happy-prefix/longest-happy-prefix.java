@@ -10,7 +10,6 @@ class Solution {
         int[] lps = new int[n]; // SC: O(N)
         int len = 0;
         int i = 1;
-        int startIdx = -1;
         while (i < n) {
             if (s.charAt(len) == s.charAt(i)) {
                 len++;
