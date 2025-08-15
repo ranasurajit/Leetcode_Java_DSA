@@ -2,7 +2,7 @@ class Solution {
     /**
      * Approach : Using Recursion Approach
      *
-     * TC: O(N x N)
+     * TC: O(1.3 ^ N)
      * SC: O(N)
      */
     public String countAndSay(int n) {
@@ -12,7 +12,7 @@ class Solution {
     /**
      * Using Recursion Approach
      *
-     * TC: O(N x N)
+     * TC: O(1.3 ^ N)
      * SC: O(N)
      */
     private String solveRecursion(int n) {
