@@ -2,28 +2,37 @@ class Solution {
     /**
      * Approach : Using Recursion Approach
      *
-     * TC: O(2 ^ N)
-     * SC: O(2 ^ N + N) ~ O(2 ^ N)
+     * TC: O(N x N)
+     * SC: O(N)
      */
     public String countAndSay(int n) {
+        return solveRecursion(n);
+    }
+
+    /**
+     * Using Recursion Approach
+     *
+     * TC: O(N x N)
+     * SC: O(N)
+     */
+    private String solveRecursion(int n) {
         // Base Case
         if (n == 1) {
             return "1";
         }
-        // Hypothesis - we expect recursion to return result for smaller input (n - 1)
-        String prev = countAndSay(n - 1);
-        // Induction
-        StringBuilder sb = new StringBuilder(); // SC: O(2 ^ N)
-        int size = prev.length();
-        for (int i = 0; i < size; i++) { // TC: O(2 ^ (N - 1))
+        // Recursion Calls
+        String current = solveRecursion(n - 1);
+        StringBuilder sb = new StringBuilder();
+        int m = current.length();
+        int idx = 0;
+        while (idx < m) { // TC: O(N) in worst case
             int count = 1;
-            char ch = prev.charAt(i);
-            while (i < size - 1 && prev.charAt(i) == prev.charAt(i + 1)) {
+            while (idx < m - 1 && current.charAt(idx) == current.charAt(idx + 1)) {
                 count++;
-                i++;
+                idx++;
             }
-            sb.append(count);
-            sb.append(ch);
+            sb.append(count).append(current.charAt(idx));
+            idx++;
         }
         return sb.toString();
     }
