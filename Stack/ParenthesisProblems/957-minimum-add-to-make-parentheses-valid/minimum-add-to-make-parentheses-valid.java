@@ -1,29 +1,25 @@
 class Solution {
+    /**
+     * Approach I : Using Stack Approach
+     *
+     * TC: O(N)
+     * SC: O(N)
+     */
     public int minAddToMakeValid(String s) {
         int n = s.length();
-        Stack<Character> st = new Stack<Character>();
+        Stack<Character> st = new Stack<Character>(); // TC: O(N)
         int i = 0;
         int count = 0;
-        while (i < n) {
-            if (st.isEmpty()) {
-                st.push(s.charAt(i));
+        while (i < n) { // TC: O(N)
+            char ch = s.charAt(i);
+            if (!st.isEmpty() && ch == ')' && st.peek() == '(') {
+                // remove the last insert element if it balances the paranthesis
+                st.pop();
             } else {
-                if (s.charAt(i) == ')' && st.peek() == '(') {
-                    st.pop();
-                } else {
-                    if (s.charAt(i) == '(') {
-                        st.push(s.charAt(i));
-                    } else {
-                        count++;
-                    }
-                }
+                st.push(ch);
             }
             i++;
         }
-        while (!st.isEmpty()) {
-            st.pop();
-            count++;
-        }
-        return count;
+        return st.size();
     }
 }
