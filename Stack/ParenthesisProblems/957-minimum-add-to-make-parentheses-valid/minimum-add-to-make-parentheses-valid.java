@@ -10,7 +10,6 @@ class Solution {
         int open = 0;
         int close = 0;
         int i = 0;
-        int count = 0;
         while (i < n) { // TC: O(N)
             char ch = s.charAt(i);
             if (ch == '(') {
@@ -37,7 +36,6 @@ class Solution {
         int n = s.length();
         Stack<Character> st = new Stack<Character>(); // TC: O(N)
         int i = 0;
-        int count = 0;
         while (i < n) { // TC: O(N)
             char ch = s.charAt(i);
             if (!st.isEmpty() && ch == ')' && st.peek() == '(') {
