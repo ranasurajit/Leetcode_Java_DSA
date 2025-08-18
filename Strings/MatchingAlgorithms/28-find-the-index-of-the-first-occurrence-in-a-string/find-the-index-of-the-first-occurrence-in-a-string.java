@@ -1,11 +1,61 @@
 class Solution {
     /**
-     * Approach I : Using KMP Algorithm Approach
+     * Approach II : Using Z-Algorithm Approach
      *
      * TC: O(N + M)
      * SC: O(N)
      */
     public int strStr(String haystack, String needle) {
+        int m = needle.length();
+        String text = needle + "$" + haystack;
+        int n = text.length();
+        int offset = m + 1;
+        int[] zArr = computeZArray(text, n); // TC: O(N + M), SC: O(N + M)
+        for (int i = 0; i < n; i++) { // TC: O(N)
+            if (zArr[i] == m) {
+                return i - offset;
+            }
+        }
+        return -1;
+    }
+
+    private int[] computeZArray(String text, int n) {
+        int[] zArr = new int[n]; // SC: O(N)
+        int left = 0;
+        int right = 0;
+        for (int k = 1; k < n; k++) { // TC: O(N)
+            if (k > right) {
+                left = k;
+                right = k;
+                while (right < n && text.charAt(right) == text.charAt(right - left)) {
+                    right++;
+                }
+                zArr[k] = right - left;
+                right--;
+            } else {
+                int k1 = k - left;
+                if (zArr[k1] < right - k + 1) {
+                    zArr[k] = zArr[k1];
+                } else {
+                    left = k;
+                    while (right < n && text.charAt(right) == text.charAt(right - left)) {
+                        right++;
+                    }
+                    zArr[k] = right - left;
+                    right--;
+                }
+            }
+        }
+        return zArr;
+    }
+
+    /**
+     * Approach I : Using KMP Algorithm Approach
+     *
+     * TC: O(N + M)
+     * SC: O(N)
+     */
+    public int strStrUsingKMP(String haystack, String needle) {
         int m = haystack.length();
         int n = needle.length();
         /**
