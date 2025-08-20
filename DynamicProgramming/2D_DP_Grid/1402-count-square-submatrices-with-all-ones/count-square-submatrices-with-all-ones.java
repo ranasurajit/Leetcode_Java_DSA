@@ -35,6 +35,9 @@ class Solution {
      * TC: O(M x N) x O(M x N)
      * SC: O(M x N) + O(Min(M, N))
      *
+     * - O(M x N) - memo array memory
+     * - O(Min(M, N)) - recursion stack
+     *
      * Accepted (32 / 32 testcases passed)
      */
     public int countSquaresMemoization(int[][] matrix) {
