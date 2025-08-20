@@ -2,8 +2,8 @@ class Solution {
     /**
      * Approach II : Using Memoization (Top-Down DP) Approach
      *
-     * TC: O(M x N x 3 ^ Min(M, N))
-     * SC: O(Min(M, N))
+     * TC: O(M x N) x O(M x N)
+     * SC: O(M x N) + O(Min(M, N))
      *
      * Accepted (32 / 32 testcases passed)
      */
