@@ -7,17 +7,14 @@ class Solution {
      */
     public int longestSubarray(int[] nums) {
         int n = nums.length;
-        int count1s = 0;
         int count0s = 0;
         int i = 0; // start pointer of sliding window
         int j = 0; // end pointer of sliding window
         int maxLength = 0;
         while (j < n) { // TC: O(N)
-            count1s += (nums[j] == 1) ? 1 : 0;
             count0s += (nums[j] == 0) ? 1 : 0;
             while (count0s > 1) {
                 // remove computation from index 'i'
-                count1s -= (nums[i] == 1) ? 1 : 0;
                 count0s -= (nums[i] == 0) ? 1 : 0;
                 i++;
             }
