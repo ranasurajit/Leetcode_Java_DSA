@@ -19,10 +19,10 @@ class Solution {
                 i++;
             }
             if (count0s <= 1) {
-                maxLength = Math.max(maxLength, j - i);
+                maxLength = Math.max(maxLength, j - i + 1);
             }
             j++;
         }
-        return maxLength;
+        return maxLength - 1;
     }
 }
