@@ -12,14 +12,10 @@ class Solution {
         int j = 0; // end pointer of sliding window
         int maxLength = 0;
         while (j < n) { // TC: O(N)
-            if (nums[j] == 0) {
-                count0s++;
-            }
+            count0s += (nums[j] == 0) ? 1 : 0;
             while (count0s > 1) {
                 // remove computation from index 'i'
-                if (nums[i] == 0) {
-                    count0s--;
-                }
+                count0s -= (nums[i] == 0) ? 1 : 0;
                 i++;
             }
             if (count0s <= 1) {
