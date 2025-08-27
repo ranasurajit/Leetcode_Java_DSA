@@ -8,7 +8,7 @@ class Solution {
     /**
      * Approach II : Using Memoization Approach
      *
-     * TC: O(N ^ 2 x M ^ 2)
+     * TC: O(N x M) - ammortized
      * SC: O(N x M) + O(Min(N, M))
      */
     public int lenOfVDiagonal(int[][] grid) {
@@ -19,7 +19,7 @@ class Solution {
         /**
          * states are row, col, directions (0 - 4) and turned (0-1)
          */ 
-        Integer[][][][] memo = new Integer[n][m][4][2];
+        Integer[][][][] memo = new Integer[n][m][4][2]; // SC: O(8 x N x M)
         for (int i = 0; i < n; i++) { // TC: O(N)
             for (int j = 0; j < m; j++) { // TC: O(M)
                 if (grid[i][j] == 1) {
