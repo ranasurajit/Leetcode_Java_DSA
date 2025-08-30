@@ -33,13 +33,13 @@ class Solution {
             }
         }
         // validating 3 x 3 sub-boxes
-        for (int rowoffset = 0; rowoffset < 3; rowoffset++) {
-            for (int coloffset = 0; coloffset < 3; coloffset++) {
+        for (int rowoffset = 0; rowoffset < 3; rowoffset++) { // TC: O(3)
+            for (int coloffset = 0; coloffset < 3; coloffset++) { // TC: O(3)
                 int rowStart = rowoffset * 3;
                 int colStart = coloffset * 3;
                 Set<Character> hs = new HashSet<Character>(); // SC: O(9)
-                for (int row = rowStart; row < rowStart + 3; row++) {
-                    for (int col = colStart; col < colStart + 3; col++) {
+                for (int row = rowStart; row < rowStart + 3; row++) { // TC: O(3)
+                    for (int col = colStart; col < colStart + 3; col++) { // TC: O(3)
                         if (board[row][col] == '.') {
                             continue;
                         }
